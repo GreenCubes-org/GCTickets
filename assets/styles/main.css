@@ -2,6 +2,28 @@ body {
 	font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
 	color: rgb(85, 85, 85);
 }
+.container {
+    padding-right: 15px;
+    padding-left: 15px;
+    margin-right: auto;
+    margin-left: auto;
+}
+@media (min-width: 768px) {
+  .container {
+    max-width: 750px;
+  }
+}
+@media (min-width: 992px) {
+  .container {
+    max-width: 970px;
+  }
+  
+}
+@media (min-width: 1200px) {
+  .container {
+    max-width: 1170px;
+  }
+}
 
 .gc-center {
 	margin: 0 auto;
