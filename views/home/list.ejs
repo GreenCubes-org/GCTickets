@@ -1,0 +1,108 @@
+<% title = "Все тикеты - GC.Tickets" -%>
+<div class="ui green inverted menu">
+	<div class="ui simple dropdown item">
+		Все тикеты <i class="icon dropdown"></i>
+		<div class="menu">
+			<a href="/" class="item active"><i class="reorder icon"></i>Все тикеты</a>
+			<a href="/bugreports" class="item"><i class="wrench icon"></i>Баг-репорты</a>
+			<a href="/rempro" class="item"><i class="remove icon"></i>Расприват</a>
+			<a href="/bans" class="item"><i class="ban circle icon"></i>Баны</a>
+			<a href="/unbans" class="item"><i class="blank circle icon"></i>Разбаны</a>
+			<a href="/other" class="item"><i class="sign icon"></i>Остальное</a>
+		</div>
+	</div>
+	<div class="right menu">
+		<div class="ui simple dropdown item">
+		Kernel <i class="icon dropdown"></i>
+		<div class="menu">
+			<a href="/tickets" class="item"><i class="list layout icon"></i>Ваши тикеты</a>
+			<a href="/settings" class="item"><i class="setting icon"></i>Настройки</a>
+			<a href="/help" class="item"><i class="question icon"></i>Помощь</a>
+			</div>
+		</div>
+		<a href="/logout" class="item mini">
+			<i class="sign out icon"></i>
+		</a>
+	</div>
+</div>
+<div class="ui secondary menu">
+	<a href="/new" class="active item">
+		<i class="add icon"></i>
+		Создать тикет
+	</a>
+	<a href="/new/rempro" class="item gc-tiny">
+		Расприват
+	</a>
+	<a href="/new/unban" class="item gc-tiny">
+		Заявка на разбан
+	</a>
+	<a href="/new/ban" class="item gc-tiny">
+		Заявка на бан
+	</a>
+	<a href="/new/bugreport" class="item gc-tiny">
+		Баг-репорт
+	</a>
+	<div class="right menu">
+		<div id="gc-dpstatus" class="ui compact menu">
+			<div id="gc-dpstatus"class="ui simple dropdown item">
+			Все статусы <i class="dropdown icon"></i>
+			<div class="menu">
+				<div class="item active gc-tiny">Все статусы</div>
+				<div class="item gc-tiny">Новый</div>
+				<div class="item gc-tiny">На рассмотрении</div>
+				<div class="item gc-tiny">Отклонён</div>
+				<div class="item gc-tiny">Выполнен</div>
+				<div class="item gc-tiny">Требует уточнения</div>
+			</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="ui divider"></div>
+<table class="ui basic table">
+	<thead>
+	<tr>
+		<th>Тип</th>
+		<th>К кому привязан</th>
+		<th>Описание</th>
+		<th>Время</th>
+		<th>Статус</th>
+	</tr></thead>
+	<tbody>
+		<tr>
+			<td class="t-type" title="Бан"><i class="ban circle icon"></i></td>
+			<td class="t-nick"><a href="/u/drbadnick" class="gc-link">Drbadnick</a></td>
+			<td class="t-decr"><a href="/1" class="gc-link">Он плохой! :(</a></td>
+			<td class="t-time">Только что</td>
+			<td class="t-status positive">На рассмотрении</td>
+		</tr>
+		<tr>
+			<td class="t-type" title="Баг-репорт"><i class="wrench icon"></i></td>
+			<td class="t-nick"><a href="/u/nzh" class="gc-link">nzh</a></td>
+			<td class="t-decr"><a href="/2" class="gc-link">Хочу бесплатный венецианский цвет!</a></td>
+			<td class="t-time">Час назад</td>
+			<td class="t-status gc-accepted">Принято</td>
+		</tr>
+		<tr>
+			<td class="t-type" title="Разбан"><i class="blank circle icon"></i></td>
+			<td class="t-nick"><a href="/u/Mike_Mendez" class="gc-link">Mike_Mendez</a></td>
+			<td class="t-decr"><a href="/3" class="gc-link">Йо, чуваки. Мне надоело на SAMP. Хочу к вам. Всё будет чётко.</a></td>
+			<td class="t-time">6 часов назад</td>
+			<td class="t-status negative">Отклонен</td>
+		</tr>
+			<tr>
+			<td class="t-type" title="Расприват"><i class="remove icon"></i></td>
+			<td class="t-nick"><a href="/u/nzh" class="gc-link">nzh</a></td>
+			<td class="t-decr"><a href="/4" class="gc-link">Нужно для Ни'Лана расприватить территории, но AtLaST и его друг Sancher..</a></td>
+			<td class="t-time">Вчера</td>
+			<td class="t-status warning">Нужно уточнить</td>
+		</tr>
+			<tr>
+			<td class="t-type" title="Бан"><i class="sign icon"></i></td>
+			<td class="t-nick"><a href="/u/Nogebator666" class="gc-link">Nogebator666</a></td>
+			<td class="t-decr"><a href="/5" class="gc-link">А когда запилят новый клиент?7?7?</a></td>
+			<td class="t-time">Неделю назад</td>
+			<td class="t-status gc-rejected">Отменён</td>
+		</tr>
+	</tbody>
+</table>
