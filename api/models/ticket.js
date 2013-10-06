@@ -10,10 +10,8 @@ module.exports = {
 
 attributes: {
 	
-	title: 'STRING',
-	completed: 'BOOLEAN'
 	// '42'
-	/*id: {
+	id: {
 		type: 'INTEGER',
 		required: true
 	},
@@ -51,7 +49,7 @@ attributes: {
 	product: {
 		type: 'INTEGER',
 		required: false
-	}*/
+	}
 }
 
 };

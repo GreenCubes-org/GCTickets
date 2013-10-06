@@ -28,7 +28,6 @@ module.exports = {
 
 	// The runtime "environment" of your Sails app is either 'development' or 'production'.
 	environment: process.env.NODE_ENV || 'development',
-
 	db: {
 		host: 'YOUR_MYSQL_SERVER_HOSTNAME_OR_IP_ADDRESS',
 		user: 'YOUR_MYSQL_USER',

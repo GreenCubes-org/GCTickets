@@ -11,7 +11,9 @@
 		"ejs": "0.8.4",
 		"optimist": "0.3.4",
 		"passport": "~0.1.17",
-		"passport-local": "~0.1.6"
+		"passport-local": "~0.1.6",
+		"passport-remember-me": "~0.0.1",
+		"toobusy": "0.2.3"
 	},
 	"scripts": {
 		"start": "forever start app.js -l logs/app.log",
