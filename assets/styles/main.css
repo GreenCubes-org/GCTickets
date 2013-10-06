@@ -25,6 +25,10 @@ body {
   }
 }
 
+.ui.gc-header.menu {
+    background-color: #4c8a7c;
+}
+
 .gc-center {
 	margin: 0 auto;
 	text-align: center;
