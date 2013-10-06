@@ -18,7 +18,7 @@ module.exports.adapters = {
 
   // If you leave the adapter config unspecified 
   // in a model definition, 'default' will be used.
-  'default': 'mysql',
+  'default': 'disk',
 
   // Persistent adapter for DEVELOPMENT ONLY
   // (data IS preserved when the server shuts down)
