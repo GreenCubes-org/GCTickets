@@ -12,13 +12,13 @@
  * http://sailsjs.org/#documentation
  */
 
-var cfg = require('./local.js');
+var local = require('./local.js');
 
 module.exports.adapters = {
 
   // If you leave the adapter config unspecified 
   // in a model definition, 'default' will be used.
-  'default': 'disk',
+  'default': 'mysql',
 
   // Persistent adapter for DEVELOPMENT ONLY
   // (data IS preserved when the server shuts down)
@@ -30,9 +30,9 @@ module.exports.adapters = {
   // Learn more: http://en.wikipedia.org/wiki/MySQL
   mysql: {
 	module: 'sails-mysql',
-	host: cfg.db.host,
-	user: cfg.db.user,
-	password: cfg.db.password, 
-	database: cfg.db.database
+	host: local.db.host,
+	user: local.db.user,
+	password: local.db.password, 
+	database: local.db.database
   }
 };

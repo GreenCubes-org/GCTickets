@@ -1,9 +1,7 @@
-const passport = require('passport'),
-	LocalStrategy = require('passport-local').Strategy,
-	RememberMeStrategy = require('passport-remember-me').Strategy;
-const toobusy = require('toobusy');
-
-const users = [
+var passport = require('passport'),
+	LocalStrategy = require('passport-local').Strategy;
+var flash = require('connect-flash');
+var users = [
 	{id: 1, username: 'bob', password: 'secret', email: 'bob@example.com'},
 	{id: 2, username: 'joe', password: 'birthday', email: 'joe@example.com'}
 ];
@@ -36,6 +34,7 @@ passport.deserializeUser(function(id, done) {
 		done(err, user);
 	});
 });
+
 module.exports = {
 	
 	// Init custom express middleware
@@ -48,7 +47,7 @@ module.exports = {
 				function(username, password, done) {
 					process.nextTick(function () {
 					
-					findByUsername(username, function(err, user) {
+					findByUsername(username, function(err, user) {//TODO: Make auth by mysql DB
 						if (err) { return done(err); }
 						if (!user) { return done(null, false, { message: 'Unknown user ' + username }); }
 						if (user.password != password) { return done(null, false, { message: 'Invalid password' }); }
@@ -56,32 +55,11 @@ module.exports = {
 						})
 					});
 				}
-				));
-				
-			passport.use(new RememberMeStrategy(
-			function(token, done) {
-				Token.consume(token, function (err, user) {
-					if (err) { return done(err); }
-					if (!user) { return done(null, false); }
-					return done(null, user);
-				});
-			},
-			function(user, done) {
-				const token = utils.generateToken(64);
-				Token.save(token, { userId: user.id }, function(err) {
-					if (err) { return done(err); }
-					return done(null, token);
-				});
-			}
 			));
 
-			app.use(function(req, res, next) {
-				if (toobusy()) res.view("errors/503"); //TODO: error pages
-				else next();
-			});
 			app.use(passport.initialize());
 			app.use(passport.session());
-			app.use(passport.authenticate('remember-me'));
+			app.use(flash());
 		}
 	}
 

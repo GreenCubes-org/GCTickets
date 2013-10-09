@@ -3,31 +3,33 @@ body {
 	color: rgb(85, 85, 85);
 }
 .container {
-    padding-right: 15px;
-    padding-left: 15px;
-    margin-right: auto;
-    margin-left: auto;
+	padding-right: 15px;
+	padding-left: 15px;
+	margin-right: auto;
+	margin-left: auto;
 }
 @media (min-width: 768px) {
-  .container {
-    max-width: 750px;
-  }
+	.container {
+		max-width: 750px;
+	}
 }
 @media (min-width: 992px) {
-  .container {
-    max-width: 970px;
-  }
-  
+	.container {
+		max-width: 970px;
+	}
 }
 @media (min-width: 1200px) {
-  .container {
-    max-width: 1170px;
-  }
+	.container {
+		max-width: 1170px;
+	}
 }
-
+.gc-logo {
+	font-size: 0.9rem;
+	width: 130px;
+}
 .gc-loginerr {
-	padding-right: 30%;
-	padding-left: 30%;
+	margin-right: 30% !important;
+	margin-left: 30% !important;
 }
 
 .gc-center {

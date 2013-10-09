@@ -1,4 +1,4 @@
-<% title = 'GreenCubes Tickets' -%>
+<% title = 'GreenCubes.Тикеты' -%>
 <div class="ui green inverted gc-header menu">
 	<div class="right menu">
 		<a href="/help" class="item mini">
@@ -7,18 +7,11 @@
 	</div>
 </div>
 <div class="gc-center">
-	<img class="ui small image gc-center" src="/images/logo.png">
+	<img class="ui image <% if (message != '') { %>small<% } else { %>gc-logo<% } %> gc-center" src="/images/logo.png">
 	<h1>Тикет система GreenCubes<br>
 	Откройся!</h1>
-	<% if (message) { %>
-	<div class="ui error message gc-loginerr">
-		<i class="close icon"></i>
-		<div class="header">
-			<%= message %>
-		</div>
-	</div>
-	<% } %>
 	<form action="/login" method="post">
+	<input type="hidden" name="_csrf" value="<%= _csrf %>" />
 	<div class="ui form segment" style="display: inline-block !important">
 		<div class="field">
 			<div class="ui left labeled icon input">
@@ -35,4 +28,9 @@
 		<button type="submit" class="ui blue submit button">Войти</button>
 	</div>
 	</form>
+	<% if (message != '') { %>
+	<div class="ui error message gc-loginerr">
+		<div class="header"><%= message %></div>
+	</div>
+	<% } %>
 </div>

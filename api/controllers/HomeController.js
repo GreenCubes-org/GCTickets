@@ -2,7 +2,7 @@
 * HomeController
 *
 * @module :: Controller
-* @description :: Contains logic for handling requests.
+* @description :: Logic of main page and auth.
 */
 var passport = require('passport');
 
@@ -12,37 +12,21 @@ var HomeController = {
 	{
 		if (!req.user) {
 			res.view({
-				message: null 
+				message: null || req.flash('error')
 			})}
 		else {
 			res.redirect('/all')
 		}
 	},
-	
-	list: function (req,res)
-	{
-		if (!req.user) {
-			res.redirect('/')}
-		else {
-			res.view({user: req.user})
-		}
+
+	login: function (req,res){
+		res.redirect('/');
 		
 	},
 
-	create: function (req,res)
-	{
-		if (!req.user) {
-			res.redirect('/')}
-		else {
-			res.view({user: req.user})
-		}
-		
-	},
-
-	'login': function(req, res) {
-		passport.authenticate('local', { failureRedirect: '/'},
-		function (err, user, next) {
-				if(!user){ return res.view('home/index',{message: "Пустое имя пользователя"}); } 
+	doLogin: function(req, res) {
+		passport.authenticate('local', { failureRedirect: '/', failureFlash: true},
+		function (err, user) {
 				req.logIn(user, function (err) {
 					if (err) {
 						console.log(err);
@@ -50,26 +34,15 @@ var HomeController = {
 						return;
 					}
 					res.redirect('/');
-					return next();
+					return;
 				});
-		},
-		function(req, res) {
-			if (!req.body.remember_me) { return; }
-
-			var token = utils.generateToken(64);
-			Token.save(token, { userId: req.user.id }, function(err) {
-			  if (err) { return done(err); }
-			  res.cookie('remember_me', token, { path: '/', httpOnly: true, maxAge: 604800000 }); // 7 days
-			  return;
-			});
 		})(req, res);
 	},
 
-	'logout': function(req, res){
+	logout: function(req, res){
 		req.logout();
 		res.redirect('/');
 	}
-
 
 };
 module.exports = HomeController;
