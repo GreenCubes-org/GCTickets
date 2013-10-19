@@ -10,21 +10,21 @@
  * http://sailsjs.org/#documentation
  */
 
-const local = require('./local.js');
+var local = require('./local.js');
 
 module.exports.session = {
 
   // Session secret is automatically generated when your new app is created
   // Replace at your own risk in production-- you will invalidate the cookies of your users,
   // forcing them to log in again. 
-	secret: local.secret,
+  secret: local.secret,
 
-	adapter: 'redis',
-	host: local.redis.host,
-	port: local.redis.port,
-	ttl: local.redis.ttl,
-	db: local.redis.db,
-	pass: local.redis.pass,
-	prefix: local.redis.prefix
+  adapter: 'redis',
+  host: local.redis.host,
+  port: local.redis.port,
+  ttl: local.redis.ttl,
+  db: local.redis.db,
+  pass: local.redis.pass,
+  prefix: local.redis.prefix
 
 };

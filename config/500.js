@@ -42,12 +42,6 @@ module.exports[500] = function serverErrorOccurred(errors, req, res, expressErro
     response.errors = displayedErrors;
   }
 
-  // If the user-agent wants a JSON response,
-  // respond with a JSON-readable version of errors
-  if (req.wantsJSON) {
-    return res.json(response, response.status);
-  }
-
   // Otherwise, if it can be rendered, the `views/500.*` page is rendered
   // If an error occurs rendering the 500 view ITSELF,
   // use the built-in Express error handler to render the errors

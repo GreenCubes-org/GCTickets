@@ -1,84 +1,89 @@
-<% title = "Создать тикет — GC.Тикеты" -%>
+<% title = "Создать тикет — GC.Тикеты";
+scripts.push('wbb.js');
+styles.push('wbb.css') %>
 <div class="ui green inverted gc-header menu">
-	<div class="ui simple dropdown item">
-		Все тикеты <i class="icon dropdown"></i>
-		<div class="menu">
-			<a href="/" class="item active"><i class="reorder icon"></i>Все тикеты</a>
-			<a href="/bugreports" class="item"><i class="wrench icon"></i>Баг-репорты</a>
-			<a href="/rempro" class="item"><i class="remove icon"></i>Расприват</a>
-			<a href="/bans" class="item"><i class="ban circle icon"></i>Баны</a>
-			<a href="/unbans" class="item"><i class="blank circle icon"></i>Разбаны</a>
-			<a href="/other" class="item"><i class="sign icon"></i>Остальное</a>
-		</div>
-	</div>
-	<div class="right menu">
-		<div class="ui simple dropdown item">
-		<%= user.username %> <i class="icon dropdown"></i>
-		<div class="menu">
-			<a href="/tickets" class="item"><i class="list layout icon"></i>Ваши тикеты</a>
-			<a href="/settings" class="item"><i class="setting icon"></i>Настройки</a>
-			<a href="/help" class="item"><i class="question icon"></i>Помощь</a>
-			</div>
-		</div>
-		<a href="/logout" class="item mini">
-			<i class="sign out icon"></i>
-		</a>
-	</div>
+  <div class="ui simple dropdown item">
+    Все тикеты <i class="icon dropdown"></i>
+    <div class="menu">
+      <a href="/" class="item active"><i class="reorder icon"></i>Все тикеты</a>
+      <a href="/bugreports" class="item"><i class="wrench icon"></i>Баг-репорты</a>
+      <a href="/rempro" class="item"><i class="remove icon"></i>Расприват</a>
+      <a href="/bans" class="item"><i class="ban circle icon"></i>Баны</a>
+      <a href="/unbans" class="item"><i class="blank circle icon"></i>Разбаны</a>
+      <a href="/other" class="item"><i class="sign icon"></i>Остальное</a>
+    </div>
+  </div>
+  <div class="right menu">
+    <div class="ui simple dropdown item">
+    <%= user.username %> <i class="icon dropdown"></i>
+    <div class="menu">
+      <a href="/tickets" class="item"><i class="list layout icon"></i>Ваши тикеты</a>
+      <a href="/settings" class="item"><i class="setting icon"></i>Настройки</a>
+      <a href="/help" class="item"><i class="question icon"></i>Помощь</a>
+      </div>
+    </div>
+    <a href="/logout" class="item mini">
+      <i class="sign out icon"></i>
+    </a>
+  </div>
 </div>
 <h1>Новый тикет</h1>
 <div class="ui divider"></div>
 <div class="ui form segment">
-	<div class="inline field">
-		<div class="ui selection simple dropdown">
-			<input name="ticket-type" type="hidden">
-			<i class="dropdown icon"></i>
-			<div class="default text">Тип тикета</div>
-			<div class="menu">
-				<div class="item" data-value="bugreport">Баг-репорт</div>
-				<div class="item" data-value="rempro">Расприват</div>
-				<div class="item" data-value="ban">Бан</div>
-				<div class="item" data-value="unban">Разбан</div>
-				<div class="item" data-value="other">Остальное</div>
-			</div>
-		</div>
-		<div class="ui selection simple dropdown">
-			<input name="ticket-product" type="hidden">
-			<i class="dropdown icon"></i>
-			<div class="default text">Продукт</div>
-			<div class="menu">
-				<div class="item" data-value="gcmain-client">GC.Main Клиент</div>
-				<div class="item" data-value="gcmain-server">GC.Main Сервер(GreenServer)</div>
-				<div class="item" data-value="gcsite">GreenCubes.org сайт</div>
-				<div class="item" data-value="gcforum">Форум GreenCubes</div>
-				<div class="item" data-value="gcwiki">GreenCubes.Wiki</div>
-				<div class="item" data-value="gctickets">Тикет-система GreenCubes</div>
-				<div class="item" data-value="gcrpg-client">GC.RPG Клиент</div>
-				<div class="item" data-value="gcrpg-server">GC.RPG Сервер</div>
-				<div class="item" data-value="gcapo-client">GC.Apocalyptic Клиент</div>
-				<div class="item" data-value="gcapo-server">GC.Apocalyptic Сервер</div>
-			</div>
-		</div>
-	</div>
-	<div class="field">
-		<label>Описание</label>
-		<textarea id="gc-editor"></textarea>
-	</div>
-	<div class="inline field">
-		<div class="ui labeled basic icon button">
-		<i class="upload icon"></i>
-			Прикрепить изображения
-		</div>
-		<div class="ui selection simple dropdown">
-			<input name="ticket-private" type="hidden">
-			<i class="dropdown icon"></i>
-			<div class="default text">Видимость тикета</div>
-			<div class="menu">
-				<div class="item" data-value="public">Виден всем</div>
-				<div class="item" data-value="private">Виден только разработчику</div>
-			</div>
-		</div>
-	</div>
-	<div class="ui blue submit button">Отправить тикет</div>
+  <div class="inline field">
+    <div class="ui selection simple dropdown">
+      <input name="ticket-type" type="hidden">
+      <i class="dropdown icon"></i>
+      <div class="default text">Тип тикета</div>
+      <div class="menu">
+        <div class="item" data-value="bugreport">Баг-репорт</div>
+        <div class="item" data-value="rempro">Расприват</div>
+        <div class="item" data-value="ban">Бан</div>
+        <div class="item" data-value="unban">Разбан</div>
+        <div class="item" data-value="other">Остальное</div>
+      </div>
+    </div>
+    <div class="ui selection simple dropdown">
+      <input name="ticket-product" type="hidden">
+      <i class="dropdown icon"></i>
+      <div class="default text">Продукт</div>
+      <div class="menu">
+        <div class="item" data-value="gcmain-client">GC.Main Клиент</div>
+        <div class="item" data-value="gcmain-server">GC.Main Сервер(GreenServer)</div>
+        <div class="item" data-value="gcsite">GreenCubes.org сайт</div>
+        <div class="item" data-value="gcforum">Форум GreenCubes</div>
+        <div class="item" data-value="gcwiki">GreenCubes.Wiki</div>
+        <div class="item" data-value="gctickets">Тикет-система GreenCubes</div>
+        <div class="item" data-value="gcrpg-client">GC.RPG Клиент</div>
+        <div class="item" data-value="gcrpg-server">GC.RPG Сервер</div>
+        <div class="item" data-value="gcapo-client">GC.Apocalyptic Клиент</div>
+        <div class="item" data-value="gcapo-server">GC.Apocalyptic Сервер</div>
+      </div>
+    </div>
+  </div>
+  <div class="inline field">
+    <input name="title" type="text">
+  </div>
+  <div class="field">
+    <label>Описание</label>
+    <textarea id="description"></textarea>
+  </div>
+  <div class="inline field">
+    <div class="ui labeled basic icon button">
+    <i class="upload icon"></i>
+      Прикрепить изображения
+    </div>
+    <div class="ui selection simple dropdown">
+      <input name="ticket-private" type="hidden">
+      <i class="dropdown icon"></i>
+      <div class="default text">Видимость тикета</div>
+      <div class="menu">
+        <div class="item" data-value="public">Виден всем</div>
+        <div class="item" data-value="private">Виден только разработчику</div>
+      </div>
+    </div>
+  </div>
+  <div class="ui blue submit button">Отправить тикет</div>
 </div>
-/* FIXME: Переделать страницу по макетам Фейолы 
-*/
+<script>$(document).ready(function(){$('#gc-editor').wysibb({buttons: 'bold,italic,underline,|link,|,quote'});})</script>
+<!-- FIXME: Переделать страницу по макетам Фейолы -->

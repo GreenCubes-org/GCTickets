@@ -9,17 +9,8 @@
 module.exports = {
 
 	attributes: {
-		
-		// '42'
-		id: {
-			type: 'INTEGER',
-			required: true
-		},
-		// '1' (id of type)
-		type: {
-			type: 'INTEGER',
-			required: true
-		},
+		// required: title description type status owner
+		// also: assignedTo product
 		// 'lol plz tp me to spawn(((((('
 		title: {
 			type: 'STRING',
@@ -33,6 +24,11 @@ module.exports = {
 			minLength: 10,
 			required: true
 		},
+		// '1' (id of type)
+		type: {
+			type: 'INTEGER',
+			required: true
+		},
 		// '1' (id of status)
 		status: {
 			type: 'INTEGER',
@@ -41,11 +37,6 @@ module.exports = {
 		// '1' (id of owner user)
 		owner: {
 			type: 'INTEGER',
-			required: true
-		},
-		// 'YYYY-MM-DD HH:MM:SS' (creation time)
-		createdAt: {
-			type: 'DATETIME',
 			required: true
 		},
 		// '1' (id of assigned user)

@@ -20,19 +20,13 @@ module.exports.adapters = {
   // in a model definition, 'default' will be used.
   'default': 'mysql',
 
-  // Persistent adapter for DEVELOPMENT ONLY
-  // (data IS preserved when the server shuts down)
-  disk: {
-	module: 'sails-disk'
-  },
-
   // MySQL is the world's most popular relational database.
   // Learn more: http://en.wikipedia.org/wiki/MySQL
   mysql: {
 	module: 'sails-mysql',
-	host: local.db.host,
-	user: local.db.user,
-	password: local.db.password, 
-	database: local.db.database
+	host: local.appdb.host,
+	user: local.appdb.user,
+	password: local.appdb.password, 
+	database: local.appdb.database
   }
 };

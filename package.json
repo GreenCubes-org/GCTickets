@@ -1,25 +1,26 @@
 {
-	"name": "GCTickets",
-	"private": true,
-	"version": "0.0.0",
-	"description": "GreenCubes Ticktets",
-	"dependencies": {
-		"sails": "0.9.4",
-		"grunt": "0.4.1",
-		"sails-disk": "~0.9.0",
-		"sails-mysql": "~0.9.0",
-		"ejs": "0.8.4",
-		"optimist": "0.3.4",
-		"passport": "~0.1.17",
-		"passport-local": "~0.1.6",
-		"connect-redis": "1.4.5"
-	},
-	"scripts": {
-		"start": "forever start app.js -l logs/app.log",
-		"debug": "node debug app.js"
-	},
-	"main": "app.js",
-	"repository": "git@github.com:Kern0/GCTickets.git",
-	"author": "Kern0",
-	"license": ""
+  "name": "GCTickets",
+  "private": true,
+  "version": "0.0.0",
+  "description": "GreenCubes Ticket system",
+  "dependencies": {
+    "sails": "0.9.7",
+    "grunt": "0.4.1",
+    "sails-mysql": "~0.9.0",
+    "ejs": "0.8.4",
+    "optimist": "0.3.4",
+    "passport": "~0.1.17",
+    "passport-local": "~0.1.6",
+    "connect-redis": "1.4.x",
+    "connect-flash": "0.1.x",
+    "mysql": "2.0.0-alpha9"
+  },
+  "scripts": {
+    "start": "forever start -l logs/app.log -o logs/out.log -e logs/err.log app.js",
+    "debug": "node debug app.js"
+  },
+  "main": "app.js",
+  "repository": "git@github.com:Kern0/GCTickets.git",
+  "author": "Kern0 aka Arseniy Maximov",
+  "license": ""
 }

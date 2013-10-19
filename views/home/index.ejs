@@ -1,36 +1,37 @@
 <% title = 'GreenCubes.Тикеты' -%>
 <div class="ui green inverted gc-header menu">
-	<div class="right menu">
-		<a href="/help" class="item mini">
-			Помощь<i class="question icon"></i>
-		</a>
-	</div>
+  <div class="right menu">
+    <a href="/help" class="item mini">
+      Помощь<i class="question icon"></i>
+    </a>
+  </div>
 </div>
 <div class="gc-center">
-	<img class="ui image <% if (message != '') { %>small<% } else { %>gc-logo<% } %> gc-center" src="/images/logo.png">
-	<h1>Тикет система GreenCubes<br>
-	Откройся!</h1>
-	<form action="/login" method="post">
-	<input type="hidden" name="_csrf" value="<%= _csrf %>" />
-	<div class="ui form segment" style="display: inline-block !important">
-		<div class="field">
-			<div class="ui left labeled icon input">
-				<input placeholder="Имя пользователя" type="text" name="username">
-				<i class="user icon"></i>
-			</div>
-		</div>
-		<div class="field">
-			<div class="ui left labeled icon input">
-				<input placeholder="Пароль" type="password" name="password">
-				<i class="lock icon"></i>
-			</div>
-		</div>
-		<button type="submit" class="ui blue submit button">Войти</button>
-	</div>
-	</form>
-	<% if (message != '') { %>
-	<div class="ui error message gc-loginerr">
-		<div class="header"><%= message %></div>
-	</div>
-	<% } %>
+  <img class="ui image <% if (message != '') { %>small<% } else { %>gc-logo<% } %> gc-center" src="/images/logo.png">
+  <h1>Тикет система GreenCubes<br>
+  Откройся!</h1>
+  <form action="/login" method="post">
+  <input type="hidden" name="_csrf" value="<%= _csrf %>" />
+  <div class="ui form segment" style="display: inline-block !important">
+    <div class="field">
+      <div class="ui left labeled icon input">
+        <input placeholder="Имя пользователя" type="text" name="username">
+        <i class="user icon"></i>
+      </div>
+    </div>
+    <div class="field">
+      <div class="ui left labeled icon input">
+        <input placeholder="Пароль" type="password" name="password">
+        <i class="lock icon"></i>
+      </div>
+    </div>
+    <button type="submit" class="ui blue submit button">Войти</button>
+  </div>
+  </form>
+  <% if (message !== undefined && message.length > 0) { %> <!-- TODO: Запилить перевод сообщений Passport с помощью i18n()
+  -->
+  <div class="ui error message gc-loginerr">
+    <div class="header"><%= message %></div>
+  </div>
+  <% } %>
 </div>

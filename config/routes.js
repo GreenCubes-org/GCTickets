@@ -9,48 +9,15 @@
  */
 
 module.exports.routes = {
-	/*'/': 'home.index',
+  '/': 'home.index',
 
-	'/login': 'home.index',
+  'get /login': 'home.login',
 
-	'post /login': 'home.login',
+  'post /login': 'home.doLogin',
 
-	'/logout': 'home.logout',
+  '/logout': 'home.logout',
 
-	'/all': 'ticket.list',
-
-	'/new': 'ticket.create'*/
-	'/': {
-		controller: 'home',
-		action: 'index'
-	},
-
-	'get /login': {
-		controller: 'home',
-		action: 'login'
-	},
-
-	'post /login': {
-		controller: 'home',
-		action: 'doLogin'
-	},
-
-	'/logout': {
-		controller: 'home',
-		action: 'logout'
-	},
-
-	'/all': {
-		controller: 'ticket',
-		action: 'list'
-	},
-
-	'get /new': {
-		view: 'ticket/create'
-	},
-
-	'post /new': {
-		controller: 'ticket',
-		action: 'create'
-	}
+  '/all': 'ticket.list',
+  
+  'get /new': 'ticket.create'
 };
