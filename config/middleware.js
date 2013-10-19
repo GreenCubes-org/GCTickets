@@ -6,17 +6,17 @@ var flash = require('connect-flash');
 
 var local = require('./local.js');
 
-passport.serializeUser(function(user, done) {
-  done(null, user.id);
-});
-
-passport.deserializeUser(function(id, done) {
-  var client = mysql.createConnection({
+var client = mysql.createConnection({
       host: local.userdb.host,
       database: local.userdb.database,
       user: local.userdb.user,
       password: local.userdb.password
    });
+
+passport.serializeUser(function(user, done) {
+  done(null, user.id);
+});
+passport.deserializeUser(function(id, done) {
    client.query('SELECT login, passhash FROM users WHERE id = ?',
               [id], function(err, result, fields) {
        var user = {
@@ -36,14 +36,9 @@ module.exports = {
       var local = require('./local.js');
 
       passport.use(new LocalStrategy(function(username, password, done) {
-         var client = mysql.createConnection({
-          host: local.userdb.host,
-          database: local.userdb.database,
-          user: local.userdb.user,
-          password: local.userdb.password
-        });
+        username = username.replace(/[^a-zA-Z0-9_-]/g,'');
         client.query('SELECT id, passhash FROM users WHERE login = ?',
-          [username], function chkpass(err, result, fields) {
+          [username], function (err, result, fields) {
             // database error
             if (err) {
               return done(err);
