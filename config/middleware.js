@@ -37,7 +37,7 @@ module.exports = {
 
       passport.use(new LocalStrategy(function(username, password, done) {
         username = username.replace(/[^a-zA-Z0-9_-]/g,'');
-        client.query('SELECT id, passhash FROM users WHERE login = ?',
+        client.query('SELECT id, passhash, is_activated FROM users WHERE login = ?',
           [username], function (err, result, fields) {
             // database error
             if (err) {
@@ -46,6 +46,8 @@ module.exports = {
             } else if (result.length === 0) {
               return done(null, false, {message: 'Неизвестный пользователь'});
             // check password
+            } else if (result[0].is_activated) {
+              return done(null, false, {message: 'Аккаунт не активирован'});
             } else {
               var passwd  = result[0].passhash.split('$');
               if (passwd.length == 1) {
