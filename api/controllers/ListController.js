@@ -43,6 +43,7 @@ module.exports = {
   bugreportList: function listBugreport(req,res) {
     Bugreport.find({id: {'<': 420000}})
       .sort('createdAt').limit(20).done(function(err, bugreports) {
+          bugreports.reverse();
           gct.bugreport.serializeList(bugreports, function(err, result) {
             res.json(JSON.stringify(result));
           });

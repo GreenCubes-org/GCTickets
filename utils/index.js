@@ -5,6 +5,7 @@
  * @description	:: Вспомогательные функции
  */
 var gcdb = require('./gcdb');
+var Step = require('step');
 
 module.exports = function (){
   return '42';
@@ -53,19 +54,37 @@ module.exports.getProductByID = getProductByID = function(id) {
 
 module.exports.bugreport = bugreport = {
   serializeList: function(array, cb) {
-    
-    array.map(function(obj) {
-      gcdb.user.getByID(obj.owner, function(err, result) {
+    async.waterfall([
+      function map(callback) {
+        async.map(array, function(obj, callback) {
+          async.waterfall([
+            function getByID(callback) {
+              gcdb.user.getByID(obj.owner, function(err, result) {
+                if (err) return callback(err);
+                
+                callback(null, {
+                  id: obj.id,
+                  title: obj.title,
+                  status: getStatusByID(obj.status),
+                  owner: result,
+                  createdAt: obj.createdAt
+                })
+              })
+            }
+          ],
+          function(err, result) {
+            if (err) return callback(err);
+            
+            callback(null, result);
+          })
+        }, 
+        function (err, result) {
+          callback(err, result)
+        })
+      }
+    ], function(err, result) {
         if (err) cb(err);
-        
-        return null, {
-          id: obj.id,
-          title: obj.title,
-          status: getStatusByID(obj.status),
-          owner: result,
-          createdAt: obj.createdAt
-        };
+        cb(null, result);
       })
-    })
   }
 };
