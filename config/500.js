@@ -37,6 +37,11 @@ module.exports[500] = function serverErrorOccurred(errors, req, res, expressErro
     sails.log.error(displayedErrors[i].stack);
   }
 
+  // If the user-agent wants a JSON response, send json
+  if (req.wantsJSON) {
+    return res.json(result, result.status);
+  }
+
   // In production, don't display any identifying information about the error(s)
   if (sails.config.environment === 'development') {
     response.errors = displayedErrors;
@@ -45,12 +50,9 @@ module.exports[500] = function serverErrorOccurred(errors, req, res, expressErro
   // Otherwise, if it can be rendered, the `views/500.*` page is rendered
   // If an error occurs rendering the 500 view ITSELF,
   // use the built-in Express error handler to render the errors
-  var view = '500';
-  res.render(view, response, function (err) {
+  res.render('500', {layout: false, status: 500}, function (err) {
     if (err) {
-      return expressErrorHandler(errors);
+      return res.status(500).sendfile('views/500.html');//FIXME: Узнать почему res.render выдаёт ошибку с layout в определённых случаях.
     }
-    res.render(view, response);
-  });
-
+    });
 };

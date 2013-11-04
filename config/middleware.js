@@ -7,24 +7,28 @@ var flash = require('connect-flash');
 var local = require('./local.js');
 
 var client = mysql.createConnection({
-      host: local.userdb.host,
-      database: local.userdb.database,
-      user: local.userdb.user,
-      password: local.userdb.password
+      host: local.gcdb.host,
+      database: local.gcdb.database,
+      user: local.gcdb.user,
+      password: local.gcdb.password
    });
 
 passport.serializeUser(function(user, done) {
   done(null, user.id);
 });
 passport.deserializeUser(function(id, done) {
-   client.query('SELECT login, passhash FROM users WHERE id = ?',
+  client.query('SELECT login, password FROM users WHERE id = ?',
               [id], function(err, result, fields) {
-       var user = {
-           id : id,
-           username : result[0].login,
-           password : result[0].passhash};
-       done(err, user);
-       client.end();
+    if (err){
+      done(err);
+    } else {
+      var user = {
+          id : id,
+          username : result[0].login,
+          password : result[0].password
+          };
+      done(err, user);
+    }
   });
 });
 
@@ -37,8 +41,8 @@ module.exports = {
 
       passport.use(new LocalStrategy(function(username, password, done) {
         username = username.replace(/[^a-zA-Z0-9_-]/g,'');
-        client.query('SELECT id, passhash, is_activated FROM users WHERE login = ?',
-          [username], function (err, result, fields) {
+        client.query('SELECT id, password, activation_code FROM users WHERE login = ?',
+          [username], function (err, result) {
             // database error
             if (err) {
               return done(err);
@@ -46,22 +50,23 @@ module.exports = {
             } else if (result.length === 0) {
               return done(null, false, {message: 'Неизвестный пользователь'});
             // check password
-            } else if (result[0].is_activated) {
+            } else if (result[0].activation_code === undefined) {
               return done(null, false, {message: 'Аккаунт не активирован'});
             } else {
-              var passwd  = result[0].passhash.split('$');
+              var passwd  = result[0].password.split('$');
+              var hash;
               if (passwd.length == 1) {
-                var hash = crypto.createHash('md5')
+                hash = crypto.createHash('md5')
                               .update(password)
                               .digest('hex');
               }
               else {
-                var hash = crypto.createHash('sha1')
-                              .update(passwd[0] + password)
+                hash = crypto.createHash('sha1')
+                              .update(passwd[1] + password)
                               .digest('hex');
               }
               // if md5 passwords match
-              if (passwd.length === 1 && passwd[1] === hash) {
+              if (passwd.length === 1 && passwd[0] === hash) {
                   var user = {id : result[0].id,
                               username : username,
                               password : hash };
@@ -76,7 +81,6 @@ module.exports = {
                 return done(null, false, {message: 'Неверный пароль'});
               }
            }
-           client.end();
          });
       }));
 
@@ -87,22 +91,22 @@ module.exports = {
       
       app.locals({
         version: require('../package.json').version,
-        scripts: [],
+        scripts: ['jquery.js','sem.js'],
         renderJSTags: function (all) {
-          app.locals.scripts = ['jquery.js','sem.js'];
-          if (all != undefined) {
+          if (all !== undefined) {
             return all.map(function(scripts) {
-              return '<script src="/js/' + scripts + '"></script>';
+              app.locals.scripts = ['jquery.js','sem.js'];
+              return '<script src="/js/' + scripts + '" type="text/javascript"></script>';
             }).join('\n ');
           }
           else {
             return '';
           }
         },
-        styles: [],
+        styles: ['sem.css','res.css'],
         renderCSSTags: function (all) {
-          app.locals.styles = ['sem.css','main.css','res.css'];
-          if (all != undefined) {
+          app.locals.styles = ['sem.css','res.css'];
+          if (all !== undefined) {
             return all.map(function(styles) {
               return '<link href="/styles/' + styles + '" type="text/css" rel="stylesheet" />';
             }).join('\n ');

@@ -1,10 +1,23 @@
 // local.js example
 
+/* Uncomment if https
+var sslKey = require('fs').readFileSync('server.key', 'utf8');
+var sslCery = require('fs').readFileSync('server.crt', 'utf8');
+*/
+
 module.exports = {
-  appName: "GC.Тикеты",
+  appName: 'GC.Тикеты',
 
-  port: process.env.PORT || 1337,
+  port: process.env.PORT || 80, //Or change it to 433 if https
 
+  /* Uncomment if https
+  express: {
+    serverOptions: { 
+      key: sslKey,
+      cert: sslCert
+    }
+  },
+  */
   // The runtime "environment" of your app is either 'development' or 'production'.
   environment: process.env.NODE_ENV || 'production',
 
@@ -17,18 +30,20 @@ module.exports = {
     password: 'YOUR_MYSQL_PASSWORD', 
     database: 'YOUR_MYSQL_DB'
   },
-  userdb: { //User auth DB
+  gcdb: { //User auth DB
     host: 'localhost',
     user: 'YOUR_MYSQL_USER',
     password: 'YOUR_MYSQL_PASSWORD',
     database: 'YOUR_MYSQL_DB'
   },
-  redis: {//Redis session DB
+  redis: {//Redis DB
     host: 'localhost',
     port: 6379,
-    ttl: 0,
-    db: 0, //change this if other db
-    pass:'<redis auth password>',
-    prefix: 'sess:'
+    ttl: 129600, // = 1.5 days
+    db: {//change this if other db
+      session: 0,
+      app: 1
+    }, 
+    pass:'<redis auth password>'
   }
 };

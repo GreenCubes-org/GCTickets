@@ -1,0 +1,80 @@
+<% title = "Создать тикет — GC.Тикеты";
+styles.push('main.css'); %>
+<%- partial('partials/header')%>
+<h1 class="ui header" style="margin: 0em 0px 1rem !important;">Выбери нужный тип тикета
+<div class="sub header">Просто кликни по названию нужного тебе типа</div></h1>
+<div class="ui divider"></div>
+<div class="container">
+  <div class="ui grid container">
+    <div class="three column stackable ui grid row">
+      <div class="column">
+        <div class="ui segment">
+            <div class="column">
+              <a href="/new/bugreport" class="gc-link gc-new-header">Баг-репорт</a>
+            </div>
+            <div class="column">
+              <div class="ui divider"></div>
+              Баг-репорты используют для оповещения разработчика о наличии ошибок в определённом продукте.
+            </div>
+        </div>
+      </div>
+      <div class="column">
+        <div class="ui segment">
+            <div class="column">
+              <a href="/new/rempro" class="gc-link gc-new-header">Расприват</a>
+            </div>
+            <div class="column">
+              <div class="ui divider"></div>
+              С помощью заявок на расприват вы можете попросить модераторов провести процедуру распривата.
+            </div>
+        </div>
+      </div>
+      <div class="column">
+        <div class="ui segment">
+            <div class="column">
+              <a href="/new/ban" class="gc-link gc-new-header">Заявка на бан</a>
+            </div>
+            <div class="column">
+              <div class="ui divider"></div>
+              Если появился нарушитель, то его стоит наказать. Проще всего это сделать с помощью заявок на бан.
+            </div>
+        </div>
+      </div>
+    </div>
+    <div class="three column stackable ui grid row">
+      <div class="column">
+        <div class="ui segment">
+            <div class="column">
+              <a href="/new/unban" class="gc-link gc-new-header">Заявка на разбан</a>
+            </div>
+            <div class="column">
+              <div class="ui divider"></div>
+              Возможно, ваш бан был выдан некорректно, и у вас есть все доказательства этого. Тогда вы можете попробовать подать заявку на разбан.
+            </div>
+        </div>
+      </div>
+      <div class="column">
+        <div class="ui segment">
+            <div class="column">
+              <a href="/new/regen" class="gc-link gc-new-header">Заявки на реген</a>
+            </div>
+            <div class="column">
+              <div class="ui divider"></div>
+              Порой через некоторое время местность может прийти в негодность. Для того чтобы это исправить вы можете подать заявку на регенерацию территории.
+            </div>
+        </div>
+      </div>
+      <div class="column">
+        <div class="ui segment">
+            <div class="column">
+              <a href="/new/admreq" class="gc-link gc-new-header">Обращение к администрации</a>
+            </div>
+            <div class="column">
+              <div class="ui divider"></div>
+              У вас есть вопрос или просьба которую нужно адресовать администраторам? Воспользуйтесь этой функцией для отправки сообщения администраторам.
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -13,7 +13,9 @@
     "passport-local": "~0.1.6",
     "connect-redis": "1.4.x",
     "connect-flash": "0.1.x",
-    "mysql": "2.0.0-alpha9"
+    "mysql": "2.0.0-alpha9",
+    "redis": "0.9.*",
+    "step": "0.0.*"
   },
   "scripts": {
     "start": "forever start -l logs/app.log -o logs/out.log -e logs/err.log app.js",

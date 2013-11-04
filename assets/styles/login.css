@@ -1,0 +1,38 @@
+body {
+  font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+  color: rgb(255, 255, 255);
+  background-color: rgb(85,154,139);
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+.gc-logo {
+  width: 80px;
+  font-size: 0.9rem;
+  padding-top: 5%;
+}
+
+#loginerr {
+  padding-top: 1rem;
+  margin-right: 30% !important;
+  margin-left: 30% !important;
+}
+
+.gc-content {
+  min-height: 100%;
+  height: auto !important;
+  height: 100%;
+  margin: 0 0 -30px 0; /* отрицательный нижний отступ на высоту футера */
+  padding: 0;
+}
+
+.gc-center {
+  margin: 0 auto;
+  text-align: center;
+  display: block !important;
+}
+
+.ui.form textarea, .ui.form select, .ui.form input[type="text"], .ui.form input[type="password"] {
+  border: 0px solid rgba(0, 0, 0, 0.15);
+}

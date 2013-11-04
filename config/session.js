@@ -23,8 +23,8 @@ module.exports.session = {
   host: local.redis.host,
   port: local.redis.port,
   ttl: local.redis.ttl,
-  db: local.redis.db,
+  db: local.redis.db.session,
   pass: local.redis.pass,
-  prefix: local.redis.prefix
+  prefix: 'sess:'
 
 };

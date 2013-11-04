@@ -13,8 +13,5 @@
 
 
 module.exports.policies = {
-  '*': 'authenticated',
-  'home': {
-	  '*': true
-  }
+  '*': true
 };

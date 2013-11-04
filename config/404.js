@@ -21,11 +21,7 @@ module.exports[404] = function pageNotFound(req, res, express404Handler) {
 
   // Otherwise, serve the `views/404.*` page
   var view = '404';
-  res.render(view, result, function (err) {
-    if (err) {
-      return express404Handler();
-    }
-    res.render(view);
-  });
+
+  res.view('404', {layout: false, status: 404});
 
 };

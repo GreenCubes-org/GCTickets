@@ -1,0 +1,19 @@
+<% title = "Все тикеты — GC.Тикеты" 
+scripts.push('io.js','sio.js','list.' + type.url + '.js'); 
+styles.push('main.css') %>
+<%- partial('partials/header')%>
+<div class="container">
+<table class="ui basic table">
+  <thead>
+  <tr>
+    <th>Тип</th>
+    <th>Пользователь</th>
+    <th>Тема</th>
+    <th>Время</th>
+    <th>Статус</th>
+  </tr></thead>
+  <tbody id="gc-list">
+    
+  </tbody>
+</table>
+</div>

@@ -1,0 +1,27 @@
+<%- partial('../../partials/header')%>
+<div class="ui secondary menu">
+  <% if (req.user) { %>
+  <a href="/new" class="active item">
+    <i class="add icon"></i>
+    Создать тикет
+  </a>
+  <a href="/new/bugreport" class="item gc-tiny hidden-xs">
+    Баг-репорт
+  </a>
+  <a href="/new/rempro" class="item gc-tiny hidden-xs">
+    Расприват
+  </a>
+  <a href="/new/unban" class="item gc-tiny hidden-xs">
+    Заявка на разбан
+  </a>
+  <a href="/new/ban" class="item gc-tiny hidden-xs">
+    Заявка на бан
+  </a>
+  <% } else { %>
+  <a href="/new/anon" class="active item">
+    <i class="add icon"></i>
+    Создать анонимный тикет
+  </a>
+  <% } %>
+</div>
+<div class="ui divider"></div>

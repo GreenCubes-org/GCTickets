@@ -1,4 +1,3 @@
-<% var datetime = Date(); if (typeof test === 'undefined') {console.log('[ERROR] at ', datetime)} if (typeof errors !== 'undefined') var havelog = true; else var havelog = false %>
 <!DOCTYPE html>
 <html>
   <head>
@@ -20,7 +19,7 @@
       <h4>Сообщите об ошибке либо через тикет систему, либо на форуме</h4>
       <div class="ui divider"></div>
       <h3>Техническая информация:</h3>
-      <h4><i><%= datetime %> <%= req.originalUrl %> <%= havelog %></i></h4>
+      <h4><i id="err-time"></i> <i id="err-url"></i> <i>maybe</i></h4><!--Оно очень хотело убить себя и не отдать 500 ошибку, но Кёрнел так просто не сдаётся.-->
       <div class="ui divider"></div>
       <div class="ui buttons tiny">
         <a href="//greencubes.org" class="ui button">Главный сайт</a>
@@ -29,4 +28,8 @@
       </div>
     </div>
   </body>
+  <script>
+    document.getElementById("err-time").innerHTML=Date();
+    document.getElementById("err-url").innerHTML=window.location.pathname;
+  </script>
 </html>
