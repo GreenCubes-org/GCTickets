@@ -1,16 +1,7 @@
 <div class="ui green inverted gc-header menu">
-  <div class="ui simple dropdown item">
-    <%= type.text %> <i class="icon dropdown"></i>
-    <div class="menu">
-      <a href="/all" class="item<% if (type.url === 'all') { %> active<% } %>"><i class="reorder icon"></i>Все тикеты</a>
-      <a href="/bugreports" class="item<% if (type.url === 'bugreports') { %> active<% } %>"><i class="wrench icon"></i>Баг-репорты</a>
-      <a href="/rempros" class="item<% if (type.url === 'rempros') { %> active<% } %>"><i class="remove icon"></i>Расприват</a>
-      <a href="/bans" class="item<% if (type.url === 'bans') { %> active<% } %>"><i class="ban circle icon"></i>Баны</a>
-      <a href="/unbans" class="item<% if (type.url === 'unbans') { %> active<% } %>"><i class="blank circle icon"></i>Разбаны</a> 
-      <a href="/regens" class="item<% if (type.url === 'regens') { %> active<% } %>"><i class="leaf icon"></i>Регены</a>
-      <a href="/admreq" class="item<% if (type.url === 'admreq') { %> active<% } %>"><i class="briefcase icon"></i>Обращения к администрации</a>
-    </div>
-  </div>
+  <a href="/" class="item">
+      <i class="reply mail icon"></i> На главную
+  </a>
   <div class="right menu">
     <%- partial('userpanel')%>
   </div>

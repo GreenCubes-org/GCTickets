@@ -14,7 +14,7 @@ module.exports = {
     // 'lol plz tp me to spawn(((((('
     title: {
       type: 'string',
-      maxLength: 50
+      maxLength: 120
     },
     // 'imma idiot, plz tp meh to spawn!1!!'
     description: {
@@ -27,8 +27,10 @@ module.exports = {
     owner: 'integer',
     // '1' (id of product)
     product: 'integer',
-    // '1' (hidden from users or not)
-    hidden: 'integer',
+    // '1' (id of visiblity to users)
+    visiblity: 'integer',
+    // '[]' Text comments
+    comments: 'array',
     // '42' (id of upload)
     uploads: 'array'
   }

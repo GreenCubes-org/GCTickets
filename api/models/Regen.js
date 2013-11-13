@@ -25,6 +25,8 @@ module.exports = {
     status: 'integer',
     // '1' (id of owner user)
     owner: 'integer',
+    // '[]' Text comments
+    comments: 'array',
     // '42' (id of upload)
     uploads: 'array'
   }

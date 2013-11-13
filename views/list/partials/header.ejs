@@ -1,27 +1,44 @@
-<%- partial('../../partials/header')%>
-<div class="ui secondary menu">
-  <% if (req.user) { %>
-  <a href="/new" class="active item">
-    <i class="add icon"></i>
-    Создать тикет
-  </a>
-  <a href="/new/bugreport" class="item gc-tiny hidden-xs">
-    Баг-репорт
-  </a>
-  <a href="/new/rempro" class="item gc-tiny hidden-xs">
-    Расприват
-  </a>
-  <a href="/new/unban" class="item gc-tiny hidden-xs">
-    Заявка на разбан
-  </a>
-  <a href="/new/ban" class="item gc-tiny hidden-xs">
-    Заявка на бан
-  </a>
-  <% } else { %>
-  <a href="/new/anon" class="active item">
-    <i class="add icon"></i>
-    Создать анонимный тикет
-  </a>
-  <% } %>
+<div class="ui green inverted gc-header menu">
+	<div class="ui simple dropdown item">
+		 <%= type.text %> <i class="icon dropdown"></i>
+		 <div class="menu">
+			 <a href="/all" class="item<% if (type.url === 'all') { %> active<% } %>"><i class="reorder icon"></i>Все тикеты</a>
+			 <a href="/bugreports" class="item<% if (type.url === 'bugreports') { %> active<% } %>"><i class="bug icon"></i>Баг-репорты</a>
+			 <a href="/rempros" class="item<% if (type.url === 'rempros') { %> active<% } %>"><i class="remove icon"></i>Расприват</a>
+			 <a href="/bans" class="item<% if (type.url === 'bans') { %> active<% } %>"><i class="ban circle icon"></i>Баны</a>
+			 <a href="/unbans" class="item<% if (type.url === 'unbans') { %> active<% } %>"><i class="blank circle icon"></i>Разбаны</a>
+			 <a href="/regens" class="item<% if (type.url === 'regens') { %> active<% } %>"><i class="leaf icon"></i>Регены</a>
+			 <a href="/admreq" class="item<% if (type.url === 'admreq') { %> active<% } %>"><i class="briefcase icon"></i>Обращения к администрации</a>
+		 </div>
+	</div>
+	<div class="right menu">
+		 <%- partial('../../partials/userpanel')%>
+	</div>
 </div>
-<div class="ui divider"></div>
+
+	<div class="ui secondary menu">
+		 <% if (req.user) { %>
+		 <a href="/new" class="active item">
+			 <i class="add icon"></i>
+			 Создать тикет
+		 </a>
+		 <a href="/new/bugreport" class="item gc-tiny hidden-xs">
+			 Баг-репорт
+		 </a>
+		 <a href="/new/rempro" class="item gc-tiny hidden-xs">
+			 Расприват
+		 </a>
+		 <a href="/new/unban" class="item gc-tiny hidden-xs">
+			 Заявка на разбан
+		 </a>
+		 <a href="/new/ban" class="item gc-tiny hidden-xs">
+			 Заявка на бан
+		 </a>
+		 <% } else { %>
+		 <a href="/new/anon" class="active item">
+			 <i class="add icon"></i>
+			 Создать анонимный тикет
+		 </a>
+		 <% } %>
+	</div>
+	<div class="ui divider"></div>

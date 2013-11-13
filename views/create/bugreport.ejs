@@ -3,72 +3,72 @@ scripts.push('wbb.js','create.js','create.bugreport.js');
 styles.push('main.css','wbb.css') %>
 <%- partial('partials/header')%>
 <form id="gc-reportform">
-  <input type="hidden" name="_csrf" value="<%= _csrf %>" />
-  <div class="ui fluid form segment" id="gc-reportformdiv">
-    <h1 class="header">Новый 
-      <div class="ui inline dropdown">
-        <div class="text">Баг-репорт</div>
-        <i class="icon dropdown"></i>
-        <div class="menu">
-          <a class="active item" href="/new/bugreport">Баг-репорт</a>
-          <a class="item" href="/new/rempro">Расприват</a>
-          <a class="item" href="/new/ban">Бан</a>
-          <a class="item" href="/new/unban">Разбан</a> 
-          <a class="item" href="/new/regen">Реген</a> 
-          <a class="item" href="/new/admreq">Обращения к администрации</a>
-        </div>
-      </div>
-    </h1>
-    <div class="ui divider"></div>
-    <div class="two fields">
-      <div class="gc-cr-dropdown field">
-        <label>Местонахождение проблемы</label>
-        <div class="ui selection dropdown">
-          <input name="product" type="hidden">
-          <div class="default text">Выбери сервис из-за которого создаётся баг-репорт</div>
-          <div class="menu">
-            <div class="item" data-value="1">GC.Main Клиент</div>
-            <div class="item" data-value="2">GC.Main Сервер(GreenServer)</div>
-            <div class="item" data-value="2">GreenCubes.org сайт</div>
-            <div class="item" data-value="3">Форум GreenCubes</div>
-            <div class="item" data-value="4">GreenCubes.Wiki</div>
-            <div class="item" data-value="5">Тикет-система GreenCubes</div>
-            <div class="item" data-value="6">GC.RPG Клиент</div>
-            <div class="item" data-value="7">GC.RPG Сервер</div>
-            <div class="item" data-value="8">GC.Apocalyptic Клиент</div>
-            <div class="item" data-value="9">GC.Apocalyptic Сервер</div>
-          </div>
-          <i class="dropdown icon"></i>
-        </div>
-      </div>
-      <div class="field">
-        <label>Поле видимости тикета</label>
-        <div class="ui selection dropdown">
-          <input name="hidden" type="hidden">
-          <div class="default text">Выбери приватность тикета</div>
-          <div class="menu">
-            <div class="item" data-value="1">Виден всем</div>
-            <div class="item" data-value="2">Виден только разработчику</div>
-          </div>
-          <i class="dropdown icon"></i>
-        </div>
-      </div>
-    </div>
-    <div class="field">
-      <label>Краткое описание</label>
-      <input name="title" type="text">
-    </div>
-    <div class="field">
-      <label>Подробное описание</label>
-      <textarea id="description" name="description"></textarea>
-    </div>
-    <div class="inline field"><!-- TODO: Запилить тут нормальную загрузку файлов, да -->
-      <div class="ui labeled basic icon button">
-      <i class="upload icon"></i>
-        Прикрепить изображения
-      </div>
-    </div>
-    <button class="ui blue submit button" type="submit">Отправить тикет</button>
-    <div id="errmessage"></div>
-  </div>
+	<input type="hidden" name="_csrf" value="<%= _csrf %>" />
+	<div class="ui fluid form container" id="gc-reportformdiv">
+		 <h1 class="header">Новый 
+			 <div class="ui inline dropdown">
+					<div class="text">Баг-репорт</div>
+					<i class="icon dropdown"></i>
+					<div class="menu">
+						<a class="active item" href="/new/bugreport">Баг-репорт</a>
+						<a class="item" href="/new/rempro">Расприват</a>
+						<a class="item" href="/new/ban">Бан</a>
+						<a class="item" href="/new/unban">Разбан</a> 
+						<a class="item" href="/new/regen">Реген</a> 
+						<a class="item" href="/new/admreq">Обращения к администрации</a>
+					</div>
+			 </div>
+		 </h1>
+		 <div class="ui divider"></div>
+		 <div class="two fields">
+			 <div class="gc-cr-dropdown field">
+					<label>Местонахождение проблемы</label>
+					<div class="ui selection dropdown">
+						<input name="product" type="hidden">
+						<div class="default text">Выбери сервис из-за которого создаётся баг-репорт</div>
+						<div class="menu">
+							 <div class="item" data-value="1">GC.Main Клиент</div>
+							 <div class="item" data-value="2">GC.Main Сервер(GreenServer)</div>
+							 <div class="item" data-value="3">GreenCubes.org сайт</div>
+							 <div class="item" data-value="4">Форум GreenCubes</div>
+							 <div class="item" data-value="5">GreenCubes.Wiki</div>
+							 <div class="item" data-value="6">Тикет-система GreenCubes</div>
+							 <div class="item" data-value="7">GC.RPG Клиент</div>
+							 <div class="item" data-value="8">GC.RPG Сервер</div>
+							 <div class="item" data-value="9">GC.Apocalyptic Клиент</div>
+							 <div class="item" data-value="10">GC.Apocalyptic Сервер</div>
+						</div>
+						<i class="dropdown icon"></i>
+					</div>
+			 </div>
+			 <div class="field">
+					<label>Поле видимости тикета</label>
+					<div class="ui selection dropdown">
+						<input name="hidden" type="hidden">
+						<div class="default text">Выбери приватность тикета</div>
+						<div class="menu">
+							 <div class="item" data-value="1">Виден всем</div>
+							 <div class="item" data-value="2">Виден только разработчику</div>
+						</div>
+						<i class="dropdown icon"></i>
+					</div>
+			 </div>
+		 </div>
+		 <div class="field">
+			 <label>Краткое описание</label>
+			 <input name="title" type="text">
+		 </div>
+		 <div class="field">
+			 <label>Подробное описание</label>
+			 <textarea id="description" name="description"></textarea>
+		 </div>
+		 <div class="inline field"><!-- TODO: Запилить тут нормальную загрузку файлов, да -->
+			 <div class="ui labeled basic icon button">
+			 <i class="upload icon"></i>
+					Прикрепить изображения
+			 </div>
+		 </div>
+		 <button class="ui blue submit button" type="submit">Отправить тикет</button>
+		 <div id="errmessage"></div>
+	</div>
 </form>

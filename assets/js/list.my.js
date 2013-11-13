@@ -1,11 +1,10 @@
 $(document).ready(function(socket){
   $.ajax({
     type: "GET",
-    url: '/bugreports/read',
+    url: '/my/read',
     async: false,
     data: $(this).serialize(),
     complete: function(data) {
-      console.log(data);
       $('#content').html('<table class="ui basic table">' +
         '<thead>' +
         '<tr>' +
@@ -19,12 +18,13 @@ $(document).ready(function(socket){
         '</tbody>' +
         '</table>');
       $.parseJSON(data.responseJSON).map(function(element) {
+        console.log(element);
         $('#gc-list').append('<tr>' +
-        '  <td class="t-type" title="Баг-репорт"><i class="wrench icon"></i></td>' +
+        '  <td class="t-type"><i class="' + element.type.iconclass + ' icon" title="' + element.type.text + '"></i></td>' +
         '  <td class="t-nick"><a href="/@'+ element.owner +'" class="gc-link">'+ element.owner +'</a></td>' +
         '  <td class="t-decr"><a href="/id/'+ element.id +'" class="gc-link">'+ element.title +'</a></td>' +
-        '  <td class="t-time">Только что</td>' +
-        '  <td class="t-status">'+ element.status +'</td>' +
+        '  <td class="t-time">' + moment(element.createdAt).fromNow() + '</td>' +
+        '  <td class="t-status ' + element.status.class +'">'+ element.status.text +'</td>' +
         '</tr>');
       });
     },
@@ -33,6 +33,3 @@ $(document).ready(function(socket){
     }
   });
 })
-/*
-
-*/

@@ -1,26 +1,14 @@
 /**
-* HomeController
+* UserController
 *
 * @module :: Controller
-* @description :: Главная страница и авторизация.
+* @description :: Пользователи.
 */
 var passport = require('passport');
 
 module.exports = {
 
-  index: function (req,res) {
-    res.redirect('/all')
-  },
-
-  login: function (req,res){
-    if (!req.user) {
-      res.view('home/index')
-    } else {
-      res.redirect('/all')
-    }
-  },
-
-  doLogin: function (req, res) {
+  login: function (req, res) {
     passport.authenticate('local', function (err, user,info) {
         if (!user) {
           if (info.message === 'Missing credentials') info.message = 'Введите логин/пароль';

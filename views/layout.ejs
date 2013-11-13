@@ -1,18 +1,31 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title><%- title %></title>
-    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-    <meta property="og:title" content="<%- title %>" />
-    <meta property="og:type" content="website" />
-    <meta property="og:image" content="/images/logo.png">
-    <%- renderCSSTags(styles) %>
-    <%- renderJSTags(scripts) %>
-  </head>
+	<head>
+		 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		 <title><%- title %></title>
+		 <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+		 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+		 <meta property="og:title" content="<%- title %>" />
+		 <meta property="og:type" content="website" />
+		 <meta property="og:image" content="/images/logo.png">
+		 <%- renderCSSTags(styles) %>
+		 <%- renderJSTags(scripts) %>
+	</head>
 
-  <body>
-  <%- body %>
-  </body>
+	<body>
+	<div class="wrapper">
+	<%- body %>
+	<div class="push"></div>
+	</div>
+	<div class="footer">
+		<ul class="links">
+			<li><a href="//greencubes.org">Главная</a></li>
+			<li>&bull; <a href="//forum.greencubes.org">Форум</a></li>
+		</ul>
+		<ul class="links right">
+			<li><a href="//kern0.ru">Kern0</a></li>
+			<li>&bull; <a href="//greencubes.org">GreenCubes</a> &copy;</li>
+		</ul>
+	</div>
+	</body>
 </html>

@@ -1,10 +1,9 @@
 <% title = "Все тикеты — GC.Тикеты" 
-scripts.push('io.js','sio.js','list.' + type.url + '.js'); 
+scripts.push('mom.js','list.' + type.url + '.js'); 
 styles.push('main.css') %>
 <%- partial('partials/header')%>
 <div class="container" id="content" style="position:relative">
 <div class="ui active inverted dimmer">
-  <div class="ui text loader">Загружается список</div>
+	<div class="ui text loader" style="margin: 15% 0%;">Загружаются тикеты</div>
 </div>
-
 </div>
