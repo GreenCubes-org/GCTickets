@@ -7,115 +7,166 @@ styles.push('main.css') %>
 		<div class="left floated column" style="width: auto; max-width: 20%; padding-right: 0px;">
 			<i class="bug icon" style="font-size: 2em; margin-top: 15px;"></i>
 		</div>
-		<div class="left floated column" style="width: auto; max-width: 75%; padding-left: 0px;">
+		<div class="left floated column" style="width: auto; max-width: 72%; padding-left: 0px; min-width: 60%;">
 			<h2 class="ui header">
 				<span><%= ticket.title %></span>
 				<div class="sub header">
-					<a href="/id/<%= globalid %>">#<%= globalid %></a> &raquo; <a  href="/@<%= ticket.owner %>"><%= ticket.owner %></a> &raquo; <%= moment(ticket.createdAt).format('Do MMM YYYY, h:mm') %>
+<a href="/id/<%= globalid %>/edit"><i class="pencil small icon" id="s-editicon"></i></a>
+&nbsp;<a href="/id/<%= globalid %>/report"><i class="flag small icon" id="s-reporticon"></i></a>
+&raquo;&nbsp;<a href="/id/<%= globalid %>">#<%= globalid %></a> 
+&raquo;&nbsp;<a  href="/@<%= ticket.owner %>"><%= ticket.owner %></a> 
+&raquo;&nbsp;<%= moment(ticket.createdAt).format('Do MMM YYYY, h:mm') %>
+<% if (ticket.product) { %>&raquo;&nbsp;<%= ticket.product %><% } %>
+
 				</div>
 			</h2>
 		</div>
 		<div class="right floated two wide column">
-			<div class="gc-pullright s-status <%= ticket.status.class %>">Новый</div>
-			<div class="gc-pullright s-visiblity"><%= ticket.visiblity %></div>
+			<div class="s-status <%= ticket.status.class %>"><%= ticket.status.text %></div>
+			<div class="s-visiblity"><%= ticket.visiblity %></div>
 		</div>
 	</div>
 	<div class="ui divider"></div>
-	<div class="ui fluid form">
-		<div class="two column">
-			<div class="column">
-				<h3 class="ui header">Описание</h3>
-				<p><%= ticket.description %></p>
-				
-			</div>
-			<div class="column">
-				
-			</div>
-		</div>
-	</div>
-	<div class="ui divider"></div>
-	<div class="ui two column grid">
-		  <div class="column">
-				<h2 class="ui header">Комментарии</h2>
-				<div class="ui comments container">
-				  <div class="comment" id="comment1">
-					 <div class="content">
-						<div class="ui ribbon red label">[GC] <a href="/@Rena4ka">Rena4ka</a></div>
-						<div class="metadata">
-						  <a href="/id/<%= globalid %>#comment1" class="date">2 дня назад</a>
-						  <div class="ui inline top left pointing dropdown" id="commentoptions">
-							 <i class="ellipsis horizontal icon"></i>
-							 <div class="menu">
-								<div class="item">Репорт</div>
-								<div class="item">Удалить</div>
-							 </div>
-						  </div>
-						</div>
-						<div class="text">
-						  Да, это довольно серьёзный баг. Я что нибудь придумаю.
-						  <div class="ui small divider"></div>
-						  Статус изменён на <div class="ui small label accepted">Принято</div>
-						</div>
+	<div class="ui grid">
+		<div class="column" style="width: 56%;">
+			<h2 class="ui header">Описание</h2>
+			<p><%= ticket.description %></p>
+			
+			<h2 class="ui header" style="margin-bottom: 0.3em;">Приклепления</h2>
+				<h3 class="ui header" style="margin-top: 0px;">Изображения</h3>
+				<div class="ui four connected items">
+				  <div class="item">
+					 <div class="image">
+						<img src="http://semantic-ui.com/images/demo/highres4.jpg">
 					 </div>
 				  </div>
-				  <div class="comment" id="comment2">
-					 <div class="content">
-						<div class="ui ribbon label"><a href="/@Nogibator1999">Nogibator1999</a></div>
-						<div class="metadata">
-						  <a href="/id/<%= globalid %>#comment2" class="date">1 день назад</a>
-						  <div class="ui inline top left pointing dropdown" id="commentoptions">
-							 <i class="ellipsis horizontal icon"></i>
-							 <div class="menu">
-								<div class="item">Репорт</div>
-								<div class="item">Удалить</div>
-							 </div>
-						  </div>
-						</div>
-						<div class="text">
-						  Карочи, ну типа котята няняня. А ещё можна паскареи пафыксит?
-						</div>
+				  <div class="item">
+					 <div class="image">
+						<img src="http://semantic-ui.com/images/demo/highres5.jpg">
 					 </div>
 				  </div>
-				  <div class="comment" id="comment3">
-					 <div class="content">
-						<div class="ui ribbon red label">[GC] <a href="/@Kernel">Rena4ka</a></div>
-						<div class="metadata">
-						  <a href="/id/<%= globalid %>#comment3" class="date">2 дня назад</a>
-						  <div class="ui inline top left pointing dropdown" id="commentoptions">
-							 <i class="ellipsis horizontal icon"></i>
-							 <div class="menu">
-								<div class="item">Репорт</div>
-								<div class="item">Удалить</div>
-							 </div>
-						  </div>
-						</div>
-						<div class="text">
-						  Готово. Фикс уже в 1.1 ветке.
-						  <div class="ui small divider"></div>
-						  Статус изменён на <div class="ui small label done">Исправлен</div>
-						</div>
+				  <div class="item">
+					 <div class="image">
+						<img src="http://semantic-ui.com/images/demo/highres3.jpg">
 					 </div>
 				  </div>
-				  <form class="ui reply form">
-					 <div class="field">
-						<textarea></textarea>
+				  <div class="item">
+					 <div class="image">
+						<img src="http://semantic-ui.com/images/demo/highres2.jpg">
 					 </div>
-					 <div class="ui buttons">
-						<div class="ui blue labeled submit icon small top right pointing floating dropdown button" id="commentsubmit">
-								Оставить комментарий со статусом 
-								<span class="text"></span>
-								<i class="icon dropdown"></i>
-								<div class="menu">
-									<div class="item">Скрыт</div>
-									<div class="item">Отменён</div>
-									<div class="item">Принят</div>
-									<div class="item">Будет исправлен</div>
-									<div class="item">Исправлен</div>
-							  </div>
-						</div>
-					 </div>
-				  </form>
+				  </div>
 				</div>
-			 </div>
+				
+				<h3 class="ui header">Логи</h3>
+				<div class="ui fluid accordion" id="singlelogs">
+				  <div class="active title">
+					 <i class="dropdown icon"></i>
+					 Лог клиента
+				  </div>
+				  <div class="content s-logs">
+					<code><pre>
+2013-11-13 03:03:02 [Локальный чат] (1) [MOD] &lt;Kernel> ну, точнее два vds и один физический в двух метрах от меня..
+2013-11-13 03:03:10 [Локальный чат] [GC] &lt;MushroomKiller> Прикольно
+2013-11-13 03:03:19 [Локальный чат] [GC] &lt;MushroomKiller> А у меня
+2013-11-13 03:03:20 [Локальный чат] [GC] &lt;MushroomKiller> А у меня
+2013-11-13 03:03:22 [Локальный чат] [GC] &lt;MushroomKiller> ...
+2013-11-13 03:03:29 [Локальный чат] [GC] &lt;MushroomKiller> Роутер с жестким диском, да
+2013-11-13 03:03:35 [Локальный чат] [GC] &lt;MushroomKiller> :/
+2013-11-13 03:04:09 [Локальный чат] (1) [MOD] &lt;Kernel> Ну, я не пользуюсь сетевыми хранилищами, включая облаков
+2013-11-13 03:04:13 [Локальный чат] (1) [MOD] &lt;Kernel> ибо я не особо куда хожу
+2013-11-13 03:04:19 [Локальный чат] [GC] &lt;MushroomKiller> Так я тоже
+2013-11-13 03:04:26 [Локальный чат] [GC] &lt;MushroomKiller> Я дропбокс для шаринга
+2013-11-13 03:04:35 [Локальный чат] (1) [MOD] &lt;Kernel> Ну, так для кода есть github, а остальное на сайт можно закинуть
+2013-11-13 03:04:38 [Локальный чат] [GC] &lt;MushroomKiller> А хард к роутеру - чтобы сеть домашняя
+2013-11-13 03:05:43 [PvP] [PVP] MushroomKiller открыл для себя гравитацию!
+2013-11-13 03:06:01 [Локальный чат] [GC] &lt;MushroomKiller> Ничего не было
+					</pre></code>
+				  </div>
+				</div>
+		</div>
+		<div class="seven wide column" style="padding-bottom: 10em;">
+			<div class="ui basic fluid top right button">Взять на рассмотрение <i class="screenshot icon"></i></div>
+			
+			<h2 class="ui header">Комментарии</h2>
+			<div class="ui comments container">
+			  <div class="comment" id="comment1">
+				 <div class="content">
+					<div class="ui ribbon red label">[GC] <a href="/user/Rena4ka">Rena4ka</a></div>
+					<div class="metadata">
+					  <a href="/id/<%= globalid %>#comment1" class="date">2 дня назад</a>
+					  <div class="ui inline top left pointing dropdown" id="commentoptions">
+						 <i class="ellipsis horizontal icon"></i>
+						 <div class="menu">
+							<div class="item">Репорт</div>
+							<div class="item">Удалить</div>
+						 </div>
+					  </div>
+					</div>
+					<div class="text">
+					  Да, это довольно серьёзный баг. Я что нибудь придумаю.
+					  <div class="ui small divider"></div>
+					  Статус изменён на <div class="ui small label accepted">Принято</div>
+					</div>
+				 </div>
+			  </div>
+			  <div class="comment" id="comment2">
+				 <div class="content">
+					<div class="ui ribbon label"><a href="/user/Nogibator1999">Nogibator1999</a></div>
+					<div class="metadata">
+					  <a href="/id/<%= globalid %>#comment2" class="date">1 день назад</a>
+					  <div class="ui inline top left pointing dropdown" id="commentoptions">
+						 <i class="ellipsis horizontal icon"></i>
+						 <div class="menu">
+							<div class="item">Репорт</div>
+							<div class="item">Удалить</div>
+						 </div>
+					  </div>
+					</div>
+					<div class="text">
+					  Карочи, ну типа котята няняня. А ещё можна паскареи пафыксит?
+					</div>
+				 </div>
+			  </div>
+			  <div class="comment" id="comment3">
+				 <div class="content">
+					<div class="ui ribbon red label">[GC] <a href="/user/Rena4ka">Rena4ka</a></div>
+					<div class="metadata">
+					  <a href="/id/<%= globalid %>#comment3" class="date">2 дня назад</a>
+					  <div class="ui inline top left pointing dropdown" id="commentoptions">
+						 <i class="ellipsis horizontal icon"></i>
+						 <div class="menu">
+							<div class="item">Репорт</div>
+							<div class="item">Удалить</div>
+						 </div>
+					  </div>
+					</div>
+					<div class="text">
+					  Готово. Фикс уже в 1.1 ветке.
+					  <div class="ui small divider"></div>
+					  Статус изменён на <div class="ui small label done">Исправлен</div>
+					</div>
+				 </div>
+			  </div>
+			  
+			  <form class="ui reply form">
+				 <div class="field">
+					<textarea></textarea>
+				 </div>
+				 <div class="ui two fluid buttons">
+					<div class="ui teal submit button" style="width: 90%;" type="submit" id="commentsubmit">Комментировать</div>
+					<div class="ui teal icon top right pointing floating dropdown button" style="width: 10%;" type="text" id="commentstatus">
+							<i class="icon dropdown"></i>
+							<div class="menu">
+								<div class="item">Скрыт</div>
+								<div class="item">Отменён</div>
+								<div class="item">Принят</div>
+								<div class="item">Будет исправлен</div>
+								<div class="item">Исправлен</div>
+						  </div>
+					</div>
+				 </div>
+			  </form>
+			</div>
+		 </div>
 		</div>
 </div>

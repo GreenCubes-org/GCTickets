@@ -6,7 +6,7 @@ $(document).ready(function(){
 					data: $('form#gc-reportform').serialize(),
 					success: function(data) {
 						if (data.id) {
-							 window.location = '/id' + data.id;
+							 window.location = '/id/' + data.id;
 						} else if (data.err) {
 							console.log(data.err)
 							 $('#gc-reportformdiv').addClass('error');

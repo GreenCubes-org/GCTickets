@@ -1,6 +1,6 @@
 <div class="ui green inverted gc-header menu">
 	<div class="ui simple dropdown item">
-		 <%= type.text %> <i class="icon dropdown"></i>
+		 <i class="<%= type.iconclass %> icon"></i> <%= type.text %> <i class="icon dropdown"></i>
 		 <div class="menu">
 			 <a href="/all" class="item<% if (type.url === 'all') { %> active<% } %>"><i class="reorder icon"></i>Все тикеты</a>
 			 <a href="/bugreports" class="item<% if (type.url === 'bugreports') { %> active<% } %>"><i class="bug icon"></i>Баг-репорты</a>
@@ -35,9 +35,9 @@
 			 Заявка на бан
 		 </a>
 		 <% } else { %>
-		 <a href="/new/anon" class="active item">
+		 <a href="/new/" class="active item">
 			 <i class="add icon"></i>
-			 Создать анонимный тикет
+			 Создать тикет
 		 </a>
 		 <% } %>
 	</div>

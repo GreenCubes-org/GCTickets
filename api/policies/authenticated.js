@@ -8,6 +8,6 @@ module.exports = function (req, res, ok) {
 		return ok();
 	}
 	else {
-		return res.view('home/index',{message: 'Пожалуйста, войдите в систему'});
+		return res.status(403).view('403');
 	}
 };

@@ -11,12 +11,16 @@
 module.exports.routes = {
 
 		// Главная
-		'/': 'view.listAll',
+		'/': 'view.listAllTpl',
 
 
-		// Временные адреса для вывода тикета/страницы пользователя
-		'/id/:id': 'view.routeSingles',//if err res.send('thing not exist')
-		'/@:user': 'dev.hideFeature',
+		// Вывод и действия с тикетом
+		'/id/:id': 'view.routeSingles',
+			'/id/:id/edit': 'dev.hideFeature',
+			'/id/:id/report': 'dev.hideFeature',
+
+		// Действия с пользователем
+		'/user/:user': 'dev.hideFeature',
 
 
 		// Вход в аккаунт и выход из него
@@ -33,43 +37,52 @@ module.exports.routes = {
 
 		// Работа с тикетами
 		// Мои тикеты
-		'/my': 'view.listMy',
+		'/my': 'view.listMyTpl',
+		'/my/read': 'view.postListNewestMy',
+		'/my/read/:page': 'view.postList20My',
 
 		// Новый тикет без типа
 		'/new': 'create.main',
 
 		// Все тикеты
-		'/all': 'view.listAll',
-			 'get /all/read': 'dev.hideFeature',//'list.all.last',
+		'/all': 'view.listAllTpl',
+		'/all/read': 'view.postListNewestAll',
+		'/all/read/:page': 'view.postList20All',
 
 		// Багрепорты
-		'/bugreports': 'view.listBugreport',
-			 'get /bugreports/read': 'view.postListBugreport',//'list.bytype.last',
-			 'get /new/bugreport': 'create.bugreport',
-			 'post /new/bugreport': 'create.bugreportCreate',
-		
+		'/bugreports': 'view.listBugreportTpl',
+		'/bugreports/read': 'view.postListNewestBugreport',
+		'/bugreports/read/:page': 'view.postList20Bugreport',
+		'/new/bugreport': 'create.bugreport',
+		'post /new/bugreport': 'create.bugreportCreate',
+
 		// Расприваты
-		'/rempros': 'view.listRempro',
-			 'get /rempro/read': 'dev.hideFeature',
-			 '/new/rempro': 'create.rempro',
+		'/rempros': 'view.listRemproTpl',
+		'/rempros/read': 'dev.hideFeature',
+		'/rempros/read/:page': 'dev.hideFeature',
+		'/new/rempro': 'create.rempro',
 
 		// Баны
-		'/bans': 'view.listBan',
-			 'get /ban/read': 'dev.hideFeature',
-			 '/new/ban': 'create.ban',
+		'/bans': 'view.listBanTpl',
+		'/bans/read': 'dev.hideFeature',
+		'/bans/read/:page': 'dev.hideFeature',
+		'/new/ban': 'create.ban',
 
 		// Разбаны
-		'/unbans': 'view.listUnban',
-			 'get /unban/read': 'dev.hideFeature',
-			 '/new/unban': 'create.unban', 
+		'/unbans': 'view.listUnbanTpl',
+		'/unbans/read': 'dev.hideFeature',
+		'/unbans/read/:page': 'dev.hideFeature',
+		'/new/unban': 'create.unban', 
 
 		// Регены
-		'/regen': 'view.listRegen',
-			 'get /regen/read': 'dev.hideFeature',//'list.bytype.last'
-			 '/new/regen': 'create.regen',
+		'/regens': 'view.listRegenTpl',
+		'/regens/read': 'dev.hideFeature',
+		'/regens/read/:page': 'dev.hideFeature',
+		'/new/regen': 'create.regen',
 
 		// Обращения к администрации
-		'/admreq': 'view.listAdmreq',
-			 'get /admreq/read': 'dev.hideFeature',//'list.bytype.last'
-			 '/new/admreq': 'create.admreq'
+		'/admreq': 'view.listAdmreqTpl',
+		'/admreq/read': 'dev.hideFeature',
+		'/admreq/read/:page': 'dev.hideFeature',
+		'/new/admreq': 'create.admreq'
 };

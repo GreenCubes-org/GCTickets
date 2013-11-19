@@ -70,93 +70,244 @@ module.exports = {
 			})
 	},
 
-	listAll: function(req, res) {
-	 textd = 'Все тикеты';
+	listAllTpl: function(req, res) {
+	 text = 'Все тикеты';
 	 res.view('list/list', {
-		 type: {
+		type: {
 			url:'all',
-			text: textd
-		 }
+			text: text,
+			iconclass: 'reorder'
+		}
 	 })
 	},
-
-	listMy: function(req, res) {
-	 text = 'Ваши тикеты';
-	 res.view('list/list', {
-		 type: {
-			url:'my',
-			text: text
-		 }
-	 })
+	
+	postListNewestAll: function(req, res) {
+		Ticket.find()
+			.sort('id DESC')
+			.limit(20)
+			.done(function(err, tickets) {
+				if (err) new Error(err);
+				gct.all.serializeList(tickets, function(err, result) {
+					res.json(JSON.stringify(result));
+				});
+			 });
+	},
+	
+	postList20All: function(req, res) {
+		async.waterfall([
+			function getNumOfIDs(callback) {
+				Ticket.find()
+					.sort('id DESC')
+					.limit(1)
+					.done(function (err, latestElement) { 
+						if (err) return callback(err);
+						console.log(latestElement);
+						callback(null, latestElement[0].id)
+					})
+			},
+			function findBugreports(tableSize, callback) {
+				skipRows = (req.param('page') - 1 ) * 20;
+				if (tableSize <= skipRows) {
+					return res.json({
+						err: 'no more tickets'
+					});
+				}
+				
+				Ticket.find()
+					.sort('id ASC')
+					.skip(skipRows)
+					.sort('id DESC')
+					.done(function(err, tickets) {
+						if (err) new Error(err);
+						gct.all.serializeList(tickets, function(err, result) {
+							console.log(result);
+							res.json(JSON.stringify(result));
+						});
+					 });
+			}
+		], 
+		function (err) {
+			new Error(err);
+		})
 	},
 
-	listBugreport: function listBugreport(req, res) {
-	 text = 'Багрепорты';
-	 res.view('list/list', {
-		 type: {
-			url:'bugreports',
-			text: text
-		 }
-	 })
-	},
-
-	postListBugreport: function(req, res) {
-	 Bugreport.find({id: {'<': 420000}})
-		.sort('createdAt').limit(20).done(function(err, bugreports) {
-			if (err) new Error(err);
-			bugreports.reverse();
-			gct.bugreport.serializeList(bugreports, function(err, result) {
-				 res.json(JSON.stringify(result));
-			});
-		 });
-	},
-
-	listRempro: function(req, res) {
-	 text = 'Расприваты';
-	 res.view('list/list', {
-		 type: {
-			url:'rempros',
-			text: text
-		 }
-	 })
-	},
-
-	listBan: function(req, res) {
-		text = 'Баны';
+	listMyTpl: function(req, res) {
+		text = 'Ваши тикеты';
 		res.view('list/list', {
 			type: {
-				url:'bans',
-				text: text
-			}
+				url:'my',
+				text: text,
+				iconclass: 'user'
+			 }
 		 })
 	},
+	
+	postListNewestMy: function(req, res) {
+		Ticket.find({
+			owner: req.user.id
+			})
+			.sort('id DESC')
+			.limit(20)
+			.done(function(err, tickets) {
+				if (err) new Error(err);
+				gct.all.serializeList(tickets, function(err, result) {
+					res.json(JSON.stringify(result));
+				});
+			 });
+	},
+	
+	postList20My: function(req, res) {
+		async.waterfall([
+			function getNumOfIDs(callback) {
+				Ticket.find({
+					owner: req.user.id
+					})
+					.sort('id DESC')
+					.limit(1)
+					.done(function (err, latestElement) { 
+						if (err) return callback(err);
+						callback(null, latestElement[0].id)
+					})
+			},
+			function findBugreports(tableSize, callback) {
+				skipRows = (req.param('page') - 1 ) * 20;
+				if (tableSize <= skipRows) {
+					return res.json({
+						err: 'no more tickets'
+					});
+				}
+				
+				Ticket.find()
+					.sort('id ASC')
+					.skip(skipRows)
+					.sort('id DESC')
+					.done(function(err, tickets) {
+						if (err) new Error(err);
+						gct.all.serializeList(tickets, function(err, result) {
+							console.log(result);
+							res.json(JSON.stringify(result));
+						});
+					 });
+			}
+		], 
+		function (err) {
+			new Error(err);
+		})
+	},
 
-	listUnban: function(req, res) {
-	text = 'Разбаны';
+	listBugreportTpl: function listBugreport(req, res) {
+		text = 'Багрепорты';
 		res.view('list/list', {
 			type: {
-				url:'unbans',
-				text: text
+				url:'bugreports',
+				text: text,
+				iconclass: 'bug'
+			 }
+	 })
+	},
+
+	postListNewestBugreport: function(req, res) {
+		Bugreport.find()
+			.sort('id DESC')
+			.limit(20)
+			.done(function(err, bugreports) {
+				if (err) new Error(err);
+				gct.bugreport.serializeList(bugreports, function(err, result) {
+					res.json(JSON.stringify(result));
+				});
+			 });
+	},
+	
+	postList20Bugreport: function(req, res) {
+		async.waterfall([
+			function getNumOfIDs(callback) {
+				Bugreport.find()
+					.sort('id DESC')
+					.limit(1)
+					.done(function (err, latestElement) { 
+						if (err) return callback(err);
+						
+						callback(null, latestElement[0].id)
+					})
+			},
+			function findBugreports(tableSize, callback) {
+				skipRows = (req.param('page') - 1 ) * 20;
+				if (tableSize <= skipRows) {
+					return res.json({
+						err: 'no more tickets'
+					});
+				}
+				
+				Bugreport.find()
+					.sort('id ASC')
+					.skip(skipRows)
+					.sort('id DESC')
+					.limit(20)
+					.done(function(err, bugreports) {
+						if (err) return callback(err);
+						gct.bugreport.serializeList(bugreports, function(err, result) {
+							if (err) return callback(err);
+							res.json(JSON.stringify(result));
+						});
+					 })
+			}
+		], 
+		function (err) {
+			new Error(err);
+		})
+	},
+
+	listRemproTpl: function(req, res) {
+		text = 'Расприваты';
+		res.view('list/list', {
+			type: {
+				url:'rempros',
+				text: text,
+				iconclass: 'remove'
 			}
 		})
 	},
 
-	listRegen: function(req, res) {
-	text = 'Регены';
-	res.view('list/list', {
-		type: {
-			url:'regens',
-			text: text
-		}
-	})
+	listBanTpl: function(req, res) {
+			text = 'Баны';
+			res.view('list/list', {
+				type: {
+					url:'bans',
+					text: text,
+					iconclass: 'ban circle'
+				}
+			})
 	},
 
-	listAdmreq: function(req, res) {
+	listUnbanTpl: function(req, res) {
+		text = 'Разбаны';
+		res.view('list/list', {
+			type: {
+				url:'unbans',
+				text: text,
+				iconclass: 'circle blank'
+			}
+		})
+	},
+
+	listRegenTpl: function(req, res) {
+		text = 'Регены';
+		res.view('list/list', {
+			type: {
+				url:'regens',
+				text: text,
+				iconclass: 'leaf'
+			}
+		})
+	},
+
+	listAdmreqTpl: function(req, res) {
 		text = 'Обращения к администрации';
 		res.view('list/list', {
 			type: {
 				url:'admreq',
-				text: text
+				text: text,
+				iconclass: 'briefcase'
 			}
 		})
 	}

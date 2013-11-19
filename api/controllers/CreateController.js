@@ -20,6 +20,7 @@ module.exports = {
 	bugreport: function(req,res) {
 		res.view('create/bugreport');
 	},
+	
 	bugreportCreate: function(req,res) {
 		async.waterfall([
 			function setData(callback) {
@@ -28,48 +29,60 @@ module.exports = {
 					description: req.param('description'),
 					status: 1,
 					owner: req.user.id,
-					product: parseInt(req.param('product'),10),
-					hidden: parseInt(req.param('hidden'),10),
+					product: parseInt(req.param('product')),
+					visiblity: parseInt(req.param('visiblity')),
 					uploads: [],
 					comments: []
 				})
 			},
-			function checkData(bugreport, callback) {
-				var errcode;
+			function checkData(obj, callback) {
+				var isErr = false;
 				req.onValidationError(function (msg) {
-					errcode = 1;
-					callback({ show: true, msg: msg });
+					isErr = true;
+					callback({ show: true, msg: msg }, obj);
 				});
 				req.check('title','Краткое описание должно содержать не менее %1 и не более %2 символов').len(6,64);
-				if (!errcode) callback(null, bugreport);
+				if (!isErr) callback(null, obj);
 			},
-			function sanitizeData(bugreport, callback) {
-				bugreport.description = req.sanitize(bugreport.description).entityEncode();
-				callback(null, bugreport);
+			function sanitizeData(obj, callback) {
+				obj.description = req.sanitize('description').entityEncode();
+				callback(null, obj);
 			},
-			function createBugreport(bugreport, callback) {
-				Bugreport.create(bugreport).done(function(err, bugreport) {
-					callback(err, bugreport)
+			function createBugreport(obj, callback) {
+				Bugreport.create({
+					title: obj.title,
+					description: obj.description,
+					status: obj.status,
+					owner: obj.owner,
+					product: obj.product,
+					uploads: obj.uploads,
+					comments: obj.comments
+				}).done(function(err) {
+					callback(err, obj)
 				});
 			},
-			function registerTicket(bugreport, callback) {
+			function registerTicket(obj, callback) {
 				Ticket.create({
-					tid: bugreport.id,
-					type: 1
+					tid: obj.id,
+					type: 1,
+					visiblity: obj.visiblity,
+					owner: obj.owner
 				}).done(function (err, ticket) { 
 						callback(err, ticket)
 					});
 			},
-			function cacheToRedis(err, ticket, callback) {
+			function cacheToRedis(ticket, callback) {
 				redis.set('ticket:' + ticket.id, ticket.type + ':' + ticket.tid);
-				callback(err, ticket);
+				callback(null, ticket);
 			}
 		 ],
 		 function (err, ticket) {
+			if (err) {
 				if (!err.show) {
 					res.json({
 						 err: 'Внезапная ошибка! Пожалуйста, сообщите о ней разработчику.'
 					});
+					console.log(err, ticket);
 					return new Error(err);
 				} else {
 					res.json({
@@ -77,12 +90,12 @@ module.exports = {
 					});
 					return;
 				}
-
+			} else {
 				res.json({
 					id: ticket.id
 				});
-				req.flash('info', 'Тикет успешно создан!');
-			});
+			}
+		});
 	},
 	
 	rempro: function(req,res) {

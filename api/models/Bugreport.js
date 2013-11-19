@@ -17,18 +17,13 @@ module.exports = {
       maxLength: 120
     },
     // 'imma idiot, plz tp meh to spawn!1!!'
-    description: {
-      type: 'string',
-      minLength: 10
-    },
+    description: 'string',
     // '1' (id of status)
     status: 'integer',
     // '1' (id of owner user)
     owner: 'integer',
     // '1' (id of product)
     product: 'integer',
-    // '1' (id of visiblity to users)
-    visiblity: 'integer',
     // '[]' Text comments
     comments: 'array',
     // '42' (id of upload)

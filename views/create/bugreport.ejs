@@ -1,7 +1,7 @@
 <% title = "Создать багрепорт — GC.Тикеты";
 scripts.push('wbb.js','create.js','create.bugreport.js');
 styles.push('main.css','wbb.css') %>
-<%- partial('partials/header')%>
+<%- partial('../partials/header')%>
 <form id="gc-reportform">
 	<input type="hidden" name="_csrf" value="<%= _csrf %>" />
 	<div class="ui fluid form container" id="gc-reportformdiv">

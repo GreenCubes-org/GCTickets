@@ -13,5 +13,11 @@
 
 
 module.exports.policies = {
-  '*': true
+  '*': true,
+  
+  CreateController: {
+		'*': ['authenticated','notBanned'],
+		'anon': ['isAnon']
+	}
+	
 };

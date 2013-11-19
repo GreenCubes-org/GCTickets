@@ -16,30 +16,43 @@ module.exports.getStatusByID = getStatusByID = function(id) {
 	switch (id) {
 		 case 1:
 			 return { text: 'Новый', class: 'new' };
+			 
 		 case 2:
 			 return { text: 'Отменён', class: 'rejected' };
+			 
 		 case 3:
 			 return { text: 'Требует уточнения', class: 'specify' };
+			 
 		 case 4:
 			 return { text: 'Отклонён', class: 'declined' };
+			 
 		 case 5:
 			 return { text: 'Скрыт', class: 'black' };
+			 
 		 case 6:
 			 return { text: 'Удалён', class: 'black' };
+			 
 		 case 7:
 			 return { text: 'Исправлен', class: 'helpfixed' };
+			 
 		 case 8:
 			 return { text: 'На рассмотрении', class: 'inreview' };
+			 
 		 case 9:
 			 return { text: 'Отложен', class: 'delayed' };
+			 
 		 case 10:
 			 return { text: 'Выполнен', class: 'done' };
+			 
 		 case 11:
 			 return { text: 'Принят', class: 'accepted' };
+			 
 		 case 12:
 			 return { text: 'Будет исправлен', class: 'befixed' };
+			 
 		 case 13:
 			 return { text: 'Исправлен', class: 'done' };
+			 
 		 default:
 			 return;
 	}
@@ -49,26 +62,36 @@ module.exports.getProductByID = getProductByID = function(id) {
 	switch (id) {
 		 case 1:
 			 return 'GC.Main Клиент';
+			 
 		 case 2:
-			 return 'GC.Main Сервер(GreenServer)';
+			 return 'GC.Main Сервер (GreenServer)';
+			 
 		 case 3:
 			 return 'GreenCubes.org сайт';
+			 
 		 case 4:
 			 return 'Форум GreenCubes';
+			 
 		 case 5:
 			 return 'GreenCubes.Wiki';
+			 
 		 case 6:
 			 return 'GreenCubes.Ticket';
+			 
 		 case 7:
 			 return 'GC.RPG Клиент';
+			 
 		 case 8:
 			 return 'GC.RPG Сервер';
+			 
 		 case 9:
 			 return 'GC.Apocalyptic Клиент';
+			 
 		 case 10:
 			 return 'GC.Apocalyptic Сервер';
+			 
 		 default:
-			 return;
+			 return 'Не указано';
 	}
 };
 
@@ -76,13 +99,83 @@ module.exports.getVisiblityByID = getVisiblityByID = function (id) {
 	switch (id) {
 		case 1: 
 			return 'Публичный';
+			
 		case 2:
-			return 'Виден только администраторам'
+			return 'Виден только администраторам';
+			
 		default:
 			return;
 	}
 };
 
+/*
+
+ */
+module.exports.all = all = {
+	serializeList: function(array, cb) {
+		async.map(array, function(obj, callback) {
+			switch (obj.type) {
+				case 1:
+					async.waterfall([
+						function getBugreport(callback) {
+							Bugreport.find({
+								id: obj.tid
+							}).done(function (err, result) {
+								callback(err, result);
+							});
+						},
+						function serialize(result, callback) {
+							bugreport.serializeSingle(result[0], function(err, ticket) {
+								callback(null, {
+									id: ticket.id,
+									title: ticket.title,
+									status: ticket.status,
+									owner: ticket.owner,
+									createdAt: ticket.createdAt,
+									type: {
+										descr: 'Баг-репорт',
+										iconclass: 'bug'
+									}
+								})
+							}) 
+						}
+					],
+					function (err, bugreport) {
+						if (err) return new Error(err);
+						
+						callback(null, bugreport);
+					});
+					return;
+					
+				case 2:
+					return//rempro.serializeSingle
+					
+				case 3:
+					return//ban.serializeSingle
+					
+				case 4:
+					return//unban.serializeSingle
+					
+				case 5:
+					return//regen.serializeSingle
+					
+				case 6:
+					return//admreq.serializeSingle
+					
+				case 7:
+					return//entrouble.serializeSingle
+					
+				default:
+					return;
+			}
+		}, function (err, array) {
+			if (err) return new Error(err);
+			
+			cb(null, array);
+		});
+	}
+	
+};
 module.exports.bugreport = bugreport = {
 	serializeList: function(array, cb) {
 		 async.waterfall([
@@ -120,20 +213,28 @@ module.exports.bugreport = bugreport = {
 										redis.set('ticket:' + '1:' + obj.id, ticket[0].id);
 										
 										callback(null, {
-											 id: ticket[0].id,
-											 title: obj.title,
-											 status: obj.status,
-											 owner: obj.owner,
-											 createdAt: obj.createdAt
+											id: ticket[0].id,
+											title: obj.title,
+											status: obj.status,
+											owner: obj.owner,
+											createdAt: obj.createdAt,
+											type: {
+												descr: 'Баг-репорт',
+												iconclass: 'bug'
+											}
 										})
 									})
 								 } else {
 									callback(null, {
-											 id: reply,
-											 title: obj.title,
-											 status: obj.status,
-											 owner: obj.owner,
-											 createdAt: obj.createdAt
+											id: reply,
+											title: obj.title,
+											status: obj.status,
+											owner: obj.owner,
+											createdAt: obj.createdAt,
+											type: {
+												descr: 'Баг-репорт',
+												iconclass: 'bug'
+											}
 										})
 									} 
 							 })
@@ -154,7 +255,7 @@ module.exports.bugreport = bugreport = {
 
 	serializeSingle: function(obj, cb) {
 		 async.waterfall([
-			 function getUserByID(callback) {
+			function getUserByID(callback) {
 					gcdb.user.getByID(obj.owner, function(err, result) {
 						if (err) return callback(err);
 						
@@ -164,7 +265,7 @@ module.exports.bugreport = bugreport = {
 							 description: obj.description,
 							 status: getStatusByID(obj.status),
 							 owner: result,
-							 product: obj.product,
+							 product: getProductByID(obj.product),
 							 comments: obj.comments,
 							 visiblity: getVisiblityByID(obj.visiblity),
 							 createdAt: obj.createdAt
@@ -198,7 +299,7 @@ module.exports.bugreport = bugreport = {
 								 visiblity: obj.visiblity,
 								 createdAt: obj.createdAt,
 								 type: {
-									text: 'Баг-репорт',
+									descr: 'Баг-репорт',
 									iconclass: 'bug'
 								 }
 							 })
@@ -215,7 +316,7 @@ module.exports.bugreport = bugreport = {
 								 visiblity: obj.visiblity,
 								 createdAt: obj.createdAt,
 								 type: {
-									text: 'Баг-репорт',
+									descr: 'Баг-репорт',
 									iconclass: 'bug'
 								 }
 							 })

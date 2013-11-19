@@ -7,11 +7,16 @@ body {
 
 html, body {
 	height: 100%;
+	min-width: 900px;
 }
 
 a {
-	color: rgb(85, 85, 85);
+	color: #555555;
 	text-decoration: none;
+}
+
+a:hover {
+	color: #9a9a9a;
 }
 
 label {
@@ -25,26 +30,38 @@ label {
 }
 
 .push {
-	padding-top: 10em;
+	padding-top: 8em;
 }
+
 .push, .footer {
 	height: 60px;
 }
 
 .footer {
 	line-height: 1.5;
-	border-top: 1px solid rgba(0, 0, 0, 0.1);
 	font-size: 14px;
+	background-color: #559a8b;
+	font-weight: bold;
+	color: #ffffff;
+}
+
+.footer .link {
+	color: #ffffff;
+}
+
+.footer .link:active, .footer .link:hover {
+	color: #e6e6e6;
 }
 
 .ui.grid {
 	margin: 0px;
 }
+
 .links {
 	padding: 0em 0em 0em 1em;
 	float: left;
 	list-style: none outside none;
-	margin: 15px 15px 0px 0px;
+	margin: 18px 15px 0px 0px;
 }
 
 .links.right {
@@ -81,7 +98,7 @@ label {
 	min-height: 18px;
 	margin: 1em 0px 0px 0px;
 	height: auto;
-	background-color: rgb(241, 215, 215);
+	background-color: #f1d7d7;
 	color: rgb(169, 82, 82);
 	padding: 0.8em 0.6em;
 	line-height: 1.33;
@@ -145,7 +162,7 @@ label {
 }
 
 .ui.inverted.green.menu {
-	background-color: rgb(85, 154, 139) !important;
+	background-color: #559a8b !important;
 	border-radius: 0px;
 }
 
@@ -222,13 +239,13 @@ label {
 	vertical-align: middle;
 	background-color: #E8E8E8;
 	border-color: #E8E8E8;
-	color: rgb(85, 85, 85);
+	color: ##555555;
 	text-transform: uppercase;
 	font-weight: 700;
 	font-size: 1.3rem;
 	line-height: 1.33;
 	margin: 0px;
-	padding: 4px 5px;
+	padding: 4px 2px;
 	border-radius: .325em;
 	-webkit-box-sizing: border-box;
 	-moz-box-sizing: border-box;
@@ -282,8 +299,27 @@ label {
 	background-color: rgb(216,255,216);
 }
 
+.s-logs {
+	font-size: 10px;
+	overflow: auto;
+	overflow-x: auto;
 }
-/* Ticket table classes */
+
+#s-editicon {
+	margin: 0px 0.25em 0.25em 0px !important;
+	padding-left: 2px;
+}
+
+#s-reporticon {
+	margin: 0px 0.25em 0.25em 0px !important;
+	padding-left: 0px;
+}
+
+.s-specinfo {
+	display: inline-block;
+}
+
+/* Ticket list classes */
 .t-type {
 	width: 3%;
 }
@@ -307,14 +343,21 @@ label {
 	font-weight: bold;
 }
 
+#t-givemorebtn {
+	position: absolute;
+	right: 6em;
+	left: 6em;
+	bottom: -4em;
+}
+
 .t-status.new {
 	background-color: rgb(231,238,250);
 	box-shadow: 2px 0px 0px rgb(60, 120, 216) inset;
 }
 
 .t-status.rejected {
-	background-color: rgb(166, 77, 121);
-	box-shadow: 2px 0px 0px rgb(219,177,198) inset;
+	background-color: rgb(219,177,198);
+	box-shadow: 2px 0px 0px rgb(166, 77, 121) inset;
 }
 
 .t-status.specify {
