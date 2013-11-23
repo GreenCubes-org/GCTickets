@@ -24,8 +24,6 @@ module.exports = {
     owner: 'integer',
     // '1' (id of product)
     product: 'integer',
-    // '[]' Text comments
-    comments: 'array',
     // '42' (id of upload)
     uploads: 'array'
   }

@@ -2,73 +2,13 @@
 * ListController
 *
 * @module :: Controller
-* @description :: Вывод тикетов.
+* @description :: Вывод списков тикетов.
 */
-// all bugreport rempro ban unban regen admreq anon
 
 //FIXME: Поменять на глобальную переменную
 var gct = require('../../utils/gct');
 
-var moment = require('moment');
-moment.lang('ru');
-
-function singleBugreport(req, res, ticket) {
-	Bugreport.findOne(ticket.tid).done(function (err, bugreport) {
-	 if (err) return new Error(err);
-	 gct.bugreport.serializeSingle(bugreport, function(err, result) {
-		 res.view('view/bugreport', {
-			moment: moment,
-			ticket: result,
-			globalid: ticket.id
-		 })
-	 })
-	})
-}
-
-function singleRempro(req, res, ticket) {
-	
-}
-
-function singleBan(req, res, ticket) {
-	
-}
-
-function singleUnban(req, res, ticket) {
-	
-}
-
-function singleRegen(req, res, ticket) {
-	
-}
-
-function singleAdmreq(req, res, ticket) {
-	
-}
-
 module.exports = {
-
-	routeSingles: function(req, res) {
-	 Ticket.findOne(req.param('id')).done(function (err, result) {
-			if (err) return new Error(err);
-
-			switch (result.type) {
-				 case 1:
-					return singleBugreport(req, res, result);
-				 case 2:
-					return singleRempro(req, res, result);
-				 case 3:
-					return singleBan(req, res, result);
-				 case 4:
-					return singleUnban(req, res, result);
-				 case 5:
-					return singleRegen(req, res, result);
-				 case 6:
-					return singleAdmreq(req, res, result);
-				 default:
-					return res.status(404).view('404', {layout: false});
-			}
-			})
-	},
 
 	listAllTpl: function(req, res) {
 	 text = 'Все тикеты';
@@ -81,19 +21,20 @@ module.exports = {
 	 })
 	},
 	
-	postListNewestAll: function(req, res) {
+	listNewestAll: function(req, res) {
 		Ticket.find()
 			.sort('id DESC')
 			.limit(20)
 			.done(function(err, tickets) {
-				if (err) new Error(err);
+				if (err) throw err;
+
 				gct.all.serializeList(tickets, function(err, result) {
 					res.json(JSON.stringify(result));
 				});
 			 });
 	},
 	
-	postList20All: function(req, res) {
+	list20All: function(req, res) {
 		async.waterfall([
 			function getNumOfIDs(callback) {
 				Ticket.find()
@@ -101,7 +42,6 @@ module.exports = {
 					.limit(1)
 					.done(function (err, latestElement) { 
 						if (err) return callback(err);
-						console.log(latestElement);
 						callback(null, latestElement[0].id)
 					})
 			},
@@ -118,16 +58,15 @@ module.exports = {
 					.skip(skipRows)
 					.sort('id DESC')
 					.done(function(err, tickets) {
-						if (err) new Error(err);
+						if (err) throw err;
 						gct.all.serializeList(tickets, function(err, result) {
-							console.log(result);
 							res.json(JSON.stringify(result));
 						});
 					 });
 			}
 		], 
 		function (err) {
-			new Error(err);
+			throw err;
 		})
 	},
 
@@ -142,21 +81,21 @@ module.exports = {
 		 })
 	},
 	
-	postListNewestMy: function(req, res) {
+	listNewestMy: function(req, res) {
 		Ticket.find({
 			owner: req.user.id
 			})
 			.sort('id DESC')
 			.limit(20)
 			.done(function(err, tickets) {
-				if (err) new Error(err);
+				if (err) throw err;
 				gct.all.serializeList(tickets, function(err, result) {
 					res.json(JSON.stringify(result));
 				});
 			 });
 	},
 	
-	postList20My: function(req, res) {
+	list20My: function(req, res) {
 		async.waterfall([
 			function getNumOfIDs(callback) {
 				Ticket.find({
@@ -169,7 +108,7 @@ module.exports = {
 						callback(null, latestElement[0].id)
 					})
 			},
-			function findBugreports(tableSize, callback) {
+			function findTickets(tableSize, callback) {
 				skipRows = (req.param('page') - 1 ) * 20;
 				if (tableSize <= skipRows) {
 					return res.json({
@@ -182,16 +121,15 @@ module.exports = {
 					.skip(skipRows)
 					.sort('id DESC')
 					.done(function(err, tickets) {
-						if (err) new Error(err);
+						if (err) throw err;
 						gct.all.serializeList(tickets, function(err, result) {
-							console.log(result);
 							res.json(JSON.stringify(result));
 						});
 					 });
 			}
 		], 
 		function (err) {
-			new Error(err);
+			throw err;
 		})
 	},
 
@@ -206,19 +144,19 @@ module.exports = {
 	 })
 	},
 
-	postListNewestBugreport: function(req, res) {
+	listNewestBugreport: function(req, res) {
 		Bugreport.find()
 			.sort('id DESC')
 			.limit(20)
 			.done(function(err, bugreports) {
-				if (err) new Error(err);
+				if (err) throw err;
 				gct.bugreport.serializeList(bugreports, function(err, result) {
 					res.json(JSON.stringify(result));
 				});
 			 });
 	},
 	
-	postList20Bugreport: function(req, res) {
+	list20Bugreport: function(req, res) {
 		async.waterfall([
 			function getNumOfIDs(callback) {
 				Bugreport.find()
@@ -253,7 +191,7 @@ module.exports = {
 			}
 		], 
 		function (err) {
-			new Error(err);
+			throw err;
 		})
 	},
 

@@ -7,6 +7,7 @@
 // all bugreport rempro ban unban regen admreq anon
 //FIXME: Поменять на глобальную переменную
 var redis = require('../../utils/redis');
+var gcdb = require('../../utils/gcdb')
 
 module.exports = {
 	main: function(req,res) {
@@ -82,8 +83,8 @@ module.exports = {
 					res.json({
 						 err: 'Внезапная ошибка! Пожалуйста, сообщите о ней разработчику.'
 					});
-					console.log(err, ticket);
-					return new Error(err);
+					
+					throw err;
 				} else {
 					res.json({
 						err: err.msg
@@ -98,27 +99,77 @@ module.exports = {
 		});
 	},
 	
+	bugreportComment: function(req,res) {
+		async.waterfall([
+			function checkOldComments(callback) {
+				Ticket.findOne(req.param('id')).done(function (err, bugreport) {
+					if (err) return callback(err);
+
+					if (bugreport.comments.length > 0) {
+						callback(null, bugreport.comments.length + 1);
+					} else {
+						callback(null, 1); // set comment id to 1 because there is no other comments
+					}
+				})
+			},
+			function setData(commentId, callback) {
+				callback(null, {
+					id: commentId,
+					owner: req.user.id,
+					message: req.sanitize('message').entityEncode(),
+					createdAt: Date()
+				})
+			},
+			function createComment(newComment, callback) {
+				Ticket.findOne(req.param('id')).done(function (err, ticket) {
+						if (err) return callback(err);
+						
+						
+						ticket.comments[newComment.id - 1] = newComment;
+						ticket.save(function(err) {
+							if (err) return callback(err);
+							
+							callback(null, newComment);
+						});
+				})
+			},
+			function serialize(newComment, callback) {
+				gcdb.user.getByID(newComment.owner, function(err, login) {
+					if (err) return callback(err);
+					
+					newComment.owner = login;
+					newComment.code = 'OK';
+					callback(null, newComment);
+				})
+			}
+		],
+		function (err, comment) {
+			if (err) throw err;
+			res.json(comment);
+		});
+	},
+	
 	rempro: function(req,res) {
-		 res.view('create/rempro');
+		res.view('create/rempro');
 	},
 
 	ban: function(req,res) {
-		 res.view('create/ban');
+		res.view('create/ban');
 	},
 
 	unban: function(req,res) {
-		 res.view('create/unban');
+		res.view('create/unban');
 	},
 
 	regen: function(req,res) {
-		 res.view('create/regen');
+		res.view('create/regen');
 	},
 
 	admreq: function(req,res) {
-		 res.view('create/admreq');
+		res.view('create/admreq');
 	},
 
 	anon: function(req,res) {
-		 res.view('create/anon');
+		res.view('create/anon');
 	}
 };

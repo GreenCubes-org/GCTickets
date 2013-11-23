@@ -39,7 +39,7 @@ module.exports[500] = function serverErrorOccurred(errors, req, res, expressErro
 
   // If the user-agent wants a JSON response, send json
   if (req.wantsJSON) {
-    return res.json(result, result.status);
+    return res.json(500, {error: 500});
   }
 
   // In production, don't display any identifying information about the error(s)

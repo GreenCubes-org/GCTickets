@@ -1,38 +1,111 @@
+@import url(http://fonts.googleapis.com/css?family=PT+Serif:400,700&subset=latin,cyrillic);
+
 body {
-  font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
-  color: rgb(255, 255, 255);
-  background-color: rgb(85,154,139);
-  height: 100%;
-  margin: 0;
-  padding: 0;
+	font-family: "PT sans","Helvetica Neue",sans-serif;
+	color: #ffffff;
+	background-color: rgb(85,154,139);
+	margin: 0px;
+}
+
+html, body {
+	height: 100%;
+	min-width: 900px;
+}
+
+a {
+	color: #555555;
+	text-decoration: none;
+}
+
+a:hover {
+	color: #9a9a9a;
+}
+
+.wrapper {
+	min-height: 100%;
+	height: auto !important;
+	margin: 0px auto -61px;
+}
+
+.push {
+   padding-top: 0em !important;
+}
+
+.push, .footer {
+	height: 60px;
+}
+
+.footer {
+	line-height: 1.5;
+	font-size: 14px;
+	background-color: #559a8b;
+	font-weight: bold;
+	color: #ffffff;
+}
+
+.footer .link {
+	color: #ffffff;
+}
+
+.footer .link:active, .footer .link:hover {
+	color: #e6e6e6;
+}
+
+.ui.grid {
+	margin: 0px;
+}
+
+.links {
+	padding: 0em 0em 0em 1em;
+	float: left;
+	list-style: none outside none;
+	margin: 18px 15px 0px 0px;
+}
+
+.links.right {
+	float: right;
+}
+
+.footer li {
+	display: inline-block;
 }
 
 .gc-logo {
-  width: 80px;
-  font-size: 0.9rem;
-  padding-top: 5%;
+	width: 80px;
+	font-size: 0.9rem;
+	padding-top: 5%;
 }
 
 #loginerr {
-  padding-top: 1rem;
-  margin-right: 30% !important;
-  margin-left: 30% !important;
+	padding-top: 1rem;
+	margin-right: 30% !important;
+	margin-left: 30% !important;
 }
 
 .gc-content {
-  min-height: 100%;
-  height: auto !important;
-  height: 100%;
-  margin: 0 0 -30px 0; /* отрицательный нижний отступ на высоту футера */
-  padding: 0;
+	min-height: 100%;
+	height: auto !important;
+	height: 100%;
+	margin: 0 0 -30px 0; /* отрицательный нижний отступ на высоту футера */
+	padding: 0;
 }
 
 .gc-center {
-  margin: 0 auto;
-  text-align: center;
-  display: block !important;
+	margin: 0px auto;
+	text-align: center;
+	display: block !important;
 }
 
 .ui.form textarea, .ui.form select, .ui.form input[type="text"], .ui.form input[type="password"] {
-  border: 0px solid rgba(0, 0, 0, 0.15);
+	border: 0px solid rgba(0, 0, 0, 0.15);
+}
+.ui.form textarea:focus, .ui.form select:focus, .ui.form input[type="text"]:focus, .ui.form input[type="password"]:focus {
+	border-radius: 0.3125em !important;
+}
+
+input::-webkit-input-placeholder {
+	color: rgba(25,25,25);
+}
+input:-moz-placeholder {
+	color: rgba(25,25,25);
 }

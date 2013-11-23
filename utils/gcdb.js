@@ -37,26 +37,26 @@ module.exports.user = {
 		 
 		 function altCb() { 
 			 async.waterfall([
-					function isConnect(callback) {
+					function getFromMySQL(callback) {
 						if (!mysql) return cb('You\'re not connected to GC MySQL DB');
 
 						mysql.query('SELECT login FROM users WHERE id = ?',
-											 [id], function (err, result) {
-												 if (err) return callback(err);
-
-												 callback(null, result)
-												 });
+							[id], function (err, result) {
+								if (err) return callback(err);
+								
+								if (result) {
+									callback(null, result[0].login);
+								} else {
+									cb('Can\'t search login with this id');
+								}
+							})
 					},
-					function getFromMySQL(result, callback) {
-						if (result) {
-							 callback(null, result[0].id);
-						} else {
-							 cb('Can\'t search login with this id');
-						}
-					},
-					function setIdToRedis(result, callback) {
-						redis.set('user.login:'+ id, result);
-						callback(null, result);
+					function setIdToRedis(login, callback) {
+						redis.set('user.login:'+ id, login, function(err) {
+							if (err) return callback(err);
+							
+							callback(null, login);
+						});
 					}
 			 ],
 			 function (err, result) {
@@ -93,45 +93,13 @@ module.exports.user = {
 						});
 					}, 
 					function setIdToRedis(result) {
-						redis.set('user.id:'+ id, result);
-						cb(null, result);
+						redis.set('user.id:'+ id, result, function(err) {
+							if (err) return callback(err);
+							
+							callback(null, result);
+						});
 					}
 			 ])
 		 }
-	},/*,
-
-	getGroup: function(id) {
-		 if (!connect) return new Error('You\'re not connected to GCDB!');
-
-		 var groupID;
-		 connect.query('SELECT group FROM users WHERE id = ?',
-								 [id], function(err, result, fields) {
-			 if (err) return new Error(err);
-			 
-			 if (result) {
-					groupID = result[0].group;
-			 } else {
-					return null;
-			 }
-		 });
-		 switch (groupID) {
-			 case 1:
-					return 'administrator';
-					break;
-			 case 2:
-					return 'user';
-					break;
-			 case 3:
-					return 'moderator';
-			 case 4:
-					return 'drbadnick';
-			 case 5:
-					return 'xitaly';
-			 case 6:
-					return 'mushrooms';
-			 default:
-					return null;
-		 }
-	}*/
-	
+	}
 };

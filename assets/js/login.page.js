@@ -8,7 +8,6 @@ $(function() {
         if (!data.error) {
           window.location = '/';
         } else {
-          console.log(data);
           $('#loginerr').html('<div class="ui error message gc-loginerr"><div class="header">' + data.error.message + '</div></div>');
         }
       },

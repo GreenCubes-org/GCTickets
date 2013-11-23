@@ -1,0 +1,75 @@
+<% title = 'GreenCubes Тикеты';
+scripts.push('login.page.js');
+styles.push('preview.css') %>
+<%- partial('partials/header')%>
+<div class="main section">
+	<div class="ui grid">
+		<div class="left floated column page" style="width: auto; max-width: 72%; padding-left: 0px; min-width: 60%;">
+			<div class="main header">
+				<img class="ui image gc-logo" src="/images/logo-inverted.png">
+				<h1>Тикет-система GreenCubes</h1>
+			</div>
+		</div>
+		<div class="right floated two wide column loginform" style="">
+			<form id="loginform">
+			  <div class="ui form" style="display: inline-block !important">
+				 <div class="field">
+					<div class="ui left labeled icon input">
+					  <input placeholder="Имя пользователя" type="text" name="username">
+					  <i class="user icon"></i>
+					</div>
+				 </div>
+				 <div class="field">
+					<div class="ui left labeled icon input">
+					  <input placeholder="Пароль" type="password" name="password">
+					  <i class="lock icon"></i>
+					</div>
+				 </div>
+				 <button type="submit" class="ui blue submit button gc-center">Войти</button>
+			  </div>
+			</form>
+		</div>
+	</div>
+</div>
+<div class="faq section">
+	<div class="page">
+		<div class="faq header">
+			<h1>Где я?</h1>
+			<h3>Вы находитесь в тикет-системе GreenCubes &mdash; место где решаются все проблемы.</h3>
+		</div>
+	</div>
+</div>
+<div class="faq section">
+	<div class="page">
+		<div class="header">
+			<h1>Для чего эта тикет-система?</h1>
+			<h3>Наш проект увеличивается в размерах, следовательно, количество игроков с всевозможными просьбами тоже увеличивается.</h3>
+			<h3>Вследствие этого, было решено разработвать тикет-систему которая упростит работу персонала GreenCubes: хелперов, модераторов и администраторов.</h3>
+		</div>
+	</div>
+</div>
+<div class="faq section" style="height: 600px !important;">
+	<div class="page">
+		<div class="header">
+			<h1>А какие типы тикетов существуют?</h1>
+			<h3>На данный момент существует целых 7 типов:
+			<ol>
+				<li>Баг-репорт &mdash; это тикеты которые оповещают разработчика о наличии проблем в определённом продукте.<br>
+				<small>Примеры: GreenServer, Клиент RPG сервера, Главный сайт</small>.</li>
+				
+				<li>Заявка на расприват &mdash; тикеты которые приходят на замену некоторых функций хелперов. Здесь вы можете оставить заявку на расприват по правилам. Всё точно также как и в заявках к хелперам.</li>
+				
+				<li>Заявка на бан &mdash; замена раздела на форуме </li>
+				
+				<li>Заявка на разбан &mdash;</li>
+				
+				<li>Заявка на реген &mdash;</li>
+				
+				<li>Обращение к администрации &mdash;</li>
+				
+				<li>Проблемы в регистрации/входе в систему &mdash;</li>
+			</ol>
+			</h3>
+		</div>
+	</div>
+</div>

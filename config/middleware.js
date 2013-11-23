@@ -25,12 +25,12 @@ passport.deserializeUser(function(id, done) {
 		 if (err){
 			 done(err);
 		 } else {
-			 var user = {
+			var user = {
 						id : id,
 						username : result[0].login,
 						password : result[0].password
 						};
-			 done(err, user);
+			done(err, user);
 		 }
 	});
 });
@@ -95,11 +95,11 @@ module.exports = {
 			 
 			 app.locals({
 					version: require('../package.json').version,
-					scripts: ['jquery.js','sem.js'],
+					scripts: ['jquery.js','sem.js','uscore.js'],
 					renderJSTags: function (all) {
 						if (all !== undefined) {
 							 return all.map(function(scripts) {
-								 app.locals.scripts = ['jquery.js','sem.js'];
+								 app.locals.scripts = ['jquery.js','sem.js','uscore.js'];
 								 return '<script src="/js/' + scripts + '" type="text/javascript"></script>';
 							 }).join('\n ');
 						}

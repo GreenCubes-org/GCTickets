@@ -1,6 +1,6 @@
 $(document).ready(function(socket){
 try {
-	var currentUrl = window.location.pathname 
+	var currentUrl = window.location.pathname;
 	$.ajax({
 		type: "GET",
 		url: currentUrl + '/read',
@@ -34,9 +34,6 @@ try {
 			} else {
 				$('#content').append('<div id="t-givemorebtn"><button class="ui basic small icon labeled right fluid button" id="givememore">Загрузить ещё</button></div>');
 			}
-		},
-		error: function(err) {
-			$('.container').html('<div class="ui error message"><div class="header">Внезапная ошибка! Пожалуйста, сообщите о ней разработчику.</div></div>');
 		}
 	});
 	
@@ -72,9 +69,6 @@ try {
 				'	<td class="t-status ' + res.status.class +'">'+ res.status.text +'</td>' +
 				'</tr>');
 			});
-		 },
-		 error: function(err) {
-			$('#t-givemorebtn').html('<div class="ui error message" style="margin-top: 2em;"><div class="header">Внезапная ошибка! Пожалуйста, сообщите о ней разработчику.</div></div>');
 		 }
 		});
 		return false;

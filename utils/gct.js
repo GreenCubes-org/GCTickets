@@ -8,10 +8,6 @@
 var redis = require('./redis');
 var gcdb = require('./gcdb');
 
-module.exports = function (){
-	return '42';
-};
-
 module.exports.getStatusByID = getStatusByID = function(id) {
 	switch (id) {
 		 case 1:
@@ -95,7 +91,7 @@ module.exports.getProductByID = getProductByID = function(id) {
 	}
 };
 
-module.exports.getVisiblityByID = getVisiblityByID = function (id) {
+module.exports.getVisiblityByID = getVisiblityByID = function(id) {
 	switch (id) {
 		case 1: 
 			return 'Публичный';
@@ -108,9 +104,24 @@ module.exports.getVisiblityByID = getVisiblityByID = function (id) {
 	}
 };
 
-/*
+module.exports.serializeComments = serializeComments = function(comments, cb) {
+	if (comments === null) return cb(null, null);
 
- */
+	async.map(comments, function(comment, callback) {
+		gcdb.user.getByID(comment.owner, function(err, login) {
+			if (err) return callback(err);
+			
+			comment.owner = login;
+			callback(null, comment);
+		})
+	},
+	function (err, result) {
+		if (err) return cb(err);
+		
+		cb(null, result);
+	})
+};
+
 module.exports.all = all = {
 	serializeList: function(array, cb) {
 		async.map(array, function(obj, callback) {
@@ -141,7 +152,7 @@ module.exports.all = all = {
 						}
 					],
 					function (err, bugreport) {
-						if (err) return new Error(err);
+						if (err) throw err;
 						
 						callback(null, bugreport);
 					});
@@ -169,7 +180,7 @@ module.exports.all = all = {
 					return;
 			}
 		}, function (err, array) {
-			if (err) return new Error(err);
+			if (err) throw err;
 			
 			cb(null, array);
 		});
@@ -201,7 +212,7 @@ module.exports.bugreport = bugreport = {
 							 if (err) return callback(err);
 							 
 							 redis.get('ticket:' + '1:' + obj.id, function(err, reply) {
-								 if (err) callback(err);
+								 if (err) return callback(err);
 								 
 								 if (!reply) {
 									Ticket.find({
@@ -210,27 +221,37 @@ module.exports.bugreport = bugreport = {
 									}).done(function(err, ticket) {
 										if (err) return callback(err);
 										
-										redis.set('ticket:' + '1:' + obj.id, ticket[0].id);
-										
-										callback(null, {
+										cache = JSON.stringify({
 											id: ticket[0].id,
-											title: obj.title,
-											status: obj.status,
-											owner: obj.owner,
-											createdAt: obj.createdAt,
-											type: {
-												descr: 'Баг-репорт',
-												iconclass: 'bug'
-											}
+											tid: ticket[0].tid,
+											type: ticket[0].type, 
+											visiblity: ticket[0].visiblity
+										});
+																				
+										redis.set('ticket:' + '1:' + obj.id, cache, function(err) {
+											callback(null, {
+												id: ticket[0].id,
+												title: obj.title,
+												status: obj.status,
+												owner: obj.owner,
+												createdAt: obj.createdAt,
+												visiblity: getVisiblityByID(obj.visiblity),
+												type: {
+													descr: 'Баг-репорт',
+													iconclass: 'bug'
+												}
+											})
 										})
 									})
 								 } else {
+									ticket = JSON.parse(reply);
 									callback(null, {
-											id: reply,
+											id: ticket.id,
 											title: obj.title,
 											status: obj.status,
 											owner: obj.owner,
 											createdAt: obj.createdAt,
+											visiblity: getVisiblityByID(obj.visiblity),
 											type: {
 												descr: 'Баг-репорт',
 												iconclass: 'bug'
@@ -242,13 +263,13 @@ module.exports.bugreport = bugreport = {
 						
 					}, 
 					function (err, result) {
-						if (err) callback(err);
+						if (err) return callback(err);
 						
 						callback(null, result);
 					})
 			 }
 		 ], function(err, result) {
-					if (err) cb(err);
+					if (err) return cb(err);
 					cb(null, result);
 			 })
 	},
@@ -256,71 +277,81 @@ module.exports.bugreport = bugreport = {
 	serializeSingle: function(obj, cb) {
 		 async.waterfall([
 			function getUserByID(callback) {
-					gcdb.user.getByID(obj.owner, function(err, result) {
-						if (err) return callback(err);
-						
-						callback(null, {
-							 id: obj.id,
-							 title: obj.title,
-							 description: obj.description,
-							 status: getStatusByID(obj.status),
-							 owner: result,
-							 product: getProductByID(obj.product),
-							 comments: obj.comments,
-							 visiblity: getVisiblityByID(obj.visiblity),
-							 createdAt: obj.createdAt
-						})
+				gcdb.user.getByID(obj.owner, function(err, result) {
+					if (err) return callback(err);
+					
+					callback(null, {
+						 id: obj.id,
+						 title: obj.title,
+						 description: obj.description,
+						 status: getStatusByID(obj.status),
+						 owner: result,
+						 product: getProductByID(obj.product),
+						 visiblity: null,
+						 createdAt: obj.createdAt
 					})
+				})
 			 }
 		 ],
 		 function (err, obj) {
-			 if (err) return callback(err);
+			 if (err) return cb(err);
 			 
 			 redis.get('ticket:' + '1:' + obj.id, function(err, reply) {
-					if (err) callback(err);
+					if (err) return callback(err);
 					
 					if (!reply) {
 						Ticket.find({
 							 tid: obj.id,
 							 type: 1
 						}).done(function(err, ticket) {
-							 if (err) return callback(err);
+							if (err) return callback(err);
 							 
-							 redis.set('ticket:' + '1:' + obj.id, ticket[0].id);
+							cache = JSON.stringify({
+								id: ticket[0].id,
+								tid: ticket[0].tid,
+								type: ticket[0].type, 
+								visiblity: ticket[0].visiblity
+							});
 							 
-							 cb(null, {
-								 id: ticket[0].id,
-								 title: obj.title,
-								 description: obj.description,
-								 status: obj.status,
-								 owner: obj.owner,
-								 product: obj.product,
-								 comments: obj.comments,
-								 visiblity: obj.visiblity,
-								 createdAt: obj.createdAt,
-								 type: {
-									descr: 'Баг-репорт',
-									iconclass: 'bug'
-								 }
-							 })
+							redis.set('ticket:' + '1:' + obj.id, cache, function(err) {
+								if (err) return cb(err);
+									if (err) return cb(err);
+									
+									cb(null, {
+										id: ticket[0].id,
+										title: obj.title,
+										description: obj.description,
+										status: obj.status,
+										owner: obj.owner,
+										product: obj.product,
+										visiblity: getVisiblityByID(ticket.visiblity),
+										createdAt: obj.createdAt,
+										type: {
+											descr: 'Баг-репорт',
+											iconclass: 'bug'
+										}
+									})
+							})
 						})
 					} else {
+						ticket = JSON.parse(reply);
+						if (err) return cb(err);
+						
 						cb(null, {
-								 id: reply,
+								 id: ticket.id,
 								 title: obj.title,
 								 description: obj.description,
 								 status: obj.status,
 								 owner: obj.owner,
 								 product: obj.product,
-								 comments: obj.comments,
-								 visiblity: obj.visiblity,
+								 visiblity: getVisiblityByID(ticket.visiblity),
 								 createdAt: obj.createdAt,
 								 type: {
 									descr: 'Баг-репорт',
 									iconclass: 'bug'
 								 }
 							 })
-						} 
+					}
 			 })
 		 })
 	}

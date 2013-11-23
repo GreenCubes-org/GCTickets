@@ -16,7 +16,9 @@ module.exports = {
    // '1' (id of visiblity to users)
    visiblity: 'integer',
 	// '1' (id of owner user)
-   owner: 'integer'
+   owner: 'integer',
+   //'[]' (array of objects(JSON))
+   comments: 'array'
   }
 
 };

@@ -15,6 +15,12 @@
 module.exports.policies = {
   '*': true,
   
+  UserController: {
+	'*': ['authenticated','notBanned'],
+	'loginTpl': 'notAuthenticated',
+	'login': 'notAuthenticated'
+  },
+  
   CreateController: {
 		'*': ['authenticated','notBanned'],
 		'anon': ['isAnon']

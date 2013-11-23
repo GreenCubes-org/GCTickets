@@ -1,4 +1,5 @@
-@import url(http://fonts.googleapis.com/css?family=PT+Sans:700,400&subset=latin,cyrillic);
+@import url(http://fonts.googleapis.com/css?family=PT+Serif:400,700&subset=latin,cyrillic);
+
 body {
 	font-family: "PT sans","Helvetica Neue",sans-serif;
 	color: rgb(85, 85, 85);
@@ -109,7 +110,7 @@ label {
 }
 
 .gc-center {
-	margin: 0 auto;
+	margin: 0px auto;
 	text-align: center;
 	display: block !important;
 }
@@ -127,27 +128,6 @@ label {
 	font-size: 0.75rem !important;
 }
 
-.ui.table tr.gc-accepted td, .ui.table td.gc-accepted {
-	background-color: rgb(191,221,180) !important;
-	color: rgb(11,93,0) !important;
-	box-shadow: 2px 0px 0px rgb(17, 144, 0) inset;
-}
-
-.ui.table tr.gc-accepted:hover td, .ui.table td.gc-accepted:hover {
-	background-color: rgb(179,215,167) !important;
-	color: rgb(15,124,0) !important;
-}
-
-.ui.table tr.gc-rejected td, .ui.table td.gc-rejected {
-	background-color: rgb(219,177,198) !important;
-	color: rgb(166, 77, 121) !important;
-	box-shadow: 2px 0px 0px rgb(166, 77, 121) inset;
-}
-
-.ui.table tr.gc-rejected:hover td, .ui.table td.gc-rejected:hover {
-	background-color: rgb(211,160,185) !important;
-	color: rgb(131,61,96) !important;
-}
 .dropdown.icon {
 	margin: 0px 0.0em 0px 0.0em !important;
 }
@@ -182,6 +162,7 @@ label {
 .ui.label {
 	font-weight: bold;
 }
+
 /* Comments changes */
 .ui.divider.small {
 	margin: 0.5rem 0rem !important;
@@ -200,9 +181,14 @@ label {
 }
 
 .ui.comments .comment .text {
+	font-size: 15px !important;
+	line-height: 20px;
+	font-style: normal;
+	font-weight: normal;
 	margin-top: 0.8em;
 }
-.comment {
+
+div.comment {
 	background-color: #FFF;
 	-webkit-box-shadow: 0 0 0 1px rgba(0,0,0,.1);
 	box-shadow: 0 0 0 1px rgba(0,0,0,.1);
@@ -260,7 +246,7 @@ label {
 }
 
 .s-status.rejected, .ui.label.rejected {
-	background-color: rgb(166, 77, 121);
+	background-color: rgb(219,177,198);
 }
 
 .s-status.specify, .ui.label.specify {
@@ -315,17 +301,38 @@ label {
 	padding-left: 0px;
 }
 
+.s-description {
+	font-size: 1.1rem;
+	word-spacing: -0.1rem;
+}
+
 .s-specinfo {
 	display: inline-block;
 }
 
+.s-nocomments {
+	text-align: center;
+	padding: 3em 0em;
+	color: rgb(154, 154, 154);
+}
+
+.s-nocommentsicon {
+	margin: 0px 0px 20px !important;
+	padding: 0px !important;
+}
+
+.s-commentsrefresh {
+	padding: 10px 0px;
+	opacity: 0.3;
+}
+
 /* Ticket list classes */
 .t-type {
-	width: 3%;
+	width: 4%;
 }
 
 .t-nick {
-	width: 10%;
+	width: 12%;
 }
 
 .t-descr {

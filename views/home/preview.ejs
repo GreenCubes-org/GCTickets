@@ -1,0 +1,94 @@
+<% title = 'GreenCubes Тикеты';
+scripts.push('login.page.js');
+styles.push('preview.css') %>
+<%- partial('partials/header')%>
+<div class="first section">
+	<div class="ui grid">
+		<div class="left floated column page" style="width: auto; max-width: 72%; padding-left: 0px; min-width: 60%;margin-top: 40px;">
+			<div class="main header">
+				<img class="ui image gc-logo" src="/images/logo-inverted.png">
+				<h1>Тикет-система GreenCubes</h1>
+			</div>
+		</div>
+		<div class="right floated two wide column loginform" style="">
+			<form id="loginform">
+			  <div class="ui form" style="display: inline-block !important">
+				 <div class="field">
+					<div class="ui left labeled icon input">
+					  <input placeholder="Имя пользователя" type="text" name="username">
+					  <i class="user icon"></i>
+					</div>
+				 </div>
+				 <div class="field">
+					<div class="ui left labeled icon input">
+					  <input placeholder="Пароль" type="password" name="password">
+					  <i class="lock icon"></i>
+					</div>
+				 </div>
+				 <button type="submit" class="ui blue submit button gc-center">Войти</button>
+			  </div>
+			</form>
+		</div>
+	</div>
+</div>
+<div class="second section">
+	<div class="page">
+		<div class="header">
+			<h1>Для чего эта тикет-система?</h1>
+			<h3>Наш проект увеличивается в размерах, следовательно, количество игроков со всевозможными просьбами тоже увеличивается.</h3>
+			<h3>Вследствие этого, было решено разработвать тикет-систему которая упростит работу персонала GreenCubes: хелперов, модераторов и администраторов.</h3>
+		</div>
+	</div>
+</div>
+<div class="third section">
+	<div class="page">
+		<div class="faq header">
+			<h1>И как с ней работать?</h1>
+			<h3>Работа с тикет-системой чаще всего сводится к нескольким этапам:</h3>
+			<ol>
+				<li>бла-бла, слева ещё иконка которая чотко отображает суть.</li>
+				<li>ещё одно бла-бла, я вообще не уверен что это можно оставить.</li>
+			</ol>
+		</div>
+	</div>
+</div>
+<div class="fourth section">
+	<div class="page">
+		<div class="header">
+			<h1>А какие типы тикетов существуют?</h1>
+			<h3>На данный момент существует целых семь типов:</h3>
+			<ul>
+				<li>
+					<h2>Баг-репорты</h2>
+					<p>Тикеты в которых можно оповестить разработчика о наличии проблем в его продукте.<br>
+					<small>Под продуктом понимается: GreenServer, Клиент RPG сервера, Тикет-система и т.д.</small></p>
+				</li>
+				
+				<li>
+					<h2>Заявка на расприват</h2> 
+					<p>Тикеты которые пришли на замену некоторых функций хелперов. Здесь вы можете оставить заявку на расприват по правилам. Всё точно также как и в заявках к хелперам.</p>
+				</li>
+				
+				<li>
+					<h2>Заявки на бан и Заявки на разбан</h2>
+					<p>Эти два типа приходит на замену одноимённых разделов на форуме. Замена старых и добрых разделов на форуме на отдельный раздел в тикет-системе призвано упростить обработку заявок.</p>
+				</li>
+				
+				<li>
+					<h2>Заявка на реген</h2>
+					<p></p>
+				</li>
+				
+				<li>
+					<h2>Обращение к администрации</h2>
+					<p></p>
+				</li>
+				
+				<li>
+					<h2>Проблемы в регистрации/входе в систему</h2>
+					<p></p>
+				</li>
+			</ul>
+		</div>
+	</div>
+</div>
