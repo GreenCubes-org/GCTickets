@@ -10,19 +10,19 @@ var redis = require('../../utils/redis');
 var gcdb = require('../../utils/gcdb')
 
 module.exports = {
-	main: function(req,res) {
+	mainTpl: function(req,res) {
 		res.view('create/main');
 	},
 
-	all: function(req,res) {
+	allTpl: function(req,res) {
 		res.view('create/all');
 	},
 
-	bugreport: function(req,res) {
+	bugreportTpl: function(req,res) {
 		res.view('create/bugreport');
 	},
 	
-	bugreportCreate: function(req,res) {
+	bugreport: function(req,res) {
 		async.waterfall([
 			function setData(callback) {
 				callback(null,{
@@ -149,27 +149,24 @@ module.exports = {
 		});
 	},
 	
-	rempro: function(req,res) {
+	remproTpl: function(req,res) {
 		res.view('create/rempro');
 	},
 
-	ban: function(req,res) {
+	banTpl: function(req,res) {
 		res.view('create/ban');
 	},
 
-	unban: function(req,res) {
+	unbanTpl: function(req,res) {
 		res.view('create/unban');
 	},
 
-	regen: function(req,res) {
+	regenTpl: function(req,res) {
 		res.view('create/regen');
 	},
 
-	admreq: function(req,res) {
+	admreqTpl: function(req,res) {
 		res.view('create/admreq');
-	},
-
-	anon: function(req,res) {
-		res.view('create/anon');
 	}
+	
 };

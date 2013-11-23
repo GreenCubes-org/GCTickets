@@ -46,7 +46,7 @@ module.exports.routes = {
 		'/my/read/:page': 'list.list20My',
 
 		// Новый тикет без типа
-		'/new': 'create.main',
+		'/new': 'create.mainTpl',
 
 		// Все тикеты
 		'/all': 'list.listAllTpl',
@@ -57,36 +57,36 @@ module.exports.routes = {
 		'/bugreports': 'list.listBugreportTpl',
 		'/bugreports/read': 'list.listNewestBugreport',
 		'/bugreports/read/:page': 'list.list20Bugreport',
-		'/new/bugreport': 'create.bugreport',
-		'post /new/bugreport': 'create.bugreportCreate',
+		'get /new/bugreport': 'create.bugreportTpl',
+		'post /new/bugreport': 'create.bugreport',
 
 		// Расприваты
 		'/rempros': 'list.listRemproTpl',
 		'/rempros/read': 'dev.hideFeature',
 		'/rempros/read/:page': 'dev.hideFeature',
-		'/new/rempro': 'create.rempro',
+		'get /new/rempro': 'create.remproTpl',
 
 		// Баны
 		'/bans': 'list.listBanTpl',
 		'/bans/read': 'dev.hideFeature',
 		'/bans/read/:page': 'dev.hideFeature',
-		'/new/ban': 'create.ban',
+		'get /new/ban': 'create.banTpl',
 
 		// Разбаны
 		'/unbans': 'list.listUnbanTpl',
 		'/unbans/read': 'dev.hideFeature',
 		'/unbans/read/:page': 'dev.hideFeature',
-		'/new/unban': 'create.unban', 
+		'get /new/unban': 'create.unbanTpl', 
 
 		// Регены
 		'/regens': 'list.listRegenTpl',
 		'/regens/read': 'dev.hideFeature',
 		'/regens/read/:page': 'dev.hideFeature',
-		'/new/regen': 'create.regen',
+		'get /new/regen': 'create.regenTpl',
 
 		// Обращения к администрации
 		'/admreq': 'list.listAdmreqTpl',
 		'/admreq/read': 'dev.hideFeature',
 		'/admreq/read/:page': 'dev.hideFeature',
-		'/new/admreq': 'create.admreq'
+		'get /new/admreq': 'create.admreqTpl'
 };
