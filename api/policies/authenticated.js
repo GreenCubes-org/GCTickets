@@ -8,6 +8,10 @@ module.exports = function (req, res, ok) {
 		return ok();
 	}
 	else {
-		return res.status(403).view('403');
+		if (req.wantsJSON) {
+			res.json(403, {error: 403});
+		} else {
+			res.redirect('/');
+		}
 	}
 };
