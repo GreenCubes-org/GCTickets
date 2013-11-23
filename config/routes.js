@@ -13,6 +13,8 @@ module.exports.routes = {
 		// Главная
 		'/': 'home.route',
 
+		// "Проблемы с входом"
+		'/loginproblems': 'dev.hideFeature',
 
 		// Вывод и действия с тикетом
 		'/id/:id': 'single.routeSingles',
