@@ -23,7 +23,7 @@ module.exports.policies = {
   
   CreateController: {
 		'*': ['authenticated','notBanned'],
-		'anon': ['isAnon']
+		'mainTpl': true
 	}
 	
 };
