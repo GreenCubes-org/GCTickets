@@ -16,10 +16,11 @@
 		 "mysql": "2.0.0-alpha9",
 		 "redis": "0.9.*",
 		 "moment": " 2.4.*",
-		 "express-validator": "0.8.*"
+		 "express-validator": "0.8.*",
+		 "forever": "0.10.*"
 	},
 	"scripts": {
-		 "start": "forever start -a -p ./ -l logs/app.log -o logs/out.log -e logs/err.log -w --watchDirectory ./ --watchIgnore .tmp --watchIgnore .git app.js",
+		 "start": "node start.js",
 		 "debug": "node debug app.js"
 	},
 	"main": "app.js",
