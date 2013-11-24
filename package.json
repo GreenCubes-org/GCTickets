@@ -19,7 +19,7 @@
 		 "express-validator": "0.8.*"
 	},
 	"scripts": {
-		 "start": "forever start -a -l logs/app.log -o logs/out.log -e logs/err.log app.js",
+		 "start": "forever start -a -p ./ -l logs/app.log -o logs/out.log -e logs/err.log -w --watchDirectory ./ --watchIgnore .tmp --watchIgnore .git app.js",
 		 "debug": "node debug app.js"
 	},
 	"main": "app.js",
