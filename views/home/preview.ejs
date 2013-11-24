@@ -6,11 +6,11 @@ styles.push('preview.css') %>
 	<div class="ui grid">
 		<div class="left floated column page" style="width: auto; max-width: 72%; padding-left: 0px; min-width: 60%;margin-top: 40px;">
 			<div class="main header">
-				<img class="ui image gc-logo" src="/images/logo-inverted.png">
+				<img class="ui image gc-logo" src="/images/logo-preview.png">
 				<h1>Тикет-система GreenCubes</h1>
 			</div>
 		</div>
-		<div class="right floated two wide column loginform" style="">
+		<div class="right floated two wide column loginform">
 			<form id="loginform">
 			  <div class="ui form" style="display: inline-block !important">
 				 <div class="field">
@@ -28,6 +28,7 @@ styles.push('preview.css') %>
 				 <button type="submit" class="ui blue submit button gc-center">Войти</button>
 			  </div>
 			</form>
+			<div id="loginerr"></div>
 		</div>
 	</div>
 </div>
@@ -46,9 +47,12 @@ styles.push('preview.css') %>
 			<h1>И как с ней работать?</h1>
 			<h3>Работа с тикет-системой чаще всего сводится к нескольким этапам:</h3>
 			<ol>
-				<li>бла-бла, слева ещё иконка которая чотко отображает суть.</li>
-				<li>ещё одно бла-бла, я вообще не уверен что это можно оставить.</li>
+				<li>У вас возникает проблема и вы заходите в тикет-систему</li>
+				<li>Вы <a href="/new">выбираете</a> тип тикета соответствующий вашей проблеме</li>
+				<li>Заполняете форму и отсылаете её на сервер</li>
+				<li>Остаётся только дождаться ответа администрации</li>
 			</ol>
+			<h3 style="margin-top:15px;">Но для начала не забудьте <a href="/login">войти</a> в систему :)</h3>
 		</div>
 	</div>
 </div>
@@ -70,25 +74,34 @@ styles.push('preview.css') %>
 				</li>
 				
 				<li>
-					<h2>Заявки на бан и Заявки на разбан</h2>
+					<h2>Заявки на бан и разбан</h2>
 					<p>Эти два типа приходит на замену одноимённых разделов на форуме. Замена старых и добрых разделов на форуме на отдельный раздел в тикет-системе призвано упростить обработку заявок.</p>
 				</li>
 				
 				<li>
 					<h2>Заявка на реген</h2>
-					<p></p>
+					<p>Данный тип пришёл на замену прикреплённой теме на форуме. С помощью него вы можете подать заявку на регенерацию.</p>
 				</li>
 				
 				<li>
 					<h2>Обращение к администрации</h2>
-					<p></p>
+					<p>К вам не пришли монеты? У вас есть очень важное дело к администрации? В этом случае следует писать тикет с этим типом.</p>
 				</li>
 				
 				<li>
 					<h2>Проблемы в регистрации/входе в систему</h2>
-					<p></p>
+					<p>Несмотря на то, что это очень похоже на баг-репорты, было решено выделить в отдельный тип тикетов данный вид проблем.
+					<small>Примечание: Это единственный тип в который могут публиковать анонимные пользователи.</small></p>
 				</li>
 			</ul>
+		</div>
+	</div>
+</div>
+<div class="fifth section">
+	<div class="page">
+		<div class="header">
+			<h1>С чего начать?</h1>
+			<h3>Для начала вам следует <a href="/login">войти в систему</a>, потом вы можете посмотреть <a href="/all">список публичных тикетов</a> или <a href="/new">создать новый тикет</a>, если вам это требуется.</h3>
 		</div>
 	</div>
 </div>

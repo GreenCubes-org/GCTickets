@@ -9,7 +9,7 @@ var passport = require('passport');
 module.exports = {
 
 	loginTpl: function (req, res) {
-		res.view('user/index');
+		res.view('user/login');
 	},
 	
 	login: function (req, res) {

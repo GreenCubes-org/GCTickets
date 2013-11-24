@@ -12,11 +12,11 @@ html, body {
 }
 
 a {
-	color: #555555;
+	color: inherit;
 	text-decoration: none;
 }
 
-a:hover {
+a:hover, a:active {
 	color: #9a9a9a;
 }
 
@@ -30,12 +30,8 @@ label {
 	margin: 0px auto -61px;
 }
 
-.push {
-	padding-top: 8em;
-}
-
 .push, .footer {
-	height: 60px;
+	height: 61px;
 }
 
 .footer {
@@ -124,7 +120,6 @@ label {
 }
 
 /* Sections */
-
  .section {
 	position: relative;
 	-webkit-box-sizing: border-box;
@@ -145,16 +140,33 @@ label {
 }
 
 .second.section {
-	border-top: 8px solid #509c98;
+	border-top: 8px solid #5baba7;
 	height: 200px;
 }
 
 .third.section {
-	height: 300px;
+	height: 350px;
 }
 
 .fourth.section {
-	height: 800px !important
+	height: 750px;
+	border-top: 8px solid #e0e0e0;
+}
+
+.fifth.section {
+	height: 250px;
+	color: #ffffff;
+	background-color: #222224;
+	border-top: 8px solid #47494c;
+	border-bottom: 4px solid #43796d;
+}
+
+.third.section a, .fifth.section a {
+	color: #dcdcdc;
+}
+
+.third.section a:hover, .third.section a:active, .fifth.section a:hover, .fifth.section a:active {
+	color: #ebebeb;
 }
 
 .page {
@@ -190,7 +202,6 @@ label {
 
 .third.section li {
    margin: 10px 0px 0px;
-   list-style-type: none;
 }
 
 .fourth.section ul {
@@ -205,6 +216,7 @@ label {
 .header h1 {
    font-size: 2.2rem;
    font-weight: 800;
+   margin: 30px 0px 0px;
 }
 
 .header h2 {
@@ -216,16 +228,12 @@ label {
 .header h3 {
    font-size: 1.2rem;
    font-weight: 800;
-   margin: 0px;
+   margin: 10px 0px 0px;
 }
 
 .header p {
 	font-size: 1.2rem;
-	margin: 0px 0px 5px;
-}
-
-.second.section h3, .third.section h3, .fourth.section h3 {
-	margin-top: 10px;
+	margin: 5px 15px 20px;
 }
 
 .fourth.section li {
@@ -234,8 +242,14 @@ label {
 
 /* Login form */
 .loginform {
-	margin: 5em;
-	width:20% !important;
+	margin: 4em 5em;
+	width: 20% !important;
+}
+
+.ui.error.message {
+	height: 70px !important;
+	margin: 5px 0px 0px !important;
+	padding: 0.3em 1em !important;
 }
 
 .ui.form textarea, .ui.form select, .ui.form input[type="text"], .ui.form input[type="password"] {
