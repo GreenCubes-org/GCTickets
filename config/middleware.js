@@ -50,7 +50,7 @@ module.exports = {
 								 return done(err);
 							 // username not found
 							 } else if (result.length === 0) {
-								 return done(null, false, {message: 'Неизвестный пользователь'});
+								 return done(null, false, {message: 'Неверный логин/пароль'});
 							 // check password
 							 } else if (result[0].activation_code === undefined) {
 								 return done(null, false, {message: 'Аккаунт не активирован'});
