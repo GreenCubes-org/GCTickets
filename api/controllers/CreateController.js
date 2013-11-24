@@ -121,6 +121,16 @@ module.exports = {
 	
 	bugreportComment: function(req,res) {
 		async.waterfall([
+			function preCheck(callback) {
+				if (req.param('message') === '') {
+					callback({
+						show: true,
+						msg: 'Комментарий слишком короткий'
+					});
+				} else {
+					callback(null);
+				}
+			},
 			function checkOldComments(callback) {
 				Ticket.findOne(req.param('id')).done(function (err, bugreport) {
 					if (err) return callback(err);
@@ -164,8 +174,17 @@ module.exports = {
 			}
 		],
 		function (err, comment) {
-			if (err) throw err;
-			res.json(comment);
+			if (err) {
+				if (!err.show) {
+					if (err) throw err;
+				} else {
+					return res.json({
+						error: err.msg
+					});
+				}
+			} else {
+				res.json(comment);
+			}
 		});
 	},
 	

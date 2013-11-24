@@ -109,6 +109,10 @@ label {
 	border-radius: 0.325em 0.325em 0.325em 0.325em;
 }
 
+.ui.dimmable {
+    position: static;
+}
+
 .gc-center {
 	margin: 0px auto;
 	text-align: center;

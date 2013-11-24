@@ -7,14 +7,31 @@
 //FIXME: Поменять на глобальную переменную
 var redis = require('./redis');
 var cfg = require('../config/local')
-
-// Init mysql stuff
-var mysql = require('mysql').createConnection({
+		
+function handleDisconnect() {
+  mysql = require('mysql').createConnection({
 			 host: cfg.gcdb.host,
 			 database: cfg.gcdb.database,
 			 user: cfg.gcdb.user,
 			 password: cfg.gcdb.password
 		});
+  mysql.connect(function(err) {              // The server is either down
+    if(err) {                                     // or restarting (takes a while sometimes).
+      setTimeout(handleDisconnect, 1000); // We introduce a delay before attempting to reconnect,
+    }                                     // to avoid a hot loop, and to allow our node script to
+  });                                     // process asynchronous requests in the meantime.
+                                          // If you're also serving http, display a 503 error.
+  mysql.on('error', function(err) {
+    if(err.code === 'PROTOCOL_CONNECTION_LOST') { // Connection to the MySQL server is usually
+      handleDisconnect();                         // lost due to either server restart, or a
+    } else {                                      // connnection idle timeout (the wait_timeout
+      throw err;                                  // server variable configures this)
+    }
+  });
+}
+
+handleDisconnect();
+
 
 module.exports.user = {
 

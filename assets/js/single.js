@@ -35,7 +35,20 @@ $(document).ready(function(){
 			complete: function(data) {
 				$('#commentfield').html('<textarea></textarea>');
 				console.log(data);
-				if (data.responseJSON.code === 'OK') {
+				if (data.responseJSON.error) {
+					$('#commentfield').append('<div class="ui active dimmer">' +
+					  '<div class="content">' +
+						 '<div class="center">' +
+							'<h2 class="ui inverted icon header">' +
+							  '<i class="icon circular inverted emphasized red exclamation"></i>' +
+								data.responseJSON.error +
+							'</h2>' +
+							'<small style="display:block;">Кликните по сообщению чтобы оно пропало</small>' +
+						 '</div>' +
+					  '</div>' +
+					'</div>');
+					$('.ui.active.dimmer').dimmer();
+				} else if (data.responseJSON.code === 'OK') {
 					getComments(ticketId);
 				} else {
 					$('#commentfield').append('<div class="ui active dimmer">' +

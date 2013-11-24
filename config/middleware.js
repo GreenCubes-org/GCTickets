@@ -9,12 +9,29 @@ var expressValidator = require('express-validator');
 //FIXME: Поменять на глобальную переменную
 var cfg = require('./local');
 
-var client = mysql.createConnection({
+function handleDisconnect() {
+  client = require('mysql').createConnection({
 			 host: cfg.gcdb.host,
 			 database: cfg.gcdb.database,
 			 user: cfg.gcdb.user,
 			 password: cfg.gcdb.password
 		});
+  client.connect(function(err) {            
+    if(err) {                               
+      setTimeout(handleDisconnect, 1000); 
+    }                                     
+  });                                    
+                                         
+  client.on('error', function(err) {
+    if(err.code === 'PROTOCOL_CONNECTION_LOST') { 
+      handleDisconnect();                        
+    } else {                                      
+      throw err;                                 
+    }
+  });
+}
+
+handleDisconnect();
 
 passport.serializeUser(function(user, done) {
 	done(null, user.id);
