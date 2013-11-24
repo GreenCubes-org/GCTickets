@@ -11,10 +11,11 @@ var cfg = require('./local');
 
 function handleDisconnect() {
   client = require('mysql').createConnection({
-			 host: cfg.gcdb.host,
-			 database: cfg.gcdb.database,
-			 user: cfg.gcdb.user,
-			 password: cfg.gcdb.password
+			host: cfg.gcdb.host,
+			database: cfg.gcdb.database,
+			user: cfg.gcdb.user,
+			password: cfg.gcdb.password,
+			socketPath: cfg.gcdb.socketPath
 		});
   client.connect(function(err) {            
     if(err) {                               

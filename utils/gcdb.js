@@ -10,10 +10,11 @@ var cfg = require('../config/local')
 		
 function handleDisconnect() {
   mysql = require('mysql').createConnection({
-			 host: cfg.gcdb.host,
-			 database: cfg.gcdb.database,
-			 user: cfg.gcdb.user,
-			 password: cfg.gcdb.password
+			host: cfg.gcdb.host,
+			database: cfg.gcdb.database,
+			user: cfg.gcdb.user,
+			password: cfg.gcdb.password,
+			socketPath: cfg.gcdb.socketPath
 		});
   mysql.connect(function(err) {              // The server is either down
     if(err) {                                     // or restarting (takes a while sometimes).

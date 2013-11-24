@@ -29,14 +29,14 @@ module.exports = {
    user: 'YOUR_MYSQL_USER',
    password: 'YOUR_MYSQL_PASSWORD', 
    database: 'YOUR_MYSQL_DB',
-   _socket: '/var/run/mysqld/mysqld.sock'
+   socketPath: '/var/run/mysqld/mysqld.sock'
   },
   gcdb: { //User auth DB
    host: 'localhost',
    user: 'YOUR_MYSQL_USER',
    password: 'YOUR_MYSQL_PASSWORD',
    database: 'YOUR_MYSQL_DB',
-   _socket: '/var/run/mysqld/mysqld.sock'
+	socketPath: '/var/run/mysqld/mysqld.sock'
   },
   redis: {//Redis DB
    host: 'localhost',
