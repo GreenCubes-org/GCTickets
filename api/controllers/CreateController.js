@@ -32,15 +32,20 @@ module.exports = {
 					owner: req.user.id,
 					product: parseInt(req.param('product')),
 					visiblity: parseInt(req.param('visiblity')),
-					uploads: [],
-					comments: []
+					uploads: []
 				})
 			},
 			function checkData(obj, callback) {
+				if (isNaN(obj.visiblity)) {
+					callback({
+						show: true, msg: 'Выберите видимость тикета'
+					});
+				}
+				
 				var isErr = false;
 				req.onValidationError(function (msg) {
 					isErr = true;
-					callback({ show: true, msg: msg }, obj);
+					callback({ show: true, msg: msg });
 				});
 				req.check('title','Краткое описание должно содержать не менее %1 и не более %2 символов').len(6,64);
 				if (!isErr) callback(null, obj);
@@ -56,25 +61,39 @@ module.exports = {
 					status: obj.status,
 					owner: obj.owner,
 					product: obj.product,
-					uploads: obj.uploads,
-					comments: obj.comments
-				}).done(function(err) {
-					callback(err, obj)
+					uploads: obj.uploads
+				}).done(function(err, result) {
+					if (err) return callback(err);
+					
+					callback(null, result.id, obj);
 				});
 			},
-			function registerTicket(obj, callback) {
+			function registerTicket(ticketId, obj, callback) {
 				Ticket.create({
-					tid: obj.id,
+					tid: ticketId,
 					type: 1,
 					visiblity: obj.visiblity,
+					comments: [],
 					owner: obj.owner
-				}).done(function (err, ticket) { 
-						callback(err, ticket)
+				}).done(function (err, ticket) {
+						if (err) return callback(err);
+						
+						callback(null, ticket)
 					});
 			},
 			function cacheToRedis(ticket, callback) {
-				redis.set('ticket:' + ticket.id, ticket.type + ':' + ticket.tid);
-				callback(null, ticket);
+				cache = JSON.stringify({
+					id: ticket.id,
+					tid: ticket.tid,
+					type: ticket.type,
+					visiblity: ticket.visiblity
+				});
+				
+				redis.set('ticket:' + ticket.id, cache, function (err) {
+					if (err) return callback(err);
+					
+					callback(null, ticket);
+				});
 			}
 		 ],
 		 function (err, ticket) {
@@ -84,6 +103,7 @@ module.exports = {
 						 err: 'Внезапная ошибка! Пожалуйста, сообщите о ней разработчику.'
 					});
 					
+					console.error(err);
 					throw err;
 				} else {
 					res.json({

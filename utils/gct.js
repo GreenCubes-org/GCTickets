@@ -224,7 +224,7 @@ module.exports.bugreport = bugreport = {
 										cache = JSON.stringify({
 											id: ticket[0].id,
 											tid: ticket[0].tid,
-											type: ticket[0].type, 
+											type: ticket[0].type,
 											visiblity: ticket[0].visiblity
 										});
 																				

@@ -44,7 +44,7 @@ styles.push('main.css','wbb.css') %>
 			 <div class="field">
 					<label>Поле видимости тикета</label>
 					<div class="ui selection dropdown">
-						<input name="hidden" type="hidden">
+						<input name="visiblity" type="hidden">
 						<div class="default text">Выбери приватность тикета</div>
 						<div class="menu">
 							 <div class="item" data-value="1">Виден всем</div>
@@ -61,13 +61,13 @@ styles.push('main.css','wbb.css') %>
 		 <div class="field">
 			 <label>Подробное описание</label>
 			 <textarea id="description" name="description"></textarea>
-		 </div>
-		 <div class="inline field"><!-- TODO: Запилить тут нормальную загрузку файлов, да -->
+		</div>
+		<!--<div class="inline field"><!-- TODO: Запилить тут нормальную загрузку файлов, да ->
 			 <div class="ui labeled basic icon button">
 			 <i class="upload icon"></i>
 					Прикрепить изображения
 			 </div>
-		 </div>
+		 </div>-->
 		 <button class="ui blue submit button" type="submit">Отправить тикет</button>
 		 <div id="errmessage"></div>
 	</div>
