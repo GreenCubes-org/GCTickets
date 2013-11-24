@@ -25,25 +25,27 @@ module.exports = {
   secret: 'somethinglongandRANDOM', //Make it pure random
 
   appdb: { //Application DB
-    host: 'localhost',
-    user: 'YOUR_MYSQL_USER',
-    password: 'YOUR_MYSQL_PASSWORD', 
-    database: 'YOUR_MYSQL_DB'
+   host: 'localhost',
+   user: 'YOUR_MYSQL_USER',
+   password: 'YOUR_MYSQL_PASSWORD', 
+   database: 'YOUR_MYSQL_DB',
+   _socket: '/var/run/mysqld/mysqld.sock'
   },
   gcdb: { //User auth DB
-    host: 'localhost',
-    user: 'YOUR_MYSQL_USER',
-    password: 'YOUR_MYSQL_PASSWORD',
-    database: 'YOUR_MYSQL_DB'
+   host: 'localhost',
+   user: 'YOUR_MYSQL_USER',
+   password: 'YOUR_MYSQL_PASSWORD',
+   database: 'YOUR_MYSQL_DB',
+   _socket: '/var/run/mysqld/mysqld.sock'
   },
   redis: {//Redis DB
-    host: 'localhost',
-    port: 6379,
-    ttl: 129600, // = 1.5 days
-    db: {//change this if other db
-      session: 0,
-      app: 1
-    }, 
-    pass:'<redis auth password>'
+   host: 'localhost',
+   port: 6379,
+   ttl: 129600, // = 1.5 days
+   db: {//change this if other db
+		session: 0,
+		app: 1
+   }, 
+   pass:'<redis auth password>'
   }
 };
