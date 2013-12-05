@@ -9,48 +9,93 @@ var expressValidator = require('express-validator');
 //FIXME: Поменять на глобальную переменную
 var cfg = require('./local');
 
-function handleDisconnect() {
-  client = require('mysql').createConnection({
+function handleGCDBDisconnect() {
+  gcdbconn = require('mysql').createConnection({
 			host: cfg.gcdb.host,
 			database: cfg.gcdb.database,
 			user: cfg.gcdb.user,
-			password: cfg.gcdb.password,
-			socketPath: cfg.gcdb.socketPath
+			password: cfg.gcdb.password
 		});
-  client.connect(function(err) {            
+  gcdbconn.connect(function(err) {
     if(err) {                               
-      setTimeout(handleDisconnect, 1000); 
+      setTimeout(handleGCDBDisconnect, 1000); 
     }                                     
   });                                    
-                                         
-  client.on('error', function(err) {
+ 
+  gcdbconn.on('error', function(err) {
     if(err.code === 'PROTOCOL_CONNECTION_LOST') { 
-      handleDisconnect();                        
+      handleGCDBDisconnect();                        
     } else {                                      
       throw err;                                 
     }
   });
 }
 
-handleDisconnect();
+function handleAPPDBDisconnect() {
+  appdbconn = require('mysql').createConnection({
+			host: cfg.appdb.host,
+			database: cfg.appdb.database,
+			user: cfg.appdb.user,
+			password: cfg.appdb.password
+		});
+  appdbconn.connect(function(err) {
+    if(err) {                               
+      setTimeout(handleAPPDBDisconnect, 1000); 
+    }                                     
+  });                                    
+ 
+  appdbconn.on('error', function(err) {
+    if(err.code === 'PROTOCOL_CONNECTION_LOST') { 
+      handleAPPDBDisconnect();                        
+    } else {                                      
+      throw err;                                 
+    }
+  });
+}
+
+handleAPPDBDisconnect();
+handleGCDBDisconnect();
 
 passport.serializeUser(function(user, done) {
 	done(null, user.id);
 });
+
 passport.deserializeUser(function(id, done) {
-	client.query('SELECT login, password FROM users WHERE id = ?',
-								 [id], function(err, result, fields) {
-		 if (err){
-			 done(err);
-		 } else {
-			var user = {
-						id : id,
-						username : result[0].login,
-						password : result[0].password
-						};
-			done(err, user);
-		 }
-	});
+	async.waterfall([
+		function getUserCredentials (callback) {
+			gcdbconn.query('SELECT login, password FROM users WHERE id = ?',
+					[id], function(err, result, fields) {
+						if (err) return callback(err);
+						 
+						callback(null, {
+							id: id,
+							username: result[0].login,
+							password: result[0].password
+						});
+			});
+		},
+		function getUserRights(user, callback) {
+			appdbconn.query('SELECT ugroup, prefix, colorclass FROM rights WHERE uid = ?',
+				[id], function(err, result) {
+					if (err) return callback(err);
+					
+					if (result.length !== 0) {
+						user.group = result[0].ugroup;
+						user.prefix = result[0].prefix;
+						user.colorclass = result[0].colorclass;
+					} else {
+						user.group = 0; // User have group 0 by default
+					}
+					
+					callback(null, user);
+			});
+		}
+	],
+	function (err, user) {
+		if (err) return done(err);
+		
+		done(null, user);
+	})
 });
 
 module.exports = {
@@ -58,14 +103,13 @@ module.exports = {
 	// Init custom express middleware
 	express: {
 		 customMiddleware: function (app) {
-
 			 passport.use(new LocalStrategy(function(username, password, done) {
 					username = username.replace(/[^a-zA-Z0-9_-]/g,'');
-					client.query('SELECT id, password, activation_code FROM users WHERE login = ?',
+					gcdbconn.query('SELECT id, password, activation_code FROM users WHERE login = ?',
 						[username], function (err, result) {
 							 // database error
 							 if (err) {
-								 return done(err);
+								 return done(err, false, {message: 'Ошибка базы данных'});
 							 // username not found
 							 } else if (result.length === 0) {
 								 return done(null, false, {message: 'Неверный логин/пароль'});
@@ -73,33 +117,34 @@ module.exports = {
 							 } else if (result[0].activation_code === undefined) {
 								 return done(null, false, {message: 'Аккаунт не активирован'});
 							 } else {
-								 var passwd = result[0].password.split('$');
-								 var hash;
-								 if (passwd.length == 1) {
+								var passwd = result[0].password.split('$');
+								var hash;
+								if (passwd.length == 1) {
 									hash = crypto.createHash('md5')
 																	 .update(password)
 																	 .digest('hex');
-								 }
-								 else {
+								}
+								else {
 									hash = crypto.createHash('sha1')
 																	 .update(passwd[1] + password)
 																	 .digest('hex');
-								 }
-								 // if md5 passwords match
-								 if (passwd.length === 1 && passwd[0] === hash) {
+								}
+								// if md5 passwords match
+								if (passwd.length === 1 && passwd[0] === hash) {
 										var user = {id : result[0].id,
-																	 username : username,
-																	 password : hash };
-										return done(null, user);
-								 // if sha1 passwords match
-								 } else if (passwd.length !== 1 && passwd[2] === hash) {
+														username : username,
+														password : hash};
+								// if sha1 passwords match
+								} else if (passwd.length !== 1 && passwd[2] === hash) {
 									var user = {id : result[0].id,
-																	 username : username,
-																	 password : hash };
-									return done(null, user);
-								 } else {
+													username : username,
+													password : hash};
+									
+								} else {
 									return done(null, false, {message: 'Неверный пароль'});
-								 }
+								}
+								
+								done(null, user);
 						}
 					 });
 			 }));

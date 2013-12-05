@@ -6,32 +6,31 @@
  */
 //FIXME: Поменять на глобальную переменную
 var redis = require('./redis');
-var cfg = require('../config/local')
+var cfg = require('../config/local');
 		
-function handleDisconnect() {
-  mysql = require('mysql').createConnection({
+function handleGCDBDisconnect() {
+  gcdbconn = require('mysql').createConnection({
 			host: cfg.gcdb.host,
 			database: cfg.gcdb.database,
 			user: cfg.gcdb.user,
-			password: cfg.gcdb.password,
-			socketPath: cfg.gcdb.socketPath
+			password: cfg.gcdb.password
 		});
-  mysql.connect(function(err) {              // The server is either down
+  gcdbconn.connect(function(err) {              // The server is either down
     if(err) {                                     // or restarting (takes a while sometimes).
-      setTimeout(handleDisconnect, 1000); // We introduce a delay before attempting to reconnect,
+      setTimeout(handleGCDBDisconnect, 1000); // We introduce a delay before attempting to reconnect,
     }                                     // to avoid a hot loop, and to allow our node script to
   });                                     // process asynchronous requests in the meantime.
                                           // If you're also serving http, display a 503 error.
-  mysql.on('error', function(err) {
+  gcdbconn.on('error', function(err) {
     if(err.code === 'PROTOCOL_CONNECTION_LOST') { // Connection to the MySQL server is usually
-      handleDisconnect();                         // lost due to either server restart, or a
+      handleGCDBDisconnect();                         // lost due to either server restart, or a
     } else {                                      // connnection idle timeout (the wait_timeout
       throw err;                                  // server variable configures this)
     }
   });
 }
 
-handleDisconnect();
+handleGCDBDisconnect();
 
 
 module.exports.user = {
@@ -58,7 +57,7 @@ module.exports.user = {
 					function getFromMySQL(callback) {
 						if (!mysql) return cb('You\'re not connected to GC MySQL DB');
 
-						mysql.query('SELECT login FROM users WHERE id = ?',
+						gcdbconn.query('SELECT login FROM users WHERE id = ?',
 							[id], function (err, result) {
 								if (err) return callback(err);
 								
@@ -99,7 +98,7 @@ module.exports.user = {
 					function getFromMySQL() {
 						if (!mysql) return cb('You\'re not connected to GC MySQL DB');
 
-						mysql.query('SELECT id FROM users WHERE login = ?',
+						gcdbconn.query('SELECT id FROM users WHERE login = ?',
 											 [login], function(err, result) {
 							 if (err) cb(err);
 

@@ -7,6 +7,7 @@
 // FIXME: Поменять на глобальную переменную
 var redis = require('./redis');
 var gcdb = require('./gcdb');
+var cfg = require('../config/local.js');
 
 module.exports.getStatusByID = getStatusByID = function(id) {
 	switch (id) {
@@ -17,7 +18,7 @@ module.exports.getStatusByID = getStatusByID = function(id) {
 			 return { text: 'Отменён', class: 'rejected' };
 			 
 		 case 3:
-			 return { text: 'Требует уточнения', class: 'specify' };
+			 return { text: 'Уточнить', class: 'specify' };
 			 
 		 case 4:
 			 return { text: 'Отклонён', class: 'declined' };
@@ -104,22 +105,57 @@ module.exports.getVisiblityByID = getVisiblityByID = function(id) {
 	}
 };
 
-module.exports.serializeComments = serializeComments = function(comments, cb) {
-	if (comments === null) return cb(null, null);
+module.exports.serializeComments = serializeComments = function(comments, ugroup, cb) {
+	if (comments === null || comments.length === 0) return cb(null, null);
 
 	async.map(comments, function(comment, callback) {
 		gcdb.user.getByID(comment.owner, function(err, login) {
 			if (err) return callback(err);
 			
-			comment.owner = login;
-			callback(null, comment);
-		})
+			async.waterfall([
+				function getPrefix(callback) {
+					user.getPrefix(comment.owner, function (err, prefix) {
+						if (err) return callback(err);
+						comment.ownerprefix = prefix;
+						
+						callback(null, comment);
+					});
+				},
+				function setLogin(comment, callback) {
+						comment.owner = login;
+				},
+				function cbComments(comment, callback) {
+					if (ugroup >= 2) {
+						callback(null, comment);
+					} else {
+						if (comment.status && comment.status !== 1) {
+							callback(null, undefined);
+						} else {
+							delete comment.status;
+							callback(null, comment);
+						}
+					}
+				}],
+				function(err, comment) {
+					if (err) return callback(err);
+					
+					callback(null, comment);
+				}
+			);
+		});
 	},
-	function (err, result) {
+	function (err, comments) {
 		if (err) return cb(err);
 		
-		cb(null, result);
-	})
+		// Remove undefined elements
+		comments = comments.filter(function(n){return n});
+		
+		if (comments.length === 0) {
+			cb(null, null);
+		} else {
+			cb(null, comments);
+		}
+	});
 };
 
 module.exports.all = all = {
@@ -354,5 +390,70 @@ module.exports.bugreport = bugreport = {
 					}
 			 })
 		 })
+	}
+};
+
+function handleAPPDBDisconnect() {
+  appdbconn = require('mysql').createConnection({
+			host: cfg.appdb.host,
+			database: cfg.appdb.database,
+			user: cfg.appdb.user,
+			password: cfg.appdb.password
+	});
+	appdbconn.connect(function(err) {
+		if(err) {                               
+			setTimeout(handleAPPDBDisconnect, 1000); 
+		}                                     
+	});                                    
+ 
+	appdbconn.on('error', function(err) {
+		if(err.code === 'PROTOCOL_CONNECTION_LOST') { 
+			handleAPPDBDisconnect();                        
+		} else {                                      
+			throw err;                                 
+		}
+	});
+}
+
+handleAPPDBDisconnect();
+
+module.exports.user = user = {
+	getGroup: function getGroup(uid, cb) {
+		appdbconn.query('SELECT ugroup FROM rights WHERE uid = ?',
+			[uid], function(err, result) {
+				if (err) return callback(err);
+				
+				if (result.length !== 0) {
+					cb(null, result[0].ugroup);
+				}  else {
+					cb(null, 0); // User have group 0 by default
+				}
+		});
+	},
+	
+	getPrefix: function getPrefix(uid, cb) {
+		appdbconn.query('SELECT prefix FROM rights WHERE uid = ?',
+			[uid], function(err, result) {
+				if (err) return callback(err);
+				
+				if (result.length !== 0) {
+					cb(null, result[0].prefix);
+				}  else {
+					cb(null, null);
+				}
+		});
+	},
+	
+	getColorClass: function getPrefix(uid, cb) {
+		appdbconn.query('SELECT colorclass FROM rights WHERE uid = ?',
+			[uid], function(err, result) {
+				if (err) return callback(err);
+				
+				if (result.length !== 0) {
+					cb(null, result[0].colorclass);
+				}  else {
+					cb(null, null);
+				}
+		});
 	}
 };

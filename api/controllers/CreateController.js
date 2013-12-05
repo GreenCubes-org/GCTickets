@@ -31,7 +31,6 @@ module.exports = {
 					status: 1,
 					owner: req.user.id,
 					product: parseInt(req.param('product')),
-					visiblity: parseInt(req.param('visiblity')),
 					uploads: []
 				})
 			},
@@ -147,6 +146,7 @@ module.exports = {
 					id: commentId,
 					owner: req.user.id,
 					message: req.sanitize('message').entityEncode(),
+					status: 1,
 					createdAt: Date()
 				})
 			},

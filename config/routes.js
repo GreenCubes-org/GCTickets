@@ -13,19 +13,8 @@ module.exports.routes = {
 		// Главная
 		'/': 'home.route',
 
-		// "Проблемы с входом"
-		'/loginproblems': 'dev.hideFeature',
-
-		// Вывод и действия с тикетом
-		'/id/:id': 'single.routeSingles',
-		'/id/:id/edit': 'dev.hideFeature',
-		'/id/:id/report': 'dev.hideFeature',
-		'get /id/:id/comments': 'single.listSingleComments',
-		'get /id/:id/comment/:cid/report': 'dev.hideFeature',
-		'get /id/:id/comment/:cid/remove': 'single.deleteCommentTpl',
-		'post /id/:id/comment': 'create.bugreportComment',
-
 		// Действия с пользователем
+		// Профиль
 		'/user/:user': 'dev.hideFeature',
 		
 		// Вход в аккаунт и выход из него
@@ -33,6 +22,10 @@ module.exports.routes = {
 		'post /login': 'user.login',
 		'/logout': 'user.logout',
 
+		
+		// Админпанель
+		'/admin': 'admin.main',
+		'/admin/users': 'admin.users',
 
 		// Контроллер сервисных функций.
 		'/500': 'dev.serverError',
@@ -42,6 +35,15 @@ module.exports.routes = {
 
 
 		// Работа с тикетами
+		// Вывод и действия с тикетом
+		'/id/:id': 'single.routeSingles',
+		'/id/:id/edit': 'dev.hideFeature',
+		'/id/:id/report': 'dev.hideFeature',
+		'get /id/:id/comments': 'single.listSingleComments',
+		'get /id/:id/comment/:cid/report': 'dev.hideFeature',
+		'get /id/:id/comment/:cid/remove': 'single.deleteCommentTpl',
+		'post /id/:id/comment': 'create.bugreportComment',
+		
 		// Мои тикеты
 		'/my': 'list.listMyTpl',
 		'/my/read': 'list.listNewestMy',
