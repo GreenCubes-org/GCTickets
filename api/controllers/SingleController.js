@@ -12,15 +12,17 @@ moment.lang('ru');
 
 function singleBugreport(req, res, ticket) {
 	Bugreport.findOne(ticket.tid).done(function (err, bugreport) {
-	 if (err) throw err;
-	 gct.bugreport.serializeSingle(bugreport, function(err, result) {
-		 res.view('single/bugreport', {
-			moment: moment,
-			ticket: result,
-			globalid: ticket.id
-		 })
-	 })
-	})
+		if (err) throw err;
+    
+    	gct.bugreport.serializeSingle(bugreport, function(err, result) {
+			if (err) throw err;
+			res.view('single/bugreport', {
+				moment: moment,
+				ticket: result,
+                globalid: ticket.id
+            })
+        })
+    })
 }
 
 function singleRempro(req, res, ticket) {
@@ -80,11 +82,14 @@ module.exports = {
 				if (err) throw err;
 				
 				gct.serializeComments(ticket.comments, req.user.group, function(err, result) {
+                    if (err) throw err;
+                    
 					res.json(JSON.stringify(result));
 				});
 			});
 	},
 	
+    //TODO Закончить это!
 	deleteCommentTpl: function(req, res) {
 		if (!req.param('id')) return res.json(404,{error: 404});
 		

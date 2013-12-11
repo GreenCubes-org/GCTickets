@@ -15,7 +15,7 @@ module.exports.routes = {
 
 		// Действия с пользователем
 		// Профиль
-		'/user/:user': 'dev.hideFeature',
+		'/user/:user': 'user.profileTpl',
 		
 		// Вход в аккаунт и выход из него
 		'get /login': 'user.loginTpl',

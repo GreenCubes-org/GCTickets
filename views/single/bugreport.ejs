@@ -14,10 +14,9 @@ styles.push('main.css') %>
 <a href="/id/<%= globalid %>/edit"><i class="pencil small icon" id="s-editicon"></i></a>
 &nbsp;<a href="/id/<%= globalid %>/report"><i class="flag small icon" id="s-reporticon"></i></a>
 &raquo;&nbsp;<a href="/id/<%= globalid %>">#<%= globalid %></a> 
-&raquo;&nbsp;<a  href="/@<%= ticket.owner %>"><%= ticket.owner %></a> 
+&raquo;&nbsp;<a  href="/user/<%= ticket.owner %>"><%= ticket.owner %></a> 
 &raquo;&nbsp;<%= moment(ticket.createdAt).format('Do MMM YYYY, h:mm') %>
 <% if (ticket.product) { %>&raquo;&nbsp;<%= ticket.product %><% } %>
-
 				</div>
 			</h2>
 		</div>

@@ -108,18 +108,19 @@ function getComments(ticketId) {
 			},
 			success: function(data) {
 				comments = $.parseJSON(data);
-				console.log(comments);
+				
 				if (comments === null || comments.length === 0) {
 					$('#comments').html('<div style="padding: 5em 0em;text-align: center;">Нет комментариев</div>');
 					$('#commentpost').fadeIn(500);
 					return;
 				}
+				
 				$('#comments').html('');
 				comments.map(function (comment) {
 					$('#comments').append(
 						'<div class="comment" id="comment'+ comment.id +'">' +
 						 '<div class="content">' +
-							'<div class="ui ribbon label"><a href="/user/'+ comment.owner +'">'+ comment.owner +'</a></div>' +
+							'<div class="ui ribbon label ' + comment.colorclass + '">' + comment.prefix + ' <a href="/user/'+ comment.owner +'">'+ comment.owner +'</a></div>' +
 							'<div class="metadata">' +
 							  '<a href="/id/'+ ticketId +'/#comment'+ comment.id +'" class="date" title="'+ moment(comment.createdAt).format('Do MMM YYYY h:mm') +'">'+ moment(comment.createdAt).fromNow() +'</a>' +
 							  '<div class="ui inline top left pointing dropdown" id="commentoptions">' +
