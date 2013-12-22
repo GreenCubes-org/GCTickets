@@ -45,7 +45,7 @@ module.exports = {
 						callback(null, latestElement[0].id)
 					})
 			},
-			function findBugreports(tableSize, callback) {
+			function findTickets(tableSize, callback) {
 				skipRows = (req.param('page') - 1 ) * 20;
 				if (tableSize <= skipRows) {
 					return res.json({
@@ -67,7 +67,7 @@ module.exports = {
 		], 
 		function (err) {
 			throw err;
-		})
+		});
 	},
 
 	listMyTpl: function(req, res) {
@@ -145,12 +145,15 @@ module.exports = {
 	},
 
 	listNewestBugreport: function(req, res) {
-		Bugreport.find()
+		Ticket.find({
+				type: 1
+			})
 			.sort('id DESC')
 			.limit(20)
-			.done(function(err, bugreports) {
+			.done(function(err, tickets) {
 				if (err) throw err;
-				gct.bugreport.serializeList(bugreports, function(err, result) {
+
+				gct.all.serializeList(tickets, function(err, result) {
 					res.json(JSON.stringify(result));
 				});
 			 });
@@ -159,16 +162,15 @@ module.exports = {
 	list20Bugreport: function(req, res) {
 		async.waterfall([
 			function getNumOfIDs(callback) {
-				Bugreport.find()
+				Ticket.find()
 					.sort('id DESC')
 					.limit(1)
 					.done(function (err, latestElement) { 
 						if (err) return callback(err);
-						
 						callback(null, latestElement[0].id)
 					})
 			},
-			function findBugreports(tableSize, callback) {
+			function findTickets(tableSize, callback) {
 				skipRows = (req.param('page') - 1 ) * 20;
 				if (tableSize <= skipRows) {
 					return res.json({
@@ -176,18 +178,18 @@ module.exports = {
 					});
 				}
 				
-				Bugreport.find()
+				Ticket.find({
+						type: 1
+					})
 					.sort('id ASC')
 					.skip(skipRows)
 					.sort('id DESC')
-					.limit(20)
-					.done(function(err, bugreports) {
-						if (err) return callback(err);
-						gct.bugreport.serializeList(bugreports, function(err, result) {
-							if (err) return callback(err);
+					.done(function(err, tickets) {
+						if (err) throw err;
+						gct.all.serializeList(tickets, function(err, result) {
 							res.json(JSON.stringify(result));
 						});
-					 })
+					 });
 			}
 		], 
 		function (err) {

@@ -82,8 +82,8 @@ module.exports = {
 				if (err) throw err;
 				
 				gct.serializeComments(ticket.comments, req.user.group, function(err, result) {
-                    if (err) throw err;
-                    
+					if (err) throw err;
+
 					res.json(JSON.stringify(result));
 				});
 			});

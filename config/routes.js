@@ -10,87 +10,86 @@
 
 module.exports.routes = {
 
-		// Главная
-		'/': 'home.route',
+	// Главная
+	'/': 'home.route',
 
-		// Действия с пользователем
-		// Профиль
-		'/user/:user': 'user.profileTpl',
-		
-		// Вход в аккаунт и выход из него
-		'get /login': 'user.loginTpl',
-		'post /login': 'user.login',
-		'/logout': 'user.logout',
+	// Действия с пользователем
+	// Профиль
+	'/user/:user': 'user.profileTpl',
 
-		
-		// Админпанель
-		'/admin': 'admin.main',
-		'/admin/users': 'admin.users',
-
-		// Контроллер сервисных функций.
-		'/500': 'dev.serverError',
-		'/404': 'dev.notFound',
-		'/hiddenfeature': 'dev.hideFeature',
-		'/check': 'dev.check',
+	// Вход в аккаунт и выход из него
+	'get /login': 'user.loginTpl',
+	'post /login': 'user.login',
+	'/logout': 'user.logout',
 
 
-		// Работа с тикетами
-		// Вывод и действия с тикетом
-		'/id/:id': 'single.routeSingles',
-		'/id/:id/edit': 'dev.hideFeature',
-		'/id/:id/report': 'dev.hideFeature',
-		'get /id/:id/comments': 'single.listSingleComments',
-		'get /id/:id/comment/:cid/report': 'dev.hideFeature',
-		'get /id/:id/comment/:cid/remove': 'single.deleteCommentTpl',
-		'post /id/:id/comment': 'create.bugreportComment',
-		
-		// Мои тикеты
-		'/my': 'list.listMyTpl',
-		'/my/read': 'list.listNewestMy',
-		'/my/read/:page': 'list.list20My',
+	// Админпанель
+	'/admin': 'admin.main',
+	'/admin/users': 'admin.users',
 
-		// Новый тикет без типа
-		'/new': 'create.mainTpl',
+	// Контроллер сервисных функций.
+	'/500': 'dev.serverError',
+	'/404': 'dev.notFound',
+	'/hiddenfeature': 'dev.hideFeature',
+	'/check': 'dev.check',
 
-		// Все тикеты
-		'/all': 'list.listAllTpl',
-		'/all/read': 'list.listNewestAll',
-		'/all/read/:page': 'list.list20All',
+	// Работа с тикетами
+	// Вывод и действия с тикетом
+	'/id/:id': 'single.routeSingles',
+	'/id/:id/edit': 'dev.hideFeature',
+	'/id/:id/report': 'dev.hideFeature',
+	'get /id/:id/comments': 'single.listSingleComments',
+	'get /id/:id/comment/:cid/report': 'dev.hideFeature',
+	'get /id/:id/comment/:cid/remove': 'single.deleteCommentTpl',
+	'post /id/:id/comment': 'create.bugreportComment',
 
-		// Багрепорты
-		'/bugreports': 'list.listBugreportTpl',
-		'/bugreports/read': 'list.listNewestBugreport',
-		'/bugreports/read/:page': 'list.list20Bugreport',
-		'get /new/bugreport': 'create.bugreportTpl',
-		'post /new/bugreport': 'create.bugreport',
+	// Мои тикеты
+	'/my': 'list.listMyTpl',
+	'/my/read': 'list.listNewestMy',
+	'/my/read/:page': 'list.list20My',
 
-		// Расприваты
-		'/rempros': 'list.listRemproTpl',
-		'/rempros/read': 'dev.hideFeature',
-		'/rempros/read/:page': 'dev.hideFeature',
-		'get /new/rempro': 'create.remproTpl',
+	// Новый тикет без типа
+	'/new': 'create.mainTpl',
 
-		// Баны
-		'/bans': 'list.listBanTpl',
-		'/bans/read': 'dev.hideFeature',
-		'/bans/read/:page': 'dev.hideFeature',
-		'get /new/ban': 'create.banTpl',
+	// Все тикеты
+	'/all': 'list.listAllTpl',
+	'/all/read': 'list.listNewestAll',
+	'/all/read/:page': 'list.list20All',
 
-		// Разбаны
-		'/unbans': 'list.listUnbanTpl',
-		'/unbans/read': 'dev.hideFeature',
-		'/unbans/read/:page': 'dev.hideFeature',
-		'get /new/unban': 'create.unbanTpl', 
+	// Багрепорты
+	'/bugreports': 'list.listBugreportTpl',
+	'/bugreports/read': 'list.listNewestBugreport',
+	'/bugreports/read/:page': 'list.list20Bugreport',
+	'get /new/bugreport': 'create.bugreportTpl',
+	'post /new/bugreport': 'create.bugreport',
 
-		// Регены
-		'/regens': 'list.listRegenTpl',
-		'/regens/read': 'dev.hideFeature',
-		'/regens/read/:page': 'dev.hideFeature',
-		'get /new/regen': 'create.regenTpl',
+	// Расприваты
+	'/rempros': 'list.listRemproTpl',
+	'/rempros/read': 'dev.hideFeature',
+	'/rempros/read/:page': 'dev.hideFeature',
+	'get /new/rempro': 'create.remproTpl',
 
-		// Обращения к администрации
-		'/admreq': 'list.listAdmreqTpl',
-		'/admreq/read': 'dev.hideFeature',
-		'/admreq/read/:page': 'dev.hideFeature',
-		'get /new/admreq': 'create.admreqTpl'
+	// Баны
+	'/bans': 'list.listBanTpl',
+	'/bans/read': 'dev.hideFeature',
+	'/bans/read/:page': 'dev.hideFeature',
+	'get /new/ban': 'create.banTpl',
+
+	// Разбаны
+	'/unbans': 'list.listUnbanTpl',
+	'/unbans/read': 'dev.hideFeature',
+	'/unbans/read/:page': 'dev.hideFeature',
+	'get /new/unban': 'create.unbanTpl',
+
+	// Регены
+	'/regens': 'list.listRegenTpl',
+	'/regens/read': 'dev.hideFeature',
+	'/regens/read/:page': 'dev.hideFeature',
+	'get /new/regen': 'create.regenTpl',
+
+	// Обращения к администрации
+	'/admreq': 'list.listAdmreqTpl',
+	'/admreq/read': 'dev.hideFeature',
+	'/admreq/read/:page': 'dev.hideFeature',
+	'get /new/admreq': 'create.admreqTpl'
 };

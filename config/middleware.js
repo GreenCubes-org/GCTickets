@@ -19,7 +19,7 @@ function handleGCDBDisconnect() {
   gcdbconn.connect(function(err) {
     if(err) {                               
       setTimeout(handleGCDBDisconnect, 1000); 
-    }                                     
+    }
   });                                    
  
   gcdbconn.on('error', function(err) {

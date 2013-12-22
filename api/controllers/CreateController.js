@@ -31,7 +31,8 @@ module.exports = {
 					status: 1,
 					owner: req.user.id,
 					product: parseInt(req.param('product')),
-					uploads: []
+					uploads: [],
+					visiblity: parseInt(req.param('visiblity'))
 				})
 			},
 			function checkData(obj, callback) {
@@ -67,7 +68,7 @@ module.exports = {
 					callback(null, result.id, obj);
 				});
 			},
-			function registerTicket(ticketId, obj, callback) {
+			function registterTicket(ticketId, obj, callback) {
 				Ticket.create({
 					tid: ticketId,
 					type: 1,

@@ -5,8 +5,8 @@
  * @description :: Вспомогательные функции
  */
 //FIXME: Поменять на глобальную переменную
-var redis = require('./redis');
-var cfg = require('../config/local');
+var redis = require('../redis');
+var cfg = require('../../config/local');
 
 function handleGCDBDisconnect() {
 	gcdbconn = require('mysql').createConnection({
@@ -82,7 +82,7 @@ module.exports.user = user = {
 
 			if (!reply) {
 				altCb()
-			} else 
+			} else
 				cb(null, reply);
 		});
 
@@ -94,7 +94,7 @@ module.exports.user = user = {
 
 						gcdbconn.query('SELECT id FROM users WHERE login = ?', [login], function (err, result) {
 							if (err) return cb(err);
-							
+
 							if (result.length !== 0) {
 								callback(result[0].id);
 							} else {
@@ -105,7 +105,7 @@ module.exports.user = user = {
 					function setIdToRedis(result) {
 						redis.set('user.id:' + id, result, function (err) {
 							if (err) return callback(err);
-							
+
 							callback(null, result);
 						});
 					}

@@ -21,5 +21,5 @@ module.exports = {
 	check: function(req, res) {
 		res.status(204).send('42');
 	}
-  
+
 };
