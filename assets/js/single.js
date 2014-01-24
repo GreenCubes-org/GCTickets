@@ -7,22 +7,19 @@ $(document).ready(function(){
 	};*/
 	var currentUrl = window.location.pathname.split('/');
 	var ticketId = currentUrl[2];
-	
-	/*$.ajaxPrefilter(function (options, originalOptions, jqXHR) {
-		 if(originalOptions.type === 'GET' || options.type === 'GET') {
-			  return;
-		 }
-		$.ajax({
+	$.ajax({
 			type: "GET",
 			url: '/csrfToken',
-			data: $(this).serialize(),
 			success: function(csrfToken) {
-				options.data = $.extend(originalOptions.data, csrfToken);
+				$.ajaxSetup({
+					data: csrfToken
+				});
 			}
 		});
-	});*/
-	
 	getComments(ticketId);
+	
+	// Init modals
+	$('.ui.modal').modal();
 	
 	$(document).on('click', '#commentsubmit', function(e) {
 		$.ajax({
@@ -34,7 +31,7 @@ $(document).ready(function(){
 			},
 			complete: function(data) {
 				$('#commentfield').html('<textarea></textarea>');
-				console.log(data);
+
 				if (data.responseJSON.error) {
 					$('#commentfield').append('<div class="ui active dimmer">' +
 					  '<div class="content">' +
@@ -95,7 +92,44 @@ $(document).ready(function(){
 	});
 	$('#commentstatus').dropdown();
 	$('.ui.accordion').accordion();
-})
+	
+	$(document).on('click', '#commentremove', function(e) {
+		rembutton = this;
+		
+		$('#remcomment')
+			.modal('setting', {
+				transition: 'fade up',
+				closable  : false,
+				onDeny    : function(){
+					return true;
+				},
+				onApprove : function() {
+					cid = $(rembutton).attr('cid');
+					
+					$.ajax({
+						type: "POST",
+						url: '/id/' + ticketId + '/comment/' + cid + '/remove',
+						data: {confirm: 'yeas'},
+						beforeSend: function () {
+							$('body').fadeIn('slow').append('<div class="ui active dimmer" id="removedimmer"><div class="ui loader"></div></div>');
+						},
+						complete: function(data) {
+							$('#removedimmer').remove();
+							if (data.status === 'err') {
+								$('body').fadeIn('slow').append('<div class="header">Произошла ошибка!</div><div class="content">Пожалуйста, сообщите разработчику о ней</div><div class="actions"><div class="ui fluid button">Ладно, вернёмся обратно</div></div>');
+							}
+							
+							if (data.status === 'OK') {
+								getComments(ticketId);
+								$('body').fadeIn('slow').append('<div class="header">Комментарий успешно удалён</div><div class="content">Комментарий был успешно удалён, можно вернуться к работе</div><div class="actions"><div class="ui fluid button">Отлично, вернёмся обратно</div></div>');
+							}
+						}
+					});
+				}
+			})
+			.modal('show');
+	});
+});
 
 function getComments(ticketId) {
 		$.ajax({
@@ -117,8 +151,9 @@ function getComments(ticketId) {
 				
 				$('#comments').html('');
 				comments.map(function (comment) {
+					//if (!comment.status) comment.status = '';
 					$('#comments').append(
-						'<div class="comment" id="comment'+ comment.id +'">' +
+						'<div class="comment ' + comment.status + '" id="comment'+ comment.id +'">' +
 						 '<div class="content">' +
 							'<div class="ui ribbon label ' + comment.colorclass + '">' + comment.prefix + ' <a href="/user/'+ comment.owner +'">'+ comment.owner +'</a></div>' +
 							'<div class="metadata">' +
@@ -127,7 +162,7 @@ function getComments(ticketId) {
 								 '<i class="ellipsis horizontal icon"></i>' +
 								 '<div class="menu">' +
 									'<a href="/id/'+ ticketId +'/comment/'+ comment.id +'/report"class="item">Репорт</a>' +
-									'<a href="/id/'+ ticketId +'/comment/'+ comment.id +'/remove" class="item">Удалить</a>' +
+									'<a id="commentremove" cid="' + comment.id + '" class="item">Удалить</a>' +
 								 '</div>' +
 							  '</div>' +
 							'</div>' +
@@ -140,5 +175,5 @@ function getComments(ticketId) {
 				});
 				$('#commentpost').show();
 			}
-		})
-	}
+	});
+};

@@ -329,6 +329,10 @@ div.comment {
 	opacity: 0.3;
 }
 
+.comment.\33 {
+	background-color: #fbeded !important;
+}
+
 /* Ticket list classes */
 .t-type {
 	width: 4%;

@@ -7,6 +7,7 @@ Ticket system for [GreenCubes](http://greencubes.org).
 Run this sql code in your application MySQL DB for fixing.
 ```SQL
 ALTER TABLE `admreq` DROP `_waterline_dummy02492`;
+ALTER TABLE `ban` DROP `_waterline_dummy02492`;
 ALTER TABLE `banlist` DROP `_waterline_dummy02492`;
 ALTER TABLE `bugreport` DROP `_waterline_dummy02492`;
 ALTER TABLE `regen` DROP `_waterline_dummy02492`;

@@ -81,7 +81,7 @@ module.exports = {
 			.done(function(err, ticket) {
 				if (err) throw err;
 				
-				gct.serializeComments(ticket.comments, req.user.group, function(err, result) {
+				gct.comment.serializeComments(ticket.comments, req.user.group, function(err, result) {
 					if (err) throw err;
 
 					res.json(JSON.stringify(result));
@@ -90,10 +90,35 @@ module.exports = {
 	},
 	
     //TODO Закончить это!
-	deleteCommentTpl: function(req, res) {
-		if (!req.param('id')) return res.json(404,{error: 404});
-		
-		
+	deleteComment: function(req, res) {
+		if (req.param('confirm') === 'yeas' || req.param('id') != 0 || req.param('cid') != 0) {
+			if (!req.param('id')) return res.json(404,{error: 404});
+			
+			Ticket.findOne(req.param('id'))
+				.done(function(err, ticket) {
+					if (err) {
+						res.json({code: 'err'});
+						throw err;
+					}
+					
+					gct.comment.removeComment(ticket.comments, req.param('cid'), function(err, comments) {
+						if (err) {
+							res.json({code: 'err'});
+							throw err;
+						}
+						
+						ticket.comments = comments;
+						
+						ticket.save(function(err) {
+							if (err) throw err;
+							
+							res.json({code: 'OK'});
+						});
+					});
+				});
+		} else {
+			res.redirect('/');
+		}
 	}
 	
 };

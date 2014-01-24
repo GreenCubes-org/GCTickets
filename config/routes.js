@@ -40,7 +40,7 @@ module.exports.routes = {
 	'/id/:id/report': 'dev.hideFeature',
 	'get /id/:id/comments': 'single.listSingleComments',
 	'get /id/:id/comment/:cid/report': 'dev.hideFeature',
-	'get /id/:id/comment/:cid/remove': 'single.deleteCommentTpl',
+	'post /id/:id/comment/:cid/remove': 'single.deleteComment',
 	'post /id/:id/comment': 'create.bugreportComment',
 
 	// Мои тикеты
