@@ -1,0 +1,29 @@
+<% title = 'Админпанель — GC.Тикеты' %>
+<% styles.push('main.css','admin.css') %>
+<%- partial('../partials/header')%>
+
+<div class="admin header">Админпанель</div>
+<div class="container">
+	<h1>Пользователи</h1>
+	<div class="ui horizontal list">
+		<div class="item">
+			<div class="content">
+				<div class="header"><a href="/admin/users/sessions">Список текущих сессий</a></div>
+			</div>
+		</div>
+		<div class="item">
+			<div class="content">
+				<div class="header"><a href="/admin/users/rights">Права пользователей</a></div>
+			</div>
+		</div>
+	</div>
+	
+	<h1>Тикеты</h1>
+	<div class="ui horizontal list">
+		<div class="item">
+			<div class="content">
+				<div class="header"><a href="/admin/tickets/list">Простой список тикетов</a></div>
+			</div>
+		</div>
+	</div>
+</div>

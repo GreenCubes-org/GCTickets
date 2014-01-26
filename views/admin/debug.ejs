@@ -1,0 +1,35 @@
+<% title = 'Админпанель — GC.Тикеты' %>
+<% styles.push('main.css','admin.css') %>
+<%- partial('../partials/header')%>
+
+<div class="admin header">DEBUG INFO</div>
+<div class="container">
+	<h1>Информация о пользователе</h1>
+	<div class="ui horizontal list">
+		<div class="item">
+			<div class="content">
+				<div class="header"><%= req.user.id %></div>
+			</div>
+		</div>
+		<div class="item">
+			<div class="content">
+				<div class="header"><%= req.user.username %></div>
+			</div>
+		</div>
+		<div class="item">
+			<div class="content">
+				<div class="header"><%= req.user.prefix %></div>
+			</div>
+		</div>
+		<div class="item">
+			<div class="content">
+				<div class="header"><%= req.user.colorclass %></div>
+			</div>
+		</div>
+		<div class="item">
+			<div class="content">
+				<div class="header"><%= req.user.group %></div>
+			</div>
+		</div>
+	</div>
+</div>

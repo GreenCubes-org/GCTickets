@@ -25,7 +25,12 @@ module.exports.routes = {
 
 	// Админпанель
 	'/admin': 'admin.main',
-	'/admin/users': 'admin.users',
+	'/admin/debug':'admin.debug',
+	'/admin/users': 'dev.hideFeature',
+	'/admin/users/rights': 'admin.usersRights',
+	'/admin/users/sessions': 'dev.hideFeature',
+	'/admin/tickets': 'dev.hideFeature',
+	'/admin/tickets/list': 'dev.hideFeature',
 
 	// Контроллер сервисных функций.
 	'/500': 'dev.serverError',

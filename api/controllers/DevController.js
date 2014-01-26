@@ -7,7 +7,7 @@
 
 module.exports = {
 	notFound: function(req, res) {
-		res.status(404).view('404', {layout: false});
+		res.view('404', {layout: false});
 	},
 
 	serverError: function(req, res) {
@@ -15,7 +15,7 @@ module.exports = {
 	},
 
 	hideFeature: function(req, res) {
-		res.status(403).view('403-hf', {layout: false});
+		res.view('403-hf', {layout: false});
 	},
 
 	check: function(req, res) {

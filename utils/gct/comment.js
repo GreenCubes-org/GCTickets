@@ -68,18 +68,22 @@ module.exports = comment = {
 			});
 	},
 	
-	removeComment: function removeComment(comments, removeId, cb) {
+	removeComment: function removeComment(comments, removeId, userId, cb) {
 		async.waterfall([
 			function (callback) {
 				_.each(comments, function(comment, index) {
 					if(comment.id === parseInt(removeId)) {
-						comments[index].status = 3; // Status removed, if you don't know.
-						callback(null, comments);
+						if (userId === comment.owner || userId >= 2) {
+							comments[index].status = 3; // Status removed, if you don't know.
+							callback(null, comments);
+						} else {
+							callback({msg: 'У вас нет прав на удаление этого комментария'});
+						}
 					}
 				});
 			}],
 			function(err, result) {
-				if (err) return callback(err);
+				if (err) return cb(err);
 				
 				cb(null, result);
 			});

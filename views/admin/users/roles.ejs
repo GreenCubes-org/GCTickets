@@ -1,0 +1,34 @@
+<% title = 'Права пользователей / Админпанель — GC.Тикеты' %>
+<% styles.push('main.css') %>
+<%- partial('../../partials/header')%>
+
+<div class="container">
+	<h1 class="ui header">Права пользователей / <a href="/admin">Админпанель</a></h1>
+	<div class="ui divider"></div>
+
+	<table class="ui table">
+		<thead>
+			<tr>
+				<th>#</th>
+				<th>Никнейм</th>
+				<th>Группа</th>
+				<th>Префикс</th>
+				<th>Цветовой класс</th>
+				<th>Права</th>
+			</tr>
+		</thead>
+		<tbody>
+		<% for(var i=0; i<rights.length; i++) {%>
+			<tr>
+				<td><%= rights[i].uid %></td>
+				<td><%= rights[i].login %></td>
+				<td><%= rights[i].ugroup %></td>
+				<td><%= rights[i].prefix %></td>
+				<td><%= rights[i].colorclass %></td>
+				<td><%= rights[i].rights %></td>
+			</tr>
+		<% } %>
+		</tbody>
+	</table>
+	
+</div>

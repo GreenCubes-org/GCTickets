@@ -1,19 +1,21 @@
 <% if (req.user) { %>
-  <div class="ui simple dropdown item">
-    <% if (req.user.prefix) { %><%= req.user.prefix %><% } %>&nbsp;<%= req.user.username %> <i class="icon dropdown"></i>
-    <div class="menu">
-      <a href="/user/<%= req.user.username%>" class="item"><i class="user icon"></i>Профиль</a>
-      <a href="/my" class="item"><i class="list layout icon"></i>Ваши тикеты</a>
-   <% if (req.user.group === 3) { %>
-		<a href="/admin" class="item"><i class="dashboard icon"></i>Админпанель</a>
-	<% } %>
-    </div>
-  </div>
-  <a href="/logout" class="item" title="Выход">
-    <i class="sign out icon"></i>
-  </a>
+	<a href="/new" class="item"><i class="add icon"></i></a>
+	<div class="ui simple dropdown item">
+		<% if (req.user.prefix) { %><%= req.user.prefix %><% } %>&nbsp;<%= req.user.username %> <i class="icon dropdown"></i>
+		<div class="menu">
+			<a href="/user/<%= req.user.username%>" class="item"><i class="user icon"></i>Профиль</a>
+			<a href="/my" class="item"><i class="list layout icon"></i>Ваши тикеты</a>
+		<% if (req.user.group === 3) { %>
+			<a href="/admin" class="item"><i class="dashboard icon"></i>Админпанель</a>
+		<% } %>
+		</div>
+	</div>
+	
+	<a href="/logout" class="item" title="Выход">
+		<i class="sign out icon"></i>
+	</a>
 <% } else {%>
-  <a href="/login" class="item">
-    Вход <i class="user icon"></i>
-  </a>
+	<a href="/login" class="item">
+		Вход <i class="user icon"></i>
+	</a>
 <% } %>

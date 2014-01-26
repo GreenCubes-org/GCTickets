@@ -37,8 +37,8 @@ $(document).ready(function(){
 					  '<div class="content">' +
 						 '<div class="center">' +
 							'<h2 class="ui inverted icon header">' +
-							  '<i class="icon circular inverted emphasized red exclamation"></i>' +
-								data.responseJSON.error +
+								'<i class="icon circular inverted emphasized red exclamation"></i>' +
+								'Произошла ошибка: ' + data.responseJSON.error +
 							'</h2>' +
 							'<small style="display:block;">Кликните по сообщению чтобы оно пропало</small>' +
 						 '</div>' +
@@ -119,6 +119,10 @@ $(document).ready(function(){
 								$('body').fadeIn('slow').append('<div class="header">Произошла ошибка!</div><div class="content">Пожалуйста, сообщите разработчику о ней</div><div class="actions"><div class="ui fluid button">Ладно, вернёмся обратно</div></div>');
 							}
 							
+							if (data.msg) {
+								$('body').fadeIn('slow').append('<div class="header">' + data.msg + '</div><div class="actions"><div class="ui fluid button">Ладно, вернёмся обратно</div></div>');
+							}
+							
 							if (data.status === 'OK') {
 								getComments(ticketId);
 								$('body').fadeIn('slow').append('<div class="header">Комментарий успешно удалён</div><div class="content">Комментарий был успешно удалён, можно вернуться к работе</div><div class="actions"><div class="ui fluid button">Отлично, вернёмся обратно</div></div>');
@@ -151,7 +155,6 @@ function getComments(ticketId) {
 				
 				$('#comments').html('');
 				comments.map(function (comment) {
-					//if (!comment.status) comment.status = '';
 					$('#comments').append(
 						'<div class="comment ' + comment.status + '" id="comment'+ comment.id +'">' +
 						 '<div class="content">' +

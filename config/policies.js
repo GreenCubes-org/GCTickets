@@ -28,6 +28,10 @@ module.exports.policies = {
 	
 	DevController: {
 		'*': true
+	},
+	
+	AdminController: {
+		'*': ['authenticated','stuffOnly']
 	}
 	
 };
