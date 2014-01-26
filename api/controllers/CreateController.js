@@ -4,9 +4,8 @@
 * @module :: Controller
 * @description :: Создание тикетов
 */
-// all bugreport rempro ban unban regen admreq anon
+
 //FIXME: Поменять на глобальную переменную
-var redis = require('../../utils/redis');
 var gcdb = require('../../utils/gcdb')
 
 module.exports = {
@@ -80,20 +79,6 @@ module.exports = {
 						
 						callback(null, ticket)
 					});
-			},
-			function cacheToRedis(ticket, callback) {
-				cache = JSON.stringify({
-					id: ticket.id,
-					tid: ticket.tid,
-					type: ticket.type,
-					visiblity: ticket.visiblity
-				});
-				
-				redis.set('ticket:' + ticket.id, cache, function (err) {
-					if (err) return callback(err);
-					
-					callback(null, ticket);
-				});
 			}
 		 ],
 		 function (err, ticket) {

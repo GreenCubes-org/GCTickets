@@ -1,4 +1,3 @@
-var redis = require('../redis');
 var gcdb = require('../gcdb');
 var cfg = require('../../config/local.js');
 
@@ -8,38 +7,38 @@ module.exports = {
 			switch (obj.type) {
 				case 1:
 					async.waterfall([
-							function getBugreport(callback) {
-								Bugreport.find({
-									id: obj.tid
-								}).done(function (err, result) {
-									if (err) return callback(err);
-									
-									callback(err, result[0]);
+						function getBugreport(callback) {
+							Bugreport.find({
+								id: obj.tid
+							}).done(function (err, result) {
+								if (err) return callback(err);
+								
+								callback(err, result[0]);
+							});
+						},
+						function serialize(result, callback) {
+							bugreport.serializeSingle(result, function (err, ticket) {
+								if (err) return callback(err);
+								
+								callback(null, {
+									id: ticket.id,
+									title: ticket.title,
+									status: ticket.status,
+									owner: ticket.owner,
+									createdAt: ticket.createdAt,
+									type: {
+										descr: 'Баг-репорт',
+										iconclass: 'bug'
+									}
 								});
-							},
-							function serialize(result, callback) {
-								bugreport.serializeSingle(result, function (err, ticket) {
-									if (err) return callback(err);
-									
-									callback(null, {
-										id: ticket.id,
-										title: ticket.title,
-										status: ticket.status,
-										owner: ticket.owner,
-										createdAt: ticket.createdAt,
-										type: {
-											descr: 'Баг-репорт',
-											iconclass: 'bug'
-										}
-									});
-								})
-							}
-						],
-						function (err, bugreport) {
-							if (err) throw err;
-	
-							callback(null, bugreport);
-						});
+							})
+						}
+					],
+					function (err, bugreport) {
+						if (err) throw err;
+
+						callback(null, bugreport);
+					});
 					return;
 
 			case 2:

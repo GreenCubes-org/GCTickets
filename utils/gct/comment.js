@@ -1,4 +1,3 @@
-var redis = require('../redis');
 var gcdb = require('../gcdb');
 var cfg = require('../../config/local.js');
 

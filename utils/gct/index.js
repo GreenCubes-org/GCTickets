@@ -5,7 +5,6 @@
  * @description :: Вспомогательные функции
  */
 // FIXME: Поменять на глобальную переменную
-var redis = require('../redis');
 var gcdb = require('../gcdb');
 var cfg = require('../../config/local.js');
 
