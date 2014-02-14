@@ -17,7 +17,7 @@ module.exports = {
 							});
 						},
 						function serialize(result, callback) {
-							bugreport.serializeSingle(result, function (err, ticket) {
+							bugreport.serializeSingle(result, null, function (err, ticket) {
 								if (err) return callback(err);
 								
 								callback(null, {

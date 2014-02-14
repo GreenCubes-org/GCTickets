@@ -101,6 +101,9 @@ module.exports.getStatusByID = getStatusByID = function (id) {
 
 module.exports.getProductByID = getProductByID = function (id) {
 	switch (id) {
+		case 42:
+			return 'Я не знаю';
+
 		case 1:
 			return 'GC.Main Клиент';
 
@@ -108,7 +111,7 @@ module.exports.getProductByID = getProductByID = function (id) {
 			return 'GC.Main Сервер (GreenServer)';
 
 		case 3:
-			return 'GreenCubes.org сайт';
+			return 'GreenCubes.org Сайт';
 
 		case 4:
 			return 'Форум GreenCubes';
@@ -117,7 +120,7 @@ module.exports.getProductByID = getProductByID = function (id) {
 			return 'GreenCubes.Wiki';
 
 		case 6:
-			return 'GreenCubes.Ticket';
+			return 'Тикет-система GreenCubes';
 
 		case 7:
 			return 'GC.RPG Клиент';

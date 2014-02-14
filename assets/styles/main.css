@@ -166,6 +166,10 @@ label {
 	font-weight: bold;
 }
 
+#hiddentruth {
+	color: transparent;
+}
+
 /* Comments changes */
 .ui.divider.small {
 	margin: 0.5rem 0rem !important;

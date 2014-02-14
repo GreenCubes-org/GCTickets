@@ -25,18 +25,19 @@ styles.push('main.css','wbb.css') %>
 					<label>Местонахождение проблемы</label>
 					<div class="ui selection dropdown">
 						<input name="product" type="hidden">
-						<div class="default text">Выбери сервис из-за которого создаётся баг-репорт</div>
+						<div class="default text">В какой программе баг?</div>
 						<div class="menu">
-							 <div class="item" data-value="1">GC.Main Клиент</div>
-							 <div class="item" data-value="2">GC.Main Сервер(GreenServer)</div>
-							 <div class="item" data-value="3">GreenCubes.org сайт</div>
-							 <div class="item" data-value="4">Форум GreenCubes</div>
-							 <div class="item" data-value="5">GreenCubes.Wiki</div>
-							 <div class="item" data-value="6">Тикет-система GreenCubes</div>
-							 <div class="item" data-value="7">GC.RPG Клиент</div>
-							 <div class="item" data-value="8">GC.RPG Сервер</div>
-							 <div class="item" data-value="9">GC.Apocalyptic Клиент</div>
-							 <div class="item" data-value="10">GC.Apocalyptic Сервер</div>
+							<div class="item" data-value="42">Я не знаю</div>
+							<div class="item" data-value="1">GC.Main Клиент</div>
+							<div class="item" data-value="2">GC.Main Сервер(GreenServer)</div>
+							<div class="item" data-value="3">GreenCubes.org сайт</div>
+							<div class="item" data-value="4">Форум GreenCubes</div>
+							<div class="item" data-value="5">GreenCubes.Wiki</div>
+							<div class="item" data-value="6">Тикет-система GreenCubes</div>
+							<div class="item" data-value="7">GC.RPG Клиент</div>
+							<div class="item" data-value="8">GC.RPG Сервер</div>
+							<div class="item" data-value="9">GC.Apocalyptic Клиент</div>
+							<div class="item" data-value="10">GC.Apocalyptic Сервер</div>
 						</div>
 						<i class="dropdown icon"></i>
 					</div>
@@ -62,12 +63,6 @@ styles.push('main.css','wbb.css') %>
 			 <label>Подробное описание</label>
 			 <textarea id="description" name="description"></textarea>
 		</div>
-		<!--<div class="inline field"><!-- TODO: Запилить тут нормальную загрузку файлов, да ->
-			 <div class="ui labeled basic icon button">
-			 <i class="upload icon"></i>
-					Прикрепить изображения
-			 </div>
-		 </div>-->
 		 <button class="ui blue submit button" type="submit">Отправить тикет</button>
 		 <div id="errmessage"></div>
 	</div>

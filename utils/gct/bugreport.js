@@ -45,7 +45,7 @@ module.exports = bugreport = {
 		
 	},
 
-	serializeSingle: function serializeSingle(obj, cb) {
+	serializeSingle: function serializeSingle(obj, config, cb) {
 		async.waterfall([
 			function getUserByID(callback) {
 				gcdb.user.getByID(obj.owner, function (err, result) {
@@ -73,20 +73,37 @@ module.exports = bugreport = {
 			}).done(function (err, ticket) {
 				if (err) return callback(err);
 
-				cb(null, {
-					id: ticket[0].id,
-					title: obj.title,
-					description: obj.description,
-					status: obj.status,
-					owner: obj.owner,
-					product: obj.product,
-					visiblity: getVisiblityByID(ticket.visiblity),
-					createdAt: obj.createdAt,
-					type: {
-						descr: 'Баг-репорт',
-						iconclass: 'bug'
-					}
-				});
+				if (config && config.isEdit) {
+					cb(null, {
+						id: ticket[0].id,
+						title: obj.title,
+						description: obj.description,
+						status: obj.status,
+						owner: obj.owner,
+						product: obj.product,
+						visiblity: ticket[0].visiblity,
+						createdAt: obj.createdAt,
+						type: {
+							descr: 'Баг-репорт',
+							iconclass: 'bug'
+						}
+					});
+				} else {
+					cb(null, {
+						id: ticket[0].id,
+						title: obj.title,
+						description: obj.description,
+						status: obj.status,
+						owner: obj.owner,
+						product: obj.product,
+						visiblity: getVisiblityByID(ticket[0].visiblity),
+						createdAt: obj.createdAt,
+						type: {
+							descr: 'Баг-репорт',
+							iconclass: 'bug'
+						}
+					});
+				}
 			});
 		});
 	}

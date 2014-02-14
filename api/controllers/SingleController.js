@@ -13,16 +13,16 @@ moment.lang('ru');
 function singleBugreport(req, res, ticket) {
 	Bugreport.findOne(ticket.tid).done(function (err, bugreport) {
 		if (err) throw err;
-    
-    	gct.bugreport.serializeSingle(bugreport, function(err, result) {
+
+		gct.bugreport.serializeSingle(bugreport, null, function(err, result) {
 			if (err) throw err;
 			res.view('single/bugreport', {
 				moment: moment,
 				ticket: result,
-                globalid: ticket.id
-            })
-        })
-    })
+				globalid: ticket.id
+			});
+		});
+	});
 }
 
 function singleRempro(req, res, ticket) {
@@ -47,7 +47,7 @@ function singleAdmreq(req, res, ticket) {
 
 module.exports = {
 
-	routeSingles: function(req, res) {
+	routeSingle: function(req, res) {
 		Ticket.findOne(req.param('id')).done(function (err, result) {
 			if (err) throw err;
 			
@@ -81,11 +81,19 @@ module.exports = {
 			.done(function(err, ticket) {
 				if (err) throw err;
 				
-				gct.comment.serializeComments(ticket.comments, req.user.group, function(err, result) {
-					if (err) throw err;
+				if (req.user) {
+					gct.comment.serializeComments(ticket.comments, req.user.group, function(err, result) {
+						if (err) throw err;
 
-					res.json(JSON.stringify(result));
-				});
+						res.json(JSON.stringify(result));
+					});
+				} else {
+					gct.comment.serializeComments(ticket.comments, 0, function(err, result) {
+						if (err) throw err;
+
+						res.json(JSON.stringify(result));
+					});
+				}
 			});
 	},
 	

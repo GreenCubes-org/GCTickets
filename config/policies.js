@@ -26,6 +26,10 @@ module.exports.policies = {
 		'mainTpl': true
 	},
 	
+	EditController: {
+		'*': ['ownerNStuff','modAbove']
+	},
+
 	DevController: {
 		'*': true
 	},

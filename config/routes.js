@@ -40,8 +40,9 @@ module.exports.routes = {
 
 	// Работа с тикетами
 	// Вывод и действия с тикетом
-	'/id/:id': 'single.routeSingles',
-	'/id/:id/edit': 'dev.hideFeature',
+	'/id/:id': 'single.routeSingle',
+	'get /id/:id/edit': 'edit.routeSingleTpl',
+	'post /id/:id/edit': 'edit.routeSingle',
 	'/id/:id/report': 'dev.hideFeature',
 	'get /id/:id/comments': 'single.listSingleComments',
 	'get /id/:id/comment/:cid/report': 'dev.hideFeature',

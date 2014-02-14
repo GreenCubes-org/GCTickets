@@ -67,7 +67,7 @@ module.exports = {
 					callback(null, result.id, obj);
 				});
 			},
-			function registterTicket(ticketId, obj, callback) {
+			function registerTicket(ticketId, obj, callback) {
 				Ticket.create({
 					tid: ticketId,
 					type: 1,

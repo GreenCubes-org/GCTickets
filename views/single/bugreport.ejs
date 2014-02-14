@@ -11,12 +11,15 @@ styles.push('main.css') %>
 			<h2 class="ui header">
 				<span><%= ticket.title %></span>
 				<div class="sub header">
+<% if (req.user) {
+	if (req.user.group >=2 || req.user.id === ticket.owner) { %>
 <a href="/id/<%= globalid %>/edit"><i class="pencil small icon" id="s-editicon"></i></a>
+<% } } %>
 &nbsp;<a href="/id/<%= globalid %>/report"><i class="flag small icon" id="s-reporticon"></i></a>
 &raquo;&nbsp;<a href="/id/<%= globalid %>">#<%= globalid %></a> 
 &raquo;&nbsp;<a  href="/user/<%= ticket.owner %>"><%= ticket.owner %></a> 
 &raquo;&nbsp;<%= moment(ticket.createdAt).format('Do MMM YYYY, h:mm') %>
-<% if (ticket.product) { %>&raquo;&nbsp;<%= ticket.product %><% } %>
+<% if (ticket.product || ticket.product !== 42) { %>&raquo;&nbsp;<%= ticket.product %><% } %>
 				</div>
 			</h2>
 		</div>
