@@ -16,6 +16,7 @@ function singleBugreport(req, res, ticket) {
 
 		gct.bugreport.serializeSingle(bugreport, null, function(err, result) {
 			if (err) throw err;
+			
 			res.view('single/bugreport', {
 				moment: moment,
 				ticket: result,

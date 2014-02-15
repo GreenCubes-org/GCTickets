@@ -1,5 +1,6 @@
 var gcdb = require('../gcdb');
 var cfg = require('../../config/local.js');
+var bbcode = require('bbcode');
 
 module.exports = bugreport = {
 	serializeList: function serializeList(array, cb) {
@@ -61,6 +62,13 @@ module.exports = bugreport = {
 						visiblity: null,
 						createdAt: obj.createdAt
 					});
+				});
+			},
+			function bbcode2html(obj, callback) {
+				bbcode.parse(obj.description, function(result) {
+					obj.description = result;
+					
+					callback(null, obj);
 				});
 			}
 		],

@@ -11,6 +11,7 @@ styles.push('main.css') %>
 			<h2 class="ui header">
 				<span><%= ticket.title %></span>
 				<div class="sub header">
+
 <% if (req.user) {
 	if (req.user.group >=2 || req.user.id === ticket.owner) { %>
 <a href="/id/<%= globalid %>/edit"><i class="pencil small icon" id="s-editicon"></i></a>
@@ -32,7 +33,7 @@ styles.push('main.css') %>
 	<div class="ui grid">
 		<div class="column" style="width: 56%;">
 			<h2 class="ui header">Описание</h2>
-			<p class="s-description"><%= ticket.description %></p>
+			<p class="s-description"><%- ticket.description %></p>
 			
 		</div>
 		<div class="seven wide column" style="padding-bottom: 10em; border-left: 1px solid rgba(0, 0, 0, 0.1);">
