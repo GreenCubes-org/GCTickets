@@ -170,6 +170,10 @@ label {
 	color: transparent;
 }
 
+.ui.divider {
+	margin: 0em !important;
+}
+
 /* Comments changes */
 .ui.divider.small {
 	margin: 0.5rem 0rem !important;
