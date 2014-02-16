@@ -1,5 +1,13 @@
+# But ignore this :>
 config/local.js
 .tmp
 node_modules
 .geany
 logs/*
+
+# Do not ignore our versions of some modules
+!/node_modules
+/node_modules/*
+
+# Place your versions of modules here \/
+!/node_modules/bbcode

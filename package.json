@@ -17,8 +17,7 @@
 		"redis": "0.9.*",
 		"moment": " 2.4.*",
 		"express-validator": "0.8.*",
-		"forever": "0.10.*",
-		"bbcode": "0.1.*"
+		"forever": "0.10.*"
 	},
 	"scripts": {
 		 "start": "node start.js",
