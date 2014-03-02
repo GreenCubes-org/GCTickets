@@ -12,6 +12,10 @@ module.exports = {
 		} else {
 			res.view('home/preview');
 		}
+	},
+	
+	loginProblem: function (req, res) {
+		res.view('home/loginproblem');
 	}
   
 };

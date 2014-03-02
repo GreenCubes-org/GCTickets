@@ -77,8 +77,8 @@ module.exports.routes = {
 
 	// Баны
 	'/bans': 'list.listBanTpl',
-	'/bans/read': 'dev.hideFeature',
-	'/bans/read/:page': 'dev.hideFeature',
+	'/bans/read': 'list.listNewestBan',
+	'/bans/read/:page': 'list.list20Ban',
 	'get /new/ban': 'create.banTpl',
 
 	// Разбаны

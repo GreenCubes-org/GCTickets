@@ -31,11 +31,11 @@ module.exports = {
 										iconclass: 'bug'
 									}
 								});
-							})
+							});
 						}
 					],
 					function (err, bugreport) {
-						if (err) throw err;
+						if (err) return callback(err);
 
 						callback(null, bugreport);
 					});
@@ -45,7 +45,40 @@ module.exports = {
 				return //rempro.serializeSingle
 
 			case 3:
-				return //ban.serializeSingle
+				async.waterfall([
+						function getBugreport(callback) {
+							Ban.find({
+								id: obj.tid
+							}).done(function (err, result) {
+								if (err) return callback(err);
+								
+								callback(err, result[0]);
+							});
+						},
+						function serialize(result, callback) {
+							ban.serializeSingle(result, null, function (err, ticket) {
+								if (err) return callback(err);
+								
+								callback(null, {
+									id: ticket.id,
+									title: ticket.title,
+									status: ticket.status,
+									owner: ticket.owner,
+									createdAt: ticket.createdAt,
+									type: {
+										descr: 'Заявка на бан',
+										iconclass: 'ban circle'
+									}
+								});
+							})
+						}
+					],
+					function (err, bugreport) {
+						if (err) throw err;
+
+						callback(null, bugreport);
+					});
+					return;
 
 			case 4:
 				return //unban.serializeSingle

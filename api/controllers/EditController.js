@@ -6,7 +6,9 @@
 */
 
 //FIXME: Поменять на глобальную переменную
-var gct = require('../../utils/gct');
+var gct = require('../../utils/gct'),
+	formidable = require('formidable'),
+	crypto = require('crypto');
 
 function editBugreportTpl(req, res, ticket) {
 	Bugreport.findOne(ticket.tid).done(function (err, bugreport) {
@@ -22,12 +24,50 @@ function editBugreportTpl(req, res, ticket) {
 		});
 	});
 };
-
 function editBugreport(req, res, ticket) {
 	Bugreport.findOne(ticket.tid).done(function (err, bugreport) {
 		if (err) throw err;
 
 		async.waterfall([
+			/*function uploadData(callback) {
+				var form = new formidable.IncomingForm(),
+					files = [],
+					fields = [];
+				
+				form.uploadDir = '../../uploads';
+				form.encoding = 'utf-8';
+				form.maxFieldsSize = 2 * 1024 * 1024;
+				
+				form.on('file', function(field, file) {
+						if (files.length === 0)
+							return callback({
+								show: true,
+								msg: 'Ошибка в запросе',
+								ticket: ticket
+							});
+
+						if (files.image.type === 'image/jpeg' || 'image/png') {
+							var filename = crypto.createHash('md5').digest('hex');
+
+							fs.rename(files.upload.path, '../../uploads/' + filename, function (err) { 
+								if (err) return callback(err); 
+							});
+						} else {
+							fs.unlink('/tmp/hello', function (err) {
+								if (err) return callback(err);
+							});
+						}
+					})
+					.on('aborted', function() {
+						callback(null, null);
+					})
+					.on('end', function() {
+						console.log(files, fields);
+						
+						callback(null, null);
+					});
+				form.parse(req);
+			},*/
 			function setData(callback) {
 				gct.bugreport.serializeSingle(bugreport, {isEdit: true}, function(err, result) {
 					if (err) throw err;
@@ -37,8 +77,9 @@ function editBugreport(req, res, ticket) {
 						description: req.param('description'),
 						status: bugreport.status,
 						owner: bugreport.owner,
+						logs: req.param('logs'),
 						product: bugreport.bugreport,
-						uploads: bugreport.uploads,
+						uploads: null,
 						visiblity: parseInt(req.param('visiblity'))
 					});
 				});
@@ -60,6 +101,10 @@ function editBugreport(req, res, ticket) {
 			},
 			function sanitizeData(obj, callback) {
 				obj.description = req.sanitize('description').entityEncode();
+				obj.logs = req.sanitize('logs').entityEncode();
+				
+				if (obj.logs === '') obj.logs = null;
+				
 				callback(null, obj);
 			},
 			function editBugreport(obj, callback) {
@@ -68,6 +113,7 @@ function editBugreport(req, res, ticket) {
 
 					result.title = obj.title;
 					result.description = obj.description;
+					result.logs = obj.logs;
 					result.uploads = obj.uploads;
 
 					result.save(function(err) {
@@ -91,25 +137,25 @@ function editBugreport(req, res, ticket) {
 				});
 			}
 		 ],
-		 function (err, ticket) {
+		 function (err) {
 			if (err) {
 				if (!err.show) {
-					res.json({
-						 err: 'Внезапная ошибка! Пожалуйста, сообщите о ней разработчику.'
+					res.view('edit/bugreport',{
+						err: 'Внезапная ошибка! Пожалуйста, сообщите о ней разработчику.',
+						ticket: ticket
 					});
 
 					console.error(err);
 					throw err;
 				} else {
-					res.json({
-						err: err.msg
+					res.view('edit/bugreport',{
+						err: err.msg,
+						ticket: ticket
 					});
 					return;
 				}
 			} else {
-				res.json({
-					id: ticket.id
-				});
+				res.redirect('/id/' + ticket.id);
 			}
 		});
 	});

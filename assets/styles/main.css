@@ -153,10 +153,6 @@ label {
 	border-radius: 0px;
 }
 
-.gc-cr-dropdown {
-	width: auto !important;
-}
-
 .gc-segment {
 	margin: 1em 0px;
 	padding: 0px 4em;
@@ -164,14 +160,11 @@ label {
 
 .ui.label {
 	font-weight: bold;
+	text-transform: none !important;
 }
 
 #hiddentruth {
 	color: transparent;
-}
-
-.ui.divider {
-	margin: 0em !important;
 }
 
 /* Comments changes */
@@ -339,6 +332,10 @@ div.comment {
 
 .comment.\33 {
 	background-color: #fbeded !important;
+}
+
+.s-logs {
+	font-size: 12px;
 }
 
 /* Ticket list classes */

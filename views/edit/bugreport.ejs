@@ -2,36 +2,46 @@
 scripts.push('wbb.js','create.js','edit.bugreport.js');
 styles.push('main.css','wbb.css') %>
 <%- partial('../partials/header')%>
-<form id="gc-reportform">
+<form id="gc-reportform" method="post" enctype="multipart/form-data" action="/id/<%= ticket.id %>/edit">
 	<input type="hidden" name="_csrf" value="<%= _csrf %>" />
 	<div class="ui fluid form container" id="gc-reportformdiv">
-		 <h1 class="header">Редактирование #<%= ticket.id %>: "<%= ticket.title %>"
-		 </h1>
-		 <div class="ui divider"></div>
-		 <div class="two fields">
-			 <div class="field">
-					<label>Поле видимости тикета</label>
-					<div class="ui selection dropdown">
-						<input name="visiblity" type="hidden"  value="<%= ticket.visiblity %>">
-						<div class="default text">Выбери приватность тикета</div>
-						<div class="menu">
-							 <div class="item" data-value="1">Виден всем</div>
-							 <div class="item" data-value="2">Виден только разработчику</div>
-						</div>
-						<i class="dropdown icon"></i>
+		<h1 class="header" style="margin-bottom: 0px;">Редактирование #<%= ticket.id %>: "<%= ticket.title %>"
+		</h1>
+		<div class="ui divider" style="margin: 1em 0em !important;"></div>
+		<div class="two fields">
+			<div class="field" style="width: 250px !important;">
+				<label>Поле видимости тикета</label>
+				<div class="ui selection fluid dropdown">
+					<input name="visiblity" type="hidden"  value="<%= ticket.visiblity %>">
+					<div class="default text">Выбери приватность тикета</div>
+					<div class="menu">
+						 <div class="item" data-value="1">Виден всем</div>
+						 <div class="item" data-value="2">Виден только разработчику</div>
 					</div>
-			 </div>
-		 </div>
-		 <div class="field">
-			 <label>Краткое описание</label>
-			 <input name="title" type="text" value="<%= ticket.title %>">
-		 </div>
-		 <div class="field">
-			 <label>Подробное описание</label>
-			 <textarea id="description" name="description"><%= ticket.description %></textarea>
+					<i class="dropdown icon"></i>
+				</div>
+			</div>
 		</div>
-		 <button class="ui blue submit button" type="submit">Отправить тикет</button>
-		 <div id="errmessage"></div>
+		<div class="field">
+			<label>Краткое описание</label>
+			<input name="title" type="text" value="<%= ticket.title %>">
+		</div>
+		<div class="field">
+			<label>Подробное описание</label>
+			<textarea id="description" name="description"><%= ticket.description %></textarea>
+		</div>
+		<div class="field">
+			<label>Логи <em>(необязательно)</em></label>
+			<textarea id="logs" name="logs"><%= ticket.logs %></textarea>
+		</div>
+		<div class="field">
+			<label>Прикрепить изображение</label>
+			<input type="file" multiple name="upload">
+		</div>
+		<button class="ui blue submit button" type="submit">Отправить тикет</button>
+		<% isErr = typeof(err); if (isErr !== 'undefined') { %>
+		<div id="errmessage"><%= err %></div>
+		<% } %>
 	</div>
 </form>
 <script>$(function(){$("#description").htmlcode('<%= ticket.description %>')}).sync();</script>

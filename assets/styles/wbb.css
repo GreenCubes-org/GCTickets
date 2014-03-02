@@ -28,7 +28,7 @@ html{height:100% !important;}
   overflow-x: hidden
 }
 .wysibb-body ul,ol{padding:0 0 0 30px}
-.wysibb{margin:0 0 15px 0 !important;border:1px solid #ddd;position:relative;background:#fff;font-family:Arial,Verdana,Tahoma;font-size:12px;}
+.wysibb{margin:0 0 15px 0 !important;border:1px solid #ddd;border-radius:0.3125em;position:relative;background:#fff;font-family:Arial,Verdana,Tahoma;font-size:12px;}
 .wysibb-texarea{
   border:none !important;
   margin:0 !important;

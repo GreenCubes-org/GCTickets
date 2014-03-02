@@ -72,12 +72,18 @@ module.exports = comment = {
 			function (callback) {
 				_.each(comments, function(comment, index) {
 					if(comment.id === parseInt(removeId)) {
-						if (userId === comment.owner || userId >= 2) {
-							comments[index].status = 3; // Status removed, if you don't know.
-							callback(null, comments);
-						} else {
-							callback({msg: 'У вас нет прав на удаление этого комментария'});
-						}
+						Rights.find({
+							uid: userId
+						}).done(function (err, rights) {
+							if (err) return cb(err);
+							
+							if (userId === comment.owner || rights && rights.length !== 0 && rights[0].ugroup >= 2) {
+								comments[index].status = 3; // Status removed, if you don't know.
+								callback(null, comments);
+							} else {
+								callback({msg: 'У вас нет прав на удаление этого комментария'});
+							}
+						});
 					}
 				});
 			}],

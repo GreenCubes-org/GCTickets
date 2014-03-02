@@ -54,7 +54,7 @@ module.exports.user = user = {
 			if (err) return cb(err);
 
 			if (result.length !== 0) {
-				cb(result[0].id);
+				cb(null, result[0].id);
 			} else {
 				cb('Can\'t search id with this login');
 			}

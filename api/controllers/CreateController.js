@@ -6,7 +6,9 @@
 */
 
 //FIXME: Поменять на глобальную переменную
-var gcdb = require('../../utils/gcdb')
+var gcdb = require('../../utils/gcdb'),
+	formidable = require('formidable'),
+	crypto = require('crypto');
 
 module.exports = {
 	mainTpl: function(req,res) {
@@ -23,14 +25,42 @@ module.exports = {
 	
 	bugreport: function(req,res) {
 		async.waterfall([
-			function setData(callback) {
+			function uploadData(callback) {
+				var form = new formidable.IncomingForm(),
+					files = [],
+					fields = [];
+				
+				form.uploadDir = '../../uploads';
+				form.encoding = 'utf-8';
+				form.maxFieldsSize = 2 * 1024 * 1024;
+				form
+					.on('field', function(field, value) {
+						console.log(field, value);
+						fields.push([field, value]);
+					})
+					.on('file', function(field, file) {
+						var filename = crypto.createHash('md5').digest('hex');
+
+						fs.rename(files.upload.path, '../../uploads/' + filename, function (err) { 
+							if (err) return callback(err); 
+						});
+						files.push([field, file]);
+					})
+					.on('end', function() {
+						console.log(files, fields);
+						
+						callback(null, null);
+					});
+			},
+			function setData(uploads, callback) {
 				callback(null,{
 					title: req.param('title'),
 					description: req.param('description'),
 					status: 1,
 					owner: req.user.id,
+					logs: req.param('logs'),
 					product: parseInt(req.param('product')),
-					uploads: [],
+					uploads: uploads,
 					visiblity: parseInt(req.param('visiblity'))
 				})
 			},
@@ -51,6 +81,10 @@ module.exports = {
 			},
 			function sanitizeData(obj, callback) {
 				obj.description = req.sanitize('description').entityEncode();
+				obj.logs = req.sanitize('logs').entityEncode();
+				
+				if (obj.logs === '') obj.logs = null;
+				
 				callback(null, obj);
 			},
 			function createBugreport(obj, callback) {
@@ -59,6 +93,7 @@ module.exports = {
 					description: obj.description,
 					status: obj.status,
 					owner: obj.owner,
+					logs: obj.logs,
 					product: obj.product,
 					uploads: obj.uploads
 				}).done(function(err, result) {
@@ -120,7 +155,7 @@ module.exports = {
 				Ticket.findOne(req.param('id')).done(function (err, bugreport) {
 					if (err) return callback(err);
 
-					if (bugreport.comments.length > 0) {
+					if (bugreport.comments && bugreport.comments.length > 0) {
 						callback(null, bugreport.comments.length + 1);
 					} else {
 						callback(null, 1); // set comment id to 1 because there is no other comments

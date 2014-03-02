@@ -17,7 +17,7 @@
 		"redis": "0.9.*",
 		"moment": " 2.4.*",
 		"express-validator": "0.8.*",
-		"forever": "0.10.*"
+		"formidable": "1.0.*"
 	},
 	"scripts": {
 		 "start": "node start.js",

@@ -31,7 +31,19 @@ function singleRempro(req, res, ticket) {
 }
 
 function singleBan(req, res, ticket) {
-	
+	Ban.findOne(ticket.tid).done(function (err, ban) {
+		if (err) throw err;
+
+		gct.ban.serializeSingle(ban, null, function(err, result) {
+			if (err) throw err;
+			
+			res.view('single/ban', {
+				moment: moment,
+				ticket: result,
+				globalid: ticket.id
+			});
+		});
+	});
 }
 
 function singleUnban(req, res, ticket) {

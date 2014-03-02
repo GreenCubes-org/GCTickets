@@ -218,6 +218,61 @@ module.exports = {
 				}
 			})
 	},
+	
+	listNewestBan: function(req, res) {
+		Ticket.find({
+				type: 3
+			})
+			.sort('id DESC')
+			.limit(20)
+			.done(function(err, tickets) {
+				if (err) throw err;
+
+				gct.ban.serializeList(tickets, function(err, result) {
+					if (err) throw err;
+					
+					res.json(JSON.stringify(result));
+				});
+			 });
+	},
+	
+	list20Ban: function(req, res) {
+		async.waterfall([
+			function getNumOfIDs(callback) {
+				Ticket.find()
+					.sort('id DESC')
+					.limit(1)
+					.done(function (err, latestElement) { 
+						if (err) return callback(err);
+						callback(null, latestElement[0].id)
+					})
+			},
+			function findTickets(tableSize, callback) {
+				skipRows = (req.param('page') - 1 ) * 20;
+				if (tableSize <= skipRows) {
+					return res.json({
+						err: 'no more tickets'
+					});
+				}
+				
+				Ticket.find({
+						type: 3
+					})
+					.sort('id ASC')
+					.skip(skipRows)
+					.sort('id DESC')
+					.done(function(err, tickets) {
+						if (err) throw err;
+						gct.ban.serializeList(tickets, function(err, result) {
+							res.json(JSON.stringify(result));
+						});
+					 });
+			}
+		], 
+		function (err) {
+			throw err;
+		})
+	},
 
 	listUnbanTpl: function(req, res) {
 		text = 'Разбаны';

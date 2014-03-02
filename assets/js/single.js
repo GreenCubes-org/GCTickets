@@ -18,7 +18,6 @@ $(document).ready(function(){
 		});
 	getComments(ticketId);
 	
-	// Init modals
 	$('.ui.modal').modal();
 	
 	$(document).on('click', '#commentsubmit', function(e) {
@@ -30,15 +29,15 @@ $(document).ready(function(){
 				$('#commentfield').fadeIn('slow').append('<div class="ui active dimmer"><div class="ui loader"></div></div>');
 			},
 			complete: function(data) {
-				$('#commentfield').html('<textarea></textarea>');
-
+				$('#commentfield').html('<textarea name="message" id="commentform"></textarea>');
+				
 				if (data.responseJSON.error) {
 					$('#commentfield').append('<div class="ui active dimmer">' +
 					  '<div class="content">' +
 						 '<div class="center">' +
 							'<h2 class="ui inverted icon header">' +
 								'<i class="icon circular inverted emphasized red exclamation"></i>' +
-								'Произошла ошибка: ' + data.responseJSON.error +
+								data.responseJSON.error +
 							'</h2>' +
 							'<small style="display:block;">Кликните по сообщению чтобы оно пропало</small>' +
 						 '</div>' +
@@ -71,25 +70,6 @@ $(document).ready(function(){
 		return false;
 	});
 	
-	$('#commentsubmit').popup({
-		inline: true,
-		position: 'top center',
-		target: '#commentstatus',
-		variation: 'inverted',
-		title: 'Смена статуса'
-	});
-	$('#s-editicon').popup({
-		inline: true,
-		position: 'bottom center',
-		variation: 'inverted',
-		title: 'Изменить тикет'
-	});
-	$('#s-reporticon').popup({
-		inline: true,
-		position: 'bottom center',
-		variation: 'inverted',
-		title: 'Пожаловаться'
-	});
 	$('#commentstatus').dropdown();
 	$('.ui.accordion').accordion();
 	
@@ -111,21 +91,21 @@ $(document).ready(function(){
 						url: '/id/' + ticketId + '/comment/' + cid + '/remove',
 						data: {confirm: 'yeas'},
 						beforeSend: function () {
-							$('body').fadeIn('slow').append('<div class="ui active dimmer" id="removedimmer"><div class="ui loader"></div></div>');
+							$('body').fadeIn('slow').append('<div class="ui active dimmer" id="removedimmer"><div class="ui active dimmer" id="removedimmer"><div class="ui loader"></div></div></div>');
 						},
 						complete: function(data) {
 							$('#removedimmer').remove();
-							if (data.status === 'err') {
-								$('body').fadeIn('slow').append('<div class="header">Произошла ошибка!</div><div class="content">Пожалуйста, сообщите разработчику о ней</div><div class="actions"><div class="ui fluid button">Ладно, вернёмся обратно</div></div>');
+							if (data.responseJSON.status === 'err') {
+								$('body').fadeIn('slow').append('<div class="ui active dimmer" id="removedimmer"><div class="header">Произошла ошибка!</div><div class="content">Пожалуйста, сообщите разработчику о ней</div><div class="actions"><div class="ui fluid button">Ладно, вернёмся обратно</div></div></div>');
 							}
 							
-							if (data.msg) {
-								$('body').fadeIn('slow').append('<div class="header">' + data.msg + '</div><div class="actions"><div class="ui fluid button">Ладно, вернёмся обратно</div></div>');
+							if (data.responseJSON.msg) {
+								$('body').fadeIn('slow').append('<div class="ui active dimmer" id="removedimmer"><div class="header">' + data.msg + '</div><div class="actions"><div class="ui fluid button">Ладно, вернёмся обратно</div></div></div>');
 							}
 							
-							if (data.status === 'OK') {
+							console.log(data);
+							if (data.responseJSON.status === 'OK') {
 								getComments(ticketId);
-								$('body').fadeIn('slow').append('<div class="header">Комментарий успешно удалён</div><div class="content">Комментарий был успешно удалён, можно вернуться к работе</div><div class="actions"><div class="ui fluid button">Отлично, вернёмся обратно</div></div>');
 							}
 						}
 					});
@@ -158,13 +138,12 @@ function getComments(ticketId) {
 					$('#comments').append(
 						'<div class="comment ' + comment.status + '" id="comment'+ comment.id +'">' +
 						 '<div class="content">' +
-							'<div class="ui ribbon label ' + comment.colorclass + '">' + comment.prefix + ' <a href="/user/'+ comment.owner +'">'+ comment.owner +'</a></div>' +
+							'<div class="ui ribbon label ' + comment.colorclass + '">' + comment.prefix + ' '+ comment.owner +'</div>' +
 							'<div class="metadata">' +
 							  '<a href="/id/'+ ticketId +'/#comment'+ comment.id +'" class="date" title="'+ moment(comment.createdAt).format('Do MMM YYYY h:mm') +'">'+ moment(comment.createdAt).fromNow() +'</a>' +
 							  '<div class="ui inline top left pointing dropdown" id="commentoptions">' +
 								 '<i class="ellipsis horizontal icon"></i>' +
 								 '<div class="menu">' +
-									'<a href="/id/'+ ticketId +'/comment/'+ comment.id +'/report"class="item">Репорт</a>' +
 									'<a id="commentremove" cid="' + comment.id + '" class="item">Удалить</a>' +
 								 '</div>' +
 							  '</div>' +

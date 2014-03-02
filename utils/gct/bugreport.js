@@ -16,7 +16,7 @@ module.exports = bugreport = {
 					});
 				},
 				function serialize(result, callback) {
-					bugreport.serializeSingle(result, function (err, ticket) {
+					bugreport.serializeSingle(result, null, function (err, ticket) {
 						if (err) return callback(err);
 						
 						callback(null, {
@@ -24,6 +24,7 @@ module.exports = bugreport = {
 							title: ticket.title,
 							status: ticket.status,
 							owner: ticket.owner,
+							logs: ticket.logs,
 							createdAt: ticket.createdAt,
 							type: {
 								descr: 'Баг-репорт',
@@ -58,6 +59,8 @@ module.exports = bugreport = {
 						description: obj.description,
 						status: getStatusByID(obj.status),
 						owner: result,
+						ownerId: obj.owner,
+						logs: obj.logs,
 						product: getProductByID(obj.product),
 						visiblity: null,
 						createdAt: obj.createdAt
@@ -65,11 +68,20 @@ module.exports = bugreport = {
 				});
 			},
 			function bbcode2html(obj, callback) {
-				bbcode.parse(obj.description, function(result) {
-					obj.description = result;
-					
+				if (config && config.isEdit) {
 					callback(null, obj);
-				});
+				} else {
+					bbcode.parse(obj.description, function(result) {
+						obj.description = result;
+						
+						// IM SO SORRY.
+						bbcode.parse(obj.logs, function(result) {
+							obj.logs = result;
+
+							callback(null, obj);
+						});
+					});
+				}
 			}
 		],
 		function (err, obj) {
@@ -79,7 +91,7 @@ module.exports = bugreport = {
 				tid: obj.id,
 				type: 1
 			}).done(function (err, ticket) {
-				if (err) return callback(err);
+				if (err) return cb(err);
 
 				if (config && config.isEdit) {
 					cb(null, {
@@ -88,6 +100,7 @@ module.exports = bugreport = {
 						description: obj.description,
 						status: obj.status,
 						owner: obj.owner,
+						logs: obj.logs,
 						product: obj.product,
 						visiblity: ticket[0].visiblity,
 						createdAt: obj.createdAt,
@@ -103,6 +116,8 @@ module.exports = bugreport = {
 						description: obj.description,
 						status: obj.status,
 						owner: obj.owner,
+						ownerId: obj.ownerId,
+						logs: obj.logs,
 						product: obj.product,
 						visiblity: getVisiblityByID(ticket[0].visiblity),
 						createdAt: obj.createdAt,

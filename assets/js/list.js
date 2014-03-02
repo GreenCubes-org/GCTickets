@@ -23,7 +23,7 @@ try {
 			tickets.map(function(res) {
 				$('#gc-list').append('<tr>' +
 				'	<td class="t-type" title="' + res.type.descr + '"><i class="' + res.type.iconclass + ' icon"></i></td>' +
-				'	<td class="t-nick"><a href="/user/'+ res.owner +'" class="gc-link">'+ res.owner +'</a></td>' +
+				'	<td class="t-nick">'+ res.owner +'</td>' +
 				'	<td class="t-decr"><a title="#'+ res.id +'" href="/id/'+ res.id +'" class="gc-link">'+ res.title +'</a></td>' +
 				'	<td class="t-time"><span title="' + moment(res.createdAt).format('Do MMM YYYY, h:mm') +'">' + moment(res.createdAt).fromNow() + '</span></td>' +
 				'	<td class="t-status ' + res.status.class +'">'+ res.status.text +'</td>' +

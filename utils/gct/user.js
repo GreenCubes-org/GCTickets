@@ -127,7 +127,7 @@ module.exports = {
 				});
 			},
 			function getCapitalizedLogin (obj, callback) {
-				gcdb.user.getCapitalizedLogin (obj.login, function (err, login) {
+				gcdb.user.getCapitalizedLogin(obj.login, function (err, login) {
 					if (err) return callback(err);
 
 					obj.login = login;
@@ -136,7 +136,7 @@ module.exports = {
 				});
 			},
 			function getPrefix (obj, callback) {
-				user.getPrefix (obj.login, function (err, prefix) {
+				user.getPrefix(obj.login, function (err, prefix) {
 					if (err) return callback(err);
 
 					obj.prefix = prefix;

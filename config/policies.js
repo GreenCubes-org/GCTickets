@@ -27,7 +27,7 @@ module.exports.policies = {
 	},
 	
 	EditController: {
-		'*': ['ownerNStuff','modAbove']
+		'*': ['ownerNModAbove']
 	},
 
 	DevController: {

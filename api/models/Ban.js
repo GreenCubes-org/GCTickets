@@ -21,16 +21,12 @@ module.exports = {
       type: 'string',
       minLength: 10
     },
-    // '42' (id of victim)
-    victim: 'integer',
+    // '42' (nickname of victim)
+    victim: 'string',
     // '1' (id of status)
     status: 'integer',
     // '1' (id of owner user)
     owner: 'integer',
-    // '1' (id of product)
-    product: 'integer',
-    // '[]' Text comments
-    comments: 'array',
     // '42' (id of upload)
     uploads: 'array'
   }

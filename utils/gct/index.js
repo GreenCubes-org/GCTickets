@@ -11,6 +11,7 @@ var cfg = require('../../config/local.js');
 module.exports.all = all = require('./all');
 module.exports.user = user = require('./user');
 module.exports.bugreport = bugreport = require('./bugreport');
+module.exports.ban = ban = require('./ban');
 module.exports.comment = comment = require('./comment');
 
 //TODO: Заставить это и функции ниже работать с JSON файлом со значениями
