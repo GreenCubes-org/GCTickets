@@ -15,7 +15,7 @@ module.exports.routes = {
 
 	// Действия с пользователем
 	// Профиль
-	'/user/:user': 'user.profileTpl',
+	'/user/:user': 'dev.hideFeature',
 
 	// Вход в аккаунт и выход из него
 	'get /login': 'user.loginTpl',
@@ -68,34 +68,4 @@ module.exports.routes = {
 	'/bugreports/read/:page': 'list.list20Bugreport',
 	'get /new/bugreport': 'create.bugreportTpl',
 	'post /new/bugreport': 'create.bugreport',
-
-	// Расприваты
-	'/rempros': 'list.listRemproTpl',
-	'/rempros/read': 'dev.hideFeature',
-	'/rempros/read/:page': 'dev.hideFeature',
-	'get /new/rempro': 'create.remproTpl',
-
-	// Баны
-	'/bans': 'list.listBanTpl',
-	'/bans/read': 'list.listNewestBan',
-	'/bans/read/:page': 'list.list20Ban',
-	'get /new/ban': 'create.banTpl',
-
-	// Разбаны
-	'/unbans': 'list.listUnbanTpl',
-	'/unbans/read': 'dev.hideFeature',
-	'/unbans/read/:page': 'dev.hideFeature',
-	'get /new/unban': 'create.unbanTpl',
-
-	// Регены
-	'/regens': 'list.listRegenTpl',
-	'/regens/read': 'dev.hideFeature',
-	'/regens/read/:page': 'dev.hideFeature',
-	'get /new/regen': 'create.regenTpl',
-
-	// Обращения к администрации
-	'/admreq': 'list.listAdmreqTpl',
-	'/admreq/read': 'dev.hideFeature',
-	'/admreq/read/:page': 'dev.hideFeature',
-	'get /new/admreq': 'create.admreqTpl'
 };

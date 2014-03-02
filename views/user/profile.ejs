@@ -1,0 +1,17 @@
+<% title = user.login + ' - GC.Тикеты';
+styles.push('main.css'); %>
+
+<%- partial('../partials/header')%>
+<div class="container">
+	<div class="ui grid">
+		<div class="left floated column" style="width: auto; max-width: 72%; padding-left: 2rem; min-width: 60%;">
+			<h2 class="ui header">
+				<span><% if (user.prefix) { %><%= user.prefix %><% } %> <%= user.login %></span>
+				<div class="sub header">
+					Зарегистрирован: <%= moment(user.regdate).format('Do MMM YYYY, h:mm') %>
+				</div>
+			</h2>
+		</div>
+	</div>
+
+</div>
