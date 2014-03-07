@@ -1,0 +1,281 @@
+/*@import url(http://fonts.googleapis.com/css?family=PT+Serif:400,700&subset=latin,cyrillic);*/
+
+body {
+	font-family: "PT sans","Helvetica Neue",sans-serif !important;
+	color: rgb(85, 85, 85);
+	margin: 0px;
+}
+
+html, body {
+	height: 100%;
+	min-width: 900px;
+}
+
+a {
+	color: inherit;
+	text-decoration: none;
+}
+
+a:hover, a:active {
+	color: #9a9a9a;
+}
+
+label {
+	font-weight: bold;
+}
+
+#hiddentruth {
+	color: transparent;
+}
+
+.wrapper {
+	min-height: 100%;
+	height: auto !important;
+	margin: 0px auto -61px;
+}
+
+.push, .footer {
+	height: 61px;
+}
+
+.footer {
+	line-height: 1.5;
+	font-size: 14px;
+	background-color: #559a8b;
+	font-weight: bold;
+	color: #ffffff;
+}
+
+.footer .link {
+	color: #ffffff;
+}
+
+.footer .link:active, .footer .link:hover {
+	color: #e6e6e6;
+}
+
+.links {
+	padding: 0em 0em 0em 1em;
+	float: left;
+	list-style: none outside none;
+	margin: 18px 15px 0px 0px;
+}
+
+.links.right {
+	float: right;
+}
+
+.footer li {
+	display: inline-block;
+}
+
+.dropdown.icon {
+	margin: 0px 0.0em 0px 0.0em !important;
+}
+
+.gc-pull-right {
+	float: right;
+	text-align: right;
+}
+
+.ui.menu .item {
+	font-weight: bold !important;
+}
+
+.ui.inverted.green.menu {
+	background-color: #559a8b !important;
+	border-radius: 0px;
+}
+
+.ui.menu .dropdown.item .menu {
+	border-radius: 0px;
+}
+
+.gc-cr-dropdown {
+	width: auto !important;
+}
+
+.gc-segment {
+	margin: 1em 0px;
+	padding: 0px 4em;
+}
+
+.ui.label {
+	font-weight: bold;
+}
+
+.gc-logo {
+	font-size: 0.9rem;
+	width: 130px;
+}
+
+.ui.menu {
+	margin: 0em !important;
+}
+
+.gc-center {
+	margin: 0px auto !important;
+	text-align: center !important;
+	display: block !important;
+}
+
+.ui.menu .dropdown.item .menu {
+   box-shadow: none;
+}
+
+/* Sections */
+ .section {
+	position: relative;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+}
+
+.first.section {
+	overflow: hidden;
+	height: 300px;
+	background-color: rgb(85,154,139);
+	color: #ffffff;
+}
+
+.second.section, .third.section {
+	color: #ffffff;
+	background-color: #7dbcb9;
+}
+
+.second.section {
+	border-top: 8px solid #5baba7;
+	height: 250px;
+}
+
+.third.section {
+	height: 500px;
+}
+
+.fourth.section {
+	height: 800px;
+	border-top: 8px solid #e0e0e0;
+}
+
+.fifth.section {
+	height: 250px;
+	color: #ffffff;
+	background-color: #47494c;
+	border-top: 8px solid #3b3c3f;
+	border-bottom: 4px solid #43796d;
+}
+
+.section a, .section a {
+	color: #dcdcdc;
+}
+
+.section a:hover, .section a:active, .section a:hover, .section a:active {
+	color: #ebebeb;
+}
+
+.fourth.section a {
+	color: #9f9f9f;
+}
+
+.fourth.section a:hover, .fourth.section a:active, .fourth.section a:hover, .fourth.section a:active {
+	color: #bfbfbf;
+}
+
+.page {
+	max-width: 60rem;
+	margin: 0px auto;
+	padding: 0px 10px;
+}
+
+.header {
+   max-width: 100%;
+   position: absolute;
+   margin: auto;
+   left: 3rem;
+   right: 2rem;
+}
+
+.first.header {
+	height: 14rem;
+	top: 4em;
+   left: 3rem;
+   right: 2rem;
+}
+
+.second.header, .fourth.header {
+	top: 2em;
+}
+
+.third.section ol {
+	font-size: 1.2rem;
+   font-weight: 800;
+   margin: 20px 0px 0px;
+}
+
+.third.section li {
+   margin: 10px 0px 0px;
+}
+
+.fourth.section ul {
+	position: relative;
+	left: -40px;
+	list-style-type: none;
+	font-size: 1.2rem;
+   font-weight: 800;
+   margin: 20px 0px 0px;
+}
+
+.header h1 {
+   font-size: 2.2rem;
+   font-weight: 800;
+   margin: 30px 0px 0px;
+}
+
+.header h2 {
+   font-size: 1.5rem;
+   font-weight: 800;
+   margin: 0px;
+}
+
+.header h3 {
+   font-size: 1.2rem;
+   font-weight: 800;
+   margin: 10px 0px 0px;
+}
+
+.header p {
+	font-size: 1.2rem;
+	margin: 5px 15px 20px;
+}
+
+.fourth.section li {
+	margin-bottom: 5px;
+}
+
+/* Login form */
+.loginform {
+	margin: 4em 5em;
+	width: 20% !important;
+}
+
+.ui.error.message {
+	height: 65px !important;
+	margin: 5px 0px 0px !important;
+	padding: 0.3em 1em !important;
+}
+
+.ui.form textarea, .ui.form select, .ui.form input[type="text"], .ui.form input[type="password"] {
+	border: 0px solid rgba(0, 0, 0, 0.15);
+}
+
+.ui.form textarea:focus, .ui.form select:focus, .ui.form input[type="text"]:focus, .ui.form input[type="password"]:focus {
+	border-radius: 0.3125em !important;
+}
+
+input::-webkit-input-placeholder {
+	color: rgba(25,25,25);
+}
+
+input:-moz-placeholder {
+	color: rgba(25,25,25);
+}
