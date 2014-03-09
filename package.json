@@ -16,6 +16,7 @@
 		"mysql": "2.0.0-alpha9",
 		"redis": "0.9.*",
 		"moment": " 2.4.*",
+		"validator": "3.4.*",
 		"express-validator": "0.8.*",
 		"formidable": "1.0.*"
 	},
