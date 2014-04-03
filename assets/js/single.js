@@ -5,6 +5,8 @@ $(document).ready(function(){
 		error : function(){},
 		warn  : function(){}
 	};*/
+	$('#s-setstatus.ui.dropdown').dropdown();
+	
 	var currentUrl = window.location.pathname.split('/');
 	var ticketId = currentUrl[2];
 	$.ajax({
@@ -16,7 +18,7 @@ $(document).ready(function(){
 				});
 			}
 		});
-	getComments(ticketId);
+	renderAllComments(ticketId);
 	
 	$('.ui.modal').modal();
 	
@@ -44,8 +46,10 @@ $(document).ready(function(){
 					  '</div>' +
 					'</div>');
 					$('.ui.active.dimmer').dimmer();
+				} else if (data.responseJSON.changedTo) {
+					location.reload();
 				} else if (data.responseJSON.code === 'OK') {
-					getComments(ticketId);
+					renderAllComments(ticketId);
 				} else {
 					$('#commentfield').append('<div class="ui active dimmer">' +
 					  '<div class="content">' +
@@ -66,7 +70,12 @@ $(document).ready(function(){
 	});
 	
 	$(document).on('click', '#commentrefresh', function(e) {
-		getComments(ticketId);
+		renderAllComments(ticketId);
+		return false;
+	});
+	
+	$(document).on('click', '#commentremoved', function(e) {
+		renderRemovedComments(ticketId);
 		return false;
 	});
 	
@@ -84,12 +93,13 @@ $(document).ready(function(){
 					return true;
 				},
 				onApprove : function() {
-					cid = $(rembutton).attr('cid');
+					var cid = $(rembutton).attr('cid');
+					var action = $(rembutton).attr('do');
 					
 					$.ajax({
 						type: "POST",
 						url: '/id/' + ticketId + '/comment/' + cid + '/remove',
-						data: {confirm: 'yeas'},
+						data: {action: action},
 						beforeSend: function () {
 							$('body').fadeIn('slow').append('<div class="ui active dimmer" id="removedimmer"><div class="ui active dimmer" id="removedimmer"><div class="ui loader"></div></div></div>');
 						},
@@ -103,9 +113,8 @@ $(document).ready(function(){
 								$('body').fadeIn('slow').append('<div class="ui active dimmer" id="removedimmer"><div class="header">' + data.msg + '</div><div class="actions"><div class="ui fluid button">Ладно, вернёмся обратно</div></div></div>');
 							}
 							
-							console.log(data);
 							if (data.responseJSON.status === 'OK') {
-								getComments(ticketId);
+								renderAllComments(ticketId);
 							}
 						}
 					});
@@ -115,47 +124,153 @@ $(document).ready(function(){
 	});
 });
 
-function getComments(ticketId) {
-		$.ajax({
-			type: "GET",
-			url: '/id/' + ticketId + '/comments',
-			data: $(this).serialize(),
-			beforeSend: function() {
-				$('#commentpost').hide();
-				$('#comments').html('<div class="ui active inverted dimmer" style="position: relative !important;padding:5em 0em;"><div class="ui text loader">Загружается</div></div>');
-			},
-			success: function(data) {
-				comments = $.parseJSON(data);
-				
-				if (comments === null || comments.length === 0) {
-					$('#comments').html('<div style="padding: 5em 0em;text-align: center;">Нет комментариев</div>');
-					$('#commentpost').fadeIn(500);
-					return;
-				}
-				
-				$('#comments').html('');
-				comments.map(function (comment) {
-					$('#comments').append(
-						'<div class="comment ' + comment.status + '" id="comment'+ comment.id +'">' +
-						 '<div class="content">' +
-							'<div class="ui ribbon label ' + comment.colorclass + '">' + comment.prefix + ' '+ comment.owner +'</div>' +
-							'<div class="metadata">' +
-							  '<a href="/id/'+ ticketId +'/#comment'+ comment.id +'" class="date" title="'+ moment(comment.createdAt).format('Do MMM YYYY h:mm') +'">'+ moment(comment.createdAt).fromNow() +'</a>' +
-							  '<div class="ui inline top left pointing dropdown" id="commentoptions">' +
-								 '<i class="ellipsis horizontal icon"></i>' +
-								 '<div class="menu">' +
-									'<a id="commentremove" cid="' + comment.id + '" class="item">Удалить</a>' +
-								 '</div>' +
-							  '</div>' +
-							'</div>' +
-							'<div class="text">' +
-								comment.message +
-							'</div>' +
-						 '</div>' +
-					  '</div>');
-					$('.ui.inline.top.left.pointing.dropdown').dropdown();
-				});
-				$('#commentpost').show();
+function renderAllComments(ticketId) {
+	getComments(ticketId, function(err, comments) {
+		if (comments === null || comments.length === 0) {
+			$('#comments').html('<div style="padding: 5em 0em;text-align: center;">Нет комментариев</div>');
+			$('#commentpost').fadeIn(500);
+			return;
+		}
+		
+		$('#comments').html('');
+		
+		var removedCount = 0;
+		
+		comments.forEach(function (comment) {
+			if (comment.status === 3) {
+				removedCount++;
+				return;
 			}
+			
+			if (comment.canModerate) {
+				var menu = '<div class="ui inline top right pointing dropdown" id="commentoptions">' +
+						 '<i class="ellipsis horizontal icon"></i>' +
+						 '<div class="menu">' +
+							'<a id="commentremove" cid="' + comment.id + '" do="remove" class="item">Удалить</a>' +
+						 '</div>' +
+					  '</div>';
+			} else {
+				var menu = '';
+			}
+
+			if (comment.changedTo) {
+				var changedTo = '<div class="ui small divider"></div>' +
+					'Изменён статус на <div class="ui small label ' + comment.changedTo.class + '">' + comment.changedTo.text + '</div>';
+			} else {
+				var changedTo = '';
+			}
+
+			$('#comments').append(
+				'<div class="comment ' + comment.status + '" id="comment'+ comment.id +'">' +
+				 '<div class="content">' +
+					'<div class="ui ribbon label ' + comment.colorclass + '">' + comment.prefix + ' '+ comment.owner +'</div>' +
+					'<div class="metadata">' +
+					  '<a href="/id/'+ ticketId +'/#comment'+ comment.id +'" class="date" title="' + comment.createdAt.fullDate + '">'+ comment.createdAt.simply +'</a>' +
+					 menu +
+					'</div>' +
+					'<div class="text">' +
+						comment.message +
+						changedTo +
+					'</div>' +
+				 '</div>' +
+			  '</div>');
+			$('.ui.inline.top.right.pointing.dropdown').dropdown();
+		});
+		
+		if (removedCount !== 0 ) {
+			$('#commentssubheader').html('Комментариев удалено: ' + removedCount);$('#commentssubheader');
+		} else {
+			$('#commentssubheader').html('');
+		}
+		
+		$('#commentoptions').dropdown();
+		$('#commentpost').fadeIn(500);
+		$('#commentdivider').show();
+	});
+};
+
+function renderRemovedComments(ticketId) {
+	getComments(ticketId, function(err, comments) {
+		$('#commentpost').hide();
+		$('#commentdivider').hide();
+		$('#commentssubheader').html('Показаны только удалённые');
+		$('#comments').html('');
+		
+		comments = comments.map(function (comment) {
+			if (comment.status !== 3) return undefined;
+			if (comment.canModerate) {
+				var menu = '<div class="ui inline top right pointing dropdown" id="commentoptions">' +
+						 '<i class="ellipsis horizontal icon"></i>' +
+						 '<div class="menu">' +
+							'<a id="commentremove" cid="' + comment.id + '" do="recover" class="item">Восстановить</a>' +
+							'<a id="commentremove" cid="' + comment.id + '" do="remove" class="item">Удалить безвозвратно</a>' +
+						 '</div>' +
+					  '</div>';
+			} else {
+				var menu = '';
+			}
+
+			if (comment.changedTo) {
+				var changedTo = '<div class="ui small divider"></div>' +
+					'Изменён статус на <div class="ui small label ' + comment.changedTo.class + '">' + comment.changedTo.text + '</div>';
+			} else {
+				var changedTo = '';
+			}
+
+			$('#comments').append(
+				'<div class="comment ' + comment.status + '" id="comment'+ comment.id +'">' +
+				 '<div class="content">' +
+					'<div class="ui ribbon label ' + comment.colorclass + '">' + comment.prefix + ' '+ comment.owner +'</div>' +
+					'<div class="metadata">' +
+					  '<a href="/id/'+ ticketId +'/#comment'+ comment.id +'" class="date" title="' + comment.createdAt.fullDate + '">'+ comment.createdAt.simply +'</a>' +
+					 menu +
+					'</div>' +
+					'<div class="text">' +
+						comment.message +
+						changedTo +
+					'</div>' +
+				 '</div>' +
+			  '</div>');
+			$('.ui.inline.top.right.pointing.dropdown').dropdown();
+			
+			return comment;
+		});
+		
+		// Remove undefined elements
+		comments = comments.filter(function (n) {
+			return n
+		});
+		
+		if (comments === null || comments.length === 0) {
+			$('#comments').html('<div style="padding: 5em 0em;text-align: center;">Нет комментариев</div>');
+			return;
+		}
+		
+		$('#commentoptions').dropdown();
+	});
+};
+
+function getComments(ticketId, callback) {
+	$.ajax({
+		type: "GET",
+		url: '/id/' + ticketId + '/comments',
+		data: $(this).serialize(),
+		beforeSend: function() {
+			$('#commentpost').hide();
+			$('#comments').html('<div class="ui active inverted dimmer" style="position: relative !important;padding:5em 0em;"><div class="ui text loader">Загружается</div></div>');
+		},
+		success: function(data) {
+			var comments = $.parseJSON(data);
+			
+			var parsedComments = comments.map(function (comment) {
+				comment.createdAt = {
+					fullDate: moment(comment.createdAt).format('Do MMM YYYY h:mm'),
+					simply: moment(comment.createdAt).fromNow()
+				};
+				return comment;
+			})
+			
+			callback(null, parsedComments);
+		}
 	});
 };

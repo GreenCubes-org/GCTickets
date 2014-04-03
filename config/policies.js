@@ -35,7 +35,12 @@ module.exports.policies = {
 	},
 	
 	AdminController: {
-		'*': ['authenticated','stuffOnly']
+		'*': ['authenticated','staffOnly']
+	},
+	
+	SingleController: {
+		'*': true,
+		'routeSingle': 'hidePrivateTickets'
 	}
 	
 };

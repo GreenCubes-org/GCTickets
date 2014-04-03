@@ -1,6 +1,9 @@
-<% title="Создать багрепорт — GC.Тикеты" ; scripts.push( 'wbb.js', 'create.js', 'create.bugreport.js'); styles.push( 'main.css', 'wbb.css') %>
+<% title="Создать багрепорт — GC.Тикеты",
+	backUrl = '/bugreports'; 
+scripts.push( 'wbb.js', 'create.js', 'create.bugreport.js'); 
+styles.push( 'main.css', 'wbb.css') %>
 <%- partial( '../partials/header')%>
-<form id="gc-reportform" method="post" enctype="multipart/form-data" action="/new/bugreport">
+<form id="gc-reportform">
 	<input type="hidden" name="_csrf" value="<%= _csrf %>" />
 	<div class="ui fluid form container" id="gc-reportformdiv">
 		<h1 class="header" style="margin-bottom: 0px;">Новый багрепорт
@@ -13,17 +16,8 @@
 					<input name="product" type="hidden">
 					<div class="default text">В какой программе баг?</div>
 					<div class="menu">
-						<div class="item" data-value="42">Я не знаю</div>
-						<div class="item" data-value="1">GC.Main Клиент</div>
-						<div class="item" data-value="2">GC.Main Сервер (GreenServer)</div>
-						<div class="item" data-value="3">GreenCubes.org сайт</div>
-						<div class="item" data-value="4">Форум GreenCubes</div>
-						<div class="item" data-value="5">GreenCubes.Wiki</div>
-						<div class="item" data-value="6">Тикет-система GreenCubes</div>
-						<div class="item" data-value="7">GC.RPG Клиент</div>
-						<div class="item" data-value="8">GC.RPG Сервер</div>
-						<div class="item" data-value="9">GC.Apocalyptic Клиент</div>
-						<div class="item" data-value="10">GC.Apocalyptic Сервер</div>
+						<div class="item" data-value="1">Я не знаю</div>
+						<div class="item" data-value="2">GC.Main Клиент</div>
 					</div>
 					<i class="dropdown icon"></i>
 				</div>
@@ -53,6 +47,11 @@
 			<label>Логи <em>(необязательно)</em></label>
 			<textarea id="logs" name="logs"></textarea>
 		</div>
+		<div class="field">
+			<label>Прикрепить изображение <em>(необязательно)</em></label>
+			<input class="ui basic button" type="file" multiple name="upload" value="Загрузить изображения"></input>
+		</div>
+		<div class="ui divider"></div>
 		<button class="ui blue submit button" type="submit">Отправить тикет</button>
 		<div id="errmessage"></div>
 	</div>

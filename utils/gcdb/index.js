@@ -4,33 +4,6 @@
  * @module		:: Utils
  * @description :: Вспомогательные функции
  */
-//FIXME: Поменять на глобальную переменную
-var cfg = require('../../config/local');
-
-function handleGCDBDisconnect() {
-	gcdbconn = require('mysql').createConnection({
-		host: cfg.gcdb.host,
-		database: cfg.gcdb.database,
-		user: cfg.gcdb.user,
-		password: cfg.gcdb.password
-	});
-	gcdbconn.connect(function (err) {
-		if (err) {
-			setTimeout(handleGCDBDisconnect, 1000);
-		}
-	});
-
-	gcdbconn.on('error', function (err) {
-		if (err.code === 'PROTOCOL_CONNECTION_LOST') {
-			handleGCDBDisconnect();
-		} else {
-			throw err;
-		}
-	});
-}
-
-handleGCDBDisconnect();
-
 module.exports.user = user = {
 
 	getByID: function (id, cb) {

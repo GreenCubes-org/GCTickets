@@ -1,6 +1,49 @@
+/* Clear Sans stuff */ 
+
+@font-face {
+  font-family: "Clear Sans";
+  src: url("/fonts/ClearSans-Regular.eot");
+  src: url("/fonts/ClearSans-Regular.eot#iefix") format("embedded-opentype"),
+       url("/fonts/ClearSans-Regular.ttf") format("truetype"),
+       url("/fonts/ClearSans-Regular.woff") format("woff");
+  font-style: normal;
+  font-weight: 400;
+}
+
+@font-face {
+  font-family: "Clear Sans";
+  src: url("/fonts/ClearSans-Italic.eot");
+  src: url("/fonts/ClearSans-Italic.eot#iefix") format("embedded-opentype"),
+       url("/fonts/ClearSans-Italic.ttf") format("truetype"),
+       url("/fonts/ClearSans-Italic.woff") format("woff");
+  font-style: italic;
+  font-weight: 400;
+}
+
+@font-face {
+  font-family: "Clear Sans";
+  src: url("/fonts/ClearSans-Bold.eot");
+  src: url("/fonts/ClearSans-Bold.eot#iefix") format("embedded-opentype"),
+       url("/fonts/ClearSans-Bold.ttf") format("truetype"),
+       url("/fonts/ClearSans-Bold.woff") format("woff");
+  font-style: normal;
+  font-weight: 700;
+}
+
+@font-face {
+  font-family: "Clear Sans";
+  src: url("/fonts/ClearSans-BoldItalic.eot");
+  src: url("/fonts/ClearSans-BoldItalic.eot#iefix") format("embedded-opentype"),
+       url("/fonts/ClearSans-BoldItalic.ttf") format("truetype"),
+       url("/fonts/ClearSans-BoldItalic.woff") format("woff");
+  font-style: italic;
+  font-weight: 700;
+}
+
+/* Main stuff */
 
 body {
-	font-family: "PT sans","Helvetica Neue",sans-serif !important;
+	font-family: "Clear Sans","Helvetica Neue", "PT Sans",sans-serif !important;
 	color: rgb(85, 85, 85);
 	margin: 0px;
 }
@@ -8,6 +51,10 @@ body {
 html, body {
 	height: 100%;
 	min-width: 900px;
+}
+
+input, button, select, textarea, optgroup, option {
+    font-family: inherit !important;
 }
 
 a {
@@ -142,6 +189,7 @@ label {
 
 .ui.menu .item {
 	font-weight: bold !important;
+	font-size: 0.95rem !important;
 }
 
 .ui.inverted.green.menu {
@@ -212,6 +260,24 @@ div.comment {
 
 .ui.top.left.pointing.dropdown .menu {
 	left: -10px
+}
+
+.ui.stackable.items .item {
+	min-height: 0px;
+	width: 308px;
+}
+
+.ui.small.label {
+	padding: 0.3em 0.8em;
+}
+
+#commentremoved {
+	position: relative;
+	right: 35px;
+}
+
+#commentrefresh {
+	position: absolute;
 }
 
 /* Single ticket statuses */
@@ -306,7 +372,7 @@ div.comment {
 }
 
 .s-description {
-	font-size: 1.1rem;
+	font-size: 1.25rem;
 	word-spacing: -0.1rem;
 }
 
@@ -326,7 +392,8 @@ div.comment {
 }
 
 .s-commentsrefresh {
-	padding: 10px 0px;
+	padding: 8px 0px;
+	margin: 0px !important;
 	opacity: 0.3;
 }
 

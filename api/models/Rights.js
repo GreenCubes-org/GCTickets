@@ -21,8 +21,8 @@ module.exports = {
   	// CSS class of the color
   	colorclass: 'string',
   	
-  	// Rights in system, ex: user can moderate bugreports of ticket system
-  	rights: 'array'
+  	// Can moderate any product (for example), ex: user can moderate bugreports of ticket system
+  	canModerate: 'array'
    
   }
 

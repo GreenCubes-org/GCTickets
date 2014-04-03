@@ -22,31 +22,67 @@ module.exports = {
 	},
 	
 	listNewestAll: function(req, res) {
-		Ticket.find()
-			.sort('id DESC')
-			.limit(20)
-			.done(function(err, tickets) {
-				if (err) throw err;
+		if (req.user && req.user.group >= ugroup.staff) {
+			Ticket.find()
+				.sort('id DESC')
+				.limit(20)
+				.done(function(err, tickets) {
+					if (err) throw err;
 
-				gct.all.serializeList(tickets, function(err, result) {
-					res.json(JSON.stringify(result));
-				});
-			 });
+					gct.all.serializeList(tickets, function(err, result) {
+						res.json(JSON.stringify(result));
+					});
+				 });
+		} else {
+			Ticket.find({
+				visiblity: 1
+				})
+				.sort('id DESC')
+				.limit(20)
+				.done(function(err, tickets) {
+					if (err) throw err;
+
+					gct.all.serializeList(tickets, function(err, result) {
+						res.json(JSON.stringify(result));
+					});
+				 });
+		}
 	},
 	
 	list20All: function(req, res) {
 		async.waterfall([
-			function getNumOfIDs(callback) {
-				Ticket.find()
-					.sort('id DESC')
-					.limit(1)
-					.done(function (err, latestElement) { 
-						if (err) return callback(err);
-						callback(null, latestElement[0].id)
-					})
+			function checkLastElementDate(tableSize, callback) {
+				if (!req.body.lastelement) {
+					callback('Can\'t find last element date!');
+				} else {
+					callback(null, req.body.lastelement);
+				}
 			},
-			function findTickets(tableSize, callback) {
-				skipRows = (req.param('page') - 1 ) * 20;
+			function getNumOfIDs(callback, lastElementDate) {
+				if (req.user && req.user.group >= ugroup.staff) {
+					Ticket.find()
+						.sort('id DESC')
+						.limit(1)
+						.done(function (err, latestElement) { 
+							if (err) return callback(err);
+
+							callback(null, lastElementDate, latestElement[0].id);
+						});
+				} else {
+					Ticket.find({
+						visiblity: 1
+						})
+						.sort('id DESC')
+						.limit(1)
+						.done(function (err, latestElement) { 
+							if (err) return callback(err);
+
+							callback(null, lastElementDate, latestElement[0].id);
+						});
+				}
+			},
+			function findTickets(lastElementDate, tableSize, callback) {
+				skipRows = (req.param.page - 1 ) * 20;
 				if (tableSize <= skipRows) {
 					return res.json({
 						err: 'no more tickets'
@@ -54,12 +90,16 @@ module.exports = {
 				}
 				
 				Ticket.find()
+					.where({ createdAt: { '<': lastElementDate }})
 					.sort('id ASC')
-					.skip(skipRows)
+					.limit(skipRows)
 					.sort('id DESC')
 					.done(function(err, tickets) {
-						if (err) throw err;
+						if (err) return callback(err);
+						
 						gct.all.serializeList(tickets, function(err, result) {
+							if (err) return callback(err);
+							
 							res.json(JSON.stringify(result));
 						});
 					 });
@@ -145,30 +185,61 @@ module.exports = {
 	},
 
 	listNewestBugreport: function(req, res) {
-		Ticket.find({
-				type: 1
-			})
-			.sort('id DESC')
-			.limit(20)
-			.done(function(err, tickets) {
-				if (err) throw err;
+		if (req.user && req.user.group >= ugroup.staff) {
+			Ticket.find({
+					type: 1
+				})
+				.sort('id DESC')
+				.limit(20)
+				.done(function(err, tickets) {
+					if (err) throw err;
 
-				gct.all.serializeList(tickets, function(err, result) {
-					res.json(JSON.stringify(result));
-				});
-			 });
+					gct.all.serializeList(tickets, function(err, result) {
+						res.json(JSON.stringify(result));
+					});
+				 });
+		} else {
+			Ticket.find({
+				type: 1,
+				visiblity: 1
+				})
+				.sort('id DESC')
+				.limit(20)
+				.done(function(err, tickets) {
+					if (err) throw err;
+
+					gct.all.serializeList(tickets, function(err, result) {
+						res.json(JSON.stringify(result));
+					});
+				 });
+		}
 	},
 	
 	list20Bugreport: function(req, res) {
 		async.waterfall([
 			function getNumOfIDs(callback) {
-				Ticket.find()
-					.sort('id DESC')
-					.limit(1)
-					.done(function (err, latestElement) { 
-						if (err) return callback(err);
-						callback(null, latestElement[0].id)
-					})
+				if (req.user && req.user.group >= ugroup.staff) {
+					Ticket.find({
+						type: 1
+						})
+						.sort('id DESC')
+						.limit(1)
+						.done(function (err, latestElement) { 
+							if (err) return callback(err);
+							callback(null, latestElement[0].id)
+						});
+				} else {
+					Ticket.find({
+						type: 1,
+						visiblity: 1
+						})
+						.sort('id DESC')
+						.limit(1)
+						.done(function (err, latestElement) { 
+							if (err) return callback(err);
+							callback(null, latestElement[0].id)
+						})
+				}
 			},
 			function findTickets(tableSize, callback) {
 				skipRows = (req.param('page') - 1 ) * 20;
@@ -220,32 +291,65 @@ module.exports = {
 	},
 	
 	listNewestBan: function(req, res) {
-		Ticket.find({
-				type: 3
-			})
-			.sort('id DESC')
-			.limit(20)
-			.done(function(err, tickets) {
-				if (err) throw err;
-
-				gct.ban.serializeList(tickets, function(err, result) {
+		if (req.user && req.user.group >= ugroup.staff) {
+			Ticket.find({
+					type: 3
+				})
+				.sort('id DESC')
+				.limit(20)
+				.done(function(err, tickets) {
 					if (err) throw err;
-					
-					res.json(JSON.stringify(result));
-				});
-			 });
+
+					gct.ban.serializeList(tickets, function(err, result) {
+						if (err) throw err;
+
+						res.json(JSON.stringify(result));
+					});
+				 });
+		} else {
+			Ticket.find({
+				type: 3,
+				visiblity: 1
+				})
+				.sort('id DESC')
+				.limit(20)
+				.done(function(err, tickets) {
+					if (err) throw err;
+
+					gct.ban.serializeList(tickets, function(err, result) {
+						if (err) throw err;
+
+						res.json(JSON.stringify(result));
+					});
+				 });
+		}
 	},
 	
 	list20Ban: function(req, res) {
 		async.waterfall([
 			function getNumOfIDs(callback) {
-				Ticket.find()
-					.sort('id DESC')
-					.limit(1)
-					.done(function (err, latestElement) { 
-						if (err) return callback(err);
-						callback(null, latestElement[0].id)
-					})
+				if (req.user && req.user.group >= ugroup.staff) {
+					Ticket.find({
+						type: 3
+						})
+						.sort('id DESC')
+						.limit(1)
+						.done(function (err, latestElement) { 
+							if (err) return callback(err);
+							callback(null, latestElement[0].id)
+						});
+				} else {
+					Ticket.find({
+						type: 3,
+						visiblity: 1
+						})
+						.sort('id DESC')
+						.limit(1)
+						.done(function (err, latestElement) { 
+							if (err) return callback(err);
+							callback(null, latestElement[0].id)
+						});
+				}
 			},
 			function findTickets(tableSize, callback) {
 				skipRows = (req.param('page') - 1 ) * 20;

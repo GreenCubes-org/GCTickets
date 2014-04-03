@@ -6,8 +6,6 @@
  *
  */
 
-var validator = require('validator');
-
 module.exports = {
 
 	attributes: {
@@ -30,20 +28,6 @@ module.exports = {
 		logs: 'text',
 		// '42' (id of upload)
 		uploads: 'array'
-	},
-
-	beforeCreate: function(values, cb) {
-		validator.escape(values.id);
-		validator.escape(values.description);
-
-		cb();
-	},
-
-	beforeUpdate: function(values, cb) {
-		validator.escape(values.id);
-		validator.escape(values.description);
-
-		cb();
 	}
 
 };

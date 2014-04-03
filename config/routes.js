@@ -12,6 +12,12 @@ module.exports.routes = {
 
 	// Главная
 	'/': 'home.route',
+	
+	'/releasenotes': {
+		view: 'home/releasenotes'
+	},
+	
+	'/deployment': 'dev.deploymentWebHook',
 
 	// Действия с пользователем
 	// Профиль
@@ -28,9 +34,8 @@ module.exports.routes = {
 	'/admin/debug':'admin.debug',
 	'/admin/users': 'dev.hideFeature',
 	'/admin/users/rights': 'admin.usersRights',
-	'/admin/users/sessions': 'dev.hideFeature',
-	'/admin/tickets': 'dev.hideFeature',
-	'/admin/tickets/list': 'dev.hideFeature',
+	'/admin/users/rights/new': 'admin.setRights',
+	'/admin/users/rights/remove/:uid': 'admin.removeRights',
 
 	// Контроллер сервисных функций.
 	'/500': 'dev.serverError',
@@ -44,10 +49,10 @@ module.exports.routes = {
 	'get /id/:id/edit': 'edit.routeSingleTpl',
 	'post /id/:id/edit': 'edit.routeSingle',
 	'/id/:id/report': 'dev.hideFeature',
-	'get /id/:id/comments': 'single.listSingleComments',
+	'get /id/:id/comments': 'comment.listSingleComments',
 	'get /id/:id/comment/:cid/report': 'dev.hideFeature',
-	'post /id/:id/comment/:cid/remove': 'single.deleteComment',
-	'post /id/:id/comment': 'create.bugreportComment',
+	'post /id/:id/comment/:cid/remove': 'comment.deleteComment',
+	'post /id/:id/comment': 'comment.bugreportComment',
 
 	// Мои тикеты
 	'/my': 'list.listMyTpl',

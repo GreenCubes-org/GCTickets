@@ -1,5 +1,6 @@
 <% title = 'Права пользователей / Админпанель — GC.Тикеты' %>
-<% styles.push('main.css') %>
+<% styles.push('main.css');
+	scripts.push('sem.js', 'roles.js') %>
 <%- partial('../../partials/header')%>
 
 <div class="container">
@@ -14,21 +15,95 @@
 				<th>Группа</th>
 				<th>Префикс</th>
 				<th>Цветовой класс</th>
-				<th>Права</th>
+				<th>Может модерировать</th>
+				<th style="width:5%"></th>
 			</tr>
 		</thead>
 		<tbody>
-		<% for(var i=0; i<rights.length; i++) {%>
+		<% rights.forEach(function(element) {%>
 			<tr>
-				<td><%= rights[i].uid %></td>
-				<td><%= rights[i].login %></td>
-				<td><%= rights[i].ugroup %></td>
-				<td><%= rights[i].prefix %></td>
-				<td><%= rights[i].colorclass %></td>
-				<td><%= rights[i].rights %></td>
+				<td><%= element.uid %></td>
+				<td><%= element.login %></td>
+				<td><%= gct.user.getGroupString(element.ugroup) %></td>
+				<td><%= element.prefix %></td>
+				<td><%= element.colorclass %></td>
+				<td><%= element.canModerate %></td>
+				<td><a href="/admin/users/rights/remove/<%= element.uid %>"><i  class="icon remove"></i></a></td>
 			</tr>
-		<% } %>
+		<% }) %>
 		</tbody>
 	</table>
 	
+	<div class="ui divider"></div>
+	
+	<h2 class="ui header">Изменить права</h2>
+	<form id="gc-newrole">
+		<input type="hidden" name="_csrf" value="<%= _csrf %>" />
+		<div class="ui small form" style="width: 600px;">
+			<div class="two fields">
+				<div class="field">
+					<label>Префикс</label>
+					<input placeholder="[HELP!]" type="text" name="prefix">
+				  </div>
+				<div class="field">
+					<label>Никнейм</label>
+					<input placeholder="ChangedNick" type="text" name="username">
+				</div>
+			</div>
+			<div class="two fields">
+			  <div class="field">
+				<label>Группа</label>
+				<div class="ui fluid selection dropdown">
+				  <div class="text">Выбрать</div>
+				  <i class="dropdown icon"></i>
+				  <input name="ugroup" type="hidden">
+				  <div class="menu">
+					<div class="item" data-value="0">Пользователь</div>
+					<div class="item" data-value="1">Хелпер</div>
+					<div class="item" data-value="2">Модератор</div>
+					<div class="item" data-value="3">Персонал</div>
+				  </div>
+				</div>
+			  </div>
+			  <div class="field">
+				<label>Цветовой класс</label>
+				<div class="ui fluid selection dropdown">
+				  <div class="text">Выбрать</div>
+				  <i class="dropdown icon"></i>
+				  <input name="colorclass" type="hidden">
+				  <div class="menu">
+					<div class="item" data-value="none">Никакой</div>
+					<div class="item" data-value="red">Red</div>
+					<div class="item" data-value="green">Green</div>
+					<div class="item" data-value="purple">Purple</div>
+				  </div>
+				</div>
+			  </div>
+			</div>
+			<div class="grouped inline fields">
+				<label>Может модерировать</label>
+				<div class="field">
+				  <div class="ui checkbox">
+					<input name="mod-main" type="checkbox">
+					<label>Main</label>
+				  </div>
+				</div>
+				<div class="field">
+				  <div class="ui checkbox">
+					<input name="mod-rpg" type="checkbox">
+					<label>RPG</label>
+				  </div>
+				</div>
+				<div class="field">
+				  <div class="ui checkbox">
+					<input name="mod-apo" type="checkbox">
+					<label>Apocalyptic</label>
+				  </div>
+				</div>
+			  </div>
+			<div class="ui divider"></div>
+			<button class="ui blue submit button" type="submit">Отправить</button>
+			<div id="errmessage"></div>
+		</div>
+	</form>
 </div>

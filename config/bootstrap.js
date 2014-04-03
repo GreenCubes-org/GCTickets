@@ -7,8 +7,37 @@
  * For more information on bootstrapping your app, check out:
  * http://sailsjs.org/#documentation
  */
+var mysql = require('mysql');
 
 module.exports.bootstrap = function (cb) {
+	// Init globals
+	global.appPath = __dirname.replace(/\b\/config\b/g, '');
+	
+	global.cfg = require('./local');
+	
+	global.gcdb = require('../utils/gcdb');
+	global.gct = require('../utils/gct');
+	
+	global.ugroup = {
+		user: 0,
+		helper: 1,
+		mod: 2,
+		staff: 3
+	};
+
+	global.gcdbconn = require('mysql').createPool({
+		host: cfg.gcdb.host,
+		database: cfg.gcdb.database,
+		user: cfg.gcdb.user,
+		password: cfg.gcdb.password
+	});
+	
+	global.appdbconn = require('mysql').createPool({
+		host: cfg.appdb.host,
+		database: cfg.appdb.database,
+		user: cfg.appdb.user,
+		password: cfg.appdb.password
+	});
 
 	cb();
 };

@@ -1,6 +1,3 @@
-var gcdb = require('../gcdb');
-var cfg = require('../../config/local.js');
-
 module.exports = {
 	serializeList: function (array, cb) {
 		async.map(array, function (obj, callback) {

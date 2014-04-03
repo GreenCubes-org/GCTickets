@@ -6,7 +6,6 @@
  */
 // FIXME: Поменять на глобальную переменную
 var gcdb = require('../gcdb');
-var cfg = require('../../config/local.js');
 
 module.exports.all = all = require('./all');
 module.exports.user = user = require('./user');
@@ -85,12 +84,6 @@ module.exports.getStatusByID = getStatusByID = function (id) {
 
 		case 12:
 			return {
-				text: 'Будет исправлен',
-				class: 'befixed'
-			};
-
-		case 13:
-			return {
 				text: 'Исправлен',
 				class: 'done'
 			};
@@ -102,37 +95,37 @@ module.exports.getStatusByID = getStatusByID = function (id) {
 
 module.exports.getProductByID = getProductByID = function (id) {
 	switch (id) {
-		case 42:
+		case 1:
 			return 'Я не знаю';
 
-		case 1:
+		case 2:
 			return 'GC.Main Клиент';
 
-		case 2:
+		case 3:
 			return 'GC.Main Сервер (GreenServer)';
 
-		case 3:
+		case 4:
 			return 'GreenCubes.org Сайт';
 
-		case 4:
+		case 5:
 			return 'Форум GreenCubes';
 
-		case 5:
+		case 6:
 			return 'GreenCubes.Wiki';
 
-		case 6:
+		case 7:
 			return 'Тикет-система GreenCubes';
 
-		case 7:
+		case 8:
 			return 'GC.RPG Клиент';
 
-		case 8:
+		case 9:
 			return 'GC.RPG Сервер';
 
-		case 9:
+		case 10:
 			return 'GC.Apocalyptic Клиент';
 
-		case 10:
+		case 11:
 			return 'GC.Apocalyptic Сервер';
 
 		default:
@@ -146,7 +139,35 @@ module.exports.getVisiblityByID = getVisiblityByID = function (id) {
 			return 'Публичный';
 
 		case 2:
-			return 'Виден только администраторам';
+			return 'Приватный';
+
+		default:
+			return;
+	}
+};
+
+module.exports.getBaseUrlTypeByID = getBaseUrlTypeByID = function (id) {
+	switch (id) {
+		case 1:
+			return '/bugreports';
+
+		case 2:
+			return '/rempros';
+			
+		case 3:
+			return '/bans';
+		
+		case 4:
+			return '/unbans';
+		
+		case 5:
+			return '/regens';
+			
+		case 6:
+			return '/admreqs';
+		
+		case 7:
+			return '/entroubles';
 
 		default:
 			return;

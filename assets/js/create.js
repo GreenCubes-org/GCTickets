@@ -9,4 +9,5 @@ $(document).ready(function () {
 		buttons: 'bold,italic,underline,|link,|,quote'
 	});
 	$('#gc-reportform .ui.dropdown').dropdown();
+	$('.ui.checkbox').checkbox();
 })

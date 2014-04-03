@@ -1,5 +1,3 @@
-var gcdb = require('../gcdb');
-var cfg = require('../../config/local.js');
 var bbcode = require('bbcode');
 
 module.exports = ban = {
@@ -59,6 +57,7 @@ module.exports = ban = {
 						victim: obj.victim,
 						status: getStatusByID(obj.status),
 						owner: result,
+						type: obj.type,
 						visiblity: null,
 						createdAt: obj.createdAt
 					});
@@ -97,7 +96,8 @@ module.exports = ban = {
 						createdAt: obj.createdAt,
 						type: {
 							descr: 'Заявка на бан',
-							iconclass: 'circle ban'
+							iconclass: 'circle ban',
+							id: obj.type
 						}
 					});
 				} else {
@@ -113,7 +113,8 @@ module.exports = ban = {
 						createdAt: obj.createdAt,
 						type: {
 							descr: 'Заявка на бан',
-							iconclass: 'circle ban'
+							iconclass: 'circle ban',
+							id: obj.type
 						}
 					});
 				}

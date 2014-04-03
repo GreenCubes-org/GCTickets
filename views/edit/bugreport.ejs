@@ -1,8 +1,9 @@
-<% title = "Редактирование " + ticket.id + ": \"" + ticket.title + "\" — GC.Тикеты";
-scripts.push('wbb.js','create.js','edit.bugreport.js');
-styles.push('main.css','wbb.css') %>
+<% title = "Редактирование " + ticket.id + ": \"" + ticket.title + "\" — GC.Тикеты",
+	backUrl = '/id/' + ticket.id; ;
+scripts.push('wbb.js','create.js','lightbox.js', 'edit.bugreport.js');
+styles.push('main.css','wbb.css','lightbox.css') %>
 <%- partial('../partials/header')%>
-<form id="gc-reportform" method="post" enctype="multipart/form-data" action="/id/<%= ticket.id %>/edit">
+<form id="gc-reportform" action="/id/<%= ticket.id %>/edit" method="POST" enctype="multipart/form-data">
 	<input type="hidden" name="_csrf" value="<%= _csrf %>" />
 	<div class="ui fluid form container" id="gc-reportformdiv">
 		<h1 class="header" style="margin-bottom: 0px;">Редактирование #<%= ticket.id %>: "<%= ticket.title %>"
@@ -32,16 +33,40 @@ styles.push('main.css','wbb.css') %>
 		</div>
 		<div class="field">
 			<label>Логи <em>(необязательно)</em></label>
-			<textarea id="logs" name="logs"><%= ticket.logs %></textarea>
+			<textarea id="logs" name="logs"><% if (ticket.logs) { %><%= ticket.logs %><% } %></textarea>
+		</div>
+		<div class="ui divider"></div>
+		<div class="field">
+			<% if (ticket.uploads.length) { %>
+			<label>Изображения</label>
+			<div class="ui stackable items">
+				<div class="row">
+				<% 	ticket.uploads.forEach(function(item, index) { %>
+					<div class="item">
+						<div class="image">
+							<a href="/uploads/<%= item %>" rel="lightbox"><img style="display:block;width:100%;" src="/uploads/<%= item %>"></a>
+						</div>
+						<div class="content">
+							<div class="extra">
+								<div class="ui checkbox">
+								  <input name="removeimage" type="checkbox" value="<%= index %>">
+								  <label>Удалить</label>
+								</div>
+							</div>
+						</div>
+					</div>
+				<% }) %>
+				</div>
+			</div>
+			<% } %>
 		</div>
 		<div class="field">
-			<label>Прикрепить изображение</label>
-			<input type="file" multiple name="upload">
+			<label>Прикрепить изображение <em>(необязательно)</em></label>
+			<input class="ui basic button" type="file" multiple name="upload" value="Загрузить изображения"></input>
 		</div>
+		<div class="ui divider"></div>
 		<button class="ui blue submit button" type="submit">Отправить тикет</button>
-		<% isErr = typeof(err); if (isErr !== 'undefined') { %>
-		<div id="errmessage"><%= err %></div>
-		<% } %>
+		<div id="errmessage"></div>
 	</div>
 </form>
 <script>$(function(){$("#description").htmlcode('<%= ticket.description %>')}).sync();</script>

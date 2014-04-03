@@ -12,9 +12,7 @@ $(document).on('submit', "#loginform", function (e) {
 			}
 		},
 		error: function (err) {
-			html = formhtml = '<div id="hd-loginform">' +
-				'<div class="ui gc-loginmessage">У сервера появились проблемы :(</div>' +
-				'</div>'
+			html = formhtml = '<div class="ui error message"><div class="header">Внезапная необычная ошибка. Пожалуйста, сообщите о ней разработчику.</div></div>';
 		}
 	});
 	return false;

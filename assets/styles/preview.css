@@ -1,7 +1,50 @@
-@import url(http://fonts.googleapis.com/css?family=PT+Serif:400,700&subset=latin,cyrillic);
+/* Clear Sans stuff */ 
+
+@font-face {
+  font-family: "Clear Sans";
+  src: url("/fonts/ClearSans-Regular.eot");
+  src: url("/fonts/ClearSans-Regular.eot#iefix") format("embedded-opentype"),
+       url("/fonts/ClearSans-Regular.ttf") format("truetype"),
+       url("/fonts/ClearSans-Regular.woff") format("woff");
+  font-style: normal;
+  font-weight: 400;
+}
+
+@font-face {
+  font-family: "Clear Sans";
+  src: url("/fonts/ClearSans-Italic.eot");
+  src: url("/fonts/ClearSans-Italic.eot#iefix") format("embedded-opentype"),
+       url("/fonts/ClearSans-Italic.ttf") format("truetype"),
+       url("/fonts/ClearSans-Italic.woff") format("woff");
+  font-style: italic;
+  font-weight: 400;
+}
+
+@font-face {
+  font-family: "Clear Sans";
+  src: url("/fonts/ClearSans-Bold.eot");
+  src: url("/fonts/ClearSans-Bold.eot#iefix") format("embedded-opentype"),
+       url("/fonts/ClearSans-Bold.ttf") format("truetype"),
+       url("/fonts/ClearSans-Bold.woff") format("woff");
+  font-style: normal;
+  font-weight: 700;
+}
+
+@font-face {
+  font-family: "Clear Sans";
+  src: url("/fonts/ClearSans-BoldItalic.eot");
+  src: url("/fonts/ClearSans-BoldItalic.eot#iefix") format("embedded-opentype"),
+       url("/fonts/ClearSans-BoldItalic.ttf") format("truetype"),
+       url("/fonts/ClearSans-BoldItalic.woff") format("woff");
+  font-style: italic;
+  font-weight: 700;
+}
+
+
+/* Main stuff */
 
 body {
-	font-family: "PT sans","Helvetica Neue",sans-serif !important;
+	font-family: "Clear Sans","Helvetica Neue",sans-serif !important;
 	color: rgb(85, 85, 85);
 	margin: 0px;
 }
@@ -9,6 +52,10 @@ body {
 html, body {
 	height: 100%;
 	min-width: 900px;
+}
+
+input, button, select, textarea, optgroup, option {
+    font-family: inherit !important;
 }
 
 a {
@@ -145,15 +192,15 @@ label {
 
 .second.section {
 	border-top: 8px solid #5baba7;
-	height: 200px;
+	height: 220px;
 }
 
 .third.section {
-	height: 350px;
+	height: 360px;
 }
 
 .fourth.section {
-	height: 750px;
+	height: 840px;
 	border-top: 8px solid #e0e0e0;
 }
 
@@ -190,8 +237,8 @@ label {
 .first.header {
 	height: 14rem;
 	top: 4em;
-   left: 3rem;
-   right: 2rem;
+ 	left: 3rem;
+ 	right: 2rem;
 }
 
 .second.header, .fourth.header {

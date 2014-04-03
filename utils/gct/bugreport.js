@@ -60,7 +60,9 @@ module.exports = bugreport = {
 						status: getStatusByID(obj.status),
 						owner: result,
 						ownerId: obj.owner,
+						type: obj.type,
 						logs: obj.logs,
+						uploads: obj.uploads,
 						product: getProductByID(obj.product),
 						visiblity: null,
 						createdAt: obj.createdAt
@@ -101,12 +103,14 @@ module.exports = bugreport = {
 						status: obj.status,
 						owner: obj.owner,
 						logs: obj.logs,
+						uploads: obj.uploads,
 						product: obj.product,
 						visiblity: ticket[0].visiblity,
 						createdAt: obj.createdAt,
 						type: {
 							descr: 'Баг-репорт',
-							iconclass: 'bug'
+							iconclass: 'bug',
+							id: obj.type
 						}
 					});
 				} else {
@@ -117,13 +121,16 @@ module.exports = bugreport = {
 						status: obj.status,
 						owner: obj.owner,
 						ownerId: obj.ownerId,
+						type: obj.type,
 						logs: obj.logs,
+						uploads: obj.uploads,
 						product: obj.product,
 						visiblity: getVisiblityByID(ticket[0].visiblity),
 						createdAt: obj.createdAt,
 						type: {
 							descr: 'Баг-репорт',
-							iconclass: 'bug'
+							iconclass: 'bug',
+							id: obj.type
 						}
 					});
 				}

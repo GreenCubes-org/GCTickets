@@ -6,13 +6,13 @@
 */
 
 //FIXME: Поменять на глобальную переменную
-var gcdb = require('../../utils/gcdb'),
-	formidable = require('formidable'),
+var fs = require('fs'),
 	crypto = require('crypto');
 
 module.exports = {
 	mainTpl: function(req,res) {
-		res.view('create/main');
+		//res.view('create/main');
+		res.redirect('/new/bugreport');
 	},
 
 	allTpl: function(req,res) {
@@ -23,42 +23,171 @@ module.exports = {
 		res.view('create/bugreport');
 	},
 	
-	bugreport: function(req,res) {
+	bugreport: function(req, res) {
 		async.waterfall([
 			function uploadData(callback) {
-				var form = new formidable.IncomingForm(),
-					files = [],
-					fields = [];
 				
-				form.uploadDir = '../../uploads';
-				form.encoding = 'utf-8';
-				form.maxFieldsSize = 2 * 1024 * 1024;
-				form
-					.on('field', function(field, value) {
-						console.log(field, value);
-						fields.push([field, value]);
-					})
-					.on('file', function(field, file) {
-						var filename = crypto.createHash('md5').digest('hex');
+				var files;
+				if (req.files) {
+					files = req.files.upload;
+				}
+				
+				var execFile = require('child_process').execFile,
+					types = new RegExp('^image/(png|jpeg|jpg)\n$');
 
-						fs.rename(files.upload.path, '../../uploads/' + filename, function (err) { 
-							if (err) return callback(err); 
+				// If MULTIPLE uploads
+				if (files instanceof Array) {
+					async.map(files, function(files, callback) {
+						async.waterfall([
+							function checkSize(callback) {
+								if (files.size > 1024 * 1024 * 10) {
+									fs.unlink(files.path, function (err) {
+										if (err) return callback(err);
+
+										callback({
+											show: true,
+											msg: 'Файлы больше 10 мегабайт загружать запрещено'
+										});
+									});
+								} else {
+									return callback(null);
+								}
+							},
+							function getMime(callback) {
+								execFile('file', ['-b', '--mime-type', files.path], function(err, stdout, stderr) {
+									if (err) return callback(err);
+
+									var extension;
+
+									if (stdout === 'image/png\n') extension = 'png';
+									if (stdout === 'image/jpeg\n') extension = 'jpeg';
+									if (stdout === 'image/jpg\n') extension = 'jpg';
+
+									callback(null, stdout, extension);
+								});
+							},
+							function generateFilename(type, extension, callback) {
+								crypto.randomBytes(16, function(err, buf) {
+									if (err) return callback(err);
+
+									callback(null, type, buf.toString('hex') + '.' + extension);
+								});
+							},
+							function saveFileOrNot(type ,filename, callback) {
+								if (types.test(type)) {
+									fs.rename(files.path, appPath + '/uploads/' + filename, function (err) { 
+										if (err) return callback(err);
+
+										callback(null, filename);
+									});
+								} else {
+									fs.unlink(files.path, function (err) {
+										if (err) return callback(err);
+
+										callback({show: true, msg: 'Некорректный тип файла. Разрешены только файлы .jpg .jpeg .png'}, null);
+									});
+								}
+							}
+						], function(err, uploads) {
+							if (err) return callback(err);
+
+							if (!uploads) {
+								return callback(null, null);
+							}
+
+							callback(null, uploads);
 						});
-						files.push([field, file]);
-					})
-					.on('end', function() {
-						console.log(files, fields);
-						
+					}, function(err, uploads) {
+						if (err) return callback(err);
+
+						callback(null, uploads);
+					});
+				// If SINGLE upload and empty file // FIX THIS
+				} else if (files instanceof Object && files.originalFilename === '') {
+					fs.unlink(files.path, function (err) {
+						if (err) return callback(err);
+
 						callback(null, null);
 					});
+				// If SINGLE upload
+				} else if (files instanceof Object) {
+					async.waterfall([
+						function checkSize(callback) {
+							if (files.size > 1024 * 1024 * 10) {
+								fs.unlink(files.path, function (err) {
+									if (err) return callback(err);
+
+									callback({
+										show: true,
+										msg: 'Файлы больше 10 мегабайт загружать запрещено'
+									});
+								});
+							} else {
+									return callback(null);
+								}
+						},
+						function getMime(callback) {
+							execFile('file', ['-b', '--mime-type', files.path], function(err, stdout, stderr) {
+								if (err) return callback(err);
+
+								var extension;
+
+								if (stdout === 'image/png\n') extension = 'png';
+								if (stdout === 'image/jpeg\n') extension = 'jpeg';
+								if (stdout === 'image/jpg\n') extension = 'jpg';
+
+								callback(null, stdout, extension);
+							});
+						},
+						function generateFilename(type, extension, callback) {
+							crypto.randomBytes(16, function(err, buf) {
+								if (err) return callback(err);
+
+								callback(null, type, buf.toString('hex') + '.' + extension);
+							});
+						},
+						function saveFileOrNot(type ,filename, callback) {
+							if (types.test(type)) {
+								fs.rename(files.path, appPath + '/uploads/' + filename, function (err) { 
+									if (err) return callback(err);
+
+									callback(null, filename);
+								});
+							} else {
+								fs.unlink(files.path, function (err) {
+									if (err) return callback(err);
+
+									callback({show: true, msg: 'Некорректный тип файла. Разрешены только файлы .jpg .jpeg .png'}, null);
+								});
+							}
+						}
+					], function(err, uploads) {
+						if (err) {
+							if (err.show) {
+								return callback({show: true, msg: err.msg});
+							} else {
+								return callback(err);
+							}
+						}
+
+						if (!uploads) {
+							return callback(null, null);
+						}
+
+						callback(null, [uploads]);
+					});
+				} else {
+					// If NO uploads
+					callback(null, null);
+				}
 			},
-			function setData(uploads, callback) {
+			function setData(uploads,callback) {
 				callback(null,{
 					title: req.param('title'),
 					description: req.param('description'),
 					status: 1,
 					owner: req.user.id,
-					logs: req.param('logs'),
+					logs: req.param('logs') || '',
 					product: parseInt(req.param('product')),
 					uploads: uploads,
 					visiblity: parseInt(req.param('visiblity'))
@@ -66,10 +195,12 @@ module.exports = {
 			},
 			function checkData(obj, callback) {
 				if (isNaN(obj.visiblity)) {
-					callback({
+					return callback({
 						show: true, msg: 'Выберите видимость тикета'
 					});
 				}
+				
+				if (obj.product > 2) return callback({show: true, msg: 'Некорректный продукт'});
 				
 				var isErr = false;
 				req.onValidationError(function (msg) {
@@ -77,7 +208,7 @@ module.exports = {
 					callback({ show: true, msg: msg });
 				});
 				req.check('title','Краткое описание должно содержать не менее %1 и не более %2 символов').len(6,64);
-				if (!isErr) callback(null, obj);
+				if (!isErr) return callback(null, obj);
 			},
 			function sanitizeData(obj, callback) {
 				obj.description = req.sanitize('description').entityEncode();
@@ -135,76 +266,6 @@ module.exports = {
 				res.json({
 					id: ticket.id
 				});
-			}
-		});
-	},
-	
-	bugreportComment: function(req,res) {
-		async.waterfall([
-			function preCheck(callback) {
-				if (req.param('message') === '') {
-					callback({
-						show: true,
-						msg: 'Комментарий слишком короткий'
-					});
-				} else {
-					callback(null);
-				}
-			},
-			function checkOldComments(callback) {
-				Ticket.findOne(req.param('id')).done(function (err, bugreport) {
-					if (err) return callback(err);
-
-					if (bugreport.comments && bugreport.comments.length > 0) {
-						callback(null, bugreport.comments.length + 1);
-					} else {
-						callback(null, 1); // set comment id to 1 because there is no other comments
-					}
-				})
-			},
-			function setData(commentId, callback) {
-				callback(null, {
-					id: commentId,
-					owner: req.user.id,
-					message: req.sanitize('message').entityEncode(),
-					status: 1,
-					createdAt: Date()
-				})
-			},
-			function createComment(newComment, callback) {
-				Ticket.findOne(req.param('id')).done(function (err, ticket) {
-						if (err) return callback(err);
-						
-						
-						ticket.comments[newComment.id - 1] = newComment;
-						ticket.save(function(err) {
-							if (err) return callback(err);
-							
-							callback(null, newComment);
-						});
-				})
-			},
-			function serialize(newComment, callback) {
-				gcdb.user.getByID(newComment.owner, function(err, login) {
-					if (err) return callback(err);
-					
-					newComment.owner = login;
-					newComment.code = 'OK';
-					callback(null, newComment);
-				})
-			}
-		],
-		function (err, comment) {
-			if (err) {
-				if (!err.show) {
-					if (err) throw err;
-				} else {
-					return res.json({
-						error: err.msg
-					});
-				}
-			} else {
-				res.json(comment);
 			}
 		});
 	},

@@ -10,18 +10,72 @@ var gct = require('../../utils/gct');
 var moment = require('moment');
 moment.lang('ru');
 
-function singleBugreport(req, res, ticket) {
-	Bugreport.findOne(ticket.tid).done(function (err, bugreport) {
-		if (err) throw err;
 
-		gct.bugreport.serializeSingle(bugreport, null, function(err, result) {
-			if (err) throw err;
-			
-			res.view('single/bugreport', {
-				moment: moment,
-				ticket: result,
-				globalid: ticket.id
+function singleBugreport(req, res, ticket) {
+	async.waterfall([
+		function findBugreport(callback) {
+			Bugreport.findOne(ticket.tid).done(function (err, bugreport) {
+				if (err) return callback(err);
+
+				bugreport.type = ticket.type;
+				callback(null, bugreport);
 			});
+		},
+		function serializeSingle(bugreport, callback) {
+			gct.bugreport.serializeSingle(bugreport, null, function(err, result) {
+				if (err) return callback(err);
+
+				callback(null, result, bugreport);
+			});
+		},
+		// Adding var for checking local moderators
+		function canModerate(bugreport, origBugreport, callback) {
+			if (req.user && (req.user.id === origBugreport.owner || req.user.group >= ugroup.mod)) {
+				callback({show: true}, bugreport, true);
+			} else {
+				callback(null, bugreport, origBugreport);
+			}
+		},
+		function getRights(bugreport, origBugreport, callback) {
+			if (req.user) {
+				Rights.find({
+					uid: req.user.id
+				}).done(function (err, rights) {
+					if (err) return callback(err);
+
+					if (rights.length !== 0) callback(null, bugreport, rights[0].canModerate, origBugreport);
+						else callback({show: true}, bugreport, null, origBugreport);
+				});
+			} else {
+				callback(null, bugreport, null, origBugreport);
+			}
+		},
+		function checkRights(bugreport, canModerate, origBugreport, callback) {
+			if (canModerate instanceof Array) {
+				async.each(canModerate, function (element, callback) {
+					if (element === origBugreport.product) 
+						return callback(true);
+
+					callback(null);
+				}, function (canMod) {
+					if (canMod) return callback(null, bugreport, true);
+
+					callback(null, bugreport, false);
+				});
+			} else {
+				callback(null, bugreport, false);
+			}
+		}
+	], function (err, result, canModerate) {
+		if (err)
+			if (!err.show) throw err;
+		
+		
+		res.view('single/bugreport', {
+			moment: moment,
+			ticket: result,
+			globalid: ticket.id,
+			canModerate: canModerate
 		});
 	});
 }
@@ -33,7 +87,8 @@ function singleRempro(req, res, ticket) {
 function singleBan(req, res, ticket) {
 	Ban.findOne(ticket.tid).done(function (err, ban) {
 		if (err) throw err;
-
+		
+		ban.type = ticket.type
 		gct.ban.serializeSingle(ban, null, function(err, result) {
 			if (err) throw err;
 			
@@ -85,64 +140,6 @@ module.exports = {
 				res.status(404).view('404', {layout: false});
 			}
 		})
-	},
-
-	listSingleComments: function(req, res) {
-		if (!req.param('id')) return res.json(404,{error: 404});
-		
-		Ticket.findOne(req.param('id'))
-			.done(function(err, ticket) {
-				if (err) throw err;
-				
-				if (req.user) {
-					gct.comment.serializeComments(ticket.comments, req.user.group, function(err, result) {
-						if (err) throw err;
-
-						res.json(JSON.stringify(result));
-					});
-				} else {
-					gct.comment.serializeComments(ticket.comments, 0, function(err, result) {
-						if (err) throw err;
-
-						res.json(JSON.stringify(result));
-					});
-				}
-			});
-	},
-	
-	deleteComment: function(req, res) {
-		if (req.param('confirm') === 'yeas' || req.param('id') != 0 || req.param('cid') != 0) {
-			if (!req.param('id')) return res.json(404,{error: 404});
-			
-			Ticket.findOne(req.param('id'))
-				.done(function(err, ticket) {
-					if (err) {
-						res.json({status: 'err'});
-						throw err;
-					}
-					
-					gct.comment.removeComment(ticket.comments, req.param('cid'), req.user.id, function(err, comments) {
-						if (err) {
-							if (err.msg) {
-								res.json({msg: err.msg});
-							} else {
-								res.json({status: 'err'});
-								throw err;
-							} 
-						}
-						
-						ticket.comments = comments;
-						
-						ticket.save(function(err) {
-							if (err) throw err;
-							
-							res.json({status: 'OK'});
-						});
-					});
-				});
-		} else {
-			res.redirect('/');
-		}
 	}
 	
 };

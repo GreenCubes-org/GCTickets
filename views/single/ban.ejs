@@ -1,4 +1,5 @@
-<% title = '#'+ globalid + ': "' + ticket.title + '" — GC.Тикеты';
+<% title = '#'+ globalid + ': "' + ticket.title + '" — GC.Тикеты',
+	backUrl = gct.getBaseUrlTypeByID(ticket.type.id);
 scripts.push('moment.js','single.js','wbb.js');
 styles.push('main.css','wbb.css') %>
 <%- partial('../partials/header')%>

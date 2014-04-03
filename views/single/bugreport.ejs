@@ -1,6 +1,7 @@
-<% title = '#'+ globalid + ': "' + ticket.title + '" — GC.Тикеты';
-scripts.push('moment.js','single.js','wbb.js');
-styles.push('main.css','wbb.css') %>
+<% title = '#'+ globalid + ': "' + ticket.title + '" — GC.Тикеты',
+	backUrl = gct.getBaseUrlTypeByID(ticket.type.id);
+scripts.push('moment.js','single.js','wbb.js','lightbox.js');
+styles.push('main.css','wbb.css','lightbox.css') %>
 <%- partial('../partials/header')%>
 <div class="container">
 	<div class="ui grid">
@@ -12,7 +13,7 @@ styles.push('main.css','wbb.css') %>
 				<span><%= ticket.title %></span>
 				<div class="sub header">
 <% if (req.user) {
-	if (req.user.id === ticket.ownerId || req.user.group >=2) { %>
+	if (canModerate) { %>
 <a href="/id/<%= globalid %>/edit" title="Изменить"><i class="pencil small icon" id="s-editicon"></i></a>
 <% } } %>
 &nbsp;<a href="/id/<%= globalid %>">#<%= globalid %></a> 
@@ -34,69 +35,119 @@ styles.push('main.css','wbb.css') %>
 			<p class="s-description"><%- ticket.description %></p>
 			
 			<% if (ticket.logs) {%>
+			<h2 class="ui header">Логи</h2>
 			<div class="ui accordion">
 				<div class="title">
 					<i class="dropdown icon"></i>
-					Логи
+					Спойлер
 				</div>
 				<div class="content">
 					<p class="s-logs"><%- ticket.logs %></p>
 				</div>
 			</div>
 			<% } %>
+			
+			<% if (ticket.uploads.length) { %>
+			<h2 class="ui header">Изображения</h2>
+			<div class="ui stackable items">
+				<div class="row">
+				<% 	ticket.uploads.forEach(function(item, index) { %>
+					<div class="item">
+						<div class="image">
+							<a href="/uploads/<%= item %>" rel="lightbox"><img style="display:block;width:100%;" src="/uploads/<%= item %>"></a>
+						</div>
+					</div>
+				<% }) %>
+				</div>
+			</div>
+			<% } %>
 		</div>
 		<div class="seven wide column" style="padding-bottom: 10em; border-left: 1px solid rgba(0, 0, 0, 0.1);">
 			<div class="ui grid">
-				<div class="left floated column">
-					<h2 class="ui header">Комментарии</h2>
+				<div class="left floated column" style="margin-top: 0px !important;">
+					<h2 class="ui header">
+						Обсуждение
+						<div id="commentssubheader" class="ui sub header" style="width:15em;"></div>
+					</h2>
 				</div>
 				<div class="right floated column s-commentsrefresh">
-					<a href="#" id="commentrefresh"><i class="refresh icon"></i></a>
+					<a href="#" id="commentrefresh" title="Обновить"><i class="refresh icon"></i></a>
+					<% if (canModerate) { %>
+					<a href="#" id="commentremoved" title="Показать удалённые"><i class="remove icon"></i></a>
+					<% } %>
 				</div>
 			</div>
 			<div class="ui comments container" id="comments"></div>
+			<div class="ui divider" id="commentdivider"></div>
 			<form class="ui reply form container" id="commentpost">
+				<% var statusRegexp = new RegExp('(Новый|Уточнить|Принят)');
+				if (statusRegexp.test(ticket.status.text) &&  req.user && (ticket.owner == (req.user.username || '') || (req.user.group || 0) >= ugroup.helper)) { %>
+				<div class="field">
+					<label>Смена статуса</label>
+					<div class="ui selection dropdown" id="s-setstatus">
+						<input name="status" type="hidden">
+						Статус: 
+						<div class="default text"><%= ticket.status.text %></div>
+						<i class="dropdown icon"></i>
+						<div class="menu">
+							<% if (ticket.status.text === 'Новый') { %>
+								<% if ((req.user.group || 0) >= ugroup.mod) { %>
+								<div class="active item" data-value="1">Новый</div>
+								<div class="item" data-value="11">Принят</div>
+								<% } %>
+								<div class="item" data-value="3">Уточнить</div>
+								<% if ((req.user.group || 0) >= ugroup.mod) { %>
+								<div class="item" data-value="4">Отклонён</div>
+								<% } %>
+								<% if (ticket.owner == (req.user.username || '')) { %>
+								<div class="item" data-value="2">Отменён</div>
+								<% } %>
+							<% } %>
+							<% if (ticket.status.text === 'Уточнить') { %>
+								<div class="active item" data-value="3">Уточнить</div>
+								<div class="item" data-value="11">Принят</div>
+								<div class="item" data-value="4">Отклонён</div>
+							<% } %>
+							<% if (ticket.status.text === 'Принят') { %>
+								<div class="active item" data-value="11">Принят</div>
+								<div class="item" data-value="12">Исправлен</div>
+								<div class="item" data-value="4">Отклонён</div>
+							<% } %>
+						</div>
+					</div>
+				</div>
+				<% } %>
 				<div class="field" id="commentfield">
 					<textarea id="commentform" name="message"></textarea>
 				</div>
 				<div class="ui teal submit fluid small button" type="submit" id="commentsubmit">Комментировать</div>
 				<input type="hidden" name="_csrf" value="<%= _csrf %>" />
 			</form>
-			<div class="ui divider"></div>
-			<div class="ui selection dropdown">
-				<input name="visiblity" type="hidden">
-				<div class="default text">Смена статуса тикета</div>
-				<div class="menu">
-					<div class="item" data-value="1">Виден всем</div>
-					<div class="item" data-value="2">Виден только разработчику</div>
-				</div>
-				<i class="dropdown icon"></i>
-			</div>
 		 </div>
-		</div>
+	</div>
 </div>
 <div class="ui basic modal" id="remcomment">
-    <div class="header">
-      Удалить этот комментарий?
-    </div>
-    <div class="content">
-      <div class="left">
-        <i class="remove sign icon"></i>
-      </div>
-      <div class="right">
-        <p>Вы уверены, что хотите удалить этот комментарий?</p>
-      </div>
-    </div>
-    <div class="actions">
-      <div class="two fluid ui buttons">
-        <div class="ui negative labeled icon button">
-          <i class="remove icon"></i>
-          Нет, вернёмся обратно
-        </div>
-        <div class="ui positive right labeled icon button">
-          Да, удалить
-          <i class="checkmark icon"></i>
-        </div>
-      </div>
-    </div>
-  </div>
+	<div class="header">
+	  Удалить этот комментарий?
+	</div>
+	<div class="content">
+	  <div class="left">
+		<i class="remove sign icon"></i>
+	  </div>
+	  <div class="right">
+		<p>Вы уверены, что хотите произвести это действие?</p>
+	  </div>
+	</div>
+	<div class="actions">
+	  <div class="two fluid ui buttons">
+		<div class="ui negative labeled icon button">
+		  <i class="remove icon"></i>
+		  Нет, вернёмся обратно
+		</div>
+		<div class="ui positive right labeled icon button">
+		  Да, удалить
+		  <i class="checkmark icon"></i>
+		</div>
+	  </div>
+	</div>
+</div>

@@ -1,30 +1,3 @@
-var gcdb = require('../gcdb');
-var cfg = require('../../config/local.js');
-
-function handleAPPDBDisconnect() {
-	appdbconn = require('mysql').createConnection({
-		host: cfg.appdb.host,
-		database: cfg.appdb.database,
-		user: cfg.appdb.user,
-		password: cfg.appdb.password
-	});
-	appdbconn.connect(function (err) {
-		if (err) {
-			setTimeout(handleAPPDBDisconnect, 1000);
-		}
-	});
-
-	appdbconn.on('error', function (err) {
-		if (err.code === 'PROTOCOL_CONNECTION_LOST') {
-			handleAPPDBDisconnect();
-		} else {
-			throw err;
-		}
-	});
-}
-
-handleAPPDBDisconnect();
-
 module.exports = {
 	getGroup: function getGroup(user, cb) {
         if (typeof user === 'number') {
@@ -54,6 +27,25 @@ module.exports = {
         } else {
             cb('Incorrect variable!');
         }
+	},
+	
+	getGroupString: function getGroupString(ugroup) {
+		switch (ugroup) {
+			case 0:
+				return 'Пользователь';
+				
+			case 1:
+				return 'Хелпер';
+
+			case 2:
+				return 'Модератор';
+				
+			case 3:
+				return 'Персонал';
+
+			default:
+				return;
+		}
 	},
 
 	getPrefix: function getPrefix(user, cb) {
@@ -88,7 +80,7 @@ module.exports = {
 
 	getColorClass: function getColorClass(user, cb) {
         if (typeof user === 'number') {
-            appdbconn.query('SELECT colorclass FROM rights WHERE id = ?', [user], function (err, result) {
+            appdbconn.query('SELECT colorclass FROM rights WHERE uid = ?', [user], function (err, result) {
                 if (err) return cb(err);
 
                 if (result.length !== 0) {

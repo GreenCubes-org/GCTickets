@@ -27,5 +27,9 @@ scripts.push( 'login.page.js') %>
 			</div>
 			<input type="hidden" name="_csrf" value="<%= _csrf %>" />
 		</form>
-		<div id="loginerr"></div>
+		<div id="loginerr"><% if (typeof msg !== 'undefined') { %>
+				<div class="ui error message">
+					<div class="header"><%= msg %></div>
+				</div><% } %>
+		</div>
 	</div>

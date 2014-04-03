@@ -9,7 +9,7 @@ module.exports = function (req, res, ok) {
 		}).done(function (err, rights) {
 			if (err) throw err;
 
-			if (rights.length !== 0 && rights[0].ugroup >= 2) {
+			if (rights.length !== 0 && rights[0].ugroup >= ugroup.mod) {
 				ok();
 			} else {
 				res.status(403).view('403', {layout: false});

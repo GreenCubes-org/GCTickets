@@ -11,7 +11,9 @@ module.exports = function (req, res, ok) {
 		if (req.wantsJSON) {
 			res.json(403, {error: 403});
 		} else {
-			res.redirect('/');
+			res.view('user/login', {
+				msg: 'Для использования этой функции требуется вход в систему'
+			});
 		}
 	}
 };

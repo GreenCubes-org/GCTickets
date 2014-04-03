@@ -1,6 +1,7 @@
 $(document).ready(function(socket){
 try {
 	var currentUrl = window.location.pathname;
+	var lastTicket;
 	$.ajax({
 		type: "GET",
 		url: currentUrl + '/read',
@@ -29,6 +30,9 @@ try {
 				'	<td class="t-status ' + res.status.class +'">'+ res.status.text +'</td>' +
 				'</tr>');
 			});
+			
+			lastTicket = tickets[tickets.length - 1];
+			
 			if (tickets.length < 20) {
 				$('#content').append('<div id="t-givemorebtn"><div class="ui basic small icon labeled right fluid disabled button">Больше нет тикетов</div></div>');
 			} else {
@@ -43,7 +47,7 @@ try {
 		$.ajax({
 		 type: "GET",
 		 url: currentUrl + '/read/' + page,
-		 data: $(this).serialize(),
+		 data: 'lastelement=' + lastTicket.createdAt,
 		 beforeSend: function () {
 			$('#t-givemorebtn').html('<div class="ui active inverted dimmer"><div class="ui text loader"></div></div>');
 		 },
@@ -54,11 +58,6 @@ try {
 			}
 			
 			tickets = $.parseJSON(data.responseJSON);
-			if (tickets.length < 20) {
-				$('#t-givemorebtn').html('<div class="ui basic small icon labeled right fluid disabled button">Больше нет тикетов</div>');
-			} else {
-				$('#t-givemorebtn').html('<button class="ui basic small icon labeled right fluid button" id="givememore">Загрузить ещё</button>');
-			}
 			
 			tickets.map(function(res) {
 				$('#listTickets').append('<tr>' +
@@ -69,6 +68,14 @@ try {
 				'	<td class="t-status ' + res.status.class +'">'+ res.status.text +'</td>' +
 				'</tr>');
 			});
+			
+			lastTicket = tickets[tickets.length - 1];
+			
+			if (tickets.length < 20) {
+				$('#t-givemorebtn').html('<div class="ui basic small icon labeled right fluid disabled button">Больше нет тикетов</div>');
+			} else {
+				$('#t-givemorebtn').html('<button class="ui basic small icon labeled right fluid button" id="givememore">Загрузить ещё</button>');
+			}
 		 }
 		});
 		return false;
