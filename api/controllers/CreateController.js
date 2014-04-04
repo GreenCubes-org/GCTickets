@@ -26,7 +26,7 @@ module.exports = {
 	bugreport: function(req, res) {
 		async.waterfall([
 			function preCheck(callback) {
-				if (!req.param('id') || !req.param('title') || !req.param('description')) {
+				if (!req.param('title') || !req.param('description')) {
 					return callback({
 						show: true,
 						msg: 'Некорректный запрос'
@@ -216,7 +216,7 @@ module.exports = {
 					});
 				}
 				
-				var isStatus = new RegExp('(1|12|6)');
+				var isStatus = new RegExp('(1|7|12)');
 				
 				if (!obj.product) {
 					return callback({
