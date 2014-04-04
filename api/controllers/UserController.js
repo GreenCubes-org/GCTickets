@@ -37,18 +37,6 @@ module.exports = {
 	logout: function (req, res) {
 		req.logout();
 		res.redirect('/');
-	},
-
-	profileTpl: function (req, res) {
-		login = req.param('user');
-		gct.user.getProfile(login, function (err, user) {
-			if (err) throw err;
-
-			res.view('user/profile', {
-				user: user,
-				moment: moment
-			});
-		});
 	}
 
 };

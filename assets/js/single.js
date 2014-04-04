@@ -260,8 +260,8 @@ function getComments(ticketId, callback) {
 			$('#comments').html('<div class="ui active inverted dimmer" style="position: relative !important;padding:5em 0em;"><div class="ui text loader">Загружается</div></div>');
 		},
 		success: function(data) {
-			var comments = $.parseJSON(data);
-			
+			var comments = $.parseJSON(data) || [];
+			;
 			var parsedComments = comments.map(function (comment) {
 				comment.createdAt = {
 					fullDate: moment(comment.createdAt).format('Do MMM YYYY h:mm'),

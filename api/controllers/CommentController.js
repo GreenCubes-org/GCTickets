@@ -8,7 +8,11 @@
 module.exports = {
 	
 	listSingleComments: function(req, res) {
-		if (!req.param('id')) return res.json(404,{error: 404});
+		if (!req.param('id')) {
+			return res.json(400, {
+				msg: 'Некорректный запрос'
+			});
+		}
 		
 		Ticket.findOne(req.param('id'))
 			.done(function(err, ticket) {
@@ -31,11 +35,15 @@ module.exports = {
 	},
 	
 	deleteComment: function(req, res) {
+		if(!req.param('id') || !req.param('cid')) {
+			return res.json(400, {
+				msg: 'Некорректный запрос'
+			});
+		}
+		
 		var action = req.param('action');
 		
-		if (action === 'remove' || action === 'recover' || req.param('id') != 0 && req.param('cid') != 0) {
-			if (!req.param('id')) return res.json(404, {error: 404});
-			
+		if (action === 'remove' || action === 'recover' || req.param('id') !== 0 && req.param('cid') !== 0) {
 			Ticket.findOne(req.param('id'))
 				.done(function(err, ticket) {
 					if (err) {
@@ -47,7 +55,9 @@ module.exports = {
 						gct.comment.removeComment(ticket.comments, req.param('cid'), req.user.id, false, function(err, comments) {
 							if (err) {
 								if (err.msg) {
-									res.json({msg: err.msg});
+									return res.json({
+										msg: err.msg
+									});
 								} else {
 									res.json({status: 'err'});
 									throw err;
@@ -66,7 +76,9 @@ module.exports = {
 						gct.comment.removeComment(ticket.comments, req.param('cid'), req.user.id, true, function(err, comments) {
 							if (err) {
 								if (err.msg) {
-									res.json({msg: err.msg});
+									return res.json({
+										msg: err.msg
+									});
 								} else {
 									res.json({status: 'err'});
 									throw err;
@@ -91,6 +103,13 @@ module.exports = {
 	bugreportComment: function(req,res) {
 		async.waterfall([
 			function preCheck(callback) {
+				if (!req.param('message') || !req.param('id')) {
+					return callback({
+						show: true,
+						msg: 'Некорректный запрос'
+					});
+				}
+				
 				if (req.param('message') === '') {
 					callback({
 						show: true,
@@ -101,15 +120,16 @@ module.exports = {
 				}
 			},
 			function checkOldComments(callback) {
-				Ticket.findOne(req.param('id')).done(function (err, ticket) {
-					if (err) return callback(err);
+				Ticket.findOne(req.param('id'))
+					.done(function (err, ticket) {
+						if (err) return callback(err);
 
-					if (ticket.comments && ticket.comments.length > 0) {
-						callback(null, ticket.comments.length + 1, ticket.tid);
-					} else {
-						callback(null, 1, ticket.tid); // set comment id to 1 because there is no other comments
-					}
-				})
+						if (ticket.comments && ticket.comments.length > 0) {
+							callback(null, ticket.comments.length + 1, ticket.tid);
+						} else {
+							callback(null, 1, ticket.tid); // set comment id to 1 because there is no other comments
+						}
+					});
 			},
 			function setData(commentId, bugreportId, callback) {
 				Bugreport.findOne(bugreportId)
@@ -124,7 +144,7 @@ module.exports = {
 						}, bugreport);
 					});
 			},
-			// Adding var for checking local moderators
+			// Adding var for checking global moderators
 			function canModerate(newComment, bugreport, callback) {
 				if (req.user.group >= ugroup.mod) {
 					callback(null, newComment, true, bugreport);
@@ -141,11 +161,11 @@ module.exports = {
 					}).done(function (err, rights) {
 						if (err) return callback(err);
 
-						if (rights.length !== 0) callback(null, newComment, false, rights[0].canModerate, bugreport);
+						if (rights) callback(null, newComment, false, rights[0].canModerate, bugreport);
 							else callback(null, newComment, false, [], bugreport);
 					});
 				} else {
-					callback(null, newComment, null, []);
+					callback(null, newComment, null, [], bugreport);
 				}
 			},
 			function checkRights(newComment, pass, canModerate, bugreport, callback) {
@@ -164,30 +184,30 @@ module.exports = {
 				});
 			},
 			function processStatus(newComment, canModerate, bugreport, callback) {
-				if (!canModerate || isNaN(newComment.changedTo) || newComment.changedTo === (bugreport.status || '')) {
-					delete newComment.status;
+				if (isNaN(newComment.changedTo) || newComment.changedTo === bugreport.status) {
+					delete newComment.changedTo;
 					return callback(null, newComment);
 				}
 				
 				// If status "Новый"
 				var isStatus = new RegExp('^(11|3|4|2)');
-				if (bugreport.status === 1 && isStatus.test(newComment.changedTo)) {
+				if (canModerate || bugreport.status === 1 && isStatus.test(newComment.changedTo)) {
 					return callback(null, newComment);
 				}
 				
 				// If status "Уточнить"
 				isStatus = new RegExp('^(11|4)');
-				if (bugreport.status === 3 && isStatus.test(newComment.changedTo)) {
+				if (canModerate || req.user && (req.user.group >= ugroup.helper) || bugreport.status === 3 && isStatus.test(newComment.changedTo)) {
 					return callback(null, newComment);
 				}
 				
 				// If status "Принят"
 				isStatus = new RegExp('^(12|4)');
-				if (bugreport.status === 3 && isStatus.test(newComment.changedTo)) {
+				if (canModerate || bugreport.status === 3 && isStatus.test(newComment.changedTo)) {
 					return callback(null, newComment);
 				}
 				
-				delete newComment.status;
+				delete newComment.changedTo;
 				callback(null, newComment);
 			},
 			function createComment(newComment, callback) {
@@ -231,7 +251,7 @@ module.exports = {
 		function (err, comment, reload) {
 			if (err) {
 				if (!err.show) {
-					if (err) throw err;
+					throw err;
 				} else {
 					return res.json({
 						error: err.msg

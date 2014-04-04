@@ -19,6 +19,21 @@ module.exports = {
 					cb(null, rights);
 				});
 			},
+			function serializeCanModerate(rights, callback) {
+				async.map(rights, function(element, callback) {
+					async.map(element.canModerate, function(element, callback) {
+						serializedCanModerate = gct.getProductByID(element);
+						element = serializedCanModerate.adminText;
+
+						callback(null, element);
+					}, function(err, result) {
+						element.canModerate = result;
+						callback(null, rights);
+					});
+				}, function(err, result) {
+					callback(null, rights);
+				});
+			},
 			function getByID(rights, cb) {
 				async.map(rights, function (right, callback) {
 					gcdb.user.getByID(right.uid, function (err, login) {
@@ -43,6 +58,12 @@ module.exports = {
 	},
 
 	setRights: function (req, res) {
+		if(!req.body.username) {
+			res.json(400, {
+				msg: 'Некорректный запрос'
+			});
+		}
+		
 		async.waterfall([
 			function setData(callback) {
 				callback(null, {
@@ -87,15 +108,15 @@ module.exports = {
 			},
 			function canModerate(obj, callback) {
 				if (req.body['mod-main']) {
-					obj.canModerate.push('main-cli', 'main-srv');
+					obj.canModerate.push(2,12, 3);
 				}
 				
 				if (req.body['mod-rpg']) {
-					obj.canModerate.push('rpg-cli', 'rpg-srv');
+					obj.canModerate.push(8, 9);
 				}
 				
 				if (req.body['mod-rpg']) {
-					obj.canModerate.push('apo-cli', 'apo-srv');
+					obj.canModerate.push(10, 11);
 				}
 				
 				callback(null, obj);
@@ -128,10 +149,9 @@ module.exports = {
 					
 					throw err;
 				} else {
-					res.json({
+					return res.json({
 						err: err.msg
 					});
-					return;
 				}
 			} else {
 				res.json({
@@ -144,12 +164,13 @@ module.exports = {
 	removeRights: function (req, res) {
 		var uid = parseInt(req.params.uid, 10);
 		
-		if (isNaN(uid)) {
-			res.redirect('/admin/users/rights');
+		if (!req.params.uid) {
+			return res.json(400, {
+				msg: 'Некорректный запрос'
+			});
 		}
 		
-		console.log(typeof(uid), uid, typeof(req.param.uid), req.param.uid);
-		Rights.find({
+		Rights.findOne({
 			uid: uid
 		}).done(function (err, rights) {
 			if (err) throw err;
@@ -157,7 +178,7 @@ module.exports = {
 			if (rights.length === 0) {
 				res.redirect('/admin/users/rights');
 			} else {
-				rights[0].destroy(function(err) {
+				rights.destroy(function(err) {
 					if (err) throw err;
 
 					res.redirect('/admin/users/rights');

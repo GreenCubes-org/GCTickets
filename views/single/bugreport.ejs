@@ -19,7 +19,7 @@ styles.push('main.css','wbb.css','lightbox.css') %>
 &nbsp;<a href="/id/<%= globalid %>">#<%= globalid %></a> 
 &raquo;&nbsp;<%= ticket.owner %>
 &raquo;&nbsp;<%= moment(ticket.createdAt).format('Do MMM YYYY, h:mm') %>
-<% if (ticket.product || ticket.product !== 42) { %>&raquo;&nbsp;<%= ticket.product %><% } %>
+<% if (ticket.product || ticket.product !== 42) { %>&raquo;&nbsp;<%= ticket.product.ticketText %><% } %>
 				</div>
 			</h2>
 		</div>
@@ -72,7 +72,7 @@ styles.push('main.css','wbb.css','lightbox.css') %>
 				</div>
 				<div class="right floated column s-commentsrefresh">
 					<a href="#" id="commentrefresh" title="Обновить"><i class="refresh icon"></i></a>
-					<% if (canModerate) { %>
+					<% if (req.user && req.user.group >= ugroup.mod) { %>
 					<a href="#" id="commentremoved" title="Показать удалённые"><i class="remove icon"></i></a>
 					<% } %>
 				</div>
@@ -81,7 +81,7 @@ styles.push('main.css','wbb.css','lightbox.css') %>
 			<div class="ui divider" id="commentdivider"></div>
 			<form class="ui reply form container" id="commentpost">
 				<% var statusRegexp = new RegExp('(Новый|Уточнить|Принят)');
-				if (statusRegexp.test(ticket.status.text) &&  req.user && (ticket.owner == (req.user.username || '') || (req.user.group || 0) >= ugroup.helper)) { %>
+				if (statusRegexp.test(ticket.status.text) &&  req.user && (canModerate || ticket.owner == (req.user.username || '') || ((req.user.group || 0) >= ugroup.helper && ticket.status.text === 'Новый'))) { %>
 				<div class="field">
 					<label>Смена статуса</label>
 					<div class="ui selection dropdown" id="s-setstatus">
@@ -91,15 +91,17 @@ styles.push('main.css','wbb.css','lightbox.css') %>
 						<i class="dropdown icon"></i>
 						<div class="menu">
 							<% if (ticket.status.text === 'Новый') { %>
-								<% if ((req.user.group || 0) >= ugroup.mod) { %>
+								<% if (canModerate || (req.user.group || 0) >= ugroup.mod) { %>
 								<div class="active item" data-value="1">Новый</div>
 								<div class="item" data-value="11">Принят</div>
 								<% } %>
+								<% if (canModerate || (req.user.group || 0) >= ugroup.helper) { %>
 								<div class="item" data-value="3">Уточнить</div>
-								<% if ((req.user.group || 0) >= ugroup.mod) { %>
+								<% } %>
+								<% if (canModerate || (req.user.group || 0) >= ugroup.mod) { %>
 								<div class="item" data-value="4">Отклонён</div>
 								<% } %>
-								<% if (ticket.owner == (req.user.username || '')) { %>
+								<% if (canModerate || (ticket.owner === (req.user.username || ''))) { %>
 								<div class="item" data-value="2">Отменён</div>
 								<% } %>
 							<% } %>

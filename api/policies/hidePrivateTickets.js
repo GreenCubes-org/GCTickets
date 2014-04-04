@@ -7,7 +7,7 @@ module.exports = function (req, res, ok) {
 		if (err) throw err;
 
 		
-		if (req.user && req.user.group === ugroup.staff || req.user.id === ticket.owner) {
+		if (req.user && req.user.group === ugroup.staff || req.user && req.user.id === ticket.owner) {
 			ok();
 		} else {
 			if (ticket.visiblity === 2) {

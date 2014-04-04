@@ -29,6 +29,16 @@ function editBugreport(req, res, ticket) {
 		if (err) throw err;
 
 		async.waterfall([
+			function preCheck(callback) {
+				if (!req.param('id') || !req.param('title') || !req.param('description') || !req.param('visiblity')) {
+					return callback({
+						show: true,
+						msg: 'Некорректный запрос'
+					});
+				}
+				
+				callback(null);
+			},
 			function removeUploads(callback) {
 				var removeImage = req.body.removeimage;
 				
@@ -46,11 +56,18 @@ function editBugreport(req, res, ticket) {
 								callback(null);
 							});
 						} else {
-							callback('Невозможно удалить изображение, которого нет');
+							callback({
+								show: true, 
+								msg: 'Невозможно удалить изображение, которого нет'
+							 });
 						}
 					}, function (err) {
 						if (err) {
-							return callback({show: true, msg: err});
+							if (err.show) {
+								return callback({show: true, msg: err.msg});
+							} else {
+								return callback(err);
+							}
 						}
 						
 						// Remove undefined elements
@@ -74,7 +91,10 @@ function editBugreport(req, res, ticket) {
 							callback(null);
 						});
 					} else {
-						callback({show: true, msg: 'Невозможно удалить изображение, которого нет'});
+						callback({
+							show: true,
+							msg: 'Невозможно удалить изображение, которого нет'
+						});
 					}
 				}  else {
 					callback(null);
@@ -248,13 +268,13 @@ function editBugreport(req, res, ticket) {
 					
 					callback(null, {
 						title: req.param('title'),
-						description: req.param('description'),
+						description: req.param('description', 10),
 						status: bugreport.status,
 						owner: bugreport.owner,
 						logs: req.param('logs'),
 						product: bugreport.bugreport,
 						uploads: uploads,
-						visiblity: parseInt(req.param('visiblity'))
+						visiblity: parseInt(req.param('visiblity'), 10)
 					});
 				});
 			},
@@ -319,10 +339,9 @@ function editBugreport(req, res, ticket) {
 					
 					throw err;
 				} else {
-					res.json({
+					return res.json({
 						err: err.msg
 					});
-					return;
 				}
 			} else {
 				res.json({

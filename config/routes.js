@@ -34,7 +34,7 @@ module.exports.routes = {
 	'/admin/debug':'admin.debug',
 	'/admin/users': 'dev.hideFeature',
 	'/admin/users/rights': 'admin.usersRights',
-	'/admin/users/rights/new': 'admin.setRights',
+	'post /admin/users/rights/new': 'admin.setRights',
 	'/admin/users/rights/remove/:uid': 'admin.removeRights',
 
 	// Контроллер сервисных функций.

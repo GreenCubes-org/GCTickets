@@ -4,6 +4,7 @@ config/local.js
 node_modules
 .geany
 logs/*
+uploads/*
 
 # Do not ignore our versions of some modules
 !/node_modules

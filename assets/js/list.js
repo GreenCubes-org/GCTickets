@@ -21,6 +21,9 @@ try {
 				'</tbody>' +
 				'</table>');
 			tickets = $.parseJSON(data.responseJSON);
+			if (tickets.err) {
+				//TODO
+			}
 			tickets.map(function(res) {
 				$('#gc-list').append('<tr>' +
 				'	<td class="t-type" title="' + res.type.descr + '"><i class="' + res.type.iconclass + ' icon"></i></td>' +

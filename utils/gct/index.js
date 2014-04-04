@@ -4,7 +4,7 @@
  * @module		:: Utils
  * @description :: Вспомогательные функции
  */
-// FIXME: Поменять на глобальную переменную
+
 var gcdb = require('../gcdb');
 
 module.exports.all = all = require('./all');
@@ -96,40 +96,82 @@ module.exports.getStatusByID = getStatusByID = function (id) {
 module.exports.getProductByID = getProductByID = function (id) {
 	switch (id) {
 		case 1:
-			return 'Я не знаю';
+			return {
+				ticketText: 'Я не знаю',
+				adminText: ''
+			};
 
 		case 2:
-			return 'GC.Main Клиент';
+			return {
+				ticketText: 'GC.Main Клиент',
+				adminText: 'main-cli'
+			};
 
 		case 3:
-			return 'GC.Main Сервер (GreenServer)';
+			return {
+				ticketText: 'GC.Main Сервер (GreenServer)',
+				adminText: 'main-srv'
+			};
 
 		case 4:
-			return 'GreenCubes.org Сайт';
+			return {
+				ticketText: 'GreenCubes.org Сайт',
+				adminText: ''
+			};
 
 		case 5:
-			return 'Форум GreenCubes';
+			return {
+				ticketText: 'Форум GreenCubes',
+				adminText: ''
+			};
 
 		case 6:
-			return 'GreenCubes.Wiki';
+			return {
+				ticketText: 'GreenCubes.Wiki',
+				adminText: ''
+			};
 
 		case 7:
-			return 'Тикет-система GreenCubes';
+			return {
+				ticketText: 'Тикет-система',
+				adminText: ''
+			};
 
 		case 8:
-			return 'GC.RPG Клиент';
+			return {
+				ticketText: 'GC.RPG Клиент',
+				adminText: 'rpg-cli'
+			};
 
 		case 9:
-			return 'GC.RPG Сервер';
+			return {
+				ticketText: 'GC.RPG Сервер',
+				adminText: 'rpg-srv'
+			};
 
 		case 10:
-			return 'GC.Apocalyptic Клиент';
+			return {
+				ticketText: 'GC.Apocalyptic Клиент',
+				adminText: 'apo-cli'
+			};
 
 		case 11:
-			return 'GC.Apocalyptic Сервер';
+			return {
+				ticketText: 'GC.Apocalyptic Сервер',
+				adminText: 'apo-srv'
+			};
+			
+		case 12:
+			return {
+				ticketText: 'GC.Main Новый клиент',
+				adminText: 'main-newcli'
+			};
 
 		default:
-			return 'Не указано';
+			return {
+				ticketText: 'Не указано',
+				adminText: ''
+			};
 	}
 };
 

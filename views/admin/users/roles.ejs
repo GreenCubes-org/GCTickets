@@ -1,4 +1,5 @@
-<% title = 'Права пользователей / Админпанель — GC.Тикеты' %>
+<% title = 'Права пользователей / Админпанель — GC.Тикеты',
+	backUrl = '/admin'; %>
 <% styles.push('main.css');
 	scripts.push('sem.js', 'roles.js') %>
 <%- partial('../../partials/header')%>
@@ -10,7 +11,6 @@
 	<table class="ui table">
 		<thead>
 			<tr>
-				<th>#</th>
 				<th>Никнейм</th>
 				<th>Группа</th>
 				<th>Префикс</th>
@@ -22,7 +22,6 @@
 		<tbody>
 		<% rights.forEach(function(element) {%>
 			<tr>
-				<td><%= element.uid %></td>
 				<td><%= element.login %></td>
 				<td><%= gct.user.getGroupString(element.ugroup) %></td>
 				<td><%= element.prefix %></td>

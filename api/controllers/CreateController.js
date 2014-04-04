@@ -25,9 +25,19 @@ module.exports = {
 	
 	bugreport: function(req, res) {
 		async.waterfall([
-			function uploadData(callback) {
+			function preCheck(callback) {
+				if (!req.param('id') || !req.param('title') || !req.param('description')) {
+					return callback({
+						show: true,
+						msg: 'Некорректный запрос'
+					});
+				}
 				
+				callback(null);
+			},
+			function uploadData(callback) {
 				var files;
+				
 				if (req.files) {
 					files = req.files.upload;
 				}
@@ -123,8 +133,8 @@ module.exports = {
 									});
 								});
 							} else {
-									return callback(null);
-								}
+								return callback(null);
+							}
 						},
 						function getMime(callback) {
 							execFile('file', ['-b', '--mime-type', files.path], function(err, stdout, stderr) {
@@ -157,14 +167,19 @@ module.exports = {
 								fs.unlink(files.path, function (err) {
 									if (err) return callback(err);
 
-									callback({show: true, msg: 'Некорректный тип файла. Разрешены только файлы .jpg .jpeg .png'}, null);
+									callback({
+										show: true, 
+										msg: 'Некорректный тип файла. Разрешены только файлы .jpg .jpeg .png'
+									}, null);
 								});
 							}
 						}
 					], function(err, uploads) {
 						if (err) {
 							if (err.show) {
-								return callback({show: true, msg: err.msg});
+								return callback({
+									show: true, msg: err.msg
+								});
 							} else {
 								return callback(err);
 							}
@@ -188,26 +203,40 @@ module.exports = {
 					status: 1,
 					owner: req.user.id,
 					logs: req.param('logs') || '',
-					product: parseInt(req.param('product')),
-					uploads: uploads,
-					visiblity: parseInt(req.param('visiblity'))
+					product: parseInt(req.param('product'), 10),
+					uploads: uploads || [],
+					visiblity: parseInt(req.param('visiblity'), 10)
 				})
 			},
 			function checkData(obj, callback) {
 				if (isNaN(obj.visiblity)) {
 					return callback({
-						show: true, msg: 'Выберите видимость тикета'
+						show: true, 
+						msg: 'Выберите видимость тикета'
 					});
 				}
 				
-				if (obj.product > 2) return callback({show: true, msg: 'Некорректный продукт'});
+				var isStatus = new RegExp('(1|12|6)');
+				
+				if (!obj.product) {
+					return callback({
+						show: true, 
+						msg: 'Выберите местоположение проблемы'
+					});
+				}
+				if (!isStatus.test(obj.product)) {
+					return callback({
+						show: true, 
+						msg: 'Некорректное местоположение проблемы'
+					});
+				}
 				
 				var isErr = false;
 				req.onValidationError(function (msg) {
 					isErr = true;
 					callback({ show: true, msg: msg });
 				});
-				req.check('title','Краткое описание должно содержать не менее %1 и не более %2 символов').len(6,64);
+				req.check('title', 'Краткое описание должно содержать не менее %1 и не более %2 символов').len(6,64);
 				if (!isErr) return callback(null, obj);
 			},
 			function sanitizeData(obj, callback) {
@@ -241,26 +270,24 @@ module.exports = {
 					comments: [],
 					owner: obj.owner
 				}).done(function (err, ticket) {
-						if (err) return callback(err);
-						
-						callback(null, ticket)
-					});
+					if (err) return callback(err);
+
+					callback(null, ticket)
+				});
 			}
 		 ],
 		 function (err, ticket) {
 			if (err) {
 				if (!err.show) {
-					res.json({
+					res.json(500, {
 						 err: 'Внезапная ошибка! Пожалуйста, сообщите о ней разработчику.'
 					});
 					
-					console.error(err);
 					throw err;
 				} else {
-					res.json({
+					return res.json({
 						err: err.msg
 					});
-					return;
 				}
 			} else {
 				res.json({
