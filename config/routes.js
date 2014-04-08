@@ -16,8 +16,6 @@ module.exports.routes = {
 	'/releasenotes': {
 		view: 'home/releasenotes'
 	},
-	
-	'/deployment': 'dev.deploymentWebHook',
 
 	// Действия с пользователем
 	// Профиль
