@@ -126,6 +126,7 @@ $(document).ready(function(){
 
 function renderAllComments(ticketId) {
 	getComments(ticketId, function(err, comments) {
+		$('#commentssubheader').html('');
 		if (comments === null || comments.length === 0) {
 			$('#comments').html('<div style="padding: 5em 0em;text-align: center;">Нет комментариев</div>');
 			$('#commentpost').fadeIn(500);
