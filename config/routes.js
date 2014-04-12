@@ -50,7 +50,7 @@ module.exports.routes = {
 	'get /id/:id/comments': 'comment.listSingleComments',
 	'get /id/:id/comment/:cid/report': 'dev.hideFeature',
 	'post /id/:id/comment/:cid/remove': 'comment.deleteComment',
-	'post /id/:id/comment': 'comment.bugreportComment',
+	'post /id/:id/comment': 'comment.newComment',
 
 	// Мои тикеты
 	'/my': 'list.listMyTpl',

@@ -100,17 +100,17 @@ module.exports = {
 		}
 	},
 	
-	bugreportComment: function(req,res) {
+	newComment: function(req,res) {
 		async.waterfall([
 			function preCheck(callback) {
-				if (!req.param('message') || !req.param('id')) {
+				if (!req.param('id')) {
 					return callback({
 						show: true,
 						msg: 'Некорректный запрос'
 					});
 				}
 				
-				if (req.param('message') === '') {
+				if (!req.param('message') || req.param('message') === '') {
 					callback({
 						show: true,
 						msg: 'Комментарий слишком короткий'
