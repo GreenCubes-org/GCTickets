@@ -1,5 +1,5 @@
 /**
- * GCT -
+ * GCDB
  *
  * @module		:: Utils
  * @description :: Вспомогательные функции
@@ -15,7 +15,7 @@ module.exports.user = user = {
 			if (result.length !== 0) {
 				cb(null, result[0].login);
 			} else {
-				cb('Can\'t search login with this id');
+				cb(null, null);
 			}
 		});
 	},
@@ -29,7 +29,7 @@ module.exports.user = user = {
 			if (result.length !== 0) {
 				cb(null, result[0].id);
 			} else {
-				cb('Can\'t search id with this login');
+				cb(null, null);
 			}
 		});
 	},
@@ -43,7 +43,7 @@ module.exports.user = user = {
 			if (result.length !== 0) {
 				cb(null, result[0].login);
 			} else {
-				cb('Can\'t search login with this login');
+				cb(null, null);
 			}
 		});
 	},
