@@ -41,7 +41,7 @@ module.exports = {
 				return 'Модератор';
 				
 			case 3:
-				return 'Персонал';
+				return 'Команда ГК';
 
 			default:
 				return;
