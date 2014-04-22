@@ -21,15 +21,20 @@ module.exports = {
 			},
 			function serializeCanModerate(rights, callback) {
 				async.map(rights, function(element, callback) {
-					async.map(element.canModerate, function(element, callback) {
-						serializedCanModerate = gct.getProductByID(element);
-						element = serializedCanModerate.adminText;
+					if (element.canModerate) {
+						async.map(element.canModerate, function(element, callback) {
+							serializedCanModerate = gct.getProductByID(element);
+							element = serializedCanModerate.adminText;
 
-						callback(null, element);
-					}, function(err, result) {
-						element.canModerate = result;
+							callback(null, element);
+						}, function(err, result) {
+							element.canModerate = result;
+							callback(null, rights);
+						});
+					} else {
+						element.canModerate = null;
 						callback(null, rights);
-					});
+					}
 				}, function(err, result) {
 					callback(null, rights);
 				});
