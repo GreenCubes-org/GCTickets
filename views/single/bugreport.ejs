@@ -18,7 +18,7 @@ styles.push('main.css','wbb.css','lightbox.css') %>
 <% } } %>
 &nbsp;<a href="/id/<%= globalid %>">#<%= globalid %></a> 
 &raquo;&nbsp;<%= ticket.owner %>
-&raquo;&nbsp;<%= moment(ticket.createdAt).format('Do MMM YYYY, h:mm') %>
+&raquo;&nbsp;<%= moment(ticket.createdAt).format('D MMM YYYY, h:mm') %>
 <% if (ticket.product || ticket.product !== 42) { %>&raquo;&nbsp;<%= ticket.product.ticketText %><% } %>
 				</div>
 			</h2>
