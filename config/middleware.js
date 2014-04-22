@@ -4,7 +4,6 @@ var mysql = require('mysql');
 var crypto = require('crypto');
 var flash = require('connect-flash');
 var express = require('../node_modules/sails/node_modules/express');
-var formidable = require('formidable');
 
 var expressValidator = require('express-validator');
 
