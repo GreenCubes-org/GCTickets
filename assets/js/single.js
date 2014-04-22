@@ -64,6 +64,7 @@ $(document).ready(function(){
 					'</div>');
 					$('.ui.active.dimmer').dimmer();
 				}
+				$('#commentsubmit').reset();
 			}
 		});
 		return false;

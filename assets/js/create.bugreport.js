@@ -25,6 +25,7 @@ $(document).ready(function(){
 					$('#gc-reportformdiv').addClass('error');
 					$('#errmessage').html('<div class="ui divider"></div><div class="ui error message"><div class="header">Внезапная необычная ошибка. Пожалуйста, сообщите о ней разработчику.</div></div>');
 				}
+				$('#gc-reportform').reset();
 			},
 		});
 		return false;
