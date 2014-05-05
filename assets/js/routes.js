@@ -24,3 +24,4 @@ crossroads.addRoute('/id/{id}/edit', app.view.edit);
 
 /* Admin pages */
 crossroads.addRoute('/admin/users/roles', app.admin.roles);
+crossroads.addRoute('/admin/users/bans', app.admin.bans);

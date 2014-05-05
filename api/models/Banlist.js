@@ -8,21 +8,18 @@
 
 module.exports = {
 
-  attributes: {
-  	
+	attributes: {
+
 		// '42' ID of banned user
 		uid: 'integer',
-		
+
+		ip: 'string',
+
 		// '42' ID of user who give ban
 		by: 'integer',
-		
-		// '2424-42-24 42:24:42' End date of the ban
-		until: 'date',
-		
-		isPermban: 'boolean',
-		
+
 		message: 'text'
-		
-  }
+
+	}
 
 };

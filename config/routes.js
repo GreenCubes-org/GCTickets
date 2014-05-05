@@ -27,9 +27,14 @@ module.exports.routes = {
 	'/admin': 'admin.main',
 	'/admin/debug':'admin.debug',
 	'/admin/users': 'dev.hideFeature',
+
 	'/admin/users/roles': 'admin.usersRights',
 	'post /admin/users/roles/new': 'admin.setRights',
 	'/admin/users/roles/remove/:uid': 'admin.removeRights',
+
+	'/admin/users/bans': 'admin.usersBans',
+	'post /admin/users/bans/new': 'admin.setBan',
+	'/admin/users/bans/remove/:id': 'admin.removeBan',
 
 	// Контроллер сервисных функций.
 	'/500': 'dev.serverError',

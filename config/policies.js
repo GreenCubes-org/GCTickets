@@ -16,14 +16,15 @@ module.exports.policies = {
   '*': true,
   
 	UserController: {
-		'*': ['authenticated','notBanned'],
+		'*': ['authenticated'],
 		'loginTpl': 'notAuthenticated',
-		'login': 'notAuthenticated'
+		'login': 'notAuthenticated',
+		'logout': true
 	},
   
 	CreateController: {
 		'*': ['authenticated','notBanned'],
-		'mainTpl': true
+		'mainTpl': ['notBanned']
 	},
 	
 	EditController: {
