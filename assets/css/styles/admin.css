@@ -1,0 +1,12 @@
+.gc-header {
+	margin: 0px !important;
+}
+
+.admin.header {
+	text-align: center;
+	font-weight: bold;
+	font-size: 40px;
+	text-transform: uppercase;
+	color: rgb(255, 255, 255);
+	background-color: #cd0000;
+}

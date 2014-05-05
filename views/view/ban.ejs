@@ -1,0 +1,93 @@
+<% title = '#'+ globalid + ': "' + ticket.title + '" — GC.Тикеты',
+	backUrl = gct.getBaseUrlTypeByID(ticket.type.id) %>
+<%- partial('../partials/header')%>
+<div class="container">
+	<div class="ui grid">
+		<div class="left floated column" style="width: auto; max-width: 20%; padding-right: 0px;">
+			<i class="circle ban icon" style="font-size: 2em; margin-top: 15px;"></i>
+		</div>
+		<div class="left floated column" style="width: auto; max-width: 72%; padding-left: 0px; min-width: 60%;">
+			<h2 class="ui header">
+				<span><%= ticket.victim %> &laquo; <small><%= ticket.title %></small></span>
+				<div class="sub header">
+
+<% if (req.user) {
+	if (req.user.group >=2 || req.user.id === ticket.owner) { %>
+<a href="/id/<%= globalid %>/edit"><i class="pencil small icon" id="s-editicon"></i></a>
+<% } } %>
+&nbsp;<a href="/id/<%= globalid %>">#<%= globalid %></a>
+&raquo;&nbsp;<a  href="/user/<%= ticket.owner %>"><%= ticket.owner %></a>
+&raquo;&nbsp;<%= moment(ticket.createdAt).format('D MMM YYYY, h:mm') %>
+				</div>
+			</h2>
+		</div>
+		<div class="right floated two wide column">
+			<div class="s-status <%= ticket.status.class %>"><%= ticket.status.text %></div>
+			<div class="s-visiblity"><%= ticket.visiblity %></div>
+		</div>
+	</div>
+	<div class="s-ui divider"></div>
+	<div class="ui grid">
+		<div class="column" style="width: 56%;">
+			<h2 class="ui header">Описание</h2>
+			<p class="s-description"><%- ticket.description %></p>
+
+		</div>
+		<div class="seven wide column" style="padding-bottom: 10em; border-left: 1px solid rgba(0, 0, 0, 0.1);">
+			<div class="ui grid">
+				<div class="left floated column">
+					<h2 class="ui header">Комментарии</h2>
+				</div>
+				<div class="right floated column s-commentsrefresh">
+					<a href="#" id="commentrefresh"><i class="refresh icon"></i></a>
+				</div>
+			</div>
+			<div class="ui comments container" id="comments">
+			</div>
+			<form class="ui reply form container" id="commentpost">
+				 <div class="field" id="commentfield">
+					<textarea id="commentform" name="message"></textarea>
+				 </div>
+				 <div class="ui two fluid buttons">
+					<div class="ui teal submit button" style="width: 90%;" type="submit" id="commentsubmit">Комментировать</div>
+					<div class="ui teal icon top right pointing floating dropdown button" style="width: 10%;" type="text" id="commentstatus">
+							<i class="icon dropdown"></i>
+							<div class="menu">
+								<div class="item">Скрыт</div>
+								<div class="item">Отменён</div>
+								<div class="item">Принят</div>
+								<div class="item">Будет исправлен</div>
+								<div class="item">Исправлен</div>
+						  </div>
+					</div>
+				 </div>
+				<input type="hidden" name="_csrf" value="<%= _csrf %>" />
+			</form>
+		 </div>
+		</div>
+</div>
+<div class="ui basic modal" id="remcomment">
+    <div class="header">
+      Удалить этот комментарий?
+    </div>
+    <div class="content">
+      <div class="left">
+        <i class="remove sign icon"></i>
+      </div>
+      <div class="right">
+        <p>Вы уверены, что хотите удалить этот комментарий?</p>
+      </div>
+    </div>
+    <div class="actions">
+      <div class="two fluid ui buttons">
+        <div class="ui negative labeled icon button">
+          <i class="remove icon"></i>
+          Нет, вернёмся обратно
+        </div>
+        <div class="ui positive right labeled icon button">
+          Да, удалить
+          <i class="checkmark icon"></i>
+        </div>
+      </div>
+    </div>
+  </div>

@@ -1,0 +1,183 @@
+<% title = '#'+ globalid + ': "' + ticket.title + '" — GC.Тикеты',
+	backUrl = gct.getBaseUrlTypeByID(ticket.type.id) %>
+<%- partial('../partials/header')%>
+<div class="container">
+	<div class="ui grid">
+		<div class="left floated column" style="width: auto; max-width: 20%; padding-right: 0px;">
+			<i class="remove icon" style="font-size: 2em; margin-top: 15px;"></i>
+		</div>
+		<div class="left floated column" style="width: auto; max-width: 72%; padding-left: 0px; min-width: 60%;">
+			<h2 class="ui header">
+				<span><%= ticket.title %></span>
+				<div class="sub header">
+<% if (req.user) {
+	if (canModerate) { %>
+<a href="/id/<%= globalid %>/edit" title="Изменить"><i class="pencil small icon" id="s-editicon"></i></a>
+<% } } %>
+&nbsp;<a href="/id/<%= globalid %>">#<%= globalid %></a>
+&raquo;&nbsp;<% if (ticket.createdFor && ticket.createdFor !== ticket.owner) { %><%= ticket.createdFor %> (заявка создана <%= ticket.owner %>)<% } else { %><%= ticket.owner %><% } %>
+&raquo;&nbsp;<%= moment(ticket.createdAt).format('D MMM YYYY, h:mm') %>
+				</div>
+			</h2>
+		</div>
+		<div class="right floated two wide column">
+			<div class="s-status <%= ticket.status.class %>"><%= ticket.status.text %></div>
+			<div class="s-visiblity"><%= ticket.visiblity %></div>
+		</div>
+	</div>
+	<div class="s-ui divider"></div>
+	<div class="ui grid">
+		<div class="column" style="width: 56%;">
+			<h2 class="ui header">Причина распривата</h2>
+			<p class="s-description"><%- ticket.reason %></p>
+
+			<% if (ticket.uploads.length) { %>
+			<h2 class="ui header">Изображения</h2>
+			<div class="ui stackable items">
+				<div class="row">
+				<% 	ticket.uploads.forEach(function(item, index) { %>
+					<div class="item">
+						<div class="image">
+							<a href="/uploads/<%= item %>" rel="lightbox"><img style="display:block;width:100%;" src="/uploads/<%= item %>"></a>
+						</div>
+					</div>
+				<% }) %>
+				</div>
+			</div>
+			<% } %>
+
+			<div class="ui grid">
+			<% if (ticket.regions.length) { %>
+			<div class="column" style="width:50%;padding-left:0%;margin-bottom:0em;">
+				<h2 class="ui header">Регионы</h2>
+				<ul>
+				<% 	ticket.regions.forEach(function(item, index) { %>
+					<li><input class="s-regionstuffitem" readonly value="<%= item %>"></li>
+				<% }) %>
+				</ul>
+				<div class="ui basic accordion">
+					<div class="title" title="Кликните, чтобы развернуть список">
+						<i class="dropdown icon"></i>
+						Полный список регионов
+					</div>
+					<div class="content" >
+						<input class="s-regionstuffitem" readonly value="<%= ticket.regions.join(' ') %>">
+					</div>
+				</div>
+			</div>
+			<% } %>
+
+
+			<% if (ticket.stuff.length) { %>
+			<div class="column" style="width:50%;padding-left:0%;margin-bottom:0em;">
+				<h2 class="ui header">Сундуки/предметы</h2>
+				<ul>
+				<% 	ticket.stuff.forEach(function(item, index) { %>
+					<li><input class="s-regionstuffitem" readonly value="<%= item %>"></li>
+				<% }) %>
+				</ul>
+			</div>
+			<% } %>
+			</div>
+			<% if (ticket.regions.length || ticket.regions.stuff) { %>
+			<div class="ui divider"></div>
+			<div class="gc-help"><i class="help icon"></i>Если кликнуть на жирный элемент, то он полностью выделится. Это удобно при копировании</div>
+			<% } %>
+		</div>
+		<div class="seven wide column" style="padding-bottom: 10em; border-left: 1px solid rgba(0, 0, 0, 0.1);">
+			<div class="ui grid">
+				<div class="left floated column" style="margin-top: 0px !important;">
+					<h2 class="ui header">
+						Обсуждение
+						<div id="commentssubheader" class="ui sub header" style="width:15em;"></div>
+					</h2>
+				</div>
+				<div class="right floated column s-commentsrefresh">
+					<a href="#" id="commentrefresh" title="Обновить"><i class="refresh icon"></i></a>
+					<% if (req.user && req.user.group >= ugroup.mod) { %>
+					<a href="#" id="commentremoved" title="Показать удалённые"><i class="remove icon"></i></a>
+					<% } %>
+				</div>
+			</div>
+			<div class="ui comments container" id="comments"></div>
+			<div class="ui divider" id="commentdivider"></div>
+			<form class="ui reply form container" id="commentpost">
+				<% var statusRegexp = new RegExp('(Новый|Уточнить|На рассмотрении|Отложен)');
+				if (statusRegexp.test(ticket.status.text) &&  req.user && (canModerate || ticket.owner == (req.user.username || '') || ((req.user.group || 0) >= ugroup.helper && ticket.status.text === 'Новый'))) { %>
+				<div class="field">
+					<label>Смена статуса</label>
+					<div class="ui selection dropdown" id="s-setstatus">
+						<input name="status" type="hidden">
+						Статус:
+						<div class="default text"><%= ticket.status.text %></div>
+						<i class="dropdown icon"></i>
+						<div class="menu">
+							<% if (ticket.status.text === 'Новый') { %>
+								<% if (canModerate || (req.user.group || 0) >= ugroup.mod) { %>
+								<div class="active item" data-value="1">Новый</div>
+								<div class="item" data-value="10">Выполнен</div>
+								<% } %>
+								<% if (canModerate || (req.user.group || 0) >= ugroup.helper) { %>
+								<div class="item" data-value="3">Уточнить</div>
+								<% } %>
+								<% if (canModerate || (req.user.group || 0) >= ugroup.mod) { %>
+								<div class="item" data-value="4">Отклонён</div>
+								<% } %>
+								<% if (canModerate || (ticket.owner === (req.user.username || ''))) { %>
+								<div class="item" data-value="2">Отменён</div>
+								<% } %>
+							<% } %>
+							<% if (ticket.status.text === 'Уточнить') { %>
+								<div class="active item" data-value="3">Уточнить</div>
+								<div class="item" data-value="10">Выполнен</div>
+								<div class="item" data-value="4">Отклонён</div>
+							<% } %>
+							<% if (ticket.status.text === 'На рассмотрении') { %>
+								<div class="active item" data-value="8">На рассмотрении</div>
+								<div class="item" data-value="10">Выполнен</div>
+								<div class="item" data-value="9">Отложен</div>
+								<div class="item" data-value="4">Отклонён</div>
+							<% } %>
+							<% if (ticket.status.text === 'Отложен') { %>
+								<div class="active item" data-value="9">Отложен</div>
+								<div class="item" data-value="10">Выполнен</div>
+								<div class="item" data-value="4">Отклонён</div>
+							<% } %>
+						</div>
+					</div>
+				</div>
+				<% } %>
+				<div class="field" id="commentfield">
+					<textarea id="commentform" name="message"></textarea>
+				</div>
+				<div class="ui teal submit fluid small button" type="submit" id="commentsubmit">Комментировать</div>
+				<input type="hidden" name="_csrf" value="<%= _csrf %>" />
+			</form>
+		 </div>
+	</div>
+</div>
+<div class="ui basic modal" id="remcomment">
+	<div class="header">
+	  Удалить этот комментарий?
+	</div>
+	<div class="content">
+	  <div class="left">
+		<i class="remove sign icon"></i>
+	  </div>
+	  <div class="right">
+		<p>Вы уверены, что хотите произвести это действие?</p>
+	  </div>
+	</div>
+	<div class="actions">
+	  <div class="two fluid ui buttons">
+		<div class="ui negative labeled icon button">
+		  <i class="remove icon"></i>
+		  Нет, вернёмся обратно
+		</div>
+		<div class="ui positive right labeled icon button">
+		  Да, удалить
+		  <i class="checkmark icon"></i>
+		</div>
+	  </div>
+	</div>
+</div>

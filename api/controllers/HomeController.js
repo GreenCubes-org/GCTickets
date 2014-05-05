@@ -10,7 +10,9 @@ module.exports = {
 		if (req.user) {
 			res.redirect('/all');
 		} else {
-			res.view('home/preview');
+			res.view('home/preview', {
+				layout: false
+			});
 		}
 	}
   

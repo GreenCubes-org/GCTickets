@@ -1,0 +1,58 @@
+<% title="Создать заявку на расприват — GC.Тикеты",
+	backUrl = '/bugreports' %>
+<%- partial( '../partials/header') %>
+<form id="gc-reportform">
+	<input type="hidden" name="_csrf" value="<%= _csrf %>" />
+	<div class="ui fluid form container" id="gc-reportformdiv">
+		<h1 class="header" style="margin-bottom: 0px;">Новая заявка на расприват
+		</h1>
+		<div class="ui divider" style="margin: 1em 0em !important;"></div>
+		<div class="two fields">
+			<div class="field" style="width: 260px !important;">
+				<label>Поле видимости тикета</label>
+				<div class="ui selection fluid dropdown">
+					<input name="visiblity" type="hidden">
+					<div class="default text">Выбери приватность тикета</div>
+					<div class="menu">
+						<div class="item" data-value="1">Виден всем</div>
+						<div class="item" data-value="2">Виден только разработчику</div>
+					</div>
+					<i class="dropdown icon"></i>
+				</div>
+			</div>
+			<div class="field" style="width: 320px !important;margin-bottom: 0em;">
+				<div class="field">
+					<label>Для кого создаётся заявка <em>(необязательно)</em></label>
+					<input name="createdfor" type="text">
+				</div>
+			</div>
+		</div>
+		<div class="field">
+			<label>Краткое описание</label>
+			<input name="title" type="text">
+		</div>
+		<div class="field">
+			<label>Причина распривата</label>
+			<textarea id="reason" name="reason"></textarea>
+		</div>
+		<div class="ui divider"></div>
+		<div class="field">
+			<label>Регионы</label>
+			<textarea id="regions" name="regions"></textarea>
+		</div>
+		<div class="field">
+			<label>Сундуки/предметы</label>
+			<textarea id="stuff" name="stuff"></textarea>
+		</div>
+		<div class="gc-help"><i class="help icon"></i>Каждая координата или регион записываются по одному на строчку</div>
+		<div class="ui divider"></div>
+		<div class="field">
+			<label>Прикрепить изображения <em>(необязательно)</em></label>
+			<input class="ui basic button" type="file" multiple name="upload" value="Загрузить изображения"></input>
+		</div>
+		<div class="gc-help"><i class="attention icon"></i>Один файл не более 10 Мбайт</div>
+		<div class="ui divider"></div>
+		<button class="ui blue submit button" type="submit">Отправить тикет</button>
+		<div id="errmessage"></div>
+	</div>
+</form>

@@ -7,7 +7,7 @@
  *
  * At the top part of this file, you'll find a few of the most commonly
  * configured options, but Sails' integration with Grunt is also fully
- * customizable.  If you'd like to work with your assets differently 
+ * customizable.	If you'd like to work with your assets differently
  * you can change this file to do anything you like!
  *
  * More information on using Grunt to work with static assets:
@@ -17,257 +17,232 @@
 module.exports = function (grunt) {
 
 
+	/**
+	 * CSS files to inject in order
+	 * (uses Grunt-style wildcard/glob/splat expressions)
+	 *
+	 * By default, Sails also supports LESS in development and production.
+	 * To use SASS/SCSS, Stylus, etc., edit the `sails-linker:devStyles` task
+	 * below for more options.	For this to work, you may need to install new
+	 * dependencies, e.g. `npm install grunt-contrib-sass`
+	 */
 
-  /**
-   * CSS files to inject in order
-   * (uses Grunt-style wildcard/glob/splat expressions)
-   *
-   * By default, Sails also supports LESS in development and production.
-   * To use SASS/SCSS, Stylus, etc., edit the `sails-linker:devStyles` task 
-   * below for more options.  For this to work, you may need to install new 
-   * dependencies, e.g. `npm install grunt-contrib-sass`
-   */
+	var cssLibsFilesToInject = [
+		'css/libs/*.css'
+	];
 
-  var cssFilesToInject = [
-    'assets/**/*.css'
-  ];
+	var cssFilesToInject = [
+		'css/styles/*.css'
+	];
 
+	/**
+	 * Javascript files to inject in order
+	 * (uses Grunt-style wildcard/glob/splat expressions)
+	 *
+	 * To use client-side CoffeeScript, TypeScript, etc., edit the
+	 * `sails-linker:devJs` task below for more options.
+	 */
 
-  /**
-   * Javascript files to inject in order
-   * (uses Grunt-style wildcard/glob/splat expressions)
-   *
-   * To use client-side CoffeeScript, TypeScript, etc., edit the 
-   * `sails-linker:devJs` task below for more options.
-   */
+	var jsLibsFilesToInject = [
+		'js/libs/jquery.js',
+		'js/libs/semantic-ui.js',
+		'js/libs/moment.js',
+		'js/libs/js-signals.js',
+		'js/libs/crossroads.js',
+		'js/libs/lightbox.js',
+		'js/libs/wbb.js'
+	];
 
-  var jsFilesToInject = [
-    // All of the rest of your app scripts imported here
-    'assets/**/*.js'
-  ];
-
-
-
-  /////////////////////////////////////////////////////////////////
-  /////////////////////////////////////////////////////////////////
-  /////////////////////////////////////////////////////////////////
-  /////////////////////////////////////////////////////////////////
-  /////////////////////////////////////////////////////////////////
-  /////////////////////////////////////////////////////////////////
-  /////////////////////////////////////////////////////////////////
-  /////////////////////////////////////////////////////////////////
-  /////////////////////////////////////////////////////////////////
-  /////////////////////////////////////////////////////////////////
-  //
-  // DANGER:
-  //
-  // With great power comes great responsibility.
-  //
-  /////////////////////////////////////////////////////////////////
-  /////////////////////////////////////////////////////////////////
-  /////////////////////////////////////////////////////////////////
-  /////////////////////////////////////////////////////////////////
-  /////////////////////////////////////////////////////////////////
-  /////////////////////////////////////////////////////////////////
-  /////////////////////////////////////////////////////////////////
-  /////////////////////////////////////////////////////////////////
-  /////////////////////////////////////////////////////////////////
-  /////////////////////////////////////////////////////////////////
-
-  // Modify css file injection paths to use 
-  cssFilesToInject = cssFilesToInject.map(function (path) {
-    return '.tmp/public/' + path;
-  });
-
-  // Modify js file injection paths to use 
-  jsFilesToInject = jsFilesToInject.map(function (path) {
-    return '.tmp/public/' + path;
-  });
-
-  // Get path to core grunt dependencies from Sails
-  var depsPath = grunt.option('gdsrc') || 'node_modules/sails/node_modules';
-  grunt.loadTasks(depsPath + '/grunt-contrib-clean/tasks');
-  grunt.loadTasks(depsPath + '/grunt-contrib-copy/tasks');
-  grunt.loadTasks(depsPath + '/grunt-contrib-concat/tasks');
-  grunt.loadTasks(depsPath + '/grunt-sails-linker/tasks');
-  grunt.loadTasks(depsPath + '/grunt-contrib-watch/tasks');
-  grunt.loadTasks(depsPath + '/grunt-contrib-uglify/tasks');
-  grunt.loadTasks(depsPath + '/grunt-contrib-cssmin/tasks');
-
-  // Project configuration.
-  grunt.initConfig({
-    pkg: grunt.file.readJSON('package.json'),
-
-    copy: {
-      dev: {
-        files: [
-          {
-          expand: true,
-          cwd: './assets',
-          src: ['**/*.!(coffee)'],
-          dest: '.tmp/public'
-        }
-        ]
-      },
-      build: {
-        files: [
-          {
-          expand: true,
-          cwd: '.tmp/public',
-          src: ['**/*'],
-          dest: 'www'
-        }
-        ]
-      }
-    },
-
-    clean: {
-      dev: ['.tmp/public/**'],
-      build: ['www']
-    },
-
-    concat: {
-      js: {
-        src: jsFilesToInject,
-        dest: '.tmp/public/concat/production.js'
-      },
-      css: {
-        src: cssFilesToInject,
-        dest: '.tmp/public/concat/production.css'
-      }
-    },
-
-    uglify: {
-      dist: {
-        src: ['.tmp/public/concat/production.js'],
-        dest: '.tmp/public/min/production.js'
-      }
-    },
-
-    cssmin: {
-      dist: {
-        src: ['.tmp/public/concat/production.css'],
-        dest: '.tmp/public/min/production.css'
-      }
-    },
-
-    'sails-linker': {
-
-      devJs: {
-        options: {
-          startTag: '<!--SCRIPTS-->',
-          endTag: '<!--SCRIPTS END-->',
-          fileTmpl: '		<script src="%s"></script>',
-          appRoot: '.tmp/public'
-        },
-        files: {
-          '.tmp/public/**/*.html': jsFilesToInject,
-          'views/**/*.html': jsFilesToInject,
-          'views/**/*.ejs': jsFilesToInject
-        }
-      },
-
-      prodJs: {
-        options: {
-          startTag: '<!--SCRIPTS-->',
-          endTag: '<!--SCRIPTS END-->',
-          fileTmpl: '		<script src="%s"></script>',
-          appRoot: '.tmp/public'
-        },
-        files: {
-          '.tmp/public/**/*.html': ['.tmp/public/min/production.js'],
-          'views/**/*.html': ['.tmp/public/min/production.js'],
-          'views/**/*.ejs': ['.tmp/public/min/production.js']
-        }
-      },
-
-      devStyles: {
-        options: {
-          startTag: '<!--STYLES-->',
-          endTag: '<!--STYLES END-->',
-          fileTmpl: '		<link rel="stylesheet" href="%s">',
-          appRoot: '.tmp/public'
-        },
-
-        // cssFilesToInject defined up top
-        files: {
-          '.tmp/public/**/*.html': cssFilesToInject,
-          'views/**/*.html': cssFilesToInject,
-          'views/**/*.ejs': cssFilesToInject
-        }
-      },
-
-      prodStyles: {
-        options: {
-          startTag: '<!--STYLES-->',
-          endTag: '<!--STYLES END-->',
-          fileTmpl: '		<link rel="stylesheet" href="%s">',
-          appRoot: '.tmp/public'
-        },
-        files: {
-          '.tmp/public/index.html': ['.tmp/public/min/production.css'],
-          'views/**/*.html': ['.tmp/public/min/production.css'],
-          'views/**/*.ejs': ['.tmp/public/min/production.css']
-        }
-      },
-    },
-
-    watch: {
-      api: {
-
-        // API files to watch:
-        files: ['api/**/*']
-      },
-      assets: {
-
-        // Assets to watch:
-        files: ['assets/**/*'],
-
-        // When assets are changed:
-        tasks: ['compileAssets', 'linkAssets']
-      }
-    }
-  });
-
-  // When Sails is lifted:
-  grunt.registerTask('default', [
-    'compileAssets',
-    'linkAssets',
-    'watch'
-  ]);
-
-  grunt.registerTask('compileAssets', [
-    'clean:dev',
-    'copy:dev'
-  ]);
-
-  grunt.registerTask('linkAssets', [
-
-    // Update link/script/template references in `assets` index.html
-    'sails-linker:devJs',
-    'sails-linker:devStyles'
-  ]);
+	var jsFilesToInject = [
+		'js/controllers/*.js',
+		'js/*.js'
+	];
 
 
-  // Build the assets into a web accessible folder.
-  // (handy for phone gap apps, chrome extensions, etc.)
-  grunt.registerTask('build', [
-    'compileAssets',
-    'linkAssets',
-    'clean:build',
-    'copy:build'
-  ]);
 
-  // When sails is lifted in production
-  grunt.registerTask('prod', [
-    'clean:dev',
-    'copy:dev',
-    'concat',
-    'uglify',
-    'cssmin',
-    'sails-linker:prodJs',
-    'sails-linker:prodStyles'
-  ]);
+	/////////////////////////////////////////////////////////////////
+	/////////////////////////////////////////////////////////////////
+	/////////////////////////////////////////////////////////////////
+	/////////////////////////////////////////////////////////////////
+	/////////////////////////////////////////////////////////////////
+	/////////////////////////////////////////////////////////////////
+	/////////////////////////////////////////////////////////////////
+	/////////////////////////////////////////////////////////////////
+	/////////////////////////////////////////////////////////////////
+	/////////////////////////////////////////////////////////////////
+	//
+	// DANGER:
+	//
+	// With great power comes great responsibility.
+	//
+	/////////////////////////////////////////////////////////////////
+	/////////////////////////////////////////////////////////////////
+	/////////////////////////////////////////////////////////////////
+	/////////////////////////////////////////////////////////////////
+	/////////////////////////////////////////////////////////////////
+	/////////////////////////////////////////////////////////////////
+	/////////////////////////////////////////////////////////////////
+	/////////////////////////////////////////////////////////////////
+	/////////////////////////////////////////////////////////////////
+	/////////////////////////////////////////////////////////////////
+
+	// Modify css file injection paths to use
+	cssLibsFilesToInject = cssLibsFilesToInject.map(function (path) {
+		return '.tmp/public/' + path;
+	});
+
+	cssFilesToInject = cssFilesToInject.map(function (path) {
+		return '.tmp/public/' + path;
+	});
+
+	// Modify js file injection paths to use
+	jsFilesToInject = jsFilesToInject.map(function (path) {
+		return '.tmp/public/' + path;
+	});
+
+	jsLibsFilesToInject = jsLibsFilesToInject.map(function (path) {
+		return '.tmp/public/' + path;
+	});
+
+
+	// Get path to core grunt dependencies from Sails
+	var depsPath = grunt.option('gdsrc') || 'node_modules/sails/node_modules';
+	grunt.loadTasks(depsPath + '/grunt-contrib-clean/tasks');
+	grunt.loadTasks(depsPath + '/grunt-contrib-copy/tasks');
+	grunt.loadTasks(depsPath + '/grunt-contrib-concat/tasks');
+	grunt.loadTasks(depsPath + '/grunt-sails-linker/tasks');
+	grunt.loadTasks(depsPath + '/grunt-contrib-watch/tasks');
+	grunt.loadNpmTasks('grunt-contrib-uglify');
+	grunt.loadTasks(depsPath + '/grunt-contrib-cssmin/tasks');
+	grunt.loadNpmTasks("grunt-remove-logging");
+
+	// Project configuration.
+	grunt.initConfig({
+		pkg: grunt.file.readJSON('package.json'),
+
+		copy: {
+			dev: {
+				files: [
+					{
+						expand: true,
+						cwd: './assets',
+						src: ['**/*'],
+						dest: '.tmp/public'
+					}
+				]
+			},
+			build: {
+				files: [
+					{
+						expand: true,
+						cwd: '.tmp/public',
+						src: ['**/*'],
+						dest: 'www'
+					}
+				]
+			}
+		},
+
+		clean: {
+			dev: ['.tmp/public/**'],
+			build: ['.tmp/public/js/*/', '.tmp/public/js/init.js', '.tmp/public/js/routes.js', '.tmp/public/css/*/*']
+		},
+
+		concat: {
+			jsApp: {
+				src: jsFilesToInject,
+				dest: '.tmp/concat/app.js'
+			},
+			jsLibs: {
+				src: jsLibsFilesToInject,
+				dest: '.tmp/concat/libs.js'
+			},
+			cssLibs: {
+				src: cssLibsFilesToInject,
+				dest: '.tmp/concat/libs.css'
+			},
+			cssStyles: {
+				src: cssFilesToInject,
+				dest: '.tmp/concat/styles.css'
+			}
+		},
+
+		uglify: {
+			jsLibs: {
+				options: {
+					compress: {
+						drop_console: true
+					},
+					mangle: false,
+					preserveComments: 'all'
+				},
+				files: {
+					'.tmp/public/js/libs.js': ['.tmp/concat/libs.js']
+				}
+			},
+			jsApp: {
+				options: {
+					compress: {
+						drop_console: true
+					},
+					mangle: {
+						except: ['jQuery','moment','crossroads']
+					},
+					preserveComments: 'some'
+				},
+				files: {
+					'.tmp/public/js/app.js': ['.tmp/concat/app.js']
+				}
+			},
+		},
+
+		cssmin: {
+			libsDist: {
+				src: ['.tmp/concat/libs.css'],
+				dest: '.tmp/public/css/libs.css'
+			},
+			stylesDist: {
+				src: ['.tmp/concat/styles.css'],
+				dest: '.tmp/public/css/styles.css'
+			}
+		}/*,
+
+		watch: {
+			api: {
+
+				// API files to watch:
+				files: ['api/** /*']
+			},
+			assets: {
+
+				// Assets to watch:
+				files: ['assets/** /*'],
+
+				// When assets are changed:
+				tasks: ['copy:dev','compileAssets']
+			}
+		}*/
+	});
+
+	// When Sails is lifted:
+	grunt.registerTask('default', [
+		'prod'/*,
+		'watch'*/
+	]);
+
+	// When sails is lifted in production
+	grunt.registerTask('prod', [
+		'clean:dev',
+		'copy:dev',
+		'compileAssets'
+	]);
+
+	grunt.registerTask('compileAssets', [
+		'concat',
+		'uglify',
+		'cssmin',
+		'clean:build'
+	])
 
   // When API files are changed:
   // grunt.event.on('watch', function(action, filepath) {

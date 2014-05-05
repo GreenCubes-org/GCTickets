@@ -12,10 +12,6 @@ module.exports.routes = {
 
 	// Главная
 	'/': 'home.route',
-	
-	'/releasenotes': {
-		view: 'home/releasenotes'
-	},
 
 	// Действия с пользователем
 	// Профиль
@@ -31,9 +27,9 @@ module.exports.routes = {
 	'/admin': 'admin.main',
 	'/admin/debug':'admin.debug',
 	'/admin/users': 'dev.hideFeature',
-	'/admin/users/rights': 'admin.usersRights',
-	'post /admin/users/rights/new': 'admin.setRights',
-	'/admin/users/rights/remove/:uid': 'admin.removeRights',
+	'/admin/users/roles': 'admin.usersRights',
+	'post /admin/users/roles/new': 'admin.setRights',
+	'/admin/users/roles/remove/:uid': 'admin.removeRights',
 
 	// Контроллер сервисных функций.
 	'/500': 'dev.serverError',
@@ -43,11 +39,11 @@ module.exports.routes = {
 
 	// Работа с тикетами
 	// Вывод и действия с тикетом
-	'/id/:id': 'single.routeSingle',
-	'get /id/:id/edit': 'edit.routeSingleTpl',
-	'post /id/:id/edit': 'edit.routeSingle',
+	'/id/:id': 'view.routeView',
+	'get /id/:id/edit': 'edit.routeViewTpl',
+	'post /id/:id/edit': 'edit.routeView',
 	'/id/:id/report': 'dev.hideFeature',
-	'get /id/:id/comments': 'comment.listSingleComments',
+	'get /id/:id/comments': 'comment.listViewComments',
 	'get /id/:id/comment/:cid/report': 'dev.hideFeature',
 	'post /id/:id/comment/:cid/remove': 'comment.deleteComment',
 	'post /id/:id/comment': 'comment.newComment',
@@ -71,4 +67,11 @@ module.exports.routes = {
 	'/bugreports/read/:page': 'list.list20Bugreport',
 	'get /new/bugreport': 'create.bugreportTpl',
 	'post /new/bugreport': 'create.bugreport',
+
+	// Расприваты
+	'/rempros': 'list.listRemproTpl',
+	'/rempros/read': 'list.listNewestRempro',
+	'/rempros/read/:page': 'list.list20Rempro',
+	'get /new/rempro': 'create.remproTpl',
+	'post /new/rempro': 'create.rempro'
 };

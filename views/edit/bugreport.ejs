@@ -1,7 +1,5 @@
 <% title = "Редактирование " + ticket.id + ": \"" + ticket.title + "\" — GC.Тикеты",
-	backUrl = '/id/' + ticket.id; ;
-scripts.push('wbb.js','create.js','lightbox.js', 'edit.bugreport.js');
-styles.push('main.css','wbb.css','lightbox.css') %>
+	backUrl = '/id/' + ticket.id %>
 <%- partial('../partials/header')%>
 <form id="gc-reportform" action="/id/<%= ticket.id %>/edit" method="POST" enctype="multipart/form-data">
 	<input type="hidden" name="_csrf" value="<%= _csrf %>" />
@@ -69,4 +67,3 @@ styles.push('main.css','wbb.css','lightbox.css') %>
 		<div id="errmessage"></div>
 	</div>
 </form>
-<script>$(function(){$("#description").htmlcode('<%= ticket.description %>')}).sync();</script>

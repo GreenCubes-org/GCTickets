@@ -15,8 +15,8 @@ module.exports.bootstrap = function (cb) {
 	
 	global.cfg = require('./local');
 	
-	global.gcdb = require('../utils/gcdb');
-	global.gct = require('../utils/gct');
+	global.gcdb = require('../libs/gcdb');
+	global.gct = require('../libs/gct');
 	
 	global.ugroup = {
 		user: 0,

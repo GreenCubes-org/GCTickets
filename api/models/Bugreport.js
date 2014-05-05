@@ -18,10 +18,6 @@ module.exports = {
 		},
 		// 'imma idiot, plz tp meh to spawn!1!!'
 		description: 'text',
-		// '1' (id of status)
-		status: 'integer',
-		// '1' (id of owner user)
-		owner: 'integer',
 		// '1' (id of product)
 		product: 'integer',
 		// 'longtext'

@@ -27,7 +27,7 @@ module.exports = {
 					if (err) throw err;
 
 					gct.all.serializeList(tickets, function (err, result) {
-						res.json(JSON.stringify(result));
+						res.json(result);
 					});
 				});
 		} else {
@@ -40,7 +40,7 @@ module.exports = {
 					if (err) throw err;
 
 					gct.all.serializeList(tickets, function (err, result) {
-						res.json(JSON.stringify(result));
+						res.json(result);
 					});
 				});
 		}
@@ -48,6 +48,7 @@ module.exports = {
 
 	list20All: function (req, res) {
 		async.waterfall([
+
 			function checkLastElementDate(callback) {
 					if (!req.param('lastelement') || req.param('lastelement') === '') {
 						callback({
@@ -103,21 +104,21 @@ module.exports = {
 							gct.all.serializeList(tickets, function (err, result) {
 								if (err) return callback(err);
 
-								res.json(JSON.stringify(result));
+								res.json(result);
 							});
 						});
 			}
 		],
-			function (err) {
-				if (err) {
-					if (err.msg) {
-						return res.json({
-							err: 'Некорретный запрос'
-						});
-					}
-					throw err;
+		function (err) {
+			if (err) {
+				if (err.msg) {
+					return res.json({
+						err: 'Некорретный запрос'
+					});
 				}
-			});
+				throw err;
+			}
+		});
 	},
 
 	listMyTpl: function (req, res) {
@@ -140,7 +141,7 @@ module.exports = {
 			.done(function (err, tickets) {
 				if (err) throw err;
 				gct.all.serializeList(tickets, function (err, result) {
-					res.json(JSON.stringify(result));
+					res.json(result);
 				});
 			});
 	},
@@ -194,7 +195,7 @@ module.exports = {
 							gct.all.serializeList(tickets, function (err, result) {
 								if (err) return callback(err);
 
-								res.json(JSON.stringify(result));
+								res.json(result);
 							});
 						});
 			}
@@ -232,8 +233,8 @@ module.exports = {
 				.done(function (err, tickets) {
 					if (err) throw err;
 
-					gct.all.serializeList(tickets, function (err, result) {
-						res.json(JSON.stringify(result));
+					gct.bugreport.serializeList(tickets, function (err, result) {
+						res.json(result);
 					});
 				});
 		} else {
@@ -246,8 +247,8 @@ module.exports = {
 				.done(function (err, tickets) {
 					if (err) throw err;
 
-					gct.all.serializeList(tickets, function (err, result) {
-						res.json(JSON.stringify(result));
+					gct.bugreport.serializeList(tickets, function (err, result) {
+						res.json(result);
 					});
 				});
 		}
@@ -313,10 +314,10 @@ module.exports = {
 						.done(function (err, tickets) {
 							if (err) return callback(err);
 
-							gct.all.serializeList(tickets, function (err, result) {
+							gct.bugreport.serializeList(tickets, function (err, result) {
 								if (err) return callback(err);
 
-								res.json(JSON.stringify(result));
+								res.json(result);
 							});
 						});
 			}
@@ -344,6 +345,116 @@ module.exports = {
 		})
 	},
 
+	listNewestRempro: function (req, res) {
+		if (req.user && req.user.group >= ugroup.staff) {
+			Ticket.find({
+				type: 2
+			})
+			.sort('id DESC')
+			.limit(20)
+			.done(function (err, tickets) {
+				if (err) throw err;
+
+				gct.rempro.serializeList(tickets, function (err, result) {
+					res.json(result);
+				});
+			});
+		} else {
+			Ticket.find({
+				type: 2,
+				visiblity: 1
+			})
+			.sort('id DESC')
+			.limit(20)
+			.done(function (err, tickets) {
+				if (err) throw err;
+
+				gct.rempro.serializeList(tickets, function (err, result) {
+					res.json(result);
+				});
+			});
+		}
+	},
+
+	list20Rempro: function (req, res) {
+		async.waterfall([
+			function checkLastElementDate(callback) {
+					if (!req.param('lastelement') || req.param('lastelement') === '') {
+						callback({
+							msg: 'Can\'t find last element date!'
+						});
+					} else {
+						callback(null, req.param('lastelement'));
+					}
+			},
+			function getNumOfIDs(lastElementDate, callback) {
+					if (req.user && req.user.group >= ugroup.staff) {
+						Ticket.find({
+							type: 2
+						})
+						.sort('id DESC')
+						.limit(1)
+						.done(function (err, latestElement) {
+							if (err) return callback(err);
+
+							callback(null, lastElementDate, latestElement[0].id);
+						});
+					} else {
+						Ticket.find({
+							type: 2,
+							visiblity: 1
+						})
+						.sort('id DESC')
+						.limit(1)
+						.done(function (err, latestElement) {
+							if (err) return callback(err);
+
+							callback(null, lastElementDate, latestElement[0].id);
+						});
+					}
+			},
+			function findTickets(lastElementDate, tableSize, callback) {
+					skipRows = (req.param.page - 1) * 20;
+					if (tableSize <= skipRows) {
+						return res.json({
+							err: 'no more tickets'
+						});
+					}
+
+					Ticket.find({
+						type: 1
+					})
+					.where({
+						createdAt: {
+							'<': lastElementDate
+						}
+					})
+					.sort('id ASC')
+					.limit(skipRows)
+					.sort('id DESC')
+					.done(function (err, tickets) {
+						if (err) return callback(err);
+
+						gct.rempro.serializeList(tickets, function (err, result) {
+							if (err) return callback(err);
+
+							res.json(result);
+						});
+					});
+			}
+		],
+			function (err) {
+				if (err) {
+					if (err.msg) {
+						return res.json({
+							err: 'Некорретный запрос'
+						});
+					}
+					throw err;
+				}
+			});
+	},
+
 	listBanTpl: function (req, res) {
 		text = 'Баны';
 		res.view('list/list', {
@@ -368,7 +479,7 @@ module.exports = {
 					gct.ban.serializeList(tickets, function (err, result) {
 						if (err) throw err;
 
-						res.json(JSON.stringify(result));
+						res.json(result);
 					});
 				});
 		} else {
@@ -384,7 +495,7 @@ module.exports = {
 					gct.ban.serializeList(tickets, function (err, result) {
 						if (err) throw err;
 
-						res.json(JSON.stringify(result));
+						res.json(result);
 					});
 				});
 		}
@@ -453,7 +564,7 @@ module.exports = {
 							gct.all.serializeList(tickets, function (err, result) {
 								if (err) return callback(err);
 
-								res.json(JSON.stringify(result));
+								res.json(result);
 							});
 						});
 			}

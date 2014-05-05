@@ -1,0 +1,453 @@
+/* Clear Sans stuff */
+
+@font-face {
+	font-family: "Clear Sans";
+	src: url("/fonts/ClearSans-Regular.eot");
+	src: url("/fonts/ClearSans-Regular.eot#iefix") format("embedded-opentype"), url("/fonts/ClearSans-Regular.ttf") format("truetype"), url("/fonts/ClearSans-Regular.woff") format("woff");
+	font-style: normal;
+	font-weight: 400;
+}
+@font-face {
+	font-family: "Clear Sans";
+	src: url("/fonts/ClearSans-Italic.eot");
+	src: url("/fonts/ClearSans-Italic.eot#iefix") format("embedded-opentype"), url("/fonts/ClearSans-Italic.ttf") format("truetype"), url("/fonts/ClearSans-Italic.woff") format("woff");
+	font-style: italic;
+	font-weight: 400;
+}
+@font-face {
+	font-family: "Clear Sans";
+	src: url("/fonts/ClearSans-Bold.eot");
+	src: url("/fonts/ClearSans-Bold.eot#iefix") format("embedded-opentype"), url("/fonts/ClearSans-Bold.ttf") format("truetype"), url("/fonts/ClearSans-Bold.woff") format("woff");
+	font-style: normal;
+	font-weight: 700;
+}
+@font-face {
+	font-family: "Clear Sans";
+	src: url("/fonts/ClearSans-BoldItalic.eot");
+	src: url("/fonts/ClearSans-BoldItalic.eot#iefix") format("embedded-opentype"), url("/fonts/ClearSans-BoldItalic.ttf") format("truetype"), url("/fonts/ClearSans-BoldItalic.woff") format("woff");
+	font-style: italic;
+	font-weight: 700;
+}
+/* Main stuff */
+
+body {
+	font-family: "Clear Sans", "Helvetica Neue", "PT Sans", sans-serif !important;
+	color: rgb(85, 85, 85);
+	margin: 0px;
+}
+html,
+body {
+	height: 100%;
+	min-width: 900px;
+}
+input,
+button,
+select,
+textarea,
+optgroup,
+option {
+	font-family: inherit !important;
+}
+a {
+	color: inherit;
+	text-decoration: none;
+}
+a:hover,
+a:active {
+	color: #6E6E6E;
+}
+label {
+	font-weight: bold;
+}
+.wrapper {
+	min-height: 100%;
+	height: auto !important;
+	margin: 0px auto -61px;
+}
+.main .push {
+	padding-top: 8em;
+}
+.push,
+.footer {
+	height: 61px;
+}
+.footer {
+	line-height: 1.5;
+	font-size: 14px;
+	background-color: #559a8b;
+	font-weight: bold;
+	color: #ffffff;
+}
+.footer .link {
+	color: #ffffff;
+}
+.footer .link:active,
+.footer .link:hover {
+	color: #e6e6e6;
+}
+.ui.grid {
+	margin: 0px;
+}
+.links {
+	padding: 0em 0em 0em 1em;
+	float: left;
+	list-style: none outside none;
+	margin: 18px 15px 0px 0px;
+}
+.links.right {
+	float: right;
+}
+.footer li {
+	display: inline-block;
+}
+.container {
+	padding-right: 15px;
+	padding-left: 15px;
+	margin-right: auto;
+	margin-left: auto;
+}
+.gc-logo {
+	font-size: 0.9rem;
+	width: 130px;
+}
+.gc-loginfield {
+	margin: 0px 0px 5px !important;
+}
+.gc-loginerr {
+	margin-right: 30% !important;
+	margin-left: 30% !important;
+}
+.ui.gc-loginmessage {
+	position: relative;
+	min-height: 18px;
+	margin: 1em 0px 0px 0px;
+	height: auto;
+	background-color: #f1d7d7;
+	color: rgb(169, 82, 82);
+	padding: 0.8em 0.6em;
+	line-height: 1.33;
+	font-size: 0.875em;
+	transition: opacity 0.1s ease 0s, color 0.1s ease 0s, background 0.1s ease 0s, box-shadow 0.1s ease 0s;
+	-moz-box-sizing: border-box;
+	border-radius: 0.325em 0.325em 0.325em 0.325em;
+}
+.ui.dimmable {
+	position: static;
+}
+.gc-center {
+	margin: 0px auto !important;
+	text-align: center !important;
+	display: block !important;
+}
+.gc-tiny {
+	font-size: 0.75rem !important;
+}
+.gc-new-header {
+	font-size: 24px;
+	font-weight: bold;
+}
+#gc-dpstatus {
+	font-size: 0.75rem !important;
+}
+.dropdown.icon {
+	margin: 0px 0.0em 0px 0.0em !important;
+}
+.gc-pull-right {
+	float: right;
+	text-align: right;
+}
+.ui.menu .item {
+	font-weight: bold !important;
+	font-size: 0.95rem !important;
+}
+.ui.inverted.green.menu {
+	background-color: #559a8b !important;
+	border-radius: 0px;
+}
+.ui.menu .dropdown.item .menu {
+	border-radius: 0px;
+}
+.gc-segment {
+	margin: 1em 0px;
+	padding: 0px 4em;
+}
+.ui.label {
+	font-weight: bold;
+	text-transform: none !important;
+}
+#hiddentruth {
+	color: transparent;
+}
+#gc-reportformdiv {
+	margin-top: 10px;
+}
+.gc-help {
+	font-size: 13px;
+	color: #777;
+}
+/* Comments changes */
+
+.ui.divider.small {
+	margin: 0.5rem 0rem !important;
+}
+.metadata {
+	margin-top: 10px;
+	position: absolute;
+	right: 12px;
+	top: 3px;
+}
+.ui.comments .comment .date {
+	color: rgba(0, 0, 0, 0.3);
+	font-size: 0.8125rem;
+}
+.ui.comments .comment .text {
+	font-size: 15px !important;
+	line-height: 20px;
+	font-style: normal;
+	font-weight: normal;
+	margin-top: 0.8em;
+}
+div.comment {
+	background-color: #FFF;
+	-webkit-box-shadow: 0 0 0 1px rgba(0, 0, 0, .1);
+	box-shadow: 0 0 0 1px rgba(0, 0, 0, .1);
+	margin: 1em 0;
+	padding: 1em 1em 0.5em;
+	border-radius: 5px;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	-ms-box-sizing: border-box;
+	box-sizing: border-box;
+}
+.ui.comments .comment:first-child {
+	margin-top: 0.5em;
+	padding-top: 0.5em;
+}
+.ui.top.left.pointing.dropdown .menu {
+	left: -10px
+}
+.ui.stackable.items .item {
+	min-height: 0px;
+	width: 308px;
+}
+.ui.small.label {
+	padding: 0.3em 0.8em;
+}
+#commentremoved {
+	position: relative;
+	right: 35px;
+}
+#commentrefresh {
+	position: absolute;
+}
+/* Single ticket statuses */
+
+.s-visiblity {
+	position: static;
+	float: right;
+	padding: 0px 2px;
+	color: rgba(0, 0, 0, 0.5);
+}
+.s-status {
+	display: inline-block;
+	position: static;
+	float: right;
+	vertical-align: middle;
+	background-color: #E8E8E8;
+	border-color: #E8E8E8;
+	color: ##555555;
+	text-transform: uppercase;
+	font-weight: 700;
+	font-size: 1.3rem;
+	line-height: 1.33;
+	margin: 0px;
+	padding: 4px 2px;
+	border-radius: .325em;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	-ms-box-sizing: border-box;
+	box-sizing: border-box;
+	-webkit-transition: background .1s linear;
+	transition: background .1s linear;
+}
+.s-status.new,
+.ui.label.new {
+	background-color: rgb(231, 238, 250);
+}
+.s-status.rejected,
+.ui.label.rejected {
+	background-color: rgb(219, 177, 198);
+}
+.s-status.specify,
+.ui.label.specify {
+	background-color: rgb(252, 240, 207);
+}
+.s-status.declined,
+.ui.label.declined {
+	background-color: rgb(255, 203, 203);
+}
+.s-status.black,
+.ui.label.black {
+	background-color: rgb(214, 214, 214);
+}
+.s-status.helpfixed,
+.ui.label.helpfixed {
+	background-color: rgb(184, 218, 250);
+}
+.s-status.inreview,
+.ui.label.inreview {
+	background-color: rgb(194, 221, 183);
+}
+.s-status.delayed,
+.ui.label.delayed {
+	background-color: rgb(255, 239, 191);
+}
+.s-status.accepted,
+.ui.label.accepted {
+	background-color: rgb(252, 243, 215);
+}
+.s-status.befixed,
+.ui.label.befixed {
+	background-color: rgb(212, 241, 200);
+}
+.s-status.done,
+.ui.label.done {
+	background-color: rgb(216, 255, 216);
+}
+.s-logs {
+	font-size: 10px;
+	overflow: auto;
+	overflow-x: auto;
+}
+#s-editicon {
+	margin: 0px 0.25em 0.25em 0px !important;
+	padding-left: 2px;
+}
+#s-reporticon {
+	margin: 0px 0.25em 0.25em 0px !important;
+	padding-left: 0px;
+}
+.s-description {
+	font-size: 1.25rem;
+	word-spacing: -0.1rem;
+}
+.s-specinfo {
+	display: inline-block;
+}
+.s-nocomments {
+	text-align: center;
+	padding: 3em 0em;
+	color: rgb(154, 154, 154);
+}
+.s-nocommentsicon {
+	margin: 0px 0px 20px !important;
+	padding: 0px !important;
+}
+.s-commentsrefresh {
+	padding: 8px 0px;
+	margin: 0px !important;
+	opacity: 0.3;
+}
+.comment.\33 {
+	background-color: #fef2f2 !important;
+}
+.s-logs {
+	font-size: 12px;
+}
+.s-ui.divider {
+	margin: 0rem;
+	border-top: 1px solid rgba(0, 0, 0, .1);
+	border-bottom: 1px solid rgba(255, 255, 255, .8);
+	line-height: 1;
+	height: 0;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	-ms-box-sizing: border-box;
+	box-sizing: border-box;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+	-webkit-tap-highlight-color: rgba(0, 0, 0, 0)
+}
+input.s-regionstuffitem {
+	border: 0px none !important;
+	padding: 0px !important;
+	background-color: transparent !important;
+	color: inherit !important;
+	font-weight: bold;
+	font-size: 0.875em !important;
+	cursor: text;
+	width: 100%;
+	text-overflow: ellipsis;
+}
+/* Ticket list classes */
+
+.t-type {
+	width: 4%;
+}
+.t-nick {
+	width: 12%;
+}
+.t-descr {
+	width: auto;
+}
+.t-time {
+	width: 10%;
+	font-size: 14px;
+}
+.t-status {
+	width: 11%;
+	font-size: 14px;
+	font-weight: bold;
+}
+#t-givemorebtn {
+	position: absolute;
+	right: 6em;
+	left: 6em;
+	bottom: -4em;
+}
+.t-status.new {
+	background-color: rgb(231, 238, 250);
+	box-shadow: 2px 0px 0px rgb(60, 120, 216) inset;
+}
+.t-status.rejected {
+	background-color: rgb(219, 177, 198);
+	box-shadow: 2px 0px 0px rgb(166, 77, 121) inset;
+}
+.t-status.specify {
+	background-color: rgb(252, 240, 207);
+	box-shadow: 2px 0px 0px rgb(241, 194, 50) inset;
+}
+.t-status.declined {
+	background-color: rgb(255, 203, 203);
+	box-shadow: 2px 0px 0px rgb(204, 0, 0) inset;
+}
+.t-status.black {
+	background-color: rgb(214, 214, 214);
+	box-shadow: 2px 0px 0px rgb(0, 0, 0) inset;
+}
+.t-status.helpfixed {
+	background-color: rgb(184, 218, 250);
+	box-shadow: 2px 0px 0px rgb(11, 83, 148) inset;
+}
+.t-status.inreview {
+	background-color: rgb(194, 221, 183);
+	box-shadow: 2px 0px 0px rgb(106, 168, 79) inset;
+}
+.t-status.delayed {
+	background-color: rgb(255, 239, 191);
+	box-shadow: 2px 0px 0px rgb(191, 144, 0) inset;
+}
+.t-status.accepted {
+	background-color: rgb(252, 243, 215);
+	box-shadow: 2px 0px 0px rgb(241, 194, 50) inset;
+}
+.t-status.befixed {
+	background-color: rgb(212, 241, 200);
+	box-shadow: 2px 0px 0px rgb(56, 118, 29) inset;
+}
+.t-status.done {
+	background-color: rgb(216, 255, 216);
+	box-shadow: 2px 0px 0px rgb(39, 216, 39) inset;
+}

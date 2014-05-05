@@ -4,8 +4,7 @@
  * @module :: Controller
  * @description :: Пользователи.
  */
-var passport = require('passport'),
-	gct = require('../../utils/gct');
+var passport = require('passport');
 
 var moment = require('moment');
 moment.lang('ru');
@@ -13,7 +12,13 @@ moment.lang('ru');
 module.exports = {
 
 	loginTpl: function (req, res) {
-		res.view('user/login');
+		var message;
+		if (req.query.errcode === '1') message = 'Требуется вход в систему';
+
+		res.view('user/login', {
+			layout: false,
+			message: message
+		});
 	},
 
 	login: function (req, res) {

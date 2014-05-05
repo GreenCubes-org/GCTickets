@@ -11,8 +11,7 @@ var fs = require('fs'),
 
 module.exports = {
 	mainTpl: function(req,res) {
-		//res.view('create/main');
-		res.redirect('/new/bugreport');
+		res.view('create/main');
 	},
 
 	allTpl: function(req,res) {
@@ -28,173 +27,18 @@ module.exports = {
 			function preCheck(callback) {
 				if (!req.param('title') || !req.param('description')) {
 					return callback({
-						show: true,
 						msg: 'Некорректный запрос'
 					});
 				}
 				
 				callback(null);
 			},
-			function uploadData(callback) {
-				var files;
-				
-				if (req.files) {
-					files = req.files.upload;
-				}
-				
-				var execFile = require('child_process').execFile,
-					types = new RegExp('^image/(png|jpeg|jpg)\n$');
+			function handleUpload(callback) {
+				gct.handleUpload(req, res, function (err, uploads) {
+					if (err) return callback(null);
 
-				// If MULTIPLE uploads
-				if (files instanceof Array) {
-					async.map(files, function(files, callback) {
-						async.waterfall([
-							function checkSize(callback) {
-								if (files.size > 1024 * 1024 * 10) {
-									fs.unlink(files.path, function (err) {
-										if (err) return callback(err);
-
-										callback({
-											show: true,
-											msg: 'Файлы больше 10 мегабайт загружать запрещено'
-										});
-									});
-								} else {
-									return callback(null);
-								}
-							},
-							function getMime(callback) {
-								execFile('file', ['-b', '--mime-type', files.path], function(err, stdout, stderr) {
-									if (err) return callback(err);
-
-									var extension;
-
-									if (stdout === 'image/png\n') extension = 'png';
-									if (stdout === 'image/jpeg\n') extension = 'jpeg';
-									if (stdout === 'image/jpg\n') extension = 'jpg';
-
-									callback(null, stdout, extension);
-								});
-							},
-							function generateFilename(type, extension, callback) {
-								crypto.randomBytes(16, function(err, buf) {
-									if (err) return callback(err);
-
-									callback(null, type, buf.toString('hex') + '.' + extension);
-								});
-							},
-							function saveFileOrNot(type ,filename, callback) {
-								if (types.test(type)) {
-									fs.rename(files.path, appPath + '/uploads/' + filename, function (err) { 
-										if (err) return callback(err);
-
-										callback(null, filename);
-									});
-								} else {
-									fs.unlink(files.path, function (err) {
-										if (err) return callback(err);
-
-										callback({show: true, msg: 'Некорректный тип файла. Разрешены только файлы .jpg .jpeg .png'}, null);
-									});
-								}
-							}
-						], function(err, uploads) {
-							if (err) return callback(err);
-
-							if (!uploads) {
-								return callback(null, null);
-							}
-
-							callback(null, uploads);
-						});
-					}, function(err, uploads) {
-						if (err) return callback(err);
-
-						callback(null, uploads);
-					});
-				// If SINGLE upload and empty file // FIX THIS
-				} else if (files instanceof Object && files.originalFilename === '') {
-					fs.unlink(files.path, function (err) {
-						if (err) return callback(err);
-
-						callback(null, null);
-					});
-				// If SINGLE upload
-				} else if (files instanceof Object) {
-					async.waterfall([
-						function checkSize(callback) {
-							if (files.size > 1024 * 1024 * 10) {
-								fs.unlink(files.path, function (err) {
-									if (err) return callback(err);
-
-									callback({
-										show: true,
-										msg: 'Файлы больше 10 мегабайт загружать запрещено'
-									});
-								});
-							} else {
-								return callback(null);
-							}
-						},
-						function getMime(callback) {
-							execFile('file', ['-b', '--mime-type', files.path], function(err, stdout, stderr) {
-								if (err) return callback(err);
-
-								var extension;
-
-								if (stdout === 'image/png\n') extension = 'png';
-								if (stdout === 'image/jpeg\n') extension = 'jpeg';
-								if (stdout === 'image/jpg\n') extension = 'jpg';
-
-								callback(null, stdout, extension);
-							});
-						},
-						function generateFilename(type, extension, callback) {
-							crypto.randomBytes(16, function(err, buf) {
-								if (err) return callback(err);
-
-								callback(null, type, buf.toString('hex') + '.' + extension);
-							});
-						},
-						function saveFileOrNot(type ,filename, callback) {
-							if (types.test(type)) {
-								fs.rename(files.path, appPath + '/uploads/' + filename, function (err) { 
-									if (err) return callback(err);
-
-									callback(null, filename);
-								});
-							} else {
-								fs.unlink(files.path, function (err) {
-									if (err) return callback(err);
-
-									callback({
-										show: true, 
-										msg: 'Некорректный тип файла. Разрешены только файлы .jpg .jpeg .png'
-									}, null);
-								});
-							}
-						}
-					], function(err, uploads) {
-						if (err) {
-							if (err.show) {
-								return callback({
-									show: true, msg: err.msg
-								});
-							} else {
-								return callback(err);
-							}
-						}
-
-						if (!uploads) {
-							return callback(null, null);
-						}
-
-						callback(null, [uploads]);
-					});
-				} else {
-					// If NO uploads
-					callback(null, null);
-				}
+					callback(null, uploads);
+				});
 			},
 			function setData(uploads,callback) {
 				callback(null,{
@@ -211,7 +55,6 @@ module.exports = {
 			function checkData(obj, callback) {
 				if (isNaN(obj.visiblity)) {
 					return callback({
-						show: true, 
 						msg: 'Выберите видимость тикета'
 					});
 				}
@@ -220,13 +63,11 @@ module.exports = {
 				
 				if (!obj.product) {
 					return callback({
-						show: true, 
 						msg: 'Выберите местоположение проблемы'
 					});
 				}
 				if (!isStatus.test(obj.product)) {
 					return callback({
-						show: true, 
 						msg: 'Некорректное местоположение проблемы'
 					});
 				}
@@ -251,7 +92,6 @@ module.exports = {
 				Bugreport.create({
 					title: obj.title,
 					description: obj.description,
-					status: obj.status,
 					owner: obj.owner,
 					logs: obj.logs,
 					product: obj.product,
@@ -266,6 +106,7 @@ module.exports = {
 				Ticket.create({
 					tid: ticketId,
 					type: 1,
+					status: obj.status,
 					visiblity: obj.visiblity,
 					comments: [],
 					owner: obj.owner
@@ -278,7 +119,7 @@ module.exports = {
 		 ],
 		 function (err, ticket) {
 			if (err) {
-				if (!err.show) {
+				if (!err.msg) {
 					res.json(500, {
 						 err: 'Внезапная ошибка! Пожалуйста, сообщите о ней разработчику.'
 					});
@@ -299,6 +140,128 @@ module.exports = {
 	
 	remproTpl: function(req,res) {
 		res.view('create/rempro');
+	},
+
+	rempro: function(req, res) {
+		async.waterfall([
+			function preCheck(callback) {
+				if (!req.param('title') || !req.param('reason') || !(req.param('regions') || req.param('stuff')) ) {
+					return callback({
+						msg: 'Некорректный запрос'
+					});
+				}
+
+				callback(null);
+			},
+			function handleUpload(callback) {
+				gct.handleUpload(req, res, function (err, uploads) {
+					if (err) return callback(null);
+
+					callback(null, uploads);
+				});
+			},
+			function setData(uploads,callback) {
+				callback(null,{
+					title: req.param('title'),
+					reason: req.param('reason'),
+					status: 1,
+					createdFor: req.param('createdfor').replace(/[^a-zA-Z0-9_-]/g, ''),
+					owner: req.user.id,
+					regions: req.param('regions').replace(/[^a-zA-Z0-9-_\n]/g, '').split(/\n/) || '',
+					stuff: req.param('stuff').replace(/[^0-9- \n]/g, '').split(/\n/) || '',
+					uploads: uploads || [],
+					visiblity: parseInt(req.param('visiblity'), 10)
+				})
+			},
+			function checkData(obj, callback) {
+				if (isNaN(obj.visiblity)) {
+					return callback({
+						msg: 'Выберите видимость тикета'
+					});
+				}
+
+				var isErr = false;
+				req.onValidationError(function (msg) {
+					isErr = true;
+					callback({
+						msg: msg
+					});
+				});
+				req.check('title', 'Краткое описание должно содержать не менее %1 и не более %2 символов').len(6,64);
+				if (!isErr) return callback(null, obj);
+			},
+			function sanitizeData(obj, callback) {
+				obj.reason = req.sanitize('reason').entityEncode();
+
+				if (obj.regions[0] === '') obj.regions = [];
+				if (obj.stuff[0] === '') obj.stuff = [];
+
+				if (!obj.createdFor) {
+					callback(null, obj);
+				} else {
+					gcdb.user.getByLogin(obj.createdFor, function(err, uid) {
+						if (err) return callback(err);
+
+						if (!uid) {
+							callback({
+								msg: 'Игрока для которого создаётся заявка не существует'
+							})
+						} else {
+							obj.createdFor = uid;
+							callback(null, obj);
+						}
+					})
+				}
+			},
+			function createRempro(obj, callback) {
+				Rempro.create({
+					title: obj.title,
+					reason: obj.reason,
+					createdFor: obj.createdFor,
+					owner: obj.owner,
+					regions: obj.regions,
+					stuff: obj.stuff,
+					uploads: obj.uploads
+				}).done(function(err, result) {
+					if (err) return callback(err);
+
+					callback(null, result.id, obj);
+				});
+			},
+			function registerTicket(ticketId, obj, callback) {
+				Ticket.create({
+					tid: ticketId,
+					type: 2,
+					status: obj.status,
+					visiblity: obj.visiblity,
+					comments: [],
+					owner: obj.owner
+				}).done(function (err, ticket) {
+					if (err) return callback(err);
+
+					callback(null, ticket)
+				});
+			}
+		 ],
+		 function (err, ticket) {
+			if (err) {
+				if (!err.msg) {
+					res.json(500, {
+						 err: 'Внезапная ошибка! Пожалуйста, сообщите о ней разработчику.'
+					});
+
+					throw err;
+				} else {
+					return res.json({
+						err: err.msg
+					});
+				}
+			} else {
+				res.json({
+					id: ticket.id
+				});
+			}
+		});
 	},
 
 	banTpl: function(req,res) {

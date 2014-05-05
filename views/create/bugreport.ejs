@@ -1,8 +1,6 @@
 <% title="Создать багрепорт — GC.Тикеты",
-	backUrl = '/bugreports'; 
-scripts.push( 'wbb.js', 'create.js', 'create.bugreport.js'); 
-styles.push( 'main.css', 'wbb.css') %>
-<%- partial( '../partials/header')%>
+	backUrl = '/bugreports' %>
+<%- partial( '../partials/header') %>
 <form id="gc-reportform">
 	<input type="hidden" name="_csrf" value="<%= _csrf %>" />
 	<div class="ui fluid form container" id="gc-reportformdiv">
@@ -48,10 +46,12 @@ styles.push( 'main.css', 'wbb.css') %>
 			<label>Логи <em>(необязательно)</em></label>
 			<textarea id="logs" name="logs"></textarea>
 		</div>
+		<div class="ui divider"></div>
 		<div class="field">
-			<label>Прикрепить изображение <em>(необязательно)</em></label>
+			<label>Прикрепить изображения <em>(необязательно)</em></label>
 			<input class="ui basic button" type="file" multiple name="upload" value="Загрузить изображения"></input>
 		</div>
+		<div class="gc-help"><i class="attention icon"></i>Один файл не более 10 Мбайт</div>
 		<div class="ui divider"></div>
 		<button class="ui blue submit button" type="submit">Отправить тикет</button>
 		<div id="errmessage"></div>
