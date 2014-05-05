@@ -2,33 +2,37 @@
 backUrl = '/' %>
 <%- partial('../partials/header')%>
 <div class="container">
-	<h1 class="ui header" style="margin: 0em 0px 1rem !important;">Выберите нужный тип тикета
+	<h1 class="ui header" style="margin: 0.2em 0px 1rem !important;">Выберите нужный тип тикета
 	<div class="sub header">Просто кликните по названию нужного Вам типа</div></h1>
 	<div class="ui divider"></div>
 	<div class="container">
 		<div class="ui grid container">
 			<div class="two column stackable ui grid row">
 				<div class="column">
-					<div class="ui segment">
-							 <div class="column">
-								<a href="/new/bugreport" class="gc-link gc-new-header">Баг-репорт</a>
-							 </div>
-							 <div class="column">
-								<div class="ui divider"></div>
-								Баг-репорты используют для оповещения разработчика о наличии ошибок в определённом продукте.
-							 </div>
-					</div>
+					<a href="/new/bugreport" class="gc-link gc-new-header">
+						<div class="column gc-center">
+							<i class="bug icon" style="font-size: 6em; display: block; margin: 0px auto;"></i>
+							<span>Баг-репорт</span>
+						</div>
+						<div class="column">
+							<div class="ui divider"></div>
+							Баг-репорты используют для оповещения разработчика о наличии ошибок в определённом продукте.
+						</div>
+					</a>
 				</div>
+
+
 				<div class="column">
-					<div class="ui segment">
-							 <div class="column">
-								<a href="/new/rempro" class="gc-link gc-new-header">Расприват</a>
-							 </div>
-							 <div class="column">
-								<div class="ui divider"></div>
-								С помощью заявок на расприват вы можете попросить модераторов провести процедуру распривата.
-							 </div>
-					</div>
+					<a href="/new/rempro" class="gc-link gc-new-header">
+						<div class="column gc-center">
+							<i class="remove icon" style="font-size: 6em; display: block; margin: 0px auto;"></i>
+							<span>Расприват</span>
+						</div>
+						<div class="column">
+							<div class="ui divider"></div>
+						 С помощью заявок на расприват вы можете попросить модераторов провести процедуру распривата.
+						</div>
+					</a>
 				</div>
 			</div>
 		</div>
