@@ -15,6 +15,7 @@ app.create = {
 		$('#gc-reportform .ui.dropdown').dropdown();
 
 		$('.ui.checkbox').checkbox();
+		$('.gc-helppopup').popup();
 
 		$(document).on('submit', "#gc-reportform", function (e) {
 			e.preventDefault();

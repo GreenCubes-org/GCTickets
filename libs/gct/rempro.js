@@ -228,9 +228,15 @@ module.exports = rempro = {
 
 			async.waterfall([
 				function preCheck(callback) {
-					if (!req.param('id') || !req.param('title') || !req.param('reason') || !req.param('visiblity') || !(req.param('regions') || req.param('stuff'))) {
+					if (!req.param('id') || !req.param('title') || !req.param('reason') || !req.param('visiblity')) {
 						return callback({
 							msg: 'Некорректный запрос'
+						});
+					}
+
+					if (!req.param('regions') && !req.param('stuff')) {
+						return callback({
+							msg: 'Введите хотя бы один регион или координату'
 						});
 					}
 
@@ -259,8 +265,8 @@ module.exports = rempro = {
 							status: ticket.status,
 							createdFor: req.param('createdfor'),
 							owner: rempro.owner,
-							regions: req.param('regions').replace(/[^a-zA-Z0-9-_\n]/g, '').split(/\n/) || '',
-							stuff: req.param('stuff').replace(/[^0-9- \n]/g, '').split(/\n/) || '',
+							regions: req.param('regions').replace(/[^a-zA-Z0-9-_\n\r]/g, '').trim().split(/\n/) || '',
+							stuff: req.param('stuff').replace(/[^0-9- \n\r]/g, '').trim().split(/\n/) || '',
 							uploads: uploads,
 							visiblity: parseInt(req.param('visiblity'), 10)
 						});
@@ -279,6 +285,19 @@ module.exports = rempro = {
 						callback({ show: true, msg: msg });
 					});
 					req.check('title','Краткое описание должно содержать не менее %1 и не более %2 символов').len(6,64);
+
+					if(obj.regions.indexOf('') !== -1 || obj.regions.join('').replace(/\n|\r/g, '') !== req.body.regions.replace(/\n|\r/g, '')) {
+						return callback({
+							msg: 'Регионы могут быть записаны только с использованием латинских символов, цифр, символов \'-\' и \'_\''
+						});
+					}
+
+					if(obj.stuff.indexOf('') !== -1 || obj.stuff.join('').replace(/\n|\r/g, '') !== req.body.stuff.replace(/\n|\r/g, '')) {
+						return callback({
+							msg: 'Координаты могут быть записаны только цифрами и с использованием символа \'-\''
+						});
+					}
+
 					if (!isErr) callback(null, obj);
 				},
 				function sanitizeData(obj, callback) {

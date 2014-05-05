@@ -1,5 +1,5 @@
 <% if (req.user) { %>
-	<a href="/new/bugreport" class="item" title="Новый багрепорт"><i class="add icon"></i></a>
+	<a href="/new" class="item" title="Новый тикет"><i class="add icon"></i></a>
 	<div class="ui simple top right pointing dropdown item" style="float: none;">
 		<% if (req.user.prefix) { %><%= req.user.prefix %><% } %>&nbsp;<%= req.user.username %> <i class="icon dropdown"></i>
 		<div class="menu">

@@ -151,6 +151,12 @@ module.exports = {
 					});
 				}
 
+				if (!(req.param('regions') || req.param('stuff'))) {
+					return callback({
+						msg: 'Введите хотя бы один регион или координату'
+					});
+				}
+
 				callback(null);
 			},
 			function handleUpload(callback) {
@@ -167,8 +173,8 @@ module.exports = {
 					status: 1,
 					createdFor: req.param('createdfor').replace(/[^a-zA-Z0-9_-]/g, ''),
 					owner: req.user.id,
-					regions: req.param('regions').replace(/[^a-zA-Z0-9-_\n]/g, '').split(/\n/) || '',
-					stuff: req.param('stuff').replace(/[^0-9- \n]/g, '').split(/\n/) || '',
+					regions: req.param('regions').replace(/[^a-zA-Z0-9-_\n]/g, '').trim().split(/\n/) || '',
+					stuff: req.param('stuff').replace(/[^0-9- \n]/g, '').trim().split(/\n/) || '',
 					uploads: uploads || [],
 					visiblity: parseInt(req.param('visiblity'), 10)
 				})
@@ -188,6 +194,19 @@ module.exports = {
 					});
 				});
 				req.check('title', 'Краткое описание должно содержать не менее %1 и не более %2 символов').len(6,64);
+
+				if(obj.regions.indexOf('') !== -1 || obj.regions.join('').replace(/\n|\r/g, '') !== req.body.regions.replace(/\n|\r/g, '')) {
+					return callback({
+						msg: 'Регионы могут быть записаны только с использованием латинских символов, цифр, символов \'-\' и \'_\''
+					});
+				}
+
+				if(obj.stuff.indexOf('') !== -1 || obj.stuff.join('').replace(/\n|\r/g, '') !== req.body.stuff.replace(/\n|\r/g, '')) {
+					return callback({
+						msg: 'Координаты могут быть записаны только цифрами и с использованием символа \'-\''
+					});
+				}
+
 				if (!isErr) return callback(null, obj);
 			},
 			function sanitizeData(obj, callback) {

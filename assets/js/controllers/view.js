@@ -299,6 +299,7 @@ app.view = {
 			$('#reason').sync();
 		}
 		$('.ui.checkbox').checkbox();
+		$('.gc-helppopup').popup();
 
 		$(document).on('submit', "#gc-reportform", function (e) {
 			e.preventDefault();

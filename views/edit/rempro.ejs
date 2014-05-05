@@ -8,8 +8,8 @@
 		</h1>
 		<div class="ui divider" style="margin: 1em 0em !important;"></div>
 		<div class="two fields">
-			<div class="field" style="width: 250px !important;">
-				<label>Поле видимости тикета</label>
+			<div class="field" style="width: 280px !important;">
+				<label>Поле видимости тикета <i class="help icon gc-helppopup" data-content="Тикет может быть публичным, то есть быть видимым всем, или приватным - только администрации" data-variation="inverted"></i></label>
 				<div class="ui selection fluid dropdown">
 					<input name="visiblity" type="hidden"  value="<%= ticket.visiblity %>">
 					<div class="default text">Выбери приватность тикета</div>
@@ -20,9 +20,9 @@
 					<i class="dropdown icon"></i>
 				</div>
 			</div>
-			<div class="field" style="width: 320px !important;margin-bottom: 0em;">
+			<div class="field" style="width: 350px !important;margin-bottom: 0em;">
 				<div class="field">
-					<label>Для кого создаётся заявка <em>(необязательно)</em></label>
+					<label>Для кого создаётся заявка <em>(необязательно)</em> <i class="help icon gc-helppopup" data-content="Если вы заполняете заявку для другого игрока, то укажите никнейм этого игрока" data-variation="inverted"></i></label>
 					<input name="createdfor" type="text" value="<% if (ticket.createdFor) { %><%= ticket.createdFor %><% } %>">
 				</div>
 			</div>
@@ -35,6 +35,7 @@
 			<label>Причина распривата</label>
 			<textarea id="reason" name="reason"><%= ticket.reason %></textarea>
 		</div>
+		<div class="ui divider"></div>
 		<div class="field">
 			<label>Регионы</label>
 			<textarea id="regions" name="regions"><% if (ticket.regions) { %><%= ticket.regions.join('\n') %><% } %></textarea>
@@ -43,6 +44,7 @@
 			<label>Сундуки/предметы</label>
 			<textarea id="stuff" name="stuff"><% if (ticket.stuff) { %><%= ticket.stuff.join('\n') %><% } %></textarea>
 		</div>
+		<div class="gc-help"><i class="help icon"></i>Каждая координата/регион записываются по одному на строчку. Одно из этих двух полей должно быть заполнено</div>
 		<div class="ui divider"></div>
 		<div class="field">
 			<% if (ticket.uploads.length) { %>
@@ -72,6 +74,7 @@
 			<label>Прикрепить изображение <em>(необязательно)</em></label>
 			<input class="ui basic button" type="file" multiple name="upload" value="Загрузить изображения"></input>
 		</div>
+		<div class="gc-help"><i class="attention icon"></i>Один файл не более 10 Мбайт</div>
 		<div class="ui divider"></div>
 		<button class="ui blue submit button" type="submit">Отправить тикет</button>
 		<div id="errmessage"></div>

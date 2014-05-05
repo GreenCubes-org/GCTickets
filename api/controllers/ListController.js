@@ -48,7 +48,6 @@ module.exports = {
 
 	list20All: function (req, res) {
 		async.waterfall([
-
 			function checkLastElementDate(callback) {
 					if (!req.param('lastelement') || req.param('lastelement') === '') {
 						callback({
@@ -82,31 +81,34 @@ module.exports = {
 					}
 			},
 			function findTickets(lastElementDate, tableSize, callback) {
-					skipRows = (req.param.page - 1) * 20;
-					if (tableSize <= skipRows) {
-						return res.json({
-							err: 'no more tickets'
-						});
-					}
+				skipRows = (req.param.page - 1) * 20;
+				if (tableSize <= skipRows) {
+					return res.json({
+						err: 'no more tickets'
+					});
+				}
 
-					Ticket.find()
-						.where({
-							createdAt: {
-								'<': lastElementDate
-							}
-						})
-						.sort('id ASC')
-						.limit(skipRows)
-						.sort('id DESC')
-						.done(function (err, tickets) {
+				Ticket.find()
+					.where({
+						createdAt: {
+							'<': lastElementDate
+						},
+						visiblity: {
+							'<': visiblity
+						}
+					})
+					.sort('id ASC')
+					.limit(skipRows)
+					.sort('id DESC')
+					.done(function (err, tickets) {
+						if (err) return callback(err);
+
+						gct.all.serializeList(tickets, function (err, result) {
 							if (err) return callback(err);
 
-							gct.all.serializeList(tickets, function (err, result) {
-								if (err) return callback(err);
-
-								res.json(result);
-							});
+							res.json(result);
 						});
+					});
 			}
 		],
 		function (err) {

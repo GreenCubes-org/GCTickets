@@ -8,8 +8,8 @@
 		</h1>
 		<div class="ui divider" style="margin: 1em 0em !important;"></div>
 		<div class="two fields">
-			<div class="field" style="width: 250px !important;">
-				<label>Поле видимости тикета</label>
+			<div class="field" style="width: 280px !important;">
+				<label>Поле видимости тикета <i class="help icon gc-helppopup" data-content="Тикет может быть публичным, то есть быть видимым всем, или приватным - только администрации" data-variation="inverted"></i></label>
 				<div class="ui selection fluid dropdown">
 					<input name="visiblity" type="hidden"  value="<%= ticket.visiblity %>">
 					<div class="default text">Выбери приватность тикета</div>
@@ -62,6 +62,7 @@
 			<label>Прикрепить изображение <em>(необязательно)</em></label>
 			<input class="ui basic button" type="file" multiple name="upload" value="Загрузить изображения"></input>
 		</div>
+		<div class="gc-help"><i class="attention icon"></i>Один файл не более 10 Мбайт</div>
 		<div class="ui divider"></div>
 		<button class="ui blue submit button" type="submit">Отправить тикет</button>
 		<div id="errmessage"></div>
