@@ -1,17 +1,35 @@
 var app = app || {};
 
 app.list = {
-	get: function (id) {
+	get: function () {
+		app.list.process();
+	},
+
+	filterByStatus: function (status) {
+		app.list.process(status);
+	},
+
+	process: function (status) {
 		try {
-			var currentUrl = window.location.pathname;
+			var currentUrl;
+			if (status) {
+				status = {
+					filter: status
+				};
+			} else {
+				status = {};
+			}
+			currentUrl = window.location.pathname;
+
 			var lastTicket;
+
 			$.ajax({
 				type: "GET",
 				url: currentUrl + '/read',
 				async: false,
-				data: $(this).serialize(),
+				data: status,
 				complete: function(data) {
-					$('#content').html('<table class="ui basic table" id="listTickets">' +
+					$('#l-content').html('<table class="ui basic table" id="listTickets">' +
 						'<thead>' +
 						'<tr>' +
 						 '<th>Тип</th>' +
@@ -38,16 +56,18 @@ app.list = {
 					lastTicket = tickets[tickets.length - 1];
 
 					if (tickets.length < 20) {
-						$('#content').append('<div id="t-givemorebtn"><div class="ui basic small icon labeled right fluid disabled button">Больше нет тикетов</div></div>');
+						$('#l-content').append('<div id="t-givemorebtn"><div class="ui basic small icon labeled right fluid disabled button">Больше нет тикетов</div></div>');
 					} else {
-						$('#content').append('<div id="t-givemorebtn"><button class="ui basic small icon labeled right fluid button" id="givememore">Загрузить ещё</button></div>');
+						$('#l-content').append('<div id="t-givemorebtn"><button class="ui basic small icon labeled right fluid button" id="givememore">Загрузить ещё</button></div>');
 					}
+
+					$('#l-content').fadeIn(500).css('display','inline-block');
 				}
 			});
 
 			var page = 1;
 			$(document).on('click', '#givememore', function(e) {
-				page = page++;
+				page++;
 				$.ajax({
 				 type: "GET",
 				 url: currentUrl + '/read/' + page,
@@ -57,7 +77,7 @@ app.list = {
 				 },
 				 complete: function(data) {
 					if (data.responseJSON.err ==='no more tickets') {
-						$('#t-givemorebtn').html('<div class="ui basic small icon labeled right fluid disabled button">Больше нет тикетов</div>')	;
+						$('#t-givemorebtn').html('<div class="ui basic small icon labeled right fluid disabled button">Больше нет тикетов</div>');
 						return;
 					}
 
@@ -85,7 +105,7 @@ app.list = {
 				return false;
 			});
 		} catch (err) {
-			$('#content').html('<div class="ui error message" style="margin-top: 2em;"><div class="header">Внезапная ошибка! Пожалуйста, сообщите о ней разработчику.</div></div>');
+			$('#l-content').html('<div class="ui error message" style="margin-top: 2em;"><div class="header">Внезапная ошибка! Пожалуйста, сообщите о ней разработчику.</div></div>');
 		}
 	}
 };

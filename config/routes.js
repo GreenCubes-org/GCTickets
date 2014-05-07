@@ -47,6 +47,8 @@ module.exports.routes = {
 	'/id/:id': 'view.routeView',
 	'get /id/:id/edit': 'edit.routeViewTpl',
 	'post /id/:id/edit': 'edit.routeView',
+	'get /id/:id/delete': 'edit.deleteTpl',
+	'post /id/:id/delete': 'edit.deletePost',
 	'/id/:id/report': 'dev.hideFeature',
 	'get /id/:id/comments': 'comment.listViewComments',
 	'get /id/:id/comment/:cid/report': 'dev.hideFeature',
@@ -55,28 +57,40 @@ module.exports.routes = {
 
 	// Мои тикеты
 	'/my': 'list.listMyTpl',
-	'/my/read': 'list.listNewestMy',
-	'/my/read/:page': 'list.list20My',
+	'/my/read': 'list.listNewest',
+	'/my/read/:page': 'list.list20',
+	'/my/:status': 'list.listMyTpl',
+	'/my/:status/read': 'list.listNewest',
+	'/my/:status/read/:page': 'list.list20',
 
 	// Новый тикет без типа
 	'/new': 'create.mainTpl',
 
 	// Все тикеты
 	'/all': 'list.listAllTpl',
-	'/all/read': 'list.listNewestAll',
-	'/all/read/:page': 'list.list20All',
+	'/all/read': 'list.listNewest',
+	'/all/read/:page': 'list.list20',
+	'/all/:status': 'list.listAllTpl',
+	'/all/:status/read': 'list.listNewest',
+	'/all/:status/read/:page': 'list.list20',
 
 	// Багрепорты
 	'/bugreports': 'list.listBugreportTpl',
-	'/bugreports/read': 'list.listNewestBugreport',
-	'/bugreports/read/:page': 'list.list20Bugreport',
+	'/bugreports/read': 'list.listNewest',
+	'/bugreports/read/:page': 'list.list20',
+	'/bugreports/:status': 'list.listBugreportTpl',
+	'/bugreports/:status/read': 'list.listNewest',
+	'/bugreports/:status/read/:page': 'list.list20',
 	'get /new/bugreport': 'create.bugreportTpl',
 	'post /new/bugreport': 'create.bugreport',
 
 	// Расприваты
 	'/rempros': 'list.listRemproTpl',
-	'/rempros/read': 'list.listNewestRempro',
-	'/rempros/read/:page': 'list.list20Rempro',
+	'/rempros/read': 'list.listNewest',
+	'/rempros/read/:page': 'list.list20',
+	'/rempros/:status': 'list.listBugreportTpl',
+	'/rempros/:status/read': 'list.listNewest',
+	'/rempros/:status/read/:page': 'list.list20',
 	'get /new/rempro': 'create.remproTpl',
 	'post /new/rempro': 'create.rempro'
 };

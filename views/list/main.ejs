@@ -1,0 +1,17 @@
+<%- partial('partials/header')%>
+<div class="container" style="position:relative">
+	<div class="ui grid">
+		<div class="column l-leftcolumn">
+			<a href="/new" class="ui basic fluid button">
+				<i class="add icon"></i>
+				Новый тикет
+			</a>
+			<%- partial('partials/filter')%>
+		</div>
+		<div class="column l-rightcolumn" id="l-content">
+			<div class="ui active inverted dimmer">
+				<div class="ui large text loader" style="margin: 15% 0%;">Тикеты загружаются</div>
+			</div>
+		</div>
+	</div>
+</div>

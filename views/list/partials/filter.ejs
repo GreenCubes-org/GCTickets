@@ -1,0 +1,64 @@
+<% listUrl = '/' + req.path.split('/')[1] %>
+<div class="ui vertical menu">
+	<div class="header item">Фильтровать по статусу</div>
+	<a class="item" href="<%= listUrl %>">Все статусы</a>
+	<div class="item">
+		Общие статусы
+		<div class="menu">
+			<a class="item l-menu new" href="<%= listUrl %>/new">
+				Новый
+			</a>
+			<a class="item l-menu rejected" href="<%= listUrl %>/rejected">
+				Отменён
+			</a>
+			<a class="item l-menu specify" href="<%= listUrl %>/specify">
+				Уточнить
+			</a>
+			<a class="item l-menu declined" href="<%= listUrl %>/declined">
+				Отклонён
+			</a>
+			<% if (req.user && req.user.group >= ugroup.helper) { %>
+			<a class="item l-menu hidden" href="<%= listUrl %>/hidden">
+				Скрыт
+			</a>
+			<% } %>
+			<% if (req.user && req.user.group >= ugroup.staff) { %>
+			<a class="item l-menu removed" href="<%= listUrl %>/removed">
+				Удалён
+			</a>
+			<% } %>
+			<% if (type.text !== 'Удаление защит') { %>
+		</div>
+	</div>
+	<div class="item">
+		Только для баг-репортов
+		<div class="menu">
+			<a class="item l-menu accepted" href="<%= listUrl %>/accepted">
+				Принят
+			</a>
+			<a class="item l-menu fixed" href="<%= listUrl %>/fixed">
+				Исправлен
+			</a>
+			<% } %>
+			<% if (type.text !== 'Баг-репорты') { %>
+		</div>
+	</div>
+	<div class="item">
+		Только для удаления защит
+		<div class="menu">
+			<a class="item l-menu helpfixed" href="<%= listUrl %>/helpfixed">
+				Исправлен
+			</a>
+			<a class="item l-menu inreview" href="<%= listUrl %>/inreview">
+				На рассмотрении
+			</a>
+			<a class="item l-menu delayed" href="<%= listUrl %>/delayed">
+				Отложен
+			</a>
+			<a class="item l-menu done" href="<%= listUrl %>/done">
+				Выполнен
+			</a>
+			<% } %>
+		</div>
+	</div>
+</div>

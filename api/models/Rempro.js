@@ -24,8 +24,6 @@ module.exports = {
 		regions: 'array',
 		// ['-14 00 33','33 33 33']
 		stuff: 'array',
-		// '1' (id of status)
-		status: 'integer',
 		// '42' (id of upload)
 		uploads: 'array'
 	}

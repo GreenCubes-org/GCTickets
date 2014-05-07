@@ -127,13 +127,14 @@ module.exports = {
 						if (ticket.comments && ticket.comments.length > 0) {
 							callback(null, ticket.comments.length + 1, ticket);
 						} else {
-							callback(null, 1, ticket.tid); // set comment id to 1 because there is no other comments
+							callback(null, 1, ticket); // set comment id to 1 because there is no other comments
 						}
 					});
 			},
 			function setData(commentId, origTicket, callback) {
-				var TicketModel = gct.getModelTypeByID(obj.type);
-				[TicketModel].findOne(origTicket.tid)
+				var TicketModel = gct.getModelTypeByID(origTicket.type);
+
+				global[TicketModel].findOne(origTicket.tid)
 					.done(function(err, ticket) {
 
 						ticket.status = origTicket.status;
@@ -157,7 +158,7 @@ module.exports = {
 					callback(null, newComment, false, ticket);
 				}
 			},
-			function getRights(newComment, pass, bugreport, callback) {
+			function getRights(newComment, pass, ticket, callback) {
 				if (pass) return callback(null, newComment, true, null, ticket);
 				
 				if (req.user) {

@@ -44,12 +44,15 @@ module.exports = {
 			case 2:
 				async.waterfall([
 					function getRempro(callback) {
-						Rempro.find({
-							id: obj.tid
-						}).done(function (err, result) {
-							if (err) return callback(err);
+						Ticket.findOne(obj.id).done(function (err, ticket) {
+							Rempro.find({
+								id: obj.tid
+							}).done(function (err, result) {
+								if (err) return callback(err);
 
-							callback(err, result[0]);
+								result[0].status = ticket.status;
+								callback(err, result[0]);
+							});
 						});
 					},
 					function serialize(result, callback) {

@@ -4,7 +4,7 @@
 <form id="gc-reportform" action="/id/<%= ticket.id %>/edit" method="POST" enctype="multipart/form-data">
 	<input type="hidden" name="_csrf" value="<%= _csrf %>" />
 	<div class="ui fluid form container" id="gc-reportformdiv">
-		<h1 class="header" style="margin-bottom: 0px;">Редактирование #<%= ticket.id %>: "<%= ticket.title %>"
+		<h1 class="header" style="margin-bottom: 0px;">Редактирование #<%= ticket.id %>: &laquo;<%= ticket.title %>&raquo;
 		</h1>
 		<div class="ui divider" style="margin: 1em 0em !important;"></div>
 		<div class="two fields">

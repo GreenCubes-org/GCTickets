@@ -7,78 +7,338 @@
 
 module.exports = {
 
+	listNewest: function (req, res) {
+		var findBy = {},
+			filterBy = gct.getStatusByClass(req.param('status'));
+
+		if ((filterBy === 5 || filterBy === 6) && (!req.user || req.user.group < ugroup.mod)) {
+			return res.json({
+				status: 'err'
+			});
+		}
+
+		switch (req.path.split('/')[1]) {
+			case 'all':
+				break;
+
+			case 'my':
+				findBy.owner = req.user.id;
+
+			case 'bugreports':
+				findBy.type = 1;
+				break;
+
+			case 'rempros':
+				findBy.type = 2;
+				break;
+
+			default:
+				return res.status(404).view('404');
+		}
+
+		var whereBy = {};
+		if (filterBy) {
+			findBy.status = filterBy;
+		} else {
+			whereBy = {
+				status: {
+					'!': 5,
+					'!': 6
+				}
+			};
+
+			if (req.user && req.user.group === ugroup.helper) {
+				whereBy = {
+					status: {
+						'!': 6
+					}
+				};
+			}
+
+			if (req.user && req.user.group >= ugroup.mod) {
+				whereBy = {};
+			}
+		}
+
+		Ticket.find(findBy)
+			.where(whereBy)
+			.sort('id DESC')
+			.limit(20)
+			.done(function (err, tickets) {
+				if (err) throw err;
+
+				gct.all.serializeList(tickets, function (err, result) {
+					if (err) throw err;
+
+					res.json(result);
+				});
+			});
+	},
+
+	list20: function (req, res) {
+		var findBy = {},
+			filterBy = gct.getStatusByClass(req.param('status'));
+
+		switch (req.path.split('/')[1]) {
+			case 'all':
+				break;
+
+			case 'my':
+				findBy.owner = req.user.id;
+				break;
+
+			case 'bugreports':
+				findBy.type = 1;
+				break;
+
+			case 'rempros':
+				findBy.type = 2;
+				break;
+
+			default:
+				return res.status(404).view('404');
+		}
+
+		if (req.user && req.user.group >= ugroup.staff) {
+			if (filterBy) {
+				findBy.status = filterBy;
+			}
+		}
+
+		async.waterfall([
+			function checkData(callback) {
+				if (isNaN(parseInt(req.param('page'), 10))) {
+					return callback({
+						msg: 'Wrong page'
+					})
+				}
+
+				if ((filterBy === 5 || filterBy === 6) && (!req.user || req.user.group < ugroup.mod)) {
+					return callback({
+						msg: 'Don\'t have rights for this list'
+					});
+				}
+
+				if (!req.param('lastelement') || req.param('lastelement') === '') {
+					callback({
+						msg: 'Can\'t find last element date!'
+					});
+				} else {
+					callback(null, req.param('lastelement'));
+				}
+			},
+			function getNumOfIDs(lastElementDate, callback) {
+				var query;
+				if (req.user && req.user.group >= ugroup.staff) {
+					if (findBy.type) {
+						query = 'SELECT type, count(*) as count from ticket where type = ' + findBy.type;
+					} else if (findBy.owner) {
+						query = 'SELECT type, count(*) as count from ticket where owner = ' + findBy.owner;
+					} else {
+						query = 'SELECT count(*) as count from ticket'
+					}
+
+					Ticket.query(query, function (err, result) {
+							if (err) return callback(err);
+
+							callback(null, lastElementDate, result[0].count);
+						});
+				} else {
+					if (!findBy.owner) findBy.visiblity = 1;
+					if (findBy.type) {
+						query = 'SELECT type, count(*) as count from ticket where visiblity = 1, type = ' + findBy.type;
+					} else if (findBy.owner) {
+						query = 'SELECT type, count(*) as count from ticket where owner = ' + findBy.owner;
+					} else {
+						query = 'SELECT count(*) as count from ticket where visiblity = 1'
+					}
+
+					Ticket.query(query, function (err, result) {
+							if (err) return callback(err);
+
+							callback(null, lastElementDate, result.count);
+						});
+				}
+			},
+			function findTickets(lastElementDate, tableSize, callback) {
+				skipRows = (parseInt(req.param('page'), 10) - 1) * 20;
+				if (tableSize <= skipRows) {
+					return res.json({
+						err: 'no more tickets'
+					});
+				}
+
+				var save = {
+					visiblity: findBy.visiblity,
+					type: findBy.type,
+					owner: findBy.owner
+				};
+
+				if (filterBy) {
+					findBy = {
+						createdAt: {
+							'<': lastElementDate
+						},
+					};
+					findBy.status['='] = filterBy;
+
+					if (save.visiblity) {
+						findBy.visiblity = {
+							'=': save.visiblity
+						}
+					}
+
+					if (save.owner) {
+						findBy.owner = {
+							'=': save.owner
+						}
+					}
+				} else {
+					findBy = {
+						createdAt: {
+							'<': lastElementDate
+						},
+						status: {
+							'!': 5,
+							'!': 6
+						}
+					};
+
+					if (req.user && req.user.group === ugroup.helper) {
+						findBy.status = {
+							'!': 6
+						};
+					}
+
+					if (req.user && req.user.group >= ugroup.mod) {
+						delete findBy.status;
+					}
+
+					if (save.visiblity) {
+						findBy.visiblity = {
+							'=': save.visiblity
+						}
+					}
+
+					if (save.owner) {
+						findBy.owner = {
+							'=': save.owner
+						}
+					}
+				}
+
+				Ticket.find()
+					.where(findBy)
+					.sort('id ASC')
+					.limit(skipRows)
+					.sort('id DESC')
+					.done(function (err, tickets) {
+						if (err) return callback(err);
+
+						gct.all.serializeList(tickets, function (err, result) {
+							if (err) return callback(err);
+
+							res.json(result);
+						});
+					});
+			}
+		],
+		function (err) {
+			if (err) {
+				if (err.msg) {
+					return res.json({
+						err: 'Некорретный запрос'
+					});
+				}
+				throw err;
+			}
+		});
+	},
+
 	listAllTpl: function (req, res) {
 		text = 'Все тикеты';
-		res.view('list/list', {
+		res.view('list/main', {
 			type: {
 				url: 'all',
 				text: text,
 				iconclass: 'reorder'
-			}
+			},
+			title: 'Список всех тикетов — GC.Тикеты'
 		})
 	},
 
-	listNewestAll: function (req, res) {
-		if (req.user && req.user.group >= ugroup.staff) {
-			Ticket.find()
-				.sort('id DESC')
-				.limit(20)
-				.done(function (err, tickets) {
-					if (err) throw err;
-
-					gct.all.serializeList(tickets, function (err, result) {
-						res.json(result);
-					});
-				});
-		} else {
-			Ticket.find({
-				visiblity: 1
-			})
-				.sort('id DESC')
-				.limit(20)
-				.done(function (err, tickets) {
-					if (err) throw err;
-
-					gct.all.serializeList(tickets, function (err, result) {
-						res.json(result);
-					});
-				});
-		}
+	listMyTpl: function (req, res) {
+		text = 'Ваши тикеты';
+		res.view('list/main', {
+			type: {
+				url: 'my',
+				text: text,
+				iconclass: 'user'
+			},
+			title: 'Список Ваших тикетов — GC.Тикеты'
+		})
 	},
 
-	list20All: function (req, res) {
+	listNewestMy: function (req, res) {
+		var findBy,
+			filterBy = gct.getStatusByClass(req.param('filter'));
+
+		if (filterBy) {
+			findBy = {
+				owner: req.user.id,
+				status: filterBy
+			};
+		} else {
+			findBy = {
+				owner: req.user.id
+			};
+		}
+
+		Ticket.find(findBy)
+			.sort('id DESC')
+			.limit(20)
+			.done(function (err, tickets) {
+				if (err) throw err;
+				gct.all.serializeList(tickets, function (err, result) {
+					res.json(result);
+				});
+			});
+	},
+
+	list20My: function (req, res) {
+		var findBy,
+			filterBy = gct.getStatusByClass(req.param('filter'));
+
 		async.waterfall([
 			function checkLastElementDate(callback) {
-					if (!req.param('lastelement') || req.param('lastelement') === '') {
-						callback({
-							msg: 'Can\'t find last element date!'
-						});
-					} else {
-						callback(null, req.param('lastelement'));
-					}
+				if (!req.param('lastelement') || req.param('lastelement') === '') {
+					callback({
+						msg: 'Can\'t find last element date!'
+					});
+				} else {
+					callback(null, req.param('lastelement'));
+				}
 			},
 			function getNumOfIDs(lastElementDate, callback) {
-					if (req.user && req.user.group >= ugroup.staff) {
-						Ticket.find()
-							.sort('id DESC')
-							.limit(1)
-							.done(function (err, latestElement) {
-								if (err) return callback(err);
+				if (filterBy) {
+					findBy = {
+						owner: req.user.id,
+						status: filterBy
+					};
+				} else {
+					findBy = {
+						owner: req.user.id
+					};
+				}
 
-								callback(null, lastElementDate, latestElement[0].id);
-							});
-					} else {
-						Ticket.find({
-							visiblity: 1
-						})
-							.sort('id DESC')
-							.limit(1)
-							.done(function (err, latestElement) {
-								if (err) return callback(err);
+				Ticket.find(findBy)
+					.sort('id DESC')
+					.limit(1)
+					.done(function (err, latestElement) {
+						if (err) return callback(err);
 
-								callback(null, lastElementDate, latestElement[0].id);
-							});
-					}
+						callback(null, lastElementDate, latestElement[0].id);
+					});
 			},
 			function findTickets(lastElementDate, tableSize, callback) {
 				skipRows = (req.param.page - 1) * 20;
@@ -88,13 +348,21 @@ module.exports = {
 					});
 				}
 
-				Ticket.find()
+				if (filterBy) {
+					findBy = {
+						owner: req.user.id,
+						status: filterBy
+					};
+				} else {
+					findBy = {
+						owner: req.user.id
+					};
+				}
+
+				Ticket.find(findBy)
 					.where({
 						createdAt: {
 							'<': lastElementDate
-						},
-						visiblity: {
-							'<': visiblity
 						}
 					})
 					.sort('id ASC')
@@ -123,114 +391,37 @@ module.exports = {
 		});
 	},
 
-	listMyTpl: function (req, res) {
-		text = 'Ваши тикеты';
-		res.view('list/list', {
-			type: {
-				url: 'my',
-				text: text,
-				iconclass: 'user'
-			}
-		})
-	},
-
-	listNewestMy: function (req, res) {
-		Ticket.find({
-			owner: req.user.id
-		})
-			.sort('id DESC')
-			.limit(20)
-			.done(function (err, tickets) {
-				if (err) throw err;
-				gct.all.serializeList(tickets, function (err, result) {
-					res.json(result);
-				});
-			});
-	},
-
-	list20My: function (req, res) {
-		async.waterfall([
-
-			function checkLastElementDate(callback) {
-					if (!req.param('lastelement') || req.param('lastelement') === '') {
-						callback({
-							msg: 'Can\'t find last element date!'
-						});
-					} else {
-						callback(null, req.param('lastelement'));
-					}
-			},
-			function getNumOfIDs(lastElementDate, callback) {
-					Ticket.find({
-						owner: req.user.id
-					})
-						.sort('id DESC')
-						.limit(1)
-						.done(function (err, latestElement) {
-							if (err) return callback(err);
-
-							callback(null, lastElementDate, latestElement[0].id);
-						});
-			},
-			function findTickets(lastElementDate, tableSize, callback) {
-					skipRows = (req.param.page - 1) * 20;
-					if (tableSize <= skipRows) {
-						return res.json({
-							err: 'no more tickets'
-						});
-					}
-
-					Ticket.find({
-						owner: req.user.id
-					})
-						.where({
-							createdAt: {
-								'<': lastElementDate
-							}
-						})
-						.sort('id ASC')
-						.limit(skipRows)
-						.sort('id DESC')
-						.done(function (err, tickets) {
-							if (err) return callback(err);
-
-							gct.all.serializeList(tickets, function (err, result) {
-								if (err) return callback(err);
-
-								res.json(result);
-							});
-						});
-			}
-		],
-			function (err) {
-				if (err) {
-					if (err.msg) {
-						return res.json({
-							err: 'Некорретный запрос'
-						});
-					}
-					throw err;
-				}
-			});
-	},
-
 	listBugreportTpl: function listBugreport(req, res) {
-		text = 'Багрепорты';
-		res.view('list/list', {
+		text = 'Баг-репорты';
+		res.view('list/main', {
 			type: {
 				url: 'bugreports',
 				text: text,
 				iconclass: 'bug'
-			}
+			},
+			title: 'Список баг-репортов — GC.Тикеты'
 		})
 	},
 
 	listNewestBugreport: function (req, res) {
+		var findBy,
+			filterBy = gct.getStatusByClass(req.param('filter'));
+
 		if (req.user && req.user.group >= ugroup.staff) {
+			if (filterBy) {
+				findBy = {
+					type: 1,
+					status: filterBy
+				};
+			} else {
+				findBy = {
+					type: 1
+				};
+			}
+
 			Ticket.find({
 				type: 1
-			})
-				.sort('id DESC')
+			}).sort('id DESC')
 				.limit(20)
 				.done(function (err, tickets) {
 					if (err) throw err;
@@ -240,11 +431,20 @@ module.exports = {
 					});
 				});
 		} else {
-			Ticket.find({
-				type: 1,
-				visiblity: 1
-			})
-				.sort('id DESC')
+			if (filterBy) {
+				findBy = {
+					type: 1,
+					visiblity: 1,
+					status: filterBy
+				};
+			} else {
+				findBy = {
+					type: 1,
+					visiblity: 1
+				};
+			}
+
+			Ticket.find(findBy).sort('id DESC')
 				.limit(20)
 				.done(function (err, tickets) {
 					if (err) throw err;
@@ -256,215 +456,27 @@ module.exports = {
 		}
 	},
 
-	list20Bugreport: function (req, res) {
-		async.waterfall([
-
-			function checkLastElementDate(callback) {
-					if (!req.param('lastelement') || req.param('lastelement') === '') {
-						callback({
-							msg: 'Can\'t find last element date!'
-						});
-					} else {
-						callback(null, req.param('lastelement'));
-					}
-			},
-			function getNumOfIDs(lastElementDate, callback) {
-					if (req.user && req.user.group >= ugroup.staff) {
-						Ticket.find({
-							type: 1
-						})
-							.sort('id DESC')
-							.limit(1)
-							.done(function (err, latestElement) {
-								if (err) return callback(err);
-
-								callback(null, lastElementDate, latestElement[0].id);
-							});
-					} else {
-						Ticket.find({
-							type: 1,
-							visiblity: 1
-						})
-							.sort('id DESC')
-							.limit(1)
-							.done(function (err, latestElement) {
-								if (err) return callback(err);
-
-								callback(null, lastElementDate, latestElement[0].id);
-							});
-					}
-			},
-			function findTickets(lastElementDate, tableSize, callback) {
-					skipRows = (req.param.page - 1) * 20;
-					if (tableSize <= skipRows) {
-						return res.json({
-							err: 'no more tickets'
-						});
-					}
-
-					Ticket.find({
-						type: 1
-					})
-						.where({
-							createdAt: {
-								'<': lastElementDate
-							}
-						})
-						.sort('id ASC')
-						.limit(skipRows)
-						.sort('id DESC')
-						.done(function (err, tickets) {
-							if (err) return callback(err);
-
-							gct.bugreport.serializeList(tickets, function (err, result) {
-								if (err) return callback(err);
-
-								res.json(result);
-							});
-						});
-			}
-		],
-			function (err) {
-				if (err) {
-					if (err.msg) {
-						return res.json({
-							err: 'Некорретный запрос'
-						});
-					}
-					throw err;
-				}
-			});
-	},
-
 	listRemproTpl: function (req, res) {
-		text = 'Расприваты';
-		res.view('list/list', {
+		text = 'Удаление защит';
+		res.view('list/main', {
 			type: {
 				url: 'rempros',
 				text: text,
 				iconclass: 'remove'
-			}
+			},
+			title: 'Список заявок на удаление защит — GC.Тикеты'
 		})
-	},
-
-	listNewestRempro: function (req, res) {
-		if (req.user && req.user.group >= ugroup.staff) {
-			Ticket.find({
-				type: 2
-			})
-			.sort('id DESC')
-			.limit(20)
-			.done(function (err, tickets) {
-				if (err) throw err;
-
-				gct.rempro.serializeList(tickets, function (err, result) {
-					res.json(result);
-				});
-			});
-		} else {
-			Ticket.find({
-				type: 2,
-				visiblity: 1
-			})
-			.sort('id DESC')
-			.limit(20)
-			.done(function (err, tickets) {
-				if (err) throw err;
-
-				gct.rempro.serializeList(tickets, function (err, result) {
-					res.json(result);
-				});
-			});
-		}
-	},
-
-	list20Rempro: function (req, res) {
-		async.waterfall([
-			function checkLastElementDate(callback) {
-					if (!req.param('lastelement') || req.param('lastelement') === '') {
-						callback({
-							msg: 'Can\'t find last element date!'
-						});
-					} else {
-						callback(null, req.param('lastelement'));
-					}
-			},
-			function getNumOfIDs(lastElementDate, callback) {
-					if (req.user && req.user.group >= ugroup.staff) {
-						Ticket.find({
-							type: 2
-						})
-						.sort('id DESC')
-						.limit(1)
-						.done(function (err, latestElement) {
-							if (err) return callback(err);
-
-							callback(null, lastElementDate, latestElement[0].id);
-						});
-					} else {
-						Ticket.find({
-							type: 2,
-							visiblity: 1
-						})
-						.sort('id DESC')
-						.limit(1)
-						.done(function (err, latestElement) {
-							if (err) return callback(err);
-
-							callback(null, lastElementDate, latestElement[0].id);
-						});
-					}
-			},
-			function findTickets(lastElementDate, tableSize, callback) {
-					skipRows = (req.param.page - 1) * 20;
-					if (tableSize <= skipRows) {
-						return res.json({
-							err: 'no more tickets'
-						});
-					}
-
-					Ticket.find({
-						type: 1
-					})
-					.where({
-						createdAt: {
-							'<': lastElementDate
-						}
-					})
-					.sort('id ASC')
-					.limit(skipRows)
-					.sort('id DESC')
-					.done(function (err, tickets) {
-						if (err) return callback(err);
-
-						gct.rempro.serializeList(tickets, function (err, result) {
-							if (err) return callback(err);
-
-							res.json(result);
-						});
-					});
-			}
-		],
-			function (err) {
-				if (err) {
-					if (err.msg) {
-						return res.json({
-							err: 'Некорретный запрос'
-						});
-					}
-					throw err;
-				}
-			});
 	},
 
 	listBanTpl: function (req, res) {
 		text = 'Баны';
-		res.view('list/list', {
+		res.view('list/main', {
 			type: {
 				url: 'bans',
 				text: text,
 				iconclass: 'ban circle'
-			}
+			},
+			title: 'Список заявок на бан — GC.Тикеты'
 		})
 	},
 
@@ -585,7 +597,7 @@ module.exports = {
 
 	listUnbanTpl: function (req, res) {
 		text = 'Разбаны';
-		res.view('list/list', {
+		res.view('list/main', {
 			type: {
 				url: 'unbans',
 				text: text,
@@ -596,7 +608,7 @@ module.exports = {
 
 	listRegenTpl: function (req, res) {
 		text = 'Регены';
-		res.view('list/list', {
+		res.view('list/main', {
 			type: {
 				url: 'regens',
 				text: text,
@@ -607,7 +619,7 @@ module.exports = {
 
 	listAdmreqTpl: function (req, res) {
 		text = 'Обращения к администрации';
-		res.view('list/list', {
+		res.view('list/main', {
 			type: {
 				url: 'admreq',
 				text: text,

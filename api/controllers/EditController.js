@@ -58,6 +58,49 @@ module.exports = {
 				res.status(404).view('404', {layout: false});
 			}
 		})
+	},
+
+	deleteTpl: function (req, res) {
+		Ticket.findOne(req.param('id')).done(function (err, result) {
+			if (err) throw err;
+
+			res.view('delete', {
+				ticket: result
+			});
+		});
+	},
+
+	deletePost: function (req, res) {
+		if (req.param('action') !== 'remove') {
+			return res.json({
+				status: 'err'
+			});
+		}
+
+		Ticket.findOne({
+			id: req.param('id')
+		}).done(function (err, result) {
+			if (err) {
+				res.json({
+					status: 'err'
+				});
+				throw err;
+			}
+
+			result.status = 6;
+			result.save(function (err) {
+				if (err) {
+					res.json({
+						status: 'err'
+					});
+					throw err
+				};
+
+				res.json({
+					status: 'OK'
+				});
+			});
+		});
 	}
 
 };

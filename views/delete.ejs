@@ -1,0 +1,30 @@
+<% backUrl = '/id/' + ticket.id %>
+<%- partial('partials/header') %>
+<form action="/id/<%= ticket.id %>/delete" method="POST" enctype="multipart/form-data">
+<input type="hidden" name="_csrf" value="<%= _csrf %>" />
+<div class="ui basic modal" id="remticket">
+	<div class="header">
+	 Удалить #<%= ticket.id %> &laquo;<%= ticket.title %>&raquo;?
+	</div>
+	<div class="content">
+	  <div class="left">
+		<i class="remove sign icon"></i>
+	  </div>
+	  <div class="right">
+		<p>Вы уверены, что хотите произвести это действие?</p>
+	  </div>
+	</div>
+	<div class="actions">
+	  <div class="two fluid ui buttons">
+		<div class="ui negative labeled icon button">
+			<i class="remove icon"></i>
+			Нет, вернёмся обратно
+		</div>
+		<div class="ui positive right labeled icon button" type="submit">
+			Да, удалить
+			<i class="checkmark icon"></i>
+		</div>
+	  </div>
+	</div>
+</div>
+</form>

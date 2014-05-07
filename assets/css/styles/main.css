@@ -101,8 +101,8 @@ label {
 	display: inline-block;
 }
 .container {
-	padding-right: 15px;
-	padding-left: 15px;
+	padding-right: 2em;
+	padding-left: 2em;
 	margin-right: auto;
 	margin-left: auto;
 }
@@ -270,49 +270,70 @@ div.comment {
 	-webkit-transition: background .1s linear;
 	transition: background .1s linear;
 }
+.l-label.new,
 .s-status.new,
 .ui.label.new {
-	background-color: rgb(231, 238, 250);
+	background-color: rgb(231, 238, 250) !important;
 }
+.l-label.rejected,
 .s-status.rejected,
 .ui.label.rejected {
-	background-color: rgb(219, 177, 198);
+	background-color: rgb(219, 177, 198) !important;
 }
+.l-label.specify,
 .s-status.specify,
 .ui.label.specify {
-	background-color: rgb(252, 240, 207);
+	background-color: rgb(252, 240, 207) !important;
 }
+.l-label.declined,
 .s-status.declined,
 .ui.label.declined {
-	background-color: rgb(255, 203, 203);
+	background-color: rgb(255, 203, 203) !important;
 }
-.s-status.black,
-.ui.label.black {
-	background-color: rgb(214, 214, 214);
+.l-label.hidden,
+.s-status.hidden,
+.ui.label.hidden {
+	background-color: rgb(214, 214, 214) !important;
 }
+.l-label.removed,
+.s-status.removed,
+.ui.label.removed {
+	background-color: rgb(214, 214, 214) !important;
+}
+.l-label.helpfixed,
 .s-status.helpfixed,
 .ui.label.helpfixed {
-	background-color: rgb(184, 218, 250);
+	background-color: rgb(184, 218, 250) !important;
 }
+.l-label.inreview,
 .s-status.inreview,
 .ui.label.inreview {
-	background-color: rgb(194, 221, 183);
+	background-color: rgb(194, 221, 183) !important;
 }
+.l-label.delayed,
 .s-status.delayed,
 .ui.label.delayed {
-	background-color: rgb(255, 239, 191);
+	background-color: rgb(255, 239, 191) !important;
 }
+.l-label.accepted,
 .s-status.accepted,
 .ui.label.accepted {
-	background-color: rgb(252, 243, 215);
+	background-color: rgb(252, 243, 215) !important;
 }
+.l-label.befixed,
 .s-status.befixed,
 .ui.label.befixed {
-	background-color: rgb(212, 241, 200);
+	background-color: rgb(212, 241, 200) !important;
 }
+.l-label.done,
 .s-status.done,
 .ui.label.done {
-	background-color: rgb(216, 255, 216);
+	background-color: rgb(216, 255, 216) !important;
+}
+.l-label.fixed,
+.s-status.fixed,
+.ui.label.fixed {
+	background-color: rgb(216, 255, 216) !important;
 }
 .s-logs {
 	font-size: 10px;
@@ -407,47 +428,91 @@ input.s-regionstuffitem {
 	left: 6em;
 	bottom: -4em;
 }
+.l-menu.new,
 .t-status.new {
 	background-color: rgb(231, 238, 250);
 	box-shadow: 2px 0px 0px rgb(60, 120, 216) inset;
 }
+.l-menu.rejected,
 .t-status.rejected {
 	background-color: rgb(219, 177, 198);
 	box-shadow: 2px 0px 0px rgb(166, 77, 121) inset;
 }
+.l-menu.specify,
 .t-status.specify {
 	background-color: rgb(252, 240, 207);
 	box-shadow: 2px 0px 0px rgb(241, 194, 50) inset;
 }
+.l-menu.declined,
 .t-status.declined {
 	background-color: rgb(255, 203, 203);
 	box-shadow: 2px 0px 0px rgb(204, 0, 0) inset;
 }
-.t-status.black {
+.l-menu.hidden,
+.t-status.hidden {
 	background-color: rgb(214, 214, 214);
 	box-shadow: 2px 0px 0px rgb(0, 0, 0) inset;
 }
+.l-menu.removed,
+.t-status.removed {
+	background-color: rgb(214, 214, 214);
+	box-shadow: 2px 0px 0px rgb(0, 0, 0) inset;
+}
+.l-menu.helpfixed,
 .t-status.helpfixed {
 	background-color: rgb(184, 218, 250);
 	box-shadow: 2px 0px 0px rgb(11, 83, 148) inset;
 }
+.l-menu.inreview,
 .t-status.inreview {
 	background-color: rgb(194, 221, 183);
 	box-shadow: 2px 0px 0px rgb(106, 168, 79) inset;
 }
+.l-menu.delayed,
 .t-status.delayed {
 	background-color: rgb(255, 239, 191);
 	box-shadow: 2px 0px 0px rgb(191, 144, 0) inset;
 }
+.l-menu.accepted,
 .t-status.accepted {
 	background-color: rgb(252, 243, 215);
 	box-shadow: 2px 0px 0px rgb(241, 194, 50) inset;
 }
+.l-menu.befixed,
 .t-status.befixed {
 	background-color: rgb(212, 241, 200);
 	box-shadow: 2px 0px 0px rgb(56, 118, 29) inset;
 }
+.l-menu.done,
 .t-status.done {
 	background-color: rgb(216, 255, 216);
 	box-shadow: 2px 0px 0px rgb(39, 216, 39) inset;
+}
+.l-menu.fixed,
+.t-status.fixed {
+	background-color: rgb(216, 255, 216);
+	box-shadow: 2px 0px 0px rgb(39, 216, 39) inset;
+}
+
+
+/* List styles */
+#l-content {
+	display: none;
+}
+
+.l-label {
+	color: rgba(0, 0, 0, 0.65) !important;
+}
+
+.l-leftcolumn {
+	width: 21% !important;
+	padding-top: 1em;
+	padding-left: 0.6em !important;
+}
+
+.l-rightcolumn {
+	width: 79% !important;
+	border-left: 1px solid rgba(0,0,0,0.1);
+	position: relative;
+	padding-right: 0em !important;
 }

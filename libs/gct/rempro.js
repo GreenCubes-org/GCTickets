@@ -16,6 +16,7 @@ module.exports = rempro = {
 						if (err) return callback(err);
 
 						result[0].owner = obj.owner;
+						result[0].status = obj.status;
 						callback(null, result[0]);
 					});
 				},
@@ -41,7 +42,7 @@ module.exports = rempro = {
 							owner: ticket.owner,
 							createdAt: ticket.createdAt,
 							type: {
-								descr: 'Расприват',
+								descr: 'Удаление защит',
 								iconclass: 'remove'
 							}
 						});

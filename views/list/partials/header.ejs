@@ -3,20 +3,12 @@
 		<i class="<%= type.iconclass %> icon"></i> <%= type.text %> <i class="icon dropdown"></i>
 		<div class="menu">
 			<a href="/all" class="item<% if (type.url === 'all') { %> active<% } %>"><i class="reorder icon"></i>Все тикеты</a>
-			<a href="/my" class="item<% if (type.url === 'user') { %> active<% } %>"><i class="user icon"></i>Ваши тикеты</a>
+			<% if (req.user) { %><a href="/my" class="item<% if (type.url === 'user') { %> active<% } %>"><i class="user icon"></i>Ваши тикеты</a><% } %>
 			<a href="/bugreports" class="item<% if (type.url === 'bugreports') { %> active<% } %>"><i class="bug icon"></i>Баг-репорты</a>
-			<a href="/rempros" class="item<% if (type.url === 'rempros') { %> active<% } %>"><i class="remove icon"></i>Расприваты</a>
+			<a href="/rempros" class="item<% if (type.url === 'rempros') { %> active<% } %>"><i class="remove icon"></i>Удаление защит</a>
 		</div>
 	</div>
 	<div class="right menu">
 		<%- partial('../../partials/userpanel')%>
 	</div>
 </div>
-
-	<div class="ui secondary menu">
-		<a href="/new" class="active item">
-			<i class="add icon"></i>
-			Новый тикет
-		</a>
-	</div>
-	<div class="ui divider"></div>

@@ -46,13 +46,13 @@ module.exports.getStatusByID = getStatusByID = function (id) {
 		case 5:
 			return {
 				text: 'Скрыт',
-				class: 'black'
+				class: 'hidden'
 			};
 
 		case 6:
 			return {
 				text: 'Удалён',
-				class: 'black'
+				class: 'removed'
 			};
 
 		case 7:
@@ -88,8 +88,51 @@ module.exports.getStatusByID = getStatusByID = function (id) {
 		case 12:
 			return {
 				text: 'Исправлен',
-				class: 'done'
+				class: 'fixed'
 			};
+
+		default:
+			return;
+	}
+};
+
+module.exports.getStatusByClass = getStatusByClass = function (classname) {
+	switch (classname) {
+		case 'new':
+			return 1;
+
+		case 'rejected':
+			return 2;
+
+		case 'specify':
+			return 3;
+
+		case 'declined':
+			return 4;
+
+		case 'hidden':
+			return 5;
+
+		case 'removed':
+			return 6;
+
+		case 'helpfixed':
+			return 7;
+
+		case 'inreview':
+			return 8;
+
+		case 'delayed':
+			return 9;
+
+		case 'done':
+			return 10;
+
+		case 'accepted':
+			return 11;
+
+		case 'fixed':
+			return 12;
 
 		default:
 			return;
@@ -477,9 +520,9 @@ module.exports.handleUpload = handleUpload = function (req, res, ticket, cb) {
 	});
 };
 
-module.exports.processStatus = processStatus = function (type, canModerate, ticket) {
+module.exports.processStatus = processStatus = function (type, canModerate, ticket, callback) {
 	var isStatus;
-	switch (id) {
+	switch (type) {
 		case 1:
 			// If status "Новый"
 			isStatus = new RegExp('^(11|3|4|2)');
@@ -503,7 +546,7 @@ module.exports.processStatus = processStatus = function (type, canModerate, tick
 
 		case 2:
 			// If status "Новый"
-			isStatus = new RegExp('^(10|3|4|2|8)');
+			isStatus = new RegExp('^(10|8|4|3|2)');
 			if (canModerate || ticket.status === 1 && isStatus.test(newComment.changedTo)) {
 				return callback(true);
 			}

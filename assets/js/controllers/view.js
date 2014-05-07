@@ -281,6 +281,9 @@ app.view = {
 	},
 
 	edit: function(id) {
+		var currentUrl = window.location.pathname.split('/');
+		var ticketId = currentUrl[2];
+		var csrfToken = $('#_csrf').attr('value');
 		$('#gc-reportform .ui.dropdown').dropdown();
 
 		var descriptionCode;
@@ -329,7 +332,47 @@ app.view = {
 					}
 				},
 			});
+
 			return false;
+		});
+
+		$(document).on('click', '#deleteticket', function (e) {
+			$('#remticket')
+				.modal('setting', {
+					transition: 'fade up',
+					closable  : false,
+					onDeny    : function(){
+						return true;
+					},
+					onApprove : function() {
+						$.ajax({
+							type: "POST",
+							url: '/id/' + ticketId + '/delete',
+							data: {
+								action: 'remove',
+								_csrf: csrfToken
+							},
+							beforeSend: function () {
+								$('body').fadeIn('slow').append('<div class="ui active dimmer" id="removedimmer"><div class="ui active dimmer" id="removedimmer"><div class="ui loader"></div></div></div>');
+							},
+							complete: function(data) {
+								$('#removedimmer').remove();
+								if (data.responseJSON.status === 'err') {
+									$('body').fadeIn('slow').append('<div class="ui active dimmer" id="removedimmer"><div class="header">Произошла ошибка!</div><div class="content">Пожалуйста, сообщите разработчику о ней</div><div class="actions"><div class="ui fluid button">Ладно, вернёмся обратно</div></div></div>');
+								}
+
+								if (data.responseJSON.msg) {
+									$('body').fadeIn('slow').append('<div class="ui active dimmer" id="removedimmer"><div class="header">' + data.msg + '</div><div class="actions"><div class="ui fluid button">Ладно, вернёмся обратно</div></div></div>');
+								}
+
+								if (data.responseJSON.status === 'OK') {
+									window.location = '/';
+								}
+							}
+						});
+					}
+				})
+				.modal('show');
 		});
 	}
 };

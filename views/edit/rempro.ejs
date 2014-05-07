@@ -1,10 +1,10 @@
-<% title = "Редактирование " + ticket.id + ": \"" + ticket.title + "\" — GC.Тикеты",
+<% title = "Редактирование #" + ticket.id + ": \"" + ticket.title + "\" — GC.Тикеты",
 	backUrl = '/id/' + ticket.id %>
 <%- partial('../partials/header')%>
 <form id="gc-reportform" action="/id/<%= ticket.id %>/edit" method="POST" enctype="multipart/form-data">
-	<input type="hidden" name="_csrf" value="<%= _csrf %>" />
+	<input type="hidden" name="_csrf" id="_csrf" value="<%= _csrf %>" />
 	<div class="ui fluid form container" id="gc-reportformdiv">
-		<h1 class="header" style="margin-bottom: 0px;">Редактирование #<%= ticket.id %>: "<%= ticket.title %>"
+		<h1 class="header" style="margin-bottom: 0px;">Редактирование #<%= ticket.id %>: &laquo;<%= ticket.title %>&raquo;
 		</h1>
 		<div class="ui divider" style="margin: 1em 0em !important;"></div>
 		<div class="two fields">
@@ -36,13 +36,19 @@
 			<textarea id="reason" name="reason"><%= ticket.reason %></textarea>
 		</div>
 		<div class="ui divider"></div>
-		<div class="field">
-			<label>Регионы</label>
-			<textarea id="regions" name="regions"><% if (ticket.regions) { %><%= ticket.regions.join('\n') %><% } %></textarea>
-		</div>
-		<div class="field">
-			<label>Сундуки/предметы</label>
-			<textarea id="stuff" name="stuff"><% if (ticket.stuff) { %><%= ticket.stuff.join('\n') %><% } %></textarea>
+		<div class="ui two column grid">
+			<div class="column" style="padding-left:0em !important;">
+				<div class="field">
+					<label>Регионы</label>
+					<textarea id="regions" name="regions"><% if (ticket.regions) { %><%= ticket.regions.join('\n') %><% } %></textarea>
+				</div>
+			</div>
+			<div class="column" style="padding-right:0em !important;">
+				<div class="field">
+					<label>Сундуки/предметы</label>
+					<textarea id="stuff" name="stuff"><% if (ticket.stuff) { %><%= ticket.stuff.join('\n') %><% } %></textarea>
+				</div>
+			</div>
 		</div>
 		<div class="gc-help"><i class="help icon"></i>Каждая координата/регион записываются по одному на строчку. Одно из этих двух полей должно быть заполнено</div>
 		<div class="ui divider"></div>
@@ -76,7 +82,40 @@
 		</div>
 		<div class="gc-help"><i class="attention icon"></i>Один файл не более 10 Мбайт</div>
 		<div class="ui divider"></div>
-		<button class="ui blue submit button" type="submit">Отправить тикет</button>
+		<div class="ui grid">
+			<div class="left floated three wide column" style="margin: 0em !important;padding: 0px !important;">
+				<button class="ui black block header" type="submit">Отправить тикет</button>
+			</div>
+			<div class="right floated three wide column" style="margin: 0.7em 0em !important;padding: 0px !important;">
+				<a class="ui red block header" href="#" id="deleteticket">Удалить тикет</a>
+			</div>
+		</div>
 		<div id="errmessage"></div>
 	</div>
 </form>
+<input type="hidden" name="_csrf" value="<%= _csrf %>" />
+<div class="ui basic modal" id="remticket">
+	<div class="header">
+	 Удалить #<%= ticket.id %> &laquo;<%= ticket.title %>&raquo;?
+	</div>
+	<div class="content">
+	  <div class="left">
+		<i class="remove sign icon"></i>
+	  </div>
+	  <div class="right">
+		<p>Вы уверены, что хотите произвести это действие?</p>
+	  </div>
+	</div>
+	<div class="actions">
+	  <div class="two fluid ui buttons">
+		<div class="ui negative labeled icon button">
+			<i class="remove icon"></i>
+			Нет, вернёмся обратно
+		</div>
+		<div class="ui positive right labeled icon button">
+			Да, удалить
+			<i class="checkmark icon"></i>
+		</div>
+	  </div>
+	</div>
+</div>
