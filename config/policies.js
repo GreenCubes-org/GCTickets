@@ -28,20 +28,23 @@ module.exports.policies = {
 	},
 	
 	EditController: {
-		'*': ['ownerNModAbove']
-	},
-
-	DevController: {
-		'*': true
+		'*': ['ownerNModAbove'],
+		'deleteTpl': 'modAbove',
+		'deletePost': 'modAbove'
 	},
 	
 	AdminController: {
 		'*': ['authenticated','staffOnly']
 	},
 	
-	SingleController: {
-		'*': true,
-		'routeSingle': 'hidePrivateTickets'
+	ViewController: {
+		'*': ['hidePrivateTickets']
+	},
+
+	ListController: {
+		'listMyTpl': 'authenticated',
+		'listNewestMy': 'authenticated',
+		'list20My': 'authenticated'
 	}
 	
 };
