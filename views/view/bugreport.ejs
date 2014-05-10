@@ -77,20 +77,23 @@
 			</div>
 			<div class="ui comments container" id="comments"></div>
 			<div class="ui divider" id="commentdivider"></div>
+			<% if (req.user) { %>
 			<form class="ui reply form container" id="commentpost">
 				<% var statusRegexp = new RegExp('(Новый|Уточнить|Принят)');
 				if (statusRegexp.test(ticket.status.text) &&  req.user && (canModerate || ticket.owner == (req.user.username || '') || ((req.user.group || 0) >= ugroup.helper && ticket.status.text === 'Новый'))) { %>
 				<div class="field">
 					<label>Смена статуса</label>
 					<div class="ui selection dropdown" id="s-setstatus">
-						<input name="status" type="hidden">
+						<input name="status" type="hidden" />
 						Статус:
 						<div class="default text"><%= ticket.status.text %></div>
 						<i class="dropdown icon"></i>
 						<div class="menu">
 							<% if (ticket.status.text === 'Новый') { %>
+								<% if (ticket.owner === (req.user.username || '')) { %>
+								<div class="item" data-value="1">Новый</div>
+								<% } %>
 								<% if (canModerate || (req.user.group || 0) >= ugroup.mod) { %>
-								<div class="active item" data-value="1">Новый</div>
 								<div class="item" data-value="11">Принят</div>
 								<% } %>
 								<% if (canModerate || (req.user.group || 0) >= ugroup.helper) { %>
@@ -99,7 +102,7 @@
 								<% if (canModerate || (req.user.group || 0) >= ugroup.mod) { %>
 								<div class="item" data-value="4">Отклонён</div>
 								<% } %>
-								<% if (canModerate || (ticket.owner === (req.user.username || ''))) { %>
+								<% if (ticket.owner === (req.user.username || '')) { %>
 								<div class="item" data-value="2">Отменён</div>
 								<% } %>
 							<% } %>
@@ -123,31 +126,10 @@
 				<div class="ui teal submit fluid small button" type="submit" id="commentsubmit">Комментировать</div>
 				<input type="hidden" name="_csrf" value="<%= _csrf %>" />
 			</form>
+			<% } else { %>
+			<div style="padding: 2em 0em;text-align: center;font-size:1.4em">Комментирование разрешено только авторизованным пользователям</div>
+			<% } %>
 		 </div>
 	</div>
 </div>
-<div class="ui basic modal" id="remcomment">
-	<div class="header">
-	  Удалить этот комментарий?
-	</div>
-	<div class="content">
-	  <div class="left">
-		<i class="remove sign icon"></i>
-	  </div>
-	  <div class="right">
-		<p>Вы уверены, что хотите произвести это действие?</p>
-	  </div>
-	</div>
-	<div class="actions">
-	  <div class="two fluid ui buttons">
-		<div class="ui negative labeled icon button">
-		  <i class="remove icon"></i>
-		  Нет, вернёмся обратно
-		</div>
-		<div class="ui positive right labeled icon button">
-		  Да, удалить
-		  <i class="checkmark icon"></i>
-		</div>
-	  </div>
-	</div>
-</div>
+<%- partial('partials/removecomment.ejs') %>

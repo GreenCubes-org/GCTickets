@@ -86,36 +86,13 @@
 			<div class="left floated three wide column" style="margin: 0em !important;padding: 0px !important;">
 				<button class="ui black block header" type="submit">Отправить тикет</button>
 			</div>
+			<% if (req.user.group >= ugroup.mod) { %>
 			<div class="right floated three wide column" style="margin: 0.7em 0em !important;padding: 0px !important;">
 				<a class="ui red block header" href="#" id="deleteticket">Удалить тикет</a>
 			</div>
+			<% } %>
 		</div>
 		<div id="errmessage"></div>
 	</div>
 </form>
-<input type="hidden" name="_csrf" value="<%= _csrf %>" />
-<div class="ui basic modal" id="remticket">
-	<div class="header">
-	 Удалить #<%= ticket.id %> &laquo;<%= ticket.title %>&raquo;?
-	</div>
-	<div class="content">
-	  <div class="left">
-		<i class="remove sign icon"></i>
-	  </div>
-	  <div class="right">
-		<p>Вы уверены, что хотите произвести это действие?</p>
-	  </div>
-	</div>
-	<div class="actions">
-	  <div class="two fluid ui buttons">
-		<div class="ui negative labeled icon button">
-			<i class="remove icon"></i>
-			Нет, вернёмся обратно
-		</div>
-		<div class="ui positive right labeled icon button">
-			Да, удалить
-			<i class="checkmark icon"></i>
-		</div>
-	  </div>
-	</div>
-</div>
+<%- partial('partials/delete') %>

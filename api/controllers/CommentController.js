@@ -139,6 +139,7 @@ module.exports = {
 
 						ticket.status = origTicket.status;
 						ticket.type = origTicket.type;
+						ticket.owner = origTicket.owner;
 
 						callback(null, {
 							id: commentId,
@@ -167,7 +168,7 @@ module.exports = {
 					}).done(function (err, rights) {
 						if (err) return callback(err);
 
-						if (rights) callback(null, newComment, false, rights[0].canModerate, ticket);
+						if (rights.length) callback(null, newComment, false, rights[0].canModerate, ticket);
 							else callback(null, newComment, false, [], ticket);
 					});
 				} else {
@@ -195,7 +196,7 @@ module.exports = {
 					return callback(null, newComment);
 				}
 				
-				gct.processStatus(ticket.type, canModerate, ticket, function(result) {
+				gct.processStatus(req, res, ticket.type, canModerate, ticket, newComment.changedTo, function(result) {
 					if (!result){
 						delete newComment.changedTo;
 					}
@@ -208,7 +209,11 @@ module.exports = {
 					if (err) return callback(err);
 					
 					ticket.comments[newComment.id - 1] = newComment;
-					ticket.status = newComment.changedTo;
+
+					if (newComment.changedTo) {
+						ticket.status = newComment.changedTo;
+					}
+
 					ticket.save(function(err) {
 						if (err) return callback(err);
 

@@ -163,7 +163,7 @@ module.exports = bugreport = {
 			},
 			// Adding var for checking local moderators
 			function canModerate(bugreport, origTicket, callback) {
-				if (req.user && (req.user.id === origTicket.owner || req.user.group >= ugroup.mod)) {
+				if (req.user && req.user.group >= ugroup.mod) {
 					callback({show: true}, bugreport, true);
 				} else {
 					callback(null, bugreport, origTicket);

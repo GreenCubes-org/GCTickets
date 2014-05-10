@@ -64,7 +64,17 @@
 		</div>
 		<div class="gc-help"><i class="attention icon"></i>Один файл не более 10 Мбайт</div>
 		<div class="ui divider"></div>
-		<button class="ui blue submit button" type="submit">Отправить тикет</button>
+		<div class="ui grid">
+			<div class="left floated three wide column" style="margin: 0em !important;padding: 0px !important;">
+				<button class="ui black block header" type="submit">Отправить тикет</button>
+			</div>
+			<% if (req.user.group >= ugroup.mod) { %>
+			<div class="right floated three wide column" style="margin: 0.7em 0em !important;padding: 0px !important;">
+				<a class="ui red block header" href="#" id="deleteticket">Удалить тикет</a>
+			</div>
+			<% } %>
+		</div>
 		<div id="errmessage"></div>
 	</div>
 </form>
+<%- partial('partials/delete') %>

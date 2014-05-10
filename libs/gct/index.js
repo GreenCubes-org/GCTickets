@@ -520,73 +520,66 @@ module.exports.handleUpload = handleUpload = function (req, res, ticket, cb) {
 	});
 };
 
-module.exports.processStatus = processStatus = function (type, canModerate, ticket, callback) {
+module.exports.processStatus = processStatus = function (req, res, type, canModerate, ticket, changedTo, callback) {
 	var isStatus;
 	switch (type) {
 		case 1:
 			// If status "Новый"
-			isStatus = new RegExp('^(11|3|4|2)');
-			if (canModerate || ticket.status === 1 && isStatus.test(newComment.changedTo)) {
+			if ((canModerate || req.user.id === ticket.owner) && ticket.status === 1 && [11,4,3,2].indexOf(changedTo) != -1) {
 				return callback(true);
 			}
 
 			// If status "Уточнить"
-			isStatus = new RegExp('^(11|4)');
-			if (canModerate || req.user && (req.user.group >= ugroup.helper) || ticket.status === 3 && isStatus.test(newComment.changedTo)) {
+			if (canModerate || req.user && (req.user.group >= ugroup.helper) && ticket.status === 3 && [11,4].indexOf(changedTo) != -1) {
 				return callback(true);
 			}
 
 			// If status "Принят"
-			isStatus = new RegExp('^(12|4)');
-			if (canModerate || ticket.status === 3 && isStatus.test(newComment.changedTo)) {
+			if ((canModerate || req.user.id === ticket.owner) && ticket.status === 3 && [12,4].indexOf(changedTo) != -1) {
 				return callback(true);
 			}
 
-			return false;
+			return callback(false);
 
 		case 2:
 			// If status "Новый"
-			isStatus = new RegExp('^(10|8|4|3|2)');
-			if (canModerate || ticket.status === 1 && isStatus.test(newComment.changedTo)) {
+			if ((canModerate || req.user.id === ticket.owner) && ticket.status === 1 && [10,8,4,3,2].indexOf(changedTo) != -1) {
 				return callback(true);
 			}
 
 			// If status "Уточнить"
-			isStatus = new RegExp('^(8|4)');
-			if (canModerate || req.user && (req.user.group >= ugroup.helper) || ticket.status === 3 && isStatus.test(newComment.changedTo)) {
+			if ((canModerate || req.user.id === ticket.owner) && req.user && (req.user.group >= ugroup.helper) || ticket.status === 3 && [8,4].indexOf(changedTo) != -1) {
 				return callback(true);
 			}
 
 			// If status "На рассмотрении"
-			isStatus = new RegExp('^(10|9|4)');
-			if (canModerate || ticket.status === 8 && isStatus.test(newComment.changedTo)) {
+			if ((canModerate || req.user.id === ticket.owner) && ticket.status === 8 && [10,9,4].indexOf(changedTo) != -1) {
 				return callback(true);
 			}
 
 			// If status "Отложен"
-			isStatus = new RegExp('^(10|4)');
-			if (canModerate || ticket.status === 9 && isStatus.test(newComment.changedTo)) {
+			if ((canModerate || req.user.id === ticket.owner) && ticket.status === 9 && [10,4].indexOf(changedTo) != -1) {
 				return callback(true);
 			}
 
-			return false;
+			return callback(false);
 
 		case 3:
-			return false;
+			return callback(false);
 
 		case 4:
-			return false;
+			return callback(false);
 
 		case 5:
-			return false;
+			return callback(false);
 
 		case 6:
-			return false;
+			return callback(false);
 
 		case 7:
-			return false;
+			return callback(false);
 
 		default:
-			return false;
+			return callback(false);
 	}
 };

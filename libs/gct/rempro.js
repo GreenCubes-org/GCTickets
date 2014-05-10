@@ -190,7 +190,7 @@ module.exports = rempro = {
 				});
 			},
 			function checkRights(rempro, origTicket, callback) {
-				if (req.user && (req.user.id === origTicket.owner || req.user.group >= ugroup.mod)) {
+				if (req.user && req.user.group >= ugroup.mod) {
 					callback(null, rempro, true);
 				} else {
 					callback(null, rempro, origTicket);
