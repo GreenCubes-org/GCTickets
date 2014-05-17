@@ -22,7 +22,6 @@ module.exports.routes = {
 	'post /login': 'user.login',
 	'/logout': 'user.logout',
 
-
 	// Админпанель
 	'/admin': 'admin.main',
 	'/admin/debug':'admin.debug',
@@ -59,9 +58,9 @@ module.exports.routes = {
 	'/my': 'list.listMyTpl',
 	'/my/read': 'list.listNewest',
 	'/my/read/:page': 'list.list20',
-	'/my/:status': 'list.listMyTpl',
-	'/my/:status/read': 'list.listNewest',
-	'/my/:status/read/:page': 'list.list20',
+	'/my/:filter': 'list.listMyTpl',
+	'/my/:filter/read': 'list.listNewest',
+	'/my/:filter/read/:page': 'list.list20',
 
 	// Новый тикет без типа
 	'/new': 'create.mainTpl',
@@ -70,17 +69,17 @@ module.exports.routes = {
 	'/all': 'list.listAllTpl',
 	'/all/read': 'list.listNewest',
 	'/all/read/:page': 'list.list20',
-	'/all/:status': 'list.listAllTpl',
-	'/all/:status/read': 'list.listNewest',
-	'/all/:status/read/:page': 'list.list20',
+	'/all/:filter': 'list.listAllTpl',
+	'/all/:filter/read': 'list.listNewest',
+	'/all/:filter/read/:page': 'list.list20',
 
 	// Багрепорты
 	'/bugreports': 'list.listBugreportTpl',
 	'/bugreports/read': 'list.listNewest',
 	'/bugreports/read/:page': 'list.list20',
-	'/bugreports/:status': 'list.listBugreportTpl',
-	'/bugreports/:status/read': 'list.listNewest',
-	'/bugreports/:status/read/:page': 'list.list20',
+	'/bugreports/:filter': 'list.listBugreportTpl',
+	'/bugreports/:filter/read': 'list.listNewest',
+	'/bugreports/:filter/read/:page': 'list.list20',
 	'get /new/bugreport': 'create.bugreportTpl',
 	'post /new/bugreport': 'create.bugreport',
 
@@ -88,9 +87,9 @@ module.exports.routes = {
 	'/rempros': 'list.listRemproTpl',
 	'/rempros/read': 'list.listNewest',
 	'/rempros/read/:page': 'list.list20',
-	'/rempros/:status': 'list.listBugreportTpl',
-	'/rempros/:status/read': 'list.listNewest',
-	'/rempros/:status/read/:page': 'list.list20',
+	'/rempros/:filter': 'list.listBugreportTpl',
+	'/rempros/:filter/read': 'list.listNewest',
+	'/rempros/:filter/read/:page': 'list.list20',
 	'get /new/rempro': 'create.remproTpl',
 	'post /new/rempro': 'create.rempro'
 };

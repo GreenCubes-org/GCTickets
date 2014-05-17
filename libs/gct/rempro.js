@@ -1,6 +1,6 @@
 var gcdb = require('../gcdb');
 var cfg = require('../../config/local.js');
-var bbcode = require('bbcode');
+var bbcode = require('../bbcode');
 
 var moment = require('moment');
 moment.lang('ru');
@@ -137,7 +137,10 @@ module.exports = rempro = {
 						createdFor: obj.createdFor,
 						owner: obj.owner,
 						uploads: obj.uploads,
-						visiblity: ticket[0].visiblity,
+						visiblity: {
+							id: ticket[0].visiblity,
+							text: getVisiblityByID(ticket[0].visiblity)
+						},
 						createdAt: obj.createdAt,
 						type: {
 							descr: 'Расприват',
@@ -212,6 +215,7 @@ module.exports = rempro = {
 		Rempro.findOne(ticket.tid).done(function (err, rempro) {
 			if (err) throw err;
 
+			rempro.owner = ticket.owner;
 			gct.rempro.serializeView(rempro, {isEdit: true}, function(err, result) {
 				if (err) throw err;
 
@@ -229,9 +233,21 @@ module.exports = rempro = {
 
 			async.waterfall([
 				function preCheck(callback) {
-					if (!req.param('id') || !req.param('title') || !req.param('reason') || !req.param('visiblity')) {
+					if (!req.param('title')) {
 						return callback({
-							msg: 'Некорректный запрос'
+							msg: 'Введите краткое описание'
+						});
+					}
+
+					if (!req.param('reason')) {
+						return callback({
+							msg: 'Введите причину удаления привата'
+						});
+					}
+
+					if (!req.param('visiblity')) {
+						return callback({
+							msg: 'Введите поле видимости тикета'
 						});
 					}
 

@@ -1,4 +1,4 @@
-var bbcode = require('bbcode');
+var bbcode = require('../bbcode');
 
 module.exports = ban = {
 	serializeList: function serializeList(array, cb) {

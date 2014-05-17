@@ -1,58 +1,86 @@
 <% title="Создать заявку на расприват — GC.Тикеты",
 	backUrl = '/bugreports' %>
 <%- partial( '../partials/header') %>
-<form id="gc-reportform">
-	<input type="hidden" name="_csrf" value="<%= _csrf %>" />
-	<div class="ui fluid form container" id="gc-reportformdiv">
-		<h1 class="header" style="margin-bottom: 0px;">Новая заявка на расприват
-		</h1>
-		<div class="ui divider" style="margin: 1em 0em !important;"></div>
-		<div class="two fields">
-			<div class="field" style="width: 260px !important;">
-				<label>Поле видимости тикета <i class="help icon gc-helppopup" data-content="Тикет может быть публичным, то есть быть видимым всем, или приватным - только администрации" data-variation="inverted"></i></label>
-				<div class="ui selection fluid dropdown">
-					<input name="visiblity" type="hidden">
-					<div class="default text">Выбери приватность тикета</div>
-					<div class="menu">
-						<div class="item" data-value="1">Виден всем</div>
-						<div class="item" data-value="2">Виден только разработчику</div>
+<div class="container">
+	<div class="ui two column grid">
+		<div class="column" style="width:70%;border-right: 1px solid rgba(0, 0, 0, 0.1);">
+			<form id="gc-reportform">
+				<input type="hidden" name="_csrf" value="<%= _csrf %>" />
+				<div class="ui fluid form" id="gc-reportformdiv">
+					<h1 class="header" style="margin-bottom: 0px;">Новая заявка на расприват
+					</h1>
+					<div class="ui divider" style="margin: 1em 0em !important;"></div>
+					<div class="two fields">
+						<div class="field" style="width: 260px !important;">
+							<label>Поле видимости тикета <i class="help icon gc-helppopup" data-content="Тикет может быть публичным, то есть быть видимым всем, или приватным - только администрации" data-variation="inverted"></i></label>
+							<div class="ui selection fluid dropdown">
+								<input name="visiblity" type="hidden">
+								<div class="default text">Выбери приватность тикета</div>
+								<div class="menu">
+									<div class="item" data-value="1">Виден всем</div>
+									<div class="item" data-value="2">Виден только разработчику</div>
+								</div>
+								<i class="dropdown icon"></i>
+							</div>
+						</div>
+						<div class="field" style="width: 350px !important;margin-bottom: 0em;">
+							<div class="field">
+								<label>Для кого создаётся заявка <em>(необязательно)</em> <i class="help icon gc-helppopup" data-content="Если вы заполняете заявку на расприват для другого игрока, то укажите никнейм этого игрока" data-variation="inverted"></i></label>
+								<input name="createdfor" type="text">
+							</div>
+						</div>
 					</div>
-					<i class="dropdown icon"></i>
+					<div class="field">
+						<label>Краткое описание</label>
+						<input name="title" type="text">
+					</div>
+					<div class="field">
+						<label>Причина распривата</label>
+						<textarea id="reason" name="reason"></textarea>
+					</div>
+					<div class="ui divider"></div>
+					<div class="field">
+						<label>Регионы</label>
+						<textarea id="regions" name="regions"></textarea>
+					</div>
+					<div class="field">
+						<label>Сундуки/предметы</label>
+						<textarea id="stuff" name="stuff"></textarea>
+					</div>
+					<div class="gc-help"><i class="help icon"></i>Каждая координата/регион записываются по одному на строчку. Одно из этих двух полей должно быть заполнено</div>
+					<div class="ui divider"></div>
+					<div class="field">
+						<label>Прикрепить изображения <em>(необязательно)</em></label>
+						<input class="ui basic button" type="file" multiple name="upload" value="Загрузить изображения"></input>
+					</div>
+					<div class="gc-help"><i class="attention icon"></i>Один файл не более 10 Мбайт</div>
+					<div class="ui divider"></div>
+					<button class="ui blue submit button" type="submit">Отправить тикет</button>
+					<div id="errmessage"></div>
+				</div>
+			</form>
+		</div>
+		<div class="column" style="width:30%">
+			<h2>Удаление защит</h2>
+			<p>Это заявки на удаление внутриигровых защит <small>(регионы, сундуки, двери...)</small> на сервере GC.Main. Заявки могут составлять хелперы или же сами игроки. Рассматривают заявки модераторы.</p>
+			<h2>Другие типы тикетов</h2>
+			<div class="ui selection list">
+				<div class="item">
+					<i class="bug big icon" style="margin:0em 0.5em 0em 0em"></i>
+					<a class="gc-nostylelink content" style="display:block" href="/new/rempro">
+						<span class="header" style="display:block">Баг-репорт</span>
+						<span>Сообщения об ошибках</span>
+					</a>
+				</div>
+				<div class="active item">
+					<i class="remove big icon" style="margin:0em 0.5em 0em 0em"></i>
+					<a class="gc-nostylelink content" style="display:block" href="/new/rempro">
+						<span class="header" style="display:block">Удаление защит</span>
+						<span>Удаление внутриигровых защит</span>
+					</a>
 				</div>
 			</div>
-			<div class="field" style="width: 350px !important;margin-bottom: 0em;">
-				<div class="field">
-					<label>Для кого создаётся заявка <em>(необязательно)</em> <i class="help icon gc-helppopup" data-content="Если вы заполняете заявку на расприват для другого игрока, то укажите никнейм этого игрока" data-variation="inverted"></i></label>
-					<input name="createdfor" type="text">
-				</div>
-			</div>
 		</div>
-		<div class="field">
-			<label>Краткое описание</label>
-			<input name="title" type="text">
-		</div>
-		<div class="field">
-			<label>Причина распривата</label>
-			<textarea id="reason" name="reason"></textarea>
-		</div>
-		<div class="ui divider"></div>
-		<div class="field">
-			<label>Регионы</label>
-			<textarea id="regions" name="regions"></textarea>
-		</div>
-		<div class="field">
-			<label>Сундуки/предметы</label>
-			<textarea id="stuff" name="stuff"></textarea>
-		</div>
-		<div class="gc-help"><i class="help icon"></i>Каждая координата/регион записываются по одному на строчку. Одно из этих двух полей должно быть заполнено</div>
-		<div class="ui divider"></div>
-		<div class="field">
-			<label>Прикрепить изображения <em>(необязательно)</em></label>
-			<input class="ui basic button" type="file" multiple name="upload" value="Загрузить изображения"></input>
-		</div>
-		<div class="gc-help"><i class="attention icon"></i>Один файл не более 10 Мбайт</div>
-		<div class="ui divider"></div>
-		<button class="ui blue submit button" type="submit">Отправить тикет</button>
-		<div id="errmessage"></div>
 	</div>
-</form>
+</div>
+<%- partial('partials/unsaved') %>

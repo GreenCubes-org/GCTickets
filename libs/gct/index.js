@@ -143,7 +143,7 @@ module.exports.getProductByID = getProductByID = function (id) {
 	switch (id) {
 		case 1:
 			return {
-				ticketText: 'Я не знаю',
+				ticketText: 'Неизвестно',
 				adminText: ''
 			};
 
@@ -228,6 +228,19 @@ module.exports.getVisiblityByID = getVisiblityByID = function (id) {
 
 		case 2:
 			return 'Приватный';
+
+		default:
+			return;
+	}
+};
+
+module.exports.getVisibilityByClass = getVisiblityByClass = function (visibility) {
+	switch (visibility) {
+		case 'public':
+			return 1;
+
+		case 'private':
+			return 2;
 
 		default:
 			return;

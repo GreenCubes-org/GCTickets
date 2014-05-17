@@ -1,29 +1,43 @@
-<% listUrl = '/' + req.path.split('/')[1] %>
-<div class="ui vertical menu">
+<% var listUrl = '/' + req.path.split('/')[1],
+	filterUrl = req.path.split('/')[2] %>
+<div class="ui vertical fluid menu">
+	<a class="item" href="<%= listUrl %>">Сбросить фильтрацию</a>
+	<% if (req.user && req.user.group >= ugroup.mod) { %>
+	<div class="header item">Фильтровать по приватности</div>
+	<div class="item">
+		<div class="menu">
+			<a class="item l-menu <% if (filterUrl === 'public') { %> active<% } %>" href="<%= listUrl %>/public">
+				Публичный
+			</a>
+			<a class="item l-menu <% if (filterUrl === 'private') { %> active<% } %>" href="<%= listUrl %>/private">
+				Приватный
+			</a>
+		</div>
+	</div>
+	<% } %>
 	<div class="header item">Фильтровать по статусу</div>
-	<a class="item" href="<%= listUrl %>">Все статусы</a>
 	<div class="item">
 		Общие статусы
 		<div class="menu">
-			<a class="item l-menu new" href="<%= listUrl %>/new">
+			<a class="item l-menu new <% if (filterUrl === 'new') { %> active<% } %>" href="<%= listUrl %>/new">
 				Новый
 			</a>
-			<a class="item l-menu rejected" href="<%= listUrl %>/rejected">
+			<a class="item l-menu rejected <% if (filterUrl === 'rejected') { %> active<% } %>" href="<%= listUrl %>/rejected">
 				Отменён
 			</a>
-			<a class="item l-menu specify" href="<%= listUrl %>/specify">
+			<a class="item l-menu specify <% if (filterUrl === 'specify') { %> active<% } %>" href="<%= listUrl %>/specify">
 				Уточнить
 			</a>
-			<a class="item l-menu declined" href="<%= listUrl %>/declined">
+			<a class="item l-menu declined <% if (filterUrl === 'declined') { %> active<% } %>" href="<%= listUrl %>/declined">
 				Отклонён
 			</a>
 			<% if (req.user && req.user.group >= ugroup.helper) { %>
-			<a class="item l-menu hidden" href="<%= listUrl %>/hidden">
+			<a class="item l-menu hidden <% if (filterUrl === 'hidden') { %> active<% } %>" href="<%= listUrl %>/hidden">
 				Скрыт
 			</a>
 			<% } %>
 			<% if (req.user && req.user.group >= ugroup.staff) { %>
-			<a class="item l-menu removed" href="<%= listUrl %>/removed">
+			<a class="item l-menu removed <% if (filterUrl === 'removed') { %> active<% } %>" href="<%= listUrl %>/removed">
 				Удалён
 			</a>
 			<% } %>
@@ -33,10 +47,10 @@
 	<div class="item">
 		Только для баг-репортов
 		<div class="menu">
-			<a class="item l-menu accepted" href="<%= listUrl %>/accepted">
+			<a class="item l-menu accepted <% if (filterUrl === 'accepted') { %> active<% } %>" href="<%= listUrl %>/accepted">
 				Принят
 			</a>
-			<a class="item l-menu fixed" href="<%= listUrl %>/fixed">
+			<a class="item l-menu fixed <% if (filterUrl === 'fixed') { %> active<% } %>" href="<%= listUrl %>/fixed">
 				Исправлен
 			</a>
 			<% } %>
@@ -46,16 +60,16 @@
 	<div class="item">
 		Только для удаления защит
 		<div class="menu">
-			<a class="item l-menu helpfixed" href="<%= listUrl %>/helpfixed">
+			<a class="item l-menu helpfixed <% if (filterUrl === 'helpfixed') { %> active<% } %>" href="<%= listUrl %>/helpfixed">
 				Исправлен
 			</a>
-			<a class="item l-menu inreview" href="<%= listUrl %>/inreview">
+			<a class="item l-menu inreview <% if (filterUrl === 'inreview') { %> active<% } %>" href="<%= listUrl %>/inreview">
 				На рассмотрении
 			</a>
-			<a class="item l-menu delayed" href="<%= listUrl %>/delayed">
+			<a class="item l-menu delayed <% if (filterUrl === 'delayed') { %> active<% } %>" href="<%= listUrl %>/delayed">
 				Отложен
 			</a>
-			<a class="item l-menu done" href="<%= listUrl %>/done">
+			<a class="item l-menu done <% if (filterUrl === 'done') { %> active<% } %>" href="<%= listUrl %>/done">
 				Выполнен
 			</a>
 			<% } %>

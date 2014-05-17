@@ -11,17 +11,17 @@
 				<span><%= ticket.title %></span>
 				<div class="sub header">
 <% if (req.user) {
-	if (canModerate) { %>
-<a href="/id/<%= globalid %>/edit" title="Изменить"><i class="pencil small icon" id="s-editicon"></i></a>
+	if (canModerate || req.user.username === ticket.owner) { %>
+<a class="gc-nostylelink" href="/id/<%= globalid %>/edit" title="Изменить"><i class="pencil small icon" id="s-editicon"></i></a>
 <% } } %>
-&nbsp;<a href="/id/<%= globalid %>">#<%= globalid %></a>
+&nbsp;<a class="gc-nostylelink" href="/id/<%= globalid %>">#<%= globalid %></a>
 &raquo;&nbsp;<%= ticket.owner %>
 &raquo;&nbsp;<%= moment(ticket.createdAt).format('D MMM YYYY, h:mm') %>
 <% if (ticket.product || ticket.product !== 42) { %>&raquo;&nbsp;<%= ticket.product.ticketText %><% } %>
 				</div>
 			</h2>
 		</div>
-		<div class="right floated two wide column">
+		<div class="right floated one wide column">
 			<div class="s-status <%= ticket.status.class %>"><%= ticket.status.text %></div>
 			<div class="s-visiblity"><%= ticket.visiblity %></div>
 		</div>
@@ -69,9 +69,9 @@
 					</h2>
 				</div>
 				<div class="right floated column s-commentsrefresh">
-					<a href="#" id="commentrefresh" title="Обновить"><i class="refresh icon"></i></a>
+					<a href="#" class="gc-nostylelink" id="commentrefresh" title="Обновить"><i class="refresh icon"></i></a>
 					<% if (req.user && req.user.group >= ugroup.mod) { %>
-					<a href="#" id="commentremoved" title="Показать удалённые"><i class="remove icon"></i></a>
+					<a href="#" class="gc-nostylelink" id="commentremoved" title="Показать удалённые"><i class="remove icon"></i></a>
 					<% } %>
 				</div>
 			</div>
@@ -79,10 +79,9 @@
 			<div class="ui divider" id="commentdivider"></div>
 			<% if (req.user) { %>
 			<form class="ui reply form container" id="commentpost">
-				<% var statusRegexp = new RegExp('(Новый|Уточнить|Принят)');
-				if (statusRegexp.test(ticket.status.text) &&  req.user && (canModerate || ticket.owner == (req.user.username || '') || ((req.user.group || 0) >= ugroup.helper && ticket.status.text === 'Новый'))) { %>
+				<% if (["Новый","Уточнить","Принят"].indexOf(ticket.status.text) !== -1 &&  req.user && (canModerate || ticket.owner == (req.user.username || '') || ((req.user.group || 0) >= ugroup.helper && ticket.status.text === 'Новый'))) { %>
 				<div class="field">
-					<label>Смена статуса</label>
+					<label>Смена статуса <a class="gc-nostylelink" href="https://wiki.greencubes.org/Тикет-система/Статусы" target="_blank"><i class="help icon gc-helppopup" data-content="С помощью этого поля можно поменять статус тикета. Справка по статусам по клику на эту иконку" data-variation="inverted"></i></a></label>
 					<div class="ui selection dropdown" id="s-setstatus">
 						<input name="status" type="hidden" />
 						Статус:

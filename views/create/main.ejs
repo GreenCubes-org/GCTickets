@@ -2,35 +2,35 @@
 backUrl = '/' %>
 <%- partial('../partials/header')%>
 <div class="container">
-	<h1 class="ui header" style="margin: 0.2em 0px 1rem !important;">Выберите нужный тип тикета
-	<div class="sub header">Просто кликните по названию нужного Вам типа</div></h1>
+	<h1 class="ui header" style="margin: 0.2em 0px 1rem !important;">Выберите требуемый тип тикета
+	<div class="sub header">Просто кликните по названию требуемого Вам типа тикета</div></h1>
 	<div class="ui divider"></div>
 	<div class="container">
 		<div class="ui grid container">
 			<div class="two column stackable ui grid row">
 				<div class="column">
-					<a href="/new/bugreport" class="gc-link gc-new-header">
+					<a href="/new/bugreport" class="gc-nostylelink" style="text-decoration:none !important">
 						<div class="column gc-center">
 							<i class="bug icon" style="font-size: 6em; display: block; margin: 0px auto;"></i>
-							<span>Баг-репорт</span>
+							<span class="gc-new-header">Баг-репорт</span>
 						</div>
 						<div class="column">
 							<div class="ui divider"></div>
-							Баг-репорты используют для оповещения разработчика о наличии ошибок в определённом продукте.
+							<span class="gc-new-descr">Баг-репорты используют для оповещения разработчика о наличии ошибок в определённом продукте.</span>
 						</div>
 					</a>
 				</div>
 
 
 				<div class="column">
-					<a href="/new/rempro" class="gc-link gc-new-header">
+					<a href="/new/rempro" class="gc-nostylelink" style="text-decoration:none !important">
 						<div class="column gc-center">
 							<i class="remove icon" style="font-size: 6em; display: block; margin: 0px auto;"></i>
-							<span>Удаление защит</span>
+							<span class="gc-new-header">Удаление защит</span>
 						</div>
 						<div class="column">
 							<div class="ui divider"></div>
-						 С помощью заявок на удаление защит вы можете попросить модераторов провести процедуру удаления защит с неактивных регионов, сундуков, печек.
+							<span class="gc-new-descr">С помощью заявок на удаление защит вы можете попросить модераторов провести процедуру удаления защит с неактивных регионов, сундуков, печек.</span>
 						</div>
 					</a>
 				</div>

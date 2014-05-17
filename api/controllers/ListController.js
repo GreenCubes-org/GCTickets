@@ -9,20 +9,33 @@ module.exports = {
 
 	listNewest: function (req, res) {
 		var findBy = {},
-			filterBy = gct.getStatusByClass(req.param('status'));
+			filterBy = gct.getStatusByClass(req.param('filter'));
 
-		if ((filterBy === 5 || filterBy === 6) && (!req.user || req.user.group < ugroup.mod)) {
+		if (filterBy) {
+			filterBy = {
+				status: filterBy
+			}
+		} else {
+			filterBy = {
+				visibility: gct.getVisibilityByClass(req.param('filter'))
+			}
+		}
+
+		if ((filterBy.visibility === 5 || filterBy.visibility === 6) && (!req.user || req.user.group < ugroup.mod)) {
 			return res.json({
 				status: 'err'
 			});
 		}
 
-		switch (req.path.split('/')[1]) {
+		var splitedPath = req.path.split('/');
+
+		switch (splitedPath[1]) {
 			case 'all':
 				break;
 
 			case 'my':
 				findBy.owner = req.user.id;
+				break;
 
 			case 'bugreports':
 				findBy.type = 1;
@@ -33,13 +46,11 @@ module.exports = {
 				break;
 
 			default:
-				return res.status(404).view('404');
+				return res.notFound();
 		}
 
 		var whereBy = {};
-		if (filterBy) {
-			findBy.status = filterBy;
-		} else {
+		if (!filterBy.visibility && !filterBy.status) {
 			whereBy = {
 				status: {
 					'!': 5,
@@ -58,6 +69,40 @@ module.exports = {
 			if (req.user && req.user.group >= ugroup.mod) {
 				whereBy = {};
 			}
+
+			if (!req.user || req.user.group <= ugroup.mod) {
+				findBy.visiblity = 1;
+			}
+		} else if (filterBy.status) {
+			findBy.status = filterBy.status;
+
+			if (!req.user || req.user.group <= ugroup.mod) {
+				findBy.visiblity = 1;
+			}
+		} else if (filterBy.visibility && req.user && req.user.group >= ugroup.mod) {
+			findBy.visiblity = filterBy.visibility;
+
+			whereBy = {
+				status: {
+					'!': 5,
+					'!': 6
+				}
+			};
+
+			if (req.user && req.user.group === ugroup.helper) {
+				whereBy = {
+					status: {
+						'!': 6
+					}
+				};
+			}
+
+			if (req.user && req.user.group >= ugroup.mod) {
+				whereBy = {};
+			}
+		} else {
+			res.notFound();
+			return;
 		}
 
 		Ticket.find(findBy)
@@ -77,9 +122,27 @@ module.exports = {
 
 	list20: function (req, res) {
 		var findBy = {},
-			filterBy = gct.getStatusByClass(req.param('status'));
+			filterBy = gct.getStatusByClass(req.param('filter'));
 
-		switch (req.path.split('/')[1]) {
+		if (filterBy) {
+			filterBy = {
+				status: filterBy
+			}
+		} else {
+			filterBy = {
+				visibility: gct.getVisibilityByClass(req.param('filter'))
+			}
+		}
+
+		if ((filterBy.visibility === 5 || filterBy.visibility === 6) && (!req.user || req.user.group < ugroup.mod)) {
+			return res.json({
+				status: 'err'
+			});
+		}
+
+		var splitedPath = req.path.split('/');
+
+		switch (splitedPath[1]) {
 			case 'all':
 				break;
 
@@ -96,13 +159,7 @@ module.exports = {
 				break;
 
 			default:
-				return res.status(404).view('404');
-		}
-
-		if (req.user && req.user.group >= ugroup.staff) {
-			if (filterBy) {
-				findBy.status = filterBy;
-			}
+				return res.notFound();
 		}
 
 		async.waterfall([
@@ -168,33 +225,9 @@ module.exports = {
 					});
 				}
 
-				var save = {
-					visiblity: findBy.visiblity,
-					type: findBy.type,
-					owner: findBy.owner
-				};
-
-				if (filterBy) {
-					findBy = {
-						createdAt: {
-							'<': lastElementDate
-						},
-					};
-					findBy.status['='] = filterBy;
-
-					if (save.visiblity) {
-						findBy.visiblity = {
-							'=': save.visiblity
-						}
-					}
-
-					if (save.owner) {
-						findBy.owner = {
-							'=': save.owner
-						}
-					}
-				} else {
-					findBy = {
+				var whereBy = {};
+				if (!filterBy.visibility && !filterBy.status) {
+					whereBy = {
 						createdAt: {
 							'<': lastElementDate
 						},
@@ -205,30 +238,67 @@ module.exports = {
 					};
 
 					if (req.user && req.user.group === ugroup.helper) {
-						findBy.status = {
-							'!': 6
+						whereBy = {
+							createdAt: {
+								'<': lastElementDate
+							},
+							status: {
+								'!': 6
+							}
 						};
 					}
 
 					if (req.user && req.user.group >= ugroup.mod) {
-						delete findBy.status;
+						whereBy = {};
 					}
 
-					if (save.visiblity) {
-						findBy.visiblity = {
-							'=': save.visiblity
+					if (!req.user || req.user.group <= ugroup.mod) {
+						findBy.visiblity = 1;
+					}
+				} else if (filterBy.status) {
+					findBy.status = filterBy.status;
+
+					if (!req.user || req.user.group <= ugroup.mod) {
+						findBy.visiblity = 1;
+					}
+				} else if (filterBy.visibility && req.user && req.user.group >= ugroup.mod) {
+					findBy.visiblity = filterBy.visibility;
+
+					whereBy = {
+						createdAt: {
+							'<': lastElementDate
+						},
+						status: {
+							'!': 5,
+							'!': 6
 						}
+					};
+
+					if (req.user && req.user.group === ugroup.helper) {
+						whereBy = {
+							createdAt: {
+								'<': lastElementDate
+							},
+							status: {
+								'!': 6
+							}
+						};
 					}
 
-					if (save.owner) {
-						findBy.owner = {
-							'=': save.owner
-						}
+					if (req.user && req.user.group >= ugroup.mod) {
+						whereBy = {
+							createdAt: {
+								'<': lastElementDate
+							}
+						};
 					}
+				} else {
+					res.notFound();
+					return;
 				}
 
-				Ticket.find()
-					.where(findBy)
+				Ticket.find(findBy)
+					.where(whereBy)
 					.sort('id ASC')
 					.limit(skipRows)
 					.sort('id DESC')

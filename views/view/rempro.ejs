@@ -11,16 +11,16 @@
 				<span><%= ticket.title %></span>
 				<div class="sub header">
 <% if (req.user) {
-	if (canModerate) { %>
-<a href="/id/<%= globalid %>/edit" title="Изменить"><i class="pencil small icon" id="s-editicon"></i></a>
+	if (canModerate  || req.user.username === ticket.owner) { %>
+<a class="gc-nostylelink"  href="/id/<%= globalid %>/edit" title="Изменить"><i class="pencil small icon" id="s-editicon"></i></a>
 <% } } %>
-&nbsp;<a href="/id/<%= globalid %>">#<%= globalid %></a>
+&nbsp;<a class="gc-nostylelink"  href="/id/<%= globalid %>">#<%= globalid %></a>
 &raquo;&nbsp;<% if (ticket.createdFor && ticket.createdFor !== ticket.owner) { %><%= ticket.createdFor %> (заявка создана <%= ticket.owner %>)<% } else { %><%= ticket.owner %><% } %>
 &raquo;&nbsp;<%= moment(ticket.createdAt).format('D MMM YYYY, h:mm') %>
 				</div>
 			</h2>
 		</div>
-		<div class="right floated two wide column">
+		<div class="right floated one wide column">
 			<div class="s-status <%= ticket.status.class %>"><%= ticket.status.text %></div>
 			<div class="s-visiblity"><%= ticket.visiblity %></div>
 		</div>
@@ -106,7 +106,7 @@
 				<% var statusRegexp = new RegExp('(Новый|Уточнить|На рассмотрении|Отложен)');
 				if (statusRegexp.test(ticket.status.text) &&  req.user && (canModerate || ticket.owner == (req.user.username || '') || ((req.user.group || 0) >= ugroup.helper && ticket.status.text === 'Новый'))) { %>
 				<div class="field">
-					<label>Смена статуса</label>
+					<label>Смена статуса <a class="gc-nostylelink" href="https://wiki.greencubes.org/Тикет-система/Статусы" target="_blank"><i class="help icon gc-helppopup" data-content="С помощью этого поля можно поменять статус тикета. Справка по статусам по клику на эту иконку" data-variation="inverted"></i></a></label>
 					<div class="ui selection dropdown" id="s-setstatus">
 						<input name="status" type="hidden" />
 						Статус:

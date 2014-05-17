@@ -1,6 +1,6 @@
 var gcdb = require('../gcdb'),
 	cfg = require('../../config/local.js'),
-	bbcode = require('bbcode');
+	bbcode = require('../bbcode');
 
 var moment = require('moment');
 moment.lang('ru');
@@ -110,7 +110,10 @@ module.exports = bugreport = {
 						logs: obj.logs,
 						uploads: obj.uploads,
 						product: obj.product,
-						visiblity: ticket[0].visiblity,
+						visiblity: {
+							id: ticket[0].visiblity,
+							text: getVisiblityByID(ticket[0].visiblity)
+						},
 						createdAt: obj.createdAt,
 						type: {
 							descr: 'Баг-репорт',
@@ -217,6 +220,7 @@ module.exports = bugreport = {
 		Bugreport.findOne(ticket.tid).done(function (err, bugreport) {
 			if (err) throw err;
 
+			bugreport.owner = ticket.owner;
 			gct.bugreport.serializeView(bugreport, {isEdit: true}, function(err, result) {
 				if (err) throw err;
 
@@ -234,10 +238,21 @@ module.exports = bugreport = {
 
 			async.waterfall([
 				function preCheck(callback) {
-					if (!req.param('id') || !req.param('title') || !req.param('description') || !req.param('visiblity')) {
+					if (!req.param('title')) {
 						return callback({
-							show: true,
-							msg: 'Некорректный запрос'
+							msg: 'Введите краткое описание'
+						});
+					}
+
+					if (!req.param('description')) {
+						return callback({
+							msg: 'Введите подробное описание'
+						});
+					}
+
+					if (!req.param('visiblity')) {
+						return callback({
+							msg: 'Введите поле видимости тикета'
 						});
 					}
 
@@ -326,7 +341,7 @@ module.exports = bugreport = {
 				}
 			 ], function (err, ticket) {
 				if (err) {
-					if (!err.show) {
+					if (!err.msg) {
 						res.json({
 							err: 'Внезапная ошибка! Пожалуйста, сообщите о ней разработчику.'
 						});

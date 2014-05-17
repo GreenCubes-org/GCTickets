@@ -1,98 +1,128 @@
 <% title = "Редактирование #" + ticket.id + ": \"" + ticket.title + "\" — GC.Тикеты",
 	backUrl = '/id/' + ticket.id %>
 <%- partial('../partials/header')%>
-<form id="gc-reportform" action="/id/<%= ticket.id %>/edit" method="POST" enctype="multipart/form-data">
-	<input type="hidden" name="_csrf" id="_csrf" value="<%= _csrf %>" />
-	<div class="ui fluid form container" id="gc-reportformdiv">
-		<h1 class="header" style="margin-bottom: 0px;">Редактирование #<%= ticket.id %>: &laquo;<%= ticket.title %>&raquo;
-		</h1>
-		<div class="ui divider" style="margin: 1em 0em !important;"></div>
-		<div class="two fields">
-			<div class="field" style="width: 280px !important;">
-				<label>Поле видимости тикета <i class="help icon gc-helppopup" data-content="Тикет может быть публичным, то есть быть видимым всем, или приватным - только администрации" data-variation="inverted"></i></label>
-				<div class="ui selection fluid dropdown">
-					<input name="visiblity" type="hidden"  value="<%= ticket.visiblity %>">
-					<div class="default text">Выбери приватность тикета</div>
-					<div class="menu">
-						 <div class="item" data-value="1">Виден всем</div>
-						 <div class="item" data-value="2">Виден только разработчику</div>
-					</div>
-					<i class="dropdown icon"></i>
-				</div>
-			</div>
-			<div class="field" style="width: 350px !important;margin-bottom: 0em;">
-				<div class="field">
-					<label>Для кого создаётся заявка <em>(необязательно)</em> <i class="help icon gc-helppopup" data-content="Если вы заполняете заявку для другого игрока, то укажите никнейм этого игрока" data-variation="inverted"></i></label>
-					<input name="createdfor" type="text" value="<% if (ticket.createdFor) { %><%= ticket.createdFor %><% } %>">
-				</div>
-			</div>
-		</div>
-		<div class="field">
-			<label>Краткое описание</label>
-			<input name="title" type="text" value="<%= ticket.title %>">
-		</div>
-		<div class="field">
-			<label>Причина распривата</label>
-			<textarea id="reason" name="reason"><%= ticket.reason %></textarea>
-		</div>
-		<div class="ui divider"></div>
-		<div class="ui two column grid">
-			<div class="column" style="padding-left:0em !important;">
-				<div class="field">
-					<label>Регионы</label>
-					<textarea id="regions" name="regions"><% if (ticket.regions) { %><%= ticket.regions.join('\n') %><% } %></textarea>
-				</div>
-			</div>
-			<div class="column" style="padding-right:0em !important;">
-				<div class="field">
-					<label>Сундуки/предметы</label>
-					<textarea id="stuff" name="stuff"><% if (ticket.stuff) { %><%= ticket.stuff.join('\n') %><% } %></textarea>
-				</div>
-			</div>
-		</div>
-		<div class="gc-help"><i class="help icon"></i>Каждая координата/регион записываются по одному на строчку. Одно из этих двух полей должно быть заполнено</div>
-		<div class="ui divider"></div>
-		<div class="field">
-			<% if (ticket.uploads.length) { %>
-			<label>Изображения</label>
-			<div class="ui stackable items">
-				<div class="row">
-				<% 	ticket.uploads.forEach(function(item, index) { %>
-					<div class="item">
-						<div class="image">
-							<a href="/uploads/<%= item %>" rel="lightbox"><img style="display:block;width:100%;" src="/uploads/<%= item %>"></a>
-						</div>
-						<div class="content">
-							<div class="extra">
-								<div class="ui checkbox">
-								  <input name="removeimage" type="checkbox" value="<%= index %>">
-								  <label>Удалить</label>
+<div class="container">
+	<div class="ui two column grid">
+		<div class="column" style="width:70%;border-right: 1px solid rgba(0, 0, 0, 0.1);">
+			<form id="gc-reportform" action="/id/<%= ticket.id %>/edit" method="POST" enctype="multipart/form-data">
+				<input type="hidden" name="_csrf" id="_csrf" value="<%= _csrf %>" />
+				<div class="ui fluid form" id="gc-reportformdiv">
+					<h1 class="header" style="margin-bottom: 0px;">Редактирование <a href="/id/<%= ticket.id %>">#<%= ticket.id %></a>: &laquo;<%= ticket.title %>&raquo;
+					</h1>
+					<div class="ui divider" style="margin: 1em 0em !important;"></div>
+					<div class="two fields">
+						<div class="field" style="width: 280px !important;">
+							<label>Поле видимости тикета <i class="help icon gc-helppopup" data-content="Тикет может быть публичным, то есть быть видимым всем, или приватным - только администрации" data-variation="inverted"></i></label>
+							<div class="ui selection fluid dropdown">
+								<input name="visiblity" type="hidden"  value="<%= ticket.visiblity.id %>">
+								<div class="default text">Выбери приватность тикета</div>
+								<div class="menu">
+									 <div class="item" data-value="1">Виден всем</div>
+									 <div class="item" data-value="2">Виден только разработчику</div>
 								</div>
+								<i class="dropdown icon"></i>
+							</div>
+						</div>
+						<div class="field" style="width: 350px !important;margin-bottom: 0em;">
+							<div class="field">
+								<label>Для кого создаётся заявка <em>(необязательно)</em> <i class="help icon gc-helppopup" data-content="Если вы заполняете заявку для другого игрока, то укажите никнейм этого игрока" data-variation="inverted"></i></label>
+								<input name="createdfor" type="text" value="<% if (ticket.createdFor) { %><%= ticket.createdFor %><% } %>">
 							</div>
 						</div>
 					</div>
-				<% }) %>
+					<div class="field">
+						<label>Краткое описание</label>
+						<input name="title" type="text" value="<%= ticket.title %>">
+					</div>
+					<div class="field">
+						<label>Причина распривата</label>
+						<textarea id="reason" name="reason"><%= ticket.reason %></textarea>
+					</div>
+					<div class="ui divider"></div>
+					<div class="ui two column grid">
+						<div class="column" style="padding-left:0em !important;">
+							<div class="field">
+								<label>Регионы</label>
+								<textarea id="regions" name="regions"><% if (ticket.regions) { %><%= ticket.regions.join('\n') %><% } %></textarea>
+							</div>
+						</div>
+						<div class="column" style="padding-right:0em !important;">
+							<div class="field">
+								<label>Сундуки/предметы</label>
+								<textarea id="stuff" name="stuff"><% if (ticket.stuff) { %><%= ticket.stuff.join('\n') %><% } %></textarea>
+							</div>
+						</div>
+					</div>
+					<div class="gc-help"><i class="help icon"></i>Каждая координата/регион записываются по одному на строчку. Одно из этих двух полей должно быть заполнено</div>
+					<div class="ui divider"></div>
+					<div class="field">
+						<% if (ticket.uploads.length) { %>
+						<label>Изображения</label>
+						<div class="ui stackable items">
+							<div class="row">
+							<% 	ticket.uploads.forEach(function(item, index) { %>
+								<div class="item">
+									<div class="image">
+										<a href="/uploads/<%= item %>" rel="lightbox"><img style="display:block;width:100%;" src="/uploads/<%= item %>"></a>
+									</div>
+									<div class="content">
+										<div class="extra">
+											<div class="ui checkbox">
+											  <input name="removeimage" type="checkbox" value="<%= index %>">
+											  <label>Удалить</label>
+											</div>
+										</div>
+									</div>
+								</div>
+							<% }) %>
+							</div>
+						</div>
+						<% } %>
+					</div>
+					<div class="field">
+						<label>Прикрепить изображение <em>(необязательно)</em></label>
+						<input class="ui basic button" type="file" multiple name="upload" value="Загрузить изображения"></input>
+					</div>
+					<div class="gc-help"><i class="attention icon"></i>Один файл не более 10 Мбайт</div>
+					<div class="ui divider"></div>
+					<div class="ui grid">
+						<div class="left floated four wide column" style="margin: 0em !important;padding: 0px !important;">
+							<button class="ui blue fluid button" type="submit">Отправить тикет</button>
+						</div>
+						<% if (req.user.group >= ugroup.mod) { %>
+						<div class="right floated four wide column" style="margin: 0em !important;padding: 0px !important;">
+							<a class="ui red fluid button" href="#" id="deleteticket">Удалить тикет</a>
+						</div>
+						<% } %>
+					</div>
+					<div id="errmessage"></div>
+				</div>
+			</form>
+		</div>
+		<div class="column" style="width:30%">
+			<h2 class="header">Информация о тикете</h2>
+			<div class="ui relaxed list">
+				<div class="item">
+					<div class="header">Видимость тикета</div>
+					<%= ticket.visiblity.text %>
+				</div>
+				<div class="item">
+					<div class="header">Создатель</div>
+					<%= ticket.owner %>
+				</div>
+				<% if (ticket.createdFor) { %>
+				<div class="item">
+					<div class="header">Создан для</div>
+					<%= ticket.createdFor %>
+				</div>
+				<% } %>
+				<div class="item">
+					<div class="header">Дата создания</div>
+					<%= moment(ticket.createdAt).format('D MMM YYYY, h:mm') %>
 				</div>
 			</div>
-			<% } %>
 		</div>
-		<div class="field">
-			<label>Прикрепить изображение <em>(необязательно)</em></label>
-			<input class="ui basic button" type="file" multiple name="upload" value="Загрузить изображения"></input>
-		</div>
-		<div class="gc-help"><i class="attention icon"></i>Один файл не более 10 Мбайт</div>
-		<div class="ui divider"></div>
-		<div class="ui grid">
-			<div class="left floated three wide column" style="margin: 0em !important;padding: 0px !important;">
-				<button class="ui black block header" type="submit">Отправить тикет</button>
-			</div>
-			<% if (req.user.group >= ugroup.mod) { %>
-			<div class="right floated three wide column" style="margin: 0.7em 0em !important;padding: 0px !important;">
-				<a class="ui red block header" href="#" id="deleteticket">Удалить тикет</a>
-			</div>
-			<% } %>
-		</div>
-		<div id="errmessage"></div>
 	</div>
-</form>
+</div>
 <%- partial('partials/delete') %>
+<%- partial('partials/unsaved') %>

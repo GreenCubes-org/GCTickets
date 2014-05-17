@@ -5,10 +5,3 @@ node_modules
 .geany
 logs/*
 uploads/*
-
-# Do not ignore our versions of some modules
-!/node_modules
-/node_modules/*
-
-# Place your versions of modules here \/
-!/node_modules/bbcode

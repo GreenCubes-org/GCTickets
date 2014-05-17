@@ -10,6 +10,7 @@ function renderAllComments(ticketId) {
 		}
 
 		$('#comments').html('');
+		$('.gc-helppopup').popup();
 
 		var removedCount = 0;
 
@@ -289,14 +290,16 @@ app.view = {
 		var descriptionCode;
 		if ($('#description').length > 0) {
 			$('#description').wysibb({
-				buttons: 'bold,italic,underline,|link,|,quote'
+				lang: 'ru',
+				buttons: 'bold,italic,underline,|,link,bullist,numlist'
 			});
 			descriptionCode = $('#description').html();
 			$('#description').sync();
 		}
 		if ($('#reason').length > 0) {
 			$('#reason').wysibb({
-				buttons: 'bold,italic,underline,|link,|,quote'
+				lang: 'ru',
+				buttons: 'bold,italic,underline,|,link,bullist,numlist'
 			});
 			descriptionCode = $('#reason').html();
 			$('#reason').sync();
@@ -320,15 +323,17 @@ app.view = {
 					if (data.id) {
 						window.location = '/id/' + data.id;
 					} else if (data.err) {
-						console.log(data.err);
 						$('#gc-reportformdiv').addClass('error');
-						$('#errmessage').html('<div class="ui divider"></div><div class="ui error message"><div class="header">' + data.err + '</div></div>');
+						$('#errmessage').html('<div class="ui divider"></div><div class="ui error message" id="errormessage"><div class="header">' + data.err + '</div></div>');
+						window.location.hash = "errormessage";
 					} else if (data.status === 413) {
 						$('#gc-reportformdiv').addClass('error');
-						$('#errmessage').html('<div class="ui divider"></div><div class="ui error message"><div class="header">Загрузка файлов больше 10 мегабайт запрещена</div></div>');
+						$('#errmessage').html('<div class="ui divider"></div><div class="ui error message" id="errormessage"><div class="header">Загрузка файлов больше 10 мегабайт запрещена</div></div>');
+						window.location.hash = "errormessage";
 					} else {
 						$('#gc-reportformdiv').addClass('error');
-						$('#errmessage').html('<div class="ui divider"></div><div class="ui error message"><div class="header">Внезапная необычная ошибка. Пожалуйста, сообщите о ней разработчику.</div></div>');
+						$('#errmessage').html('<div class="ui divider"></div><div class="ui error message" id="errormessage"><div class="header">Внезапная необычная ошибка. Пожалуйста, сообщите о ней разработчику.</div></div>');
+						window.location.hash = "errormessage";
 					}
 				},
 			});
@@ -373,6 +378,23 @@ app.view = {
 					}
 				})
 				.modal('show');
+		});
+
+		$('a').click(function (event){
+			var link = this;
+			$('#unsavedlink')
+				.modal('setting', {
+					transition: 'fade up',
+					closable  : false,
+					onDeny    : function(){
+						return true;
+					},
+					onApprove : function() {
+						window.location.href = link;
+					}
+				})
+				.modal('show');
+			event.preventDefault();
 		});
 	}
 };

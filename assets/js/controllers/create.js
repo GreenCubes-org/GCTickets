@@ -4,12 +4,14 @@ app.create = {
 	main: function () {
 		if ($('#description')) {
 			$('#description').wysibb({
-				buttons: 'bold,italic,underline,|link,|,quote'
+				lang: 'ru',
+				buttons: 'bold,italic,underline,|,link,bullist,numlist'
 			});
 		}
 		if ($('#reason')) {
 			$('#reason').wysibb({
-				buttons: 'bold,italic,underline,|link,|,quote'
+				lang: 'ru',
+				buttons: 'bold,italic,underline,|,link,bullist,numlist'
 			});
 		}
 		$('#gc-reportform .ui.dropdown').dropdown();
@@ -47,6 +49,23 @@ app.create = {
 				},
 			});
 			return false;
+		});
+
+		$('a').click(function (event){
+			var link = this;
+			$('#unsavedlink')
+				.modal('setting', {
+					transition: 'fade up',
+					closable  : false,
+					onDeny    : function(){
+						return true;
+					},
+					onApprove : function() {
+						window.location.href = link;
+					}
+				})
+				.modal('show');
+			event.preventDefault();
 		});
 	}
 };

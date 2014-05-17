@@ -50,7 +50,8 @@ module.exports = function (grunt) {
 		'js/libs/js-signals.js',
 		'js/libs/crossroads.js',
 		'js/libs/lightbox.js',
-		'js/libs/wbb.js'
+		'js/libs/wbb.js',
+		'js/libs/wbb-ru.js'
 	];
 
 	var jsFilesToInject = [
@@ -171,7 +172,7 @@ module.exports = function (grunt) {
 			jsLibs: {
 				options: {
 					compress: {
-						drop_console: true
+						//drop_console: true
 					},
 					mangle: false,
 					preserveComments: 'all'
