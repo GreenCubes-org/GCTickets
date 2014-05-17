@@ -1,4 +1,4 @@
-<% title="Создать багрепорт — GC.Тикеты",
+<% title="Создать баг-репорт — GC.Тикеты",
 	backUrl = '/bugreports' %>
 <%- partial( '../partials/header') %>
 <div class="container">
@@ -7,7 +7,7 @@
 			<form id="gc-reportform">
 				<input type="hidden" name="_csrf" value="<%= _csrf %>" />
 				<div class="ui fluid form" id="gc-reportformdiv">
-					<h1 class="header" style="margin-bottom: 0px;">Новый багрепорт
+					<h1 class="header" style="margin-bottom: 0px;">Новый баг-репорт
 					</h1>
 					<div class="ui divider" style="margin: 1em 0em !important;"></div>
 					<div class="two fields">
@@ -62,13 +62,13 @@
 			</form>
 		</div>
 		<div class="column" style="width:30%">
-			<h2>Баг-репорты</h2>
-			<p>Это тикеты, которые нужны для сообщений об ошибках. Например, баг-репорт <a href="#">связанный с вылетом нового клиента на Linux</a> или же сообщение о <a href="#">проблеме в вёрстке форума</a>. Баг-репорты очень помогают разработчикам повышать качество своих продуктов фейолаперепишиэтоттекстумоляю.</p>
+			<h2>Баг-репорт</h2>
+			<p>Сообщение с описанием технической ошибки или проблемы (бага), предназначенное для разработчика. В баг-репорте нужно подробно описать, что произошло, в какой ситуации, и приложить лог или скриншот.</p>
 			<h2>Другие типы тикетов</h2>
 			<div class="ui selection list">
 				<div class="active item">
 					<i class="bug big icon" style="margin:0em 0.5em 0em 0em"></i>
-					<a class="gc-nostylelink content" style="display:block" href="/new/rempro">
+					<a class="gc-nostylelink content" style="display:block" href="/new/bugreport">
 						<span class="header" style="display:block">Баг-репорт</span>
 						<span>Сообщения об ошибках</span>
 					</a>
