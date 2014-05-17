@@ -8,6 +8,11 @@
 			<a href="/rempros" class="item<% if (type.url === 'rempros') { %> active<% } %>"><i class="remove icon"></i>Удаление защит</a>
 		</div>
 	</div>
+	<% if (!req.user) { %>
+	<a href="/" class="item">
+		<i class="home icon" title="На главную"></i>
+	</a>
+	<% } %>
 	<div class="right menu">
 		<%- partial('../../partials/userpanel')%>
 	</div>
