@@ -70,13 +70,13 @@ module.exports = {
 				whereBy = {};
 			}
 
-			if (!req.user || req.user.group <= ugroup.mod) {
+			if (!findBy.owner && (!req.user || req.user.group <= ugroup.mod)) {
 				findBy.visiblity = 1;
 			}
 		} else if (filterBy.status) {
 			findBy.status = filterBy.status;
 
-			if (!req.user || req.user.group <= ugroup.mod) {
+			if (!findBy.owner && (!req.user || req.user.group <= ugroup.mod)) {
 				findBy.visiblity = 1;
 			}
 		} else if (filterBy.visibility && req.user && req.user.group >= ugroup.mod) {
@@ -252,13 +252,13 @@ module.exports = {
 						whereBy = {};
 					}
 
-					if (!req.user || req.user.group <= ugroup.mod) {
+					if (!findBy.owner && (!req.user || req.user.group <= ugroup.mod)) {
 						findBy.visiblity = 1;
 					}
 				} else if (filterBy.status) {
 					findBy.status = filterBy.status;
 
-					if (!req.user || req.user.group <= ugroup.mod) {
+					if (!findBy.owner && (!req.user || req.user.group <= ugroup.mod)) {
 						findBy.visiblity = 1;
 					}
 				} else if (filterBy.visibility && req.user && req.user.group >= ugroup.mod) {
