@@ -3,7 +3,7 @@
 <%- partial('../../partials/header')%>
 
 <div class="container">
-	<h1 class="ui header">Права пользователей / <a href="/admin">Админпанель</a></h1>
+	<h1 class="ui header">Права пользователей / <a class="gc-nostylelink" href="/admin">Админпанель</a></h1>
 	<div class="ui divider"></div>
 
 	<table class="ui table">
@@ -25,7 +25,7 @@
 				<td><%= element.prefix %></td>
 				<td><%= element.colorclass %></td>
 				<td><%= element.canModerate %></td>
-				<td><a href="/admin/users/rights/remove/<%= element.uid %>"><i  class="icon remove"></i></a></td>
+				<td><a class="gc-nostylelink" href="/admin/users/rights/remove/<%= element.uid %>"><i  class="icon remove"></i></a></td>
 			</tr>
 		<% }) %>
 		</tbody>
