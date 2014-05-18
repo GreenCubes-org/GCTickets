@@ -25,9 +25,15 @@ module.exports = {
 	bugreport: function(req, res) {
 		async.waterfall([
 			function preCheck(callback) {
-				if (!req.param('title') || !req.param('description')) {
+				if (!req.param('title')) {
 					return callback({
-						msg: 'Некорректный запрос'
+						msg: 'Введите краткое описание'
+					});
+				}
+
+				if (!req.param('description')) {
+					return callback({
+						msg: 'Введите подробное описание'
 					});
 				}
 				
@@ -145,9 +151,15 @@ module.exports = {
 	rempro: function(req, res) {
 		async.waterfall([
 			function preCheck(callback) {
-				if (!req.param('title') || !req.param('reason') || !(req.param('regions') || req.param('stuff')) ) {
+				if (!req.param('title')) {
 					return callback({
-						msg: 'Некорректный запрос'
+						msg: 'Введите краткое описание'
+					});
+				}
+
+				if (!req.param('reason')) {
+					return callback({
+						msg: 'Введите причину распривата'
 					});
 				}
 
