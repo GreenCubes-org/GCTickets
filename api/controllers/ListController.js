@@ -196,10 +196,10 @@ module.exports = {
 					}
 
 					Ticket.query(query, function (err, result) {
-							if (err) return callback(err);
+						if (err) return callback(err);
 
-							callback(null, lastElementDate, result[0].count);
-						});
+						callback(null, lastElementDate, result[0].count);
+					});
 				} else {
 					if (!findBy.owner) findBy.visiblity = 1;
 					if (findBy.type) {
@@ -211,10 +211,10 @@ module.exports = {
 					}
 
 					Ticket.query(query, function (err, result) {
-							if (err) return callback(err);
+						if (err) return callback(err);
 
-							callback(null, lastElementDate, result.count);
-						});
+						callback(null, lastElementDate, result.count);
+					});
 				}
 			},
 			function findTickets(lastElementDate, tableSize, callback) {
@@ -227,29 +227,22 @@ module.exports = {
 
 				var whereBy = {};
 				if (!filterBy.visibility && !filterBy.status) {
-					whereBy = {
-						createdAt: {
-							'<': lastElementDate
-						},
-						status: {
-							'!': 5,
-							'!': 6
-						}
-					};
+					whereBy.createdAt = {
+						'<': lastElementDate
+					}
+					whereBy.status = {
+						'!': 5,
+						'!': 6
+					}
 
 					if (req.user && req.user.group === ugroup.helper) {
-						whereBy = {
-							createdAt: {
-								'<': lastElementDate
-							},
-							status: {
-								'!': 6
-							}
-						};
+						whereBy.status = {
+							'!': 6
+						}
 					}
 
 					if (req.user && req.user.group >= ugroup.mod) {
-						whereBy = {};
+						delete whereBy.status;
 					}
 
 					if (!findBy.owner && (!req.user || req.user.group <= ugroup.mod)) {
@@ -264,25 +257,21 @@ module.exports = {
 				} else if (filterBy.visibility && req.user && req.user.group >= ugroup.mod) {
 					findBy.visiblity = filterBy.visibility;
 
-					whereBy = {
-						createdAt: {
-							'<': lastElementDate
-						},
-						status: {
-							'!': 5,
-							'!': 6
-						}
-					};
+					whereBy.createdAt = {
+						'<': lastElementDate
+					}
+					whereBy.status = {
+						'!': 5,
+						'!': 6
+					}
 
 					if (req.user && req.user.group === ugroup.helper) {
-						whereBy = {
-							createdAt: {
-								'<': lastElementDate
-							},
-							status: {
-								'!': 6
-							}
-						};
+						whereBy.createdAt = {
+							'<': lastElementDate
+						}
+						whereBy.status = {
+							'!': 6
+						}
 					}
 
 					if (req.user && req.user.group >= ugroup.mod) {
