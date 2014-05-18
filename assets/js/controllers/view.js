@@ -198,6 +198,7 @@ app.view = {
 						'</div>');
 						$('.ui.active.dimmer').dimmer();
 					} else if (data.responseJSON.changedTo) {
+						$('#commentsubmit').reset();
 						location.reload();
 					} else if (data.responseJSON.code === 'OK') {
 						renderAllComments(ticketId);
