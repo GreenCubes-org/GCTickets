@@ -179,13 +179,13 @@ app.view = {
 				url: '/id/' + ticketId + '/comment',
 				data: $('#commentpost').serialize(),
 				beforeSend: function () {
-					$('#commentfield').fadeIn('slow').append('<div class="ui active dimmer"><div class="ui loader"></div></div>');
+					$('#commentfield').fadeIn('slow').append('<div class="ui active segment dimmer"><div class="ui loader"></div></div>');
 				},
 				complete: function(data) {
 					$('#commentfield').html('<textarea name="message" id="commentform"></textarea>');
 
 					if (data.responseJSON.error) {
-						$('#commentfield').append('<div class="ui active dimmer">' +
+						$('#commentfield').append('<div class="ui active segment dimmer">' +
 						  '<div class="content">' +
 							 '<div class="center">' +
 								'<h2 class="ui inverted icon header">' +
@@ -203,7 +203,7 @@ app.view = {
 					} else if (data.responseJSON.code === 'OK') {
 						renderAllComments(ticketId);
 					} else {
-						$('#commentfield').append('<div class="ui active dimmer">' +
+						$('#commentfield').append('<div class="ui active segment dimmer">' +
 						  '<div class="content">' +
 							 '<div class="center">' +
 								'<h2 class="ui inverted icon header">' +
@@ -216,7 +216,7 @@ app.view = {
 						'</div>');
 						$('.ui.active.dimmer').dimmer();
 					}
-					$('#commentsubmit').trigger( 'reset' );
+					$('#commentsubmit').trigger('reset');
 				}
 			});
 			return false;
@@ -254,16 +254,16 @@ app.view = {
 							url: '/id/' + ticketId + '/comment/' + cid + '/remove',
 							data: {action: action},
 							beforeSend: function () {
-								$('body').fadeIn('slow').append('<div class="ui active dimmer" id="removedimmer"><div class="ui active dimmer" id="removedimmer"><div class="ui loader"></div></div></div>');
+								$('body').fadeIn('slow').append('<div class="ui active segment dimmer" id="removedimmer"><div class="ui active dimmer" id="removedimmer"><div class="ui loader"></div></div></div>');
 							},
 							complete: function(data) {
 								$('#removedimmer').remove();
 								if (data.responseJSON.status === 'err') {
-									$('body').fadeIn('slow').append('<div class="ui active dimmer" id="removedimmer"><div class="header">Произошла ошибка!</div><div class="content">Пожалуйста, сообщите разработчику о ней</div><div class="actions"><div class="ui fluid button">Ладно, вернёмся обратно</div></div></div>');
+									$('body').fadeIn('slow').append('<div class="ui active segment dimmer" id="removedimmer"><div class="header">Произошла ошибка!</div><div class="content">Пожалуйста, сообщите разработчику о ней</div><div class="actions"><div class="ui fluid button">Ладно, вернёмся обратно</div></div></div>');
 								}
 
 								if (data.responseJSON.msg) {
-									$('body').fadeIn('slow').append('<div class="ui active dimmer" id="removedimmer"><div class="header">' + data.msg + '</div><div class="actions"><div class="ui fluid button">Ладно, вернёмся обратно</div></div></div>');
+									$('body').fadeIn('slow').append('<div class="ui active segment dimmer" id="removedimmer"><div class="header">' + data.msg + '</div><div class="actions"><div class="ui fluid button">Ладно, вернёмся обратно</div></div></div>');
 								}
 
 								if (data.responseJSON.status === 'OK') {
@@ -310,6 +310,7 @@ app.view = {
 
 		$(document).on('submit', "#gc-reportform", function (e) {
 			e.preventDefault();
+			$('#senddimmer').dimmer('toggle');
 			var formData = new FormData($('form#gc-reportform')[0]);
 			$.ajax({
 				type: "POST",
@@ -336,6 +337,7 @@ app.view = {
 						$('#errmessage').html('<div class="ui divider"></div><div class="ui error message" id="errormessage"><div class="header">Внезапная необычная ошибка. Пожалуйста, сообщите о ней разработчику.</div></div>');
 						window.location.hash = "errormessage";
 					}
+					$('#senddimmer').dimmer('toggle');
 				},
 			});
 

@@ -21,6 +21,7 @@ app.create = {
 
 		$(document).on('submit', "#gc-reportform", function (e) {
 			e.preventDefault();
+			$('#senddimmer').dimmer('toggle');
 			var formData = new FormData($('form#gc-reportform')[0]);
 			$.ajax({
 				type: "POST",
@@ -33,6 +34,7 @@ app.create = {
 				success: function (data) {
 					data = JSON.parse(data);
 					if (data.id) {
+						$('#commentsubmit').trigger( 'reset' );
 						window.location = '/id/' + data.id;
 					} else if (data.err) {
 						console.log(data.err);
@@ -45,7 +47,7 @@ app.create = {
 						$('#gc-reportformdiv').addClass('error');
 						$('#errmessage').html('<div class="ui divider"></div><div class="ui error message"><div class="header">Внезапная необычная ошибка. Пожалуйста, сообщите о ней разработчику.</div></div>');
 					}
-					$('#gc-reportform').reset();
+					$('#senddimmer').dimmer('toggle');
 				},
 			});
 			return false;

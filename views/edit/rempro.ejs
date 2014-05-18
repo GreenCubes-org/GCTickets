@@ -7,7 +7,7 @@
 			<form id="gc-reportform" action="/id/<%= ticket.id %>/edit" method="POST" enctype="multipart/form-data">
 				<input type="hidden" name="_csrf" id="_csrf" value="<%= _csrf %>" />
 				<div class="ui fluid form" id="gc-reportformdiv">
-					<h1 class="header" style="margin-bottom: 0px;">Редактирование <a href="/id/<%= ticket.id %>">#<%= ticket.id %></a>: &laquo;<%= ticket.title %>&raquo;
+					<h1 class="header" style="margin: 0px; padding: 0.2em 0em 0em;">Редактирование <a href="/id/<%= ticket.id %>">#<%= ticket.id %></a>: &laquo;<%= ticket.title %>&raquo;
 					</h1>
 					<div class="ui divider" style="margin: 1em 0em !important;"></div>
 					<div class="two fields">
@@ -96,6 +96,9 @@
 						<% } %>
 					</div>
 					<div id="errmessage"></div>
+					<div class="ui dimmer" id="senddimmer">
+						<div class="ui large text loader">Тикет отправляется</div>
+					</div>
 				</div>
 			</form>
 		</div>

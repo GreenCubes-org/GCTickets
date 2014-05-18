@@ -7,7 +7,7 @@
 			<form id="gc-reportform">
 				<input type="hidden" name="_csrf" value="<%= _csrf %>" />
 				<div class="ui fluid form" id="gc-reportformdiv">
-					<h1 class="header" style="margin-bottom: 0px;">Новый баг-репорт
+					<h1 class="header" style="margin: 0px; padding: 0.2em 0em 0em;">Новый баг-репорт
 					</h1>
 					<div class="ui divider" style="margin: 1em 0em !important;"></div>
 					<div class="two fields">
@@ -58,6 +58,9 @@
 					<div class="ui divider"></div>
 					<button class="ui blue submit button" type="submit">Отправить тикет</button>
 					<div id="errmessage"></div>
+					<div class="ui dimmer" id="senddimmer">
+						<div class="ui large text loader">Тикет отправляется</div>
+					</div>
 				</div>
 			</form>
 		</div>
