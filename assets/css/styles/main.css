@@ -64,19 +64,15 @@ a.gc-nostylelink {
 label {
 	font-weight: bold;
 }
-.layout {
-	min-height: 100%;
-	text-align: left;
-	margin: 0px auto;
-	padding: 0px;
-	border: 0px none;
-	position: relative;
-	background: none repeat scroll 0% 0% #FFF;
-	max-width: 1440px;
-}
 .wrapper {
 	min-height: 100%;
 	height: auto !important;
+	text-align: left;
+	margin: 0px auto -61px;
+	padding: 0px;
+	border: 0px none;
+	position: relative;
+	max-width: 1440px;
 }
 .main .push {
 	padding-top: 8em;
@@ -91,6 +87,13 @@ label {
 	background-color: #559a8b;
 	font-weight: bold;
 	color: #ffffff;
+	padding: 0px;
+	border: 0px none;
+	max-width: 1440px;
+	margin: 0px auto;
+	position: relative;
+	padding: 0px;
+	border: 0px none;
 }
 .footer .link {
 	color: #ffffff;
