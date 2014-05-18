@@ -120,7 +120,7 @@ module.exports = {
 					obj.canModerate.push(8, 9);
 				}
 				
-				if (req.body['mod-rpg']) {
+				if (req.body['mod-apo']) {
 					obj.canModerate.push(10, 11);
 				}
 				
