@@ -43,7 +43,7 @@ app.list = {
 						 '<th>Тип</th>' +
 						 '<th>Пользователь</th>' +
 						 '<th>Тема</th>' +
-						 '<th>Время</th>' +
+						 '<th style="width:14%">Время</th>' +
 						 '<th>Статус</th>' +
 						'</tr></thead>' +
 						'<tbody id="gc-list">' +
