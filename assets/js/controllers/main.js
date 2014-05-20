@@ -40,9 +40,7 @@ app.main = {
 			  });
 			},
 			error: function(err) {
-			  html = formhtml = '<div id="hd-loginform">' +
-								'<div class="ui gc-loginmessage">У сервера появились проблемы :(</div>' +
-								'</div>';
+				$('#loginerr').html('<div class="ui error message"><div class="header">Проблемка. Попробуйте позже.</div></div>');
 			  $('#hd-login')
 				.popup({
 				  on: 'click',
@@ -63,7 +61,7 @@ app.main = {
 				if (!data.error) {
 				  window.location ='/';
 				} else {
-				  $('#hd-loginerr').html('<div class="ui gc-loginmessage">' + data.error.message + '</div>');
+				  $('#loginerr').html('<div class="ui error message"><div class="header">' + data.error.message + '</div></div>');
 				}
 			  }
 			});
@@ -85,7 +83,7 @@ app.main = {
 					}
 				},
 				error: function (err) {
-					html = formhtml = '<div class="ui error message"><div class="header">Внезапная необычная ошибка. Пожалуйста, сообщите о ней разработчику.</div></div>';
+					$('#loginerr').html('<div class="ui error message"><div class="header">Проблемка. Попробуйте позже.</div></div>');
 				}
 			});
 			return false;
