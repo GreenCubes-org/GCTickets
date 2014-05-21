@@ -1,4 +1,4 @@
-<% title = '#'+ globalid + ': "' + ticket.title + '" — GC.Тикеты',
+<% title = '#'+ globalid + ': "' + ticket.title + '" — GC.Поддержка',
 	backUrl = gct.getBaseUrlTypeByID(ticket.type.id) %>
 <%- partial('../partials/header')%>
 <div class="container">
@@ -106,7 +106,7 @@
 				<% var statusRegexp = new RegExp('(Новый|Уточнить|На рассмотрении|Отложен)');
 				if (statusRegexp.test(ticket.status.text) &&  req.user && (canModerate || ticket.owner == (req.user.username || '') || ((req.user.group || 0) >= ugroup.helper && ticket.status.text === 'Новый'))) { %>
 				<div class="field">
-					<label>Смена статуса <a class="gc-nostylelink" href="https://wiki.greencubes.org/Тикет-система/Статусы" target="_blank"><i class="help icon gc-helppopup" data-content="С помощью этого поля можно поменять статус тикета. Справка по статусам по клику на эту иконку" data-variation="inverted"></i></a></label>
+					<label>Смена статуса <a class="gc-nostylelink" href="https://wiki.greencubes.org/Система_$поддержки/Статусы" target="_blank"><i class="help icon gc-helppopup" data-content="С помощью этого поля можно поменять статус тикета. Справка по статусам по клику на эту иконку" data-variation="inverted"></i></a></label>
 					<div class="ui selection dropdown" id="s-setstatus">
 						<input name="status" type="hidden" />
 						Статус:

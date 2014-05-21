@@ -322,7 +322,7 @@ module.exports = {
 				text: text,
 				iconclass: 'reorder'
 			},
-			title: 'Список всех тикетов — GC.Тикеты'
+			title: 'Список всех тикетов — GC.Поддержка'
 		})
 	},
 
@@ -334,7 +334,7 @@ module.exports = {
 				text: text,
 				iconclass: 'user'
 			},
-			title: 'Список Ваших тикетов — GC.Тикеты'
+			title: 'Список Ваших тикетов — GC.Поддержка'
 		})
 	},
 
@@ -458,7 +458,7 @@ module.exports = {
 				text: text,
 				iconclass: 'bug'
 			},
-			title: 'Список баг-репортов — GC.Тикеты'
+			title: 'Список баг-репортов — GC.Поддержка'
 		})
 	},
 
@@ -523,7 +523,7 @@ module.exports = {
 				text: text,
 				iconclass: 'remove'
 			},
-			title: 'Список заявок на удаление защит — GC.Тикеты'
+			title: 'Список заявок на удаление защит — GC.Поддержка'
 		})
 	},
 
@@ -535,7 +535,7 @@ module.exports = {
 				text: text,
 				iconclass: 'ban circle'
 			},
-			title: 'Список заявок на бан — GC.Тикеты'
+			title: 'Список заявок на бан — GC.Поддержка'
 		})
 	},
 

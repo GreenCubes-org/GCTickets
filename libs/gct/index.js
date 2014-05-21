@@ -179,7 +179,7 @@ module.exports.getProductByID = getProductByID = function (id) {
 
 		case 7:
 			return {
-				ticketText: 'Тикет-система',
+				ticketText: 'Система поддержки GC',
 				adminText: ''
 			};
 
