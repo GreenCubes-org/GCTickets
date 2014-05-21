@@ -24,7 +24,6 @@ module.exports.routes = {
 
 	// Админпанель
 	'/admin': 'admin.main',
-	'/admin/debug':'admin.debug',
 	'/admin/users': 'dev.hideFeature',
 
 	'/admin/users/roles': 'admin.usersRights',
