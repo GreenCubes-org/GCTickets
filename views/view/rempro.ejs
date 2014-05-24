@@ -120,9 +120,6 @@
 								<% if (canModerate || (req.user.group || 0) >= ugroup.mod) { %>
 								<div class="item" data-value="8">На рассмотрении</div>
 								<% } %>
-								<% if (canModerate || (req.user.group || 0) >= ugroup.mod) { %>
-								<div class="item" data-value="4">Отклонён</div>
-								<% } %>
 								<% if (canModerate || (req.user.group || 0) >= ugroup.helper) { %>
 								<div class="item" data-value="3">Уточнить</div>
 								<% } %>
