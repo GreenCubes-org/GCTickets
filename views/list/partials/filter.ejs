@@ -3,7 +3,7 @@
 <div class="ui vertical fluid menu">
 	<a class="item" href="<%= listUrl %>">Сбросить фильтрацию</a>
 	<% if (req.user && req.user.group >= ugroup.mod) { %>
-	<div class="header item">Фильтровать по приватности</div>
+	<div class="header item">Фильтровать по видимости</div>
 	<div class="item">
 		<div class="menu">
 			<a class="item l-menu <% if (filterUrl === 'public') { %> active<% } %>" href="<%= listUrl %>/public">
