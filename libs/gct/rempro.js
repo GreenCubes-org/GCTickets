@@ -303,13 +303,13 @@ module.exports = rempro = {
 					});
 					req.check('title','Краткое описание должно содержать не менее %1 и не более %2 символов').len(6,64);
 
-					if(obj.regions.indexOf('') !== -1 || obj.regions.join('').replace(/\n|\r/g, '') !== req.body.regions.replace(/\n|\r/g, '')) {
+					if(req.param('regions').length && obj.regions.indexOf('') !== -1 || obj.regions.join('').replace(/\n|\r/g, '') !== req.body.regions.replace(/\n|\r/g, '')) {
 						return callback({
 							msg: 'Регионы могут быть записаны только с использованием латинских символов, цифр, символов \'-\' и \'_\''
 						});
 					}
 
-					if(obj.stuff.indexOf('') !== -1 || obj.stuff.join('').replace(/\n|\r/g, '') !== req.body.stuff.replace(/\n|\r/g, '')) {
+					if(req.param('stuff').length && obj.stuff.indexOf('') !== -1 || obj.stuff.join('').replace(/\n|\r/g, '') !== req.body.stuff.replace(/\n|\r/g, '')) {
 						return callback({
 							msg: 'Координаты могут быть записаны только цифрами и с использованием символа \'-\''
 						});
