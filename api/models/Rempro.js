@@ -19,7 +19,7 @@ module.exports = {
 		// '424242' (id of user)
 		createdFor: 'integer',
 		// 'OMG HES AN IDIOT'
-		reason: 'string',
+		reason: 'text',
 		// ['creep','feyolapalace']
 		regions: 'array',
 		// ['-14 00 33','33 33 33']
