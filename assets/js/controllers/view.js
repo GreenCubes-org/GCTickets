@@ -198,7 +198,7 @@ app.view = {
 						'</div>');
 						$('.ui.active.dimmer').dimmer();
 					} else if (data.responseJSON.changedTo) {
-						$('#commentsubmit').trigger( 'reset' );
+						$('#commentpost').trigger( 'reset' );
 						location.reload();
 					} else if (data.responseJSON.code === 'OK') {
 						renderAllComments(ticketId);
@@ -216,7 +216,7 @@ app.view = {
 						'</div>');
 						$('.ui.active.dimmer').dimmer();
 					}
-					$('#commentsubmit').trigger('reset');
+					$('#commentpost').trigger('reset');
 				}
 			});
 			return false;
