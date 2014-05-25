@@ -10,7 +10,7 @@ module.exports = function (req, res, ok) {
 				}).done(function (err, rights) {
 					if (err) throw err;
 
-					if (rights.length !== 0) callback(null, rights[0].ugroup, null, rights[0].canModerate);
+					if (rights.length !== 0) callback(null, rights[0].ugroup, req.user.id, rights[0].canModerate);
 						else callback(null, 0, req.user.id, null);
 				});
 			} else {
