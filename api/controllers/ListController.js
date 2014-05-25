@@ -58,18 +58,6 @@ module.exports = {
 				}
 			};
 
-			if (req.user && req.user.group === ugroup.helper) {
-				whereBy = {
-					status: {
-						'!': 6
-					}
-				};
-			}
-
-			if (req.user && req.user.group >= ugroup.mod) {
-				whereBy = {};
-			}
-
 			if (!findBy.owner && (!req.user || req.user.group <= ugroup.mod)) {
 				findBy.visiblity = 1;
 			}
@@ -88,18 +76,6 @@ module.exports = {
 					'!': 6
 				}
 			};
-
-			if (req.user && req.user.group === ugroup.helper) {
-				whereBy = {
-					status: {
-						'!': 6
-					}
-				};
-			}
-
-			if (req.user && req.user.group >= ugroup.mod) {
-				whereBy = {};
-			}
 		} else {
 			res.notFound();
 			return;
@@ -235,16 +211,6 @@ module.exports = {
 						'!': 6
 					}
 
-					if (req.user && req.user.group === ugroup.helper) {
-						whereBy.status = {
-							'!': 6
-						}
-					}
-
-					if (req.user && req.user.group >= ugroup.mod) {
-						delete whereBy.status;
-					}
-
 					if (!findBy.owner && (!req.user || req.user.group <= ugroup.mod)) {
 						findBy.visiblity = 1;
 					}
@@ -263,23 +229,6 @@ module.exports = {
 					whereBy.status = {
 						'!': 5,
 						'!': 6
-					}
-
-					if (req.user && req.user.group === ugroup.helper) {
-						whereBy.createdAt = {
-							'<': lastElementDate
-						}
-						whereBy.status = {
-							'!': 6
-						}
-					}
-
-					if (req.user && req.user.group >= ugroup.mod) {
-						whereBy = {
-							createdAt: {
-								'<': lastElementDate
-							}
-						};
 					}
 				} else {
 					res.notFound();
