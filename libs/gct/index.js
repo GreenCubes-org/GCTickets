@@ -63,7 +63,7 @@ module.exports.getStatusByID = getStatusByID = function (id) {
 
 		case 8:
 			return {
-				text: 'На рассмотрении',
+				text: 'На&nbsp;рассмотрении',
 				class: 'inreview'
 			};
 
