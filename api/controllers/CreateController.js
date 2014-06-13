@@ -5,7 +5,6 @@
 * @description :: Создание тикетов
 */
 
-//FIXME: Поменять на глобальную переменную
 var fs = require('fs'),
 	crypto = require('crypto');
 
@@ -151,12 +150,6 @@ module.exports = {
 	rempro: function(req, res) {
 		async.waterfall([
 			function preCheck(callback) {
-				if (!req.param('title')) {
-					return callback({
-						msg: 'Введите краткое описание'
-					});
-				}
-
 				if (!req.param('reason')) {
 					return callback({
 						msg: 'Введите причину распривата'
@@ -205,7 +198,6 @@ module.exports = {
 						msg: msg
 					});
 				});
-				req.check('title', 'Краткое описание должно содержать не менее %1 и не более %2 символов').len(6,64);
 
 				if(req.param('regions').length && obj.regions.indexOf('') !== -1 || obj.regions.join('').replace(/\n|\r/g, '') !== req.body.regions.replace(/\n|\r/g, '')) {
 					return callback({
@@ -227,8 +219,18 @@ module.exports = {
 				if (obj.regions[0] === '') obj.regions = [];
 				if (obj.stuff[0] === '') obj.stuff = [];
 
+				/* Set title if no title, set obj.createdFor */
 				if (!obj.createdFor) {
-					callback(null, obj);
+					if (!obj.title) {
+						gcdb.user.getByID(obj.owner, function (err, login) {
+							if (err) return callback(err);
+
+							obj.title = 'Заявка для ' + login;
+							callback(null, obj);
+						});
+					} else {
+						callback(null, obj);
+					}
 				} else {
 					gcdb.user.getByLogin(obj.createdFor, function(err, uid) {
 						if (err) return callback(err);
@@ -238,8 +240,19 @@ module.exports = {
 								msg: 'Игрока для которого создаётся заявка не существует'
 							})
 						} else {
-							obj.createdFor = uid;
-							callback(null, obj);
+							if (!obj.title) {
+								gcdb.user.getCapitalizedLogin(obj.createdFor, function (err, login) {
+									obj.title = 'Заявка для ' + login;
+
+									obj.createdFor = uid;
+
+									callback(null, obj);
+								});
+							} else {
+								obj.createdFor = uid;
+
+								callback(null, obj);
+							}
 						}
 					})
 				}
