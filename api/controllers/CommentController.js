@@ -100,7 +100,7 @@ module.exports = {
 		}
 	},
 	
-	newComment: function(req,res) {
+	newComment: function(req, res) {
 		async.waterfall([
 			function preCheck(callback) {
 				if (!req.param('id')) {
@@ -110,19 +110,19 @@ module.exports = {
 					});
 				}
 				
-				if (!req.param('message') || req.param('message') === '') {
-					callback({
-						show: true,
-						msg: 'Комментарий слишком короткий'
-					});
-				} else {
-					callback(null);
-				}
+				callback(null);
 			},
-			function checkOldComments(callback) {
+			function checkOldCommentsNMessageLength(callback) {
 				Ticket.findOne(req.param('id'))
 					.done(function (err, ticket) {
 						if (err) return callback(err);
+
+						if ((!req.param('message') || req.param('message') === '') && req.param('status') === ticket.status) {
+							return callback({
+								show: true,
+								msg: 'Комментарий слишком короткий'
+							});
+						}
 
 						if (ticket.comments && ticket.comments.length > 0) {
 							callback(null, ticket.comments.length + 1, ticket);
@@ -134,7 +134,8 @@ module.exports = {
 			function setData(commentId, origTicket, callback) {
 				var TicketModel = gct.getModelTypeByID(origTicket.type);
 
-				global[TicketModel].findOne(origTicket.tid)
+				global[TicketModel]
+					.findOne(origTicket.tid)
 					.done(function(err, ticket) {
 
 						ticket.status = origTicket.status;
