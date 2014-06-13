@@ -178,8 +178,8 @@ module.exports = {
 					status: 1,
 					createdFor: req.param('createdfor').replace(/[^a-zA-Z0-9_-]/g, ''),
 					owner: req.user.id,
-					regions: req.param('regions').replace(/[^a-zA-Z0-9-_\n]/g, '').trim().split(/\n/) || '',
-					stuff: req.param('stuff').replace(/[^0-9- \n]/g, '').trim().split(/\n/) || '',
+					regions: req.param('regions').trim().split(/\n/) || '',
+					stuff: req.param('stuff').trim().split(/\n/) || '',
 					uploads: uploads || [],
 					visiblity: parseInt(req.param('visiblity'), 10)
 				})
@@ -191,27 +191,7 @@ module.exports = {
 					});
 				}
 
-				var isErr = false;
-				req.onValidationError(function (msg) {
-					isErr = true;
-					callback({
-						msg: msg
-					});
-				});
-
-				if(req.param('regions').length && obj.regions.indexOf('') !== -1 || obj.regions.join('').replace(/\n|\r/g, '') !== req.body.regions.replace(/\n|\r/g, '')) {
-					return callback({
-						msg: 'Регионы могут быть записаны только с использованием латинских символов, цифр, символов \'-\' и \'_\''
-					});
-				}
-
-				if(req.param('stuff').length && obj.stuff.indexOf('') !== -1 || obj.stuff.join('').replace(/\n|\r/g, '') !== req.body.stuff.replace(/\n|\r/g, '')) {
-					return callback({
-						msg: 'Координаты могут быть записаны только цифрами и с использованием символа \'-\''
-					});
-				}
-
-				if (!isErr) return callback(null, obj);
+				return callback(null, obj);
 			},
 			function sanitizeData(obj, callback) {
 				obj.reason = req.sanitize('reason').entityEncode();
