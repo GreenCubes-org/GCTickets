@@ -8,24 +8,27 @@
 module.exports = {
 	
 	listViewComments: function(req, res) {
-		if (!req.param('id')) {
+		if (!req.param('tid')) {
 			return res.json(400, {
 				msg: 'Некорректный запрос'
 			});
 		}
 		
-		Ticket.findOne(req.param('id'))
-			.done(function(err, ticket) {
+		var tid = parseInt(req.param('tid'), 10);
+
+		Comments.find({
+			tid: tid
+		}).done(function(err, comments) {
 				if (err) throw err;
 				
 				if (req.user) {
-					gct.comment.serializeComments(ticket.comments, req.user.group, req.user.id, ticket, function(err, result) {
+					gct.comment.serializeComments(comments, req.user.group, req.user.id, function(err, result) {
 						if (err) throw err;
 
 						res.json(result);
 					});
 				} else {
-					gct.comment.serializeComments(ticket.comments, 0, 0, ticket, function(err, result) {
+					gct.comment.serializeComments(comments, 0, 0, function(err, result) {
 						if (err) throw err;
 
 						res.json(result);
@@ -35,7 +38,7 @@ module.exports = {
 	},
 	
 	deleteComment: function(req, res) {
-		if(!req.param('id') || !req.param('cid')) {
+		if(!req.param('cid')) {
 			return res.json(400, {
 				msg: 'Некорректный запрос'
 			});
@@ -43,55 +46,37 @@ module.exports = {
 		
 		var action = req.param('action');
 		
-		if (action === 'remove' || action === 'recover' || req.param('id') !== 0 && req.param('cid') !== 0) {
-			Ticket.findOne(req.param('id'))
-				.done(function(err, ticket) {
+		if (action === 'remove' || action === 'recover' && req.param('cid') !== 0) {
+			Comments.findOne({id: req.param('cid')})
+				.done(function(err, comment) {
 					if (err) {
 						res.json({status: 'err'});
 						throw err;
 					}
 					
 					if (action === 'remove') {
-						gct.comment.removeComment(ticket.comments, req.param('cid'), req.user.id, false, function(err, comments) {
-							if (err) {
-								if (err.msg) {
-									return res.json({
-										msg: err.msg
-									});
-								} else {
-									res.json({status: 'err'});
-									throw err;
-								}
-							}
-							
-							ticket.comments = comments;
-
-							ticket.save(function(err) {
+						if (comment.status === 3) {
+							comment.destroy(function(err) {
 								if (err) throw err;
 
 								res.json({status: 'OK'});
 							});
-						});
+						} else {
+							comment.status = 3;
+
+							comment.save(function(err) {
+								if (err) throw err;
+
+								res.json({status: 'OK'});
+							});
+						}
 					} else if (action === 'recover') {
-						gct.comment.removeComment(ticket.comments, req.param('cid'), req.user.id, true, function(err, comments) {
-							if (err) {
-								if (err.msg) {
-									return res.json({
-										msg: err.msg
-									});
-								} else {
-									res.json({status: 'err'});
-									throw err;
-								}
-							}
+						comment.status = 1;
 
-							ticket.comments = comments;
+						comment.save(function(err) {
+							if (err) throw err;
 
-							ticket.save(function(err) {
-								if (err) throw err;
-
-								res.json({status: 'OK'});
-							});
+							res.json({status: 'OK'});
 						});
 					}
 				});
@@ -101,54 +86,46 @@ module.exports = {
 	},
 	
 	newComment: function(req, res) {
+		if (!req.param('tid')) {
+			return callback({
+				show: true,
+				msg: 'Некорректный запрос'
+			});
+		}
+
+		var tid = parseInt(req.param('tid'), 10)
+
 		async.waterfall([
-			function preCheck(callback) {
-				if (!req.param('id')) {
-					return callback({
-						show: true,
-						msg: 'Некорректный запрос'
-					});
-				}
-				
-				callback(null);
-			},
 			function checkOldCommentsNMessageLength(callback) {
-				Ticket.findOne(req.param('id'))
-					.done(function (err, ticket) {
-						if (err) return callback(err);
+				Comments.find({
+					tid: tid
+				}).done(function (err, comments) {
+					if (err) return callback(err);
 
-						if ((!req.param('message') || req.param('message') === '') && req.param('status') === ticket.status) {
-							return callback({
-								show: true,
-								msg: 'Комментарий слишком короткий'
-							});
-						}
+					if ((!req.param('message') || req.param('message') === '') && req.param('status') === ticket.status) {
+						return callback({
+							show: true,
+							msg: 'Комментарий слишком короткий'
+						});
+					}
 
-						if (ticket.comments && ticket.comments.length > 0) {
-							callback(null, ticket.comments.length + 1, ticket);
-						} else {
-							callback(null, 1, ticket); // set comment id to 1 because there is no other comments
-						}
-					});
+					if (comments.length) {
+						callback(null, comments.length + 1);
+					} else {
+						callback(null, 1); // set comment id to 1 because there is no other comments
+					}
+				});
 			},
-			function setData(commentId, origTicket, callback) {
-				var TicketModel = gct.getModelTypeByID(origTicket.type);
-
-				global[TicketModel]
-					.findOne(origTicket.tid)
+			function setData(commentId, callback) {
+				Ticket.findOne(tid)
 					.done(function(err, ticket) {
-
-						ticket.status = origTicket.status;
-						ticket.type = origTicket.type;
-						ticket.owner = origTicket.owner;
-
 						callback(null, {
 							id: commentId,
 							owner: req.user.id,
 							message: req.sanitize('message').entityEncode(),
 							status: 1,
 							changedTo: parseInt(req.body.status, 10),
-							createdAt: Date()
+							tid: tid
 						}, ticket);
 					});
 			},
@@ -169,8 +146,11 @@ module.exports = {
 					}).done(function (err, rights) {
 						if (err) return callback(err);
 
-						if (rights.length) callback(null, newComment, false, rights[0].canModerate, ticket);
-							else callback(null, newComment, false, [], ticket);
+						if (rights.length) {
+							callback(null, newComment, false, rights[0].canModerate, ticket);
+						} else {
+							callback(null, newComment, false, [], ticket);
+						}
 					});
 				} else {
 					callback(null, newComment, null, [], ticket);
@@ -206,21 +186,30 @@ module.exports = {
 				});
 			},
 			function createComment(newComment, callback) {
-				Ticket.findOne(req.param('id')).done(function (err, ticket) {
-					if (err) return callback(err);
-					
-					ticket.comments[newComment.id - 1] = newComment;
-
-					if (newComment.changedTo) {
-						ticket.status = newComment.changedTo;
-					}
-
-					ticket.save(function(err) {
+				Comments.create(newComment)
+					.done(function (err, comment) {
 						if (err) return callback(err);
 
 						callback(null, newComment);
 					});
-				})
+			},
+			function changeStatus(newComment, callback) {
+				if (newComment.changedTo) {
+					Ticket.findOne(tid)
+						.done(function (err, ticket) {
+							if (err) return callback(err);
+
+							ticket.status = newComment.changedTo;
+
+							ticket.save(function (err) {
+								if (err) return callback(err);
+
+								callback(null, newComment);
+							});
+						});
+				} else {
+					callback(null, newComment);
+				}
 			},
 			function serialize(newComment, callback) {
 				gcdb.user.getByID(newComment.owner, function(err, login) {

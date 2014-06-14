@@ -1,7 +1,7 @@
 var gct = require('./index');
 
 module.exports = comment = {
-	serializeComments: function serializeComments(comments, userGroup, userId, ticket, cb) {
+	serializeComments: function serializeComments(comments, userGroup, userId, cb) {
 		if (comments === null || comments.length === 0) return cb(null, null);
 
 		async.map(comments, function (comment, callback) {

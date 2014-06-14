@@ -131,8 +131,10 @@ function renderRemovedComments(ticketId) {
 function getComments(ticketId, callback) {
 	$.ajax({
 		type: "GET",
-		url: '/id/' + ticketId + '/comments',
-		data: $(this).serialize(),
+		url: '/comments',
+		data: {
+			tid: ticketId
+		},
 		beforeSend: function() {
 			$('#commentpost').hide();
 			$('#comments').html('<div class="ui active inverted dimmer" style="position: relative !important;padding:5em 0em;"><div class="ui text loader">Загружается</div></div>');
@@ -176,8 +178,8 @@ app.view = {
 		$(document).on('click', '#commentsubmit', function(e) {
 			$.ajax({
 				type: "POST",
-				url: '/id/' + ticketId + '/comment',
-				data: $('#commentpost').serialize(),
+				url: '/comments/new',
+				data: $('#commentpost').serialize() + '&tid=' + ticketId,
 				beforeSend: function () {
 					$('#commentfield').fadeIn('slow').append('<div class="ui active segment dimmer"><div class="ui loader"></div></div>');
 				},
@@ -198,8 +200,11 @@ app.view = {
 						'</div>');
 						$('.ui.active.dimmer').dimmer();
 					} else if (data.responseJSON.changedTo) {
-						$('#commentpost').trigger( 'reset' );
-						location.reload();
+						$('#commentpost').trigger('reset');
+						setTimeout(function() {
+							window.location.reload();
+						}, 0);
+						return true;
 					} else if (data.responseJSON.code === 'OK') {
 						renderAllComments(ticketId);
 					} else {
@@ -217,6 +222,7 @@ app.view = {
 						$('.ui.active.dimmer').dimmer();
 					}
 					$('#commentpost').trigger('reset');
+					return true;
 				}
 			});
 			return false;
@@ -251,7 +257,7 @@ app.view = {
 
 						$.ajax({
 							type: "POST",
-							url: '/id/' + ticketId + '/comment/' + cid + '/remove',
+							url: '/comments/' + cid + '/remove',
 							data: {action: action},
 							beforeSend: function () {
 								$('body').fadeIn('slow').append('<div class="ui active segment dimmer" id="removedimmer"><div class="ui active dimmer" id="removedimmer"><div class="ui loader"></div></div></div>');
