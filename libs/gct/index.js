@@ -172,7 +172,7 @@ module.exports.getProductByID = getProductByID = function (id) {
 
 		default:
 			return {
-				ticketText: 'Не указано',
+				ticketText: '',
 				techText: ''
 			};
 	}

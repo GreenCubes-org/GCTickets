@@ -17,7 +17,7 @@
 &nbsp;<a class="gc-nostylelink" href="/id/<%= globalid %>">#<%= globalid %></a>
 &raquo;&nbsp;<%= ticket.owner %>
 &raquo;&nbsp;<%= moment(ticket.createdAt).format('D MMM YYYY, h:mm') %>
-<% if (ticket.product || ticket.product !== 42) { %>&raquo;&nbsp;<%= ticket.product.ticketText %><% } %>
+<% if (ticket.product && ticket.product.ticketText.length && ticket.product !== 42) { %>&raquo;&nbsp;<%= ticket.product.ticketText %><% } %>
 				</div>
 			</h2>
 		</div>
