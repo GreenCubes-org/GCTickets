@@ -2,11 +2,12 @@
 	<% tickets.forEach(function(ticket) { %>
 	<div class="item" style="color:inherit;padding:0;border-top: 1px solid rgba(0, 0, 0, 0.1);height: 5em;">
 		<div class="right floated t-status <%= ticket.status.class %>" style="padding:2.2em 1em;"><%- ticket.status.text %></div>
-		<a class="content gc-nostylelink" style="display:block;padding: 0.8em 0em;font-size:1.2em;" href="/id/<%= ticket.id %>">
-			<div class="header"><i class="<%= ticket.visibility.class %> icon" title="<%= ticket.visibility.text %>"></i><span style="font-weight: 400;">#<%= ticket.id %>:</span> <%= ticket.title %></div>
-			<div class="description" style="font-size: 0.9em;">
-				<i class="<%= ticket.type.iconclass %> icon" title="<%= ticket.type.descr %>"></i>
+		<i class="right floated big <%= ticket.type.iconclass %> icon"  style="padding: 0.8em 0.4em !important;margin: 0em !important;" title="<%= ticket.type.descr %>"></i>
 
+		<a class="content gc-nostylelink" style="display:block;padding: 0.8em 0em;font-size:1.2em;" href="/id/<%= ticket.id %>">
+			<div class="header"><span style="font-weight: 400;">#<%= ticket.id %>:</span> <%= ticket.title %></div>
+			<div class="description" style="font-size: 0.9em;">
+				<i class="<%= ticket.visibility.class %> small icon" style="margin:0em !important;" title="<%= ticket.visibility.text %>"></i>
 				<i class="user small icon"></i><%= ticket.owner %>
 				<span title="<%= moment(ticket.createdAt).format('Do MMM YYYY, h:mm') %>"><i class="time small icon"></i><%= moment(ticket.createdAt).fromNow() %></span>
 				<% if (ticket.commentsCount) { %><i class="comment small icon"></i><%= ticket.commentsCount %><% } %>
