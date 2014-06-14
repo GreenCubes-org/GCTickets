@@ -1,0 +1,17 @@
+<%- partial('partials/header')%>
+<div class="container" style="position:relative">
+	<div class="ui grid">
+		<div class="column l-leftcolumn">
+			<a href="/new" class="ui basic fluid button">
+				<i class="add icon"></i>
+				Новый тикет
+			</a>
+			<%- partial('partials/filter')%>
+		</div>
+		<div id="l-content" class="column l-rightcolumn" style="display: inline-block;">
+			<div style="padding: 12em 0em;text-align: center;font-size:1.4em">
+				Тикетов нет
+			</div>
+		</div>
+	</div>
+</div>

@@ -115,61 +115,76 @@ module.exports = rempro = {
 						callback(null, obj);
 					});
 				}
+			},
+			function getTicket(obj, callback) {
+				Ticket.find({
+					tid: obj.id,
+					type: 2
+				}).done(function (err, ticket) {
+					if (err) return cb(err);
+
+					callback(null, obj, ticket);
+				});
+			},
+			function getCommentsCount(obj, ticket, callback) {
+				Comments.find({
+					tid: ticket[0].id
+				}).done(function (err, comments) {
+					if (err) return callback(err);
+
+					obj.commentsCount =  comments.length;
+
+					callback(null, obj, ticket);
+				});
 			}
-		],
-		function (err, obj) {
+		], function (err, obj, ticket) {
 			if (err) return cb(err);
 
-			Ticket.find({
-				tid: obj.id,
-				type: 2
-			}).done(function (err, ticket) {
-				if (err) return cb(err);
-
-				if (config && config.isEdit) {
-					cb(null, {
-						id: ticket[0].id,
-						title: obj.title,
-						reason: obj.reason,
-						regions: obj.regions,
-						stuff: obj.stuff,
-						status: obj.status,
-						createdFor: obj.createdFor,
-						owner: obj.owner,
-						uploads: obj.uploads,
-						visiblity: {
-							id: ticket[0].visiblity,
-							text: getVisiblityByID(ticket[0].visiblity)
-						},
-						createdAt: obj.createdAt,
-						type: {
-							descr: 'Расприват',
-							iconclass: 'remove',
-							id: obj.type
-						}
-					});
-				} else {
-					cb(null, {
-						id: ticket[0].id,
-						title: obj.title,
-						reason: obj.reason,
-						regions: obj.regions,
-						stuff: obj.stuff,
-						status: obj.status,
-						createdFor: obj.createdFor,
-						owner: obj.owner,
-						ownerId: obj.ownerId,
-						uploads: obj.uploads,
-						visiblity: getVisiblityByID(ticket[0].visiblity),
-						createdAt: obj.createdAt,
-						type: {
-							descr: 'Расприват',
-							iconclass: 'remove',
-							id: obj.type
-						}
-					});
-				}
-			});
+			if (config && config.isEdit) {
+				cb(null, {
+					id: ticket[0].id,
+					title: obj.title,
+					reason: obj.reason,
+					regions: obj.regions,
+					stuff: obj.stuff,
+					status: obj.status,
+					createdFor: obj.createdFor,
+					owner: obj.owner,
+					uploads: obj.uploads,
+					visiblity: {
+						id: ticket[0].visiblity,
+						text: getVisiblityByID(ticket[0].visiblity)
+					},
+					createdAt: obj.createdAt,
+					type: {
+						descr: 'Расприват',
+						iconclass: 'remove',
+						id: obj.type
+					},
+					commentsCount: obj.commentsCount
+				});
+			} else {
+				cb(null, {
+					id: ticket[0].id,
+					title: obj.title,
+					reason: obj.reason,
+					regions: obj.regions,
+					stuff: obj.stuff,
+					status: obj.status,
+					createdFor: obj.createdFor,
+					owner: obj.owner,
+					ownerId: obj.ownerId,
+					uploads: obj.uploads,
+					visiblity: getVisiblityByID(ticket[0].visiblity),
+					createdAt: obj.createdAt,
+					type: {
+						descr: 'Расприват',
+						iconclass: 'remove',
+						id: obj.type
+					},
+					commentsCount: obj.commentsCount
+				});
+			}
 		});
 	},
 

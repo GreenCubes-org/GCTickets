@@ -89,59 +89,74 @@ module.exports = bugreport = {
 						});
 					});
 				}
+			},
+			function getTicket(obj, callback) {
+				Ticket.find({
+					tid: obj.id,
+					type: 1
+				}).done(function (err, ticket) {
+					if (err) return cb(err);
+
+					callback(null, obj, ticket);
+				});
+			},
+			function getCommentsCount(obj, ticket, callback) {
+				Comments.find({
+					tid: ticket[0].id
+				}).done(function (err, comments) {
+					if (err) return callback(err);
+
+					obj.commentsCount =  comments.length;
+
+					callback(null, obj, ticket);
+				});
 			}
-		],
-		function (err, obj) {
+		], function (err, obj, ticket) {
 			if (err) return cb(err);
 
-			Ticket.find({
-				tid: obj.id,
-				type: 1
-			}).done(function (err, ticket) {
-				if (err) return cb(err);
-
-				if (config && config.isEdit) {
-					cb(null, {
-						id: ticket[0].id,
-						title: obj.title,
-						description: obj.description,
-						status: obj.status,
-						owner: obj.owner,
-						logs: obj.logs,
-						uploads: obj.uploads,
-						product: obj.product,
-						visiblity: {
-							id: ticket[0].visiblity,
-							text: getVisiblityByID(ticket[0].visiblity)
-						},
-						createdAt: obj.createdAt,
-						type: {
-							descr: 'Баг-репорт',
-							iconclass: 'bug',
-							id: obj.type
-						}
-					});
-				} else {
-					cb(null, {
-						id: ticket[0].id,
-						title: obj.title,
-						description: obj.description,
-						status: obj.status,
-						owner: obj.owner,
-						ownerId: obj.ownerId,
-						logs: obj.logs,
-						uploads: obj.uploads,
-						product: obj.product,
-						visiblity: getVisiblityByID(ticket[0].visiblity),
-						createdAt: obj.createdAt,
-						type: {
-							descr: 'Баг-репорт',
-							iconclass: 'bug',
-							id: obj.type
-						}
-					});
-				}
-			});
+			if (config && config.isEdit) {
+				cb(null, {
+					id: ticket[0].id,
+					title: obj.title,
+					description: obj.description,
+					status: obj.status,
+					owner: obj.owner,
+					logs: obj.logs,
+					uploads: obj.uploads,
+					product: obj.product,
+					visiblity: {
+						id: ticket[0].visiblity,
+						text: getVisiblityByID(ticket[0].visiblity)
+					},
+					createdAt: obj.createdAt,
+					type: {
+						descr: 'Баг-репорт',
+						iconclass: 'bug',
+						id: obj.type
+					},
+					commentsCount: obj.commentsCount
+				});
+			} else {
+				cb(null, {
+					id: ticket[0].id,
+					title: obj.title,
+					description: obj.description,
+					status: obj.status,
+					owner: obj.owner,
+					ownerId: obj.ownerId,
+					logs: obj.logs,
+					uploads: obj.uploads,
+					product: obj.product,
+					visiblity: getVisiblityByID(ticket[0].visiblity),
+					createdAt: obj.createdAt,
+					type: {
+						descr: 'Баг-репорт',
+						iconclass: 'bug',
+						id: obj.type
+					},
+					commentsCount: obj.commentsCount
+				});
+			}
 		});
 	},
 

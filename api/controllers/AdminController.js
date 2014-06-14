@@ -24,7 +24,7 @@ module.exports = {
 					if (element.canModerate) {
 						async.map(element.canModerate, function(element, callback) {
 							serializedCanModerate = gct.getProductByID(element);
-							element = serializedCanModerate.adminText;
+							element = serializedCanModerate.techText;
 
 							callback(null, element);
 						}, function(err, result) {
@@ -113,15 +113,15 @@ module.exports = {
 			},
 			function canModerate(obj, callback) {
 				if (req.body['mod-main']) {
-					obj.canModerate.push(2,12, 3);
+					obj.canModerate.push(2);
 				}
 				
 				if (req.body['mod-rpg']) {
-					obj.canModerate.push(8, 9);
+					obj.canModerate.push(3);
 				}
 				
 				if (req.body['mod-apo']) {
-					obj.canModerate.push(10, 11);
+					obj.canModerate.push(4);
 				}
 				
 				callback(null, obj);

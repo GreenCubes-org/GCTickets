@@ -397,7 +397,10 @@ input.s-regionstuffitem {
 	text-overflow: ellipsis;
 }
 /* Ticket list classes */
-
+.t-id {
+	width: 4%;
+	font-size: 0.7em;
+}
 .t-type {
 	width: 4%;
 }
@@ -497,12 +500,28 @@ input.s-regionstuffitem {
 	box-shadow: 2px 0px 0px rgb(39, 216, 39) inset;
 }
 
-
-/* List styles */
-#l-content {
-	display: none;
+.l-menu.main,
+.t-status.main {
+	box-shadow: 2px 0px 0px #69A26D inset;
+	background-color: #cadecb;
+}
+.l-menu.rpg,
+.t-status.rpg {
+	background-color: #efd4eb;
+	box-shadow: 2px 0px 0px #D58CC9 inset;
+}
+.l-menu.apocalyptic,
+.t-status.apocalyptic {
+	background-color: #ffe0a2;
+	box-shadow: 2px 0px 0px #FFBF40 inset;
+}
+.l-menu.websites,
+.t-status.websites {
+	background-color: #89cb96;
+	box-shadow: 2px 0px 0px #32713F inset;
 }
 
+/* List styles */
 .l-label {
 	color: rgba(0, 0, 0, 0.65) !important;
 }

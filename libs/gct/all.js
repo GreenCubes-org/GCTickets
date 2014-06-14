@@ -5,13 +5,11 @@ module.exports = {
 				case 1:
 					async.waterfall([
 						function getBugreport(callback) {
-							Ticket.findOne(obj.id).done(function (err, ticket) {
-								Bugreport.findOne(obj.tid).done(function (err, result) {
-									if (err) return callback(err);
+							Bugreport.findOne(obj.tid).done(function (err, result) {
+								if (err) return callback(err);
 
-									result.status = ticket.status;
-									callback(err, result);
-								});
+								result.status = obj.status;
+								callback(err, result);
 							});
 						},
 						function serialize(result, callback) {
@@ -25,10 +23,15 @@ module.exports = {
 										status: ticket.status,
 										owner: ownerLogin,
 										createdAt: ticket.createdAt,
+										visibility: {
+											class: (ticket.visiblity === 'Публичный') ? 'unlock alternate' : 'lock',
+											text: ticket.visiblity
+										},
 										type: {
 											descr: 'Баг-репорт',
 											iconclass: 'bug'
-										}
+										},
+										commentsCount: ticket.commentsCount
 									});
 								});
 							});
@@ -44,15 +47,11 @@ module.exports = {
 			case 2:
 				async.waterfall([
 					function getRempro(callback) {
-						Ticket.findOne(obj.id).done(function (err, ticket) {
-							Rempro.find({
-								id: obj.tid
-							}).done(function (err, result) {
-								if (err) return callback(err);
+						Rempro.findOne(obj.tid).done(function (err, result) {
+							if (err) return callback(err);
 
-								result[0].status = ticket.status;
-								callback(err, result[0]);
-							});
+							result.status = obj.status;
+							callback(err, result);
 						});
 					},
 					function serialize(result, callback) {
@@ -66,57 +65,29 @@ module.exports = {
 									status: ticket.status,
 									owner: ownerLogin,
 									createdAt: ticket.createdAt,
+									visibility: {
+										class: (ticket.visiblity === 'Публичный') ? 'unlock alternate' : 'lock',
+										text: ticket.visiblity
+									},
 									type: {
 										descr: 'Расприват',
 										iconclass: 'remove'
-									}
+									},
+									commentsCount: ticket.commentsCount
 								});
 							});
 						});
 					}
 				],
-				function (err, bugreport) {
+				function (err, rempro) {
 					if (err) return callback(err);
 
-					callback(null, bugreport);
+					callback(null, rempro);
 				});
 				break;
 
 			case 3:
-				async.waterfall([
-						function getBugreport(callback) {
-							Ban.find({
-								id: obj.tid
-							}).done(function (err, result) {
-								if (err) return callback(err);
-
-								callback(err, result[0]);
-							});
-						},
-						function serialize(result, callback) {
-							ban.serializeSingle(result, null, function (err, ticket) {
-								if (err) return callback(err);
-
-								callback(null, {
-									id: ticket.id,
-									title: ticket.title,
-									status: ticket.status,
-									owner: ticket.owner,
-									createdAt: ticket.createdAt,
-									type: {
-										descr: 'Заявка на бан',
-										iconclass: 'ban circle'
-									}
-								});
-							})
-						}
-					],
-					function (err, bugreport) {
-						if (err) throw err;
-
-						callback(null, bugreport);
-					});
-					break;
+				break;
 
 			case 4:
 				break; //unban.serializeSingle

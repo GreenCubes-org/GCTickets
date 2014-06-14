@@ -16,7 +16,6 @@ module.exports.rempro = rempro = require('./rempro');
 module.exports.ban = ban = require('./ban');
 module.exports.comment = comment = require('./comment');
 
-//TODO: Заставить это и функции ниже работать с JSON файлом со значениями
 module.exports.getStatusByID = getStatusByID = function (id) {
 	switch (id) {
 		case 1:
@@ -144,80 +143,69 @@ module.exports.getProductByID = getProductByID = function (id) {
 		case 1:
 			return {
 				ticketText: 'Неизвестно',
-				adminText: ''
+				techText: ''
 			};
 
 		case 2:
 			return {
-				ticketText: 'GC.Main Клиент',
-				adminText: 'main-cli'
+				ticketText: 'Сервер Main',
+				techText: 'main'
 			};
 
 		case 3:
 			return {
-				ticketText: 'GC.Main Сервер (GreenServer)',
-				adminText: 'main-srv'
+				ticketText: 'Сервер RPG',
+				techText: 'rpg'
 			};
 
 		case 4:
 			return {
-				ticketText: 'GreenCubes.org Сайт',
-				adminText: ''
+				ticketText: 'Сервер Apocalyptic',
+				techText: 'apocalyptic'
 			};
 
 		case 5:
 			return {
-				ticketText: 'Форум GreenCubes',
-				adminText: ''
-			};
-
-		case 6:
-			return {
-				ticketText: 'GreenCubes.Wiki',
-				adminText: ''
-			};
-
-		case 7:
-			return {
-				ticketText: 'Система поддержки GC',
-				adminText: ''
-			};
-
-		case 8:
-			return {
-				ticketText: 'GC.RPG Клиент',
-				adminText: 'rpg-cli'
-			};
-
-		case 9:
-			return {
-				ticketText: 'GC.RPG Сервер',
-				adminText: 'rpg-srv'
-			};
-
-		case 10:
-			return {
-				ticketText: 'GC.Apocalyptic Клиент',
-				adminText: 'apo-cli'
-			};
-
-		case 11:
-			return {
-				ticketText: 'GC.Apocalyptic Сервер',
-				adminText: 'apo-srv'
-			};
-
-		case 12:
-			return {
-				ticketText: 'GC.Main Новый клиент',
-				adminText: 'main-newcli'
+				ticketText: 'Веб-сервисы',
+				techText: 'websites'
 			};
 
 		default:
 			return {
 				ticketText: 'Не указано',
-				adminText: ''
+				techText: ''
 			};
+	}
+};
+
+module.exports.getProductByTechText = getProductByTechText = function (id) {
+	switch (id) {
+		case 'main':
+			return {
+				ticketText: 'Сервер Main',
+				id: 2
+			};
+
+		case 'rpg':
+			return {
+				ticketText: 'Сервер RPG',
+				id: 3
+			};
+
+		case 'apocalyptic':
+			return {
+				ticketText: 'Сервер Apocalyptic',
+				id: 4
+			};
+
+		case 'websites':
+			return {
+				ticketText: 'Веб-сервисы',
+				id: 5
+			};
+
+		default:
+			return;
 	}
 };
 
@@ -300,6 +288,78 @@ module.exports.getBaseUrlTypeByID = getBaseUrlTypeByID = function (id) {
 
 		default:
 			return;
+	}
+};
+
+module.exports.serializeList = serializeList = function (type) {
+	switch (type) {
+		case 'all':
+			return {
+				url: 'all',
+				text: 'Все тикеты',
+				iconclass: 'reorder',
+				title: 'Список всех тикетов — GC.Поддержка'
+			};
+
+		case 'my':
+			return {
+				url: 'my',
+				text: 'Ваши тикеты',
+				iconclass: 'user',
+				title: 'Список Ваших тикетов — GC.Поддержка'
+			};
+
+		case 'bugreports':
+			return {
+				url: 'bugreports',
+				text: 'Баг-репорты',
+				iconclass: 'bug',
+				title: 'Список баг-репортов — GC.Поддержка'
+			};
+
+		case 'rempros':
+			return {
+				url: 'all',
+				text: 'Заявки на расприват',
+				iconclass: 'reorder',
+				title: 'Список заявок на расприват — GC.Поддержка'
+			};
+
+		case 'bans':
+			return {
+				url: 'bans',
+				text: 'Заявки на бан',
+				iconclass: 'ban circle',
+				title: 'Список заявок на бан — GC.Поддержка'
+			};
+
+		case 'unbans':
+			return {
+				url: 'unbans',
+				text: 'Заявки на разбан',
+				iconclass: 'circle blank',
+				title: 'Список заявок на разбан — GC.Поддержка'
+			};
+
+		case 'regen':
+			return {
+				url: 'regens',
+				text: 'Заявки на регенерацию',
+				iconclass: 'leaf',
+				title: 'Список заявок на регенерацию — GC.Поддержка'
+			}
+
+		case 'admreq':
+			return {
+				url: 'admreq',
+				text: 'Обращения к администрации',
+				iconclass: 'briefcase',
+				title: 'Список обращений к администрации — GC.Поддержка'
+			}
+
+		default:
+			return;
+
 	}
 };
 

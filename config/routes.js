@@ -48,47 +48,32 @@ module.exports.routes = {
 	'get /id/:id/delete': 'edit.deleteTpl',
 	'post /id/:id/delete': 'edit.deletePost',
 	'/id/:id/report': 'dev.hideFeature',
-	'get /id/:id/comments': 'comment.listViewComments',
-	'get /id/:id/comment/:cid/report': 'dev.hideFeature',
-	'post /id/:id/comment/:cid/remove': 'comment.deleteComment',
-	'post /id/:id/comment': 'comment.newComment',
+	'get /comments': 'comment.listViewComments',
+	'get /comments/:cid/report': 'dev.hideFeature',
+	'post /comments/:cid/remove': 'comment.deleteComment',
+	'post /comments/new': 'comment.newComment',
 
 	// Мои тикеты
-	'/my': 'list.listMyTpl',
-	'/my/read': 'list.listNewest',
-	'/my/read/:page': 'list.list20',
-	'/my/:filter': 'list.listMyTpl',
-	'/my/:filter/read': 'list.listNewest',
-	'/my/:filter/read/:page': 'list.list20',
+	'/my': 'list.listTwenty',
+	'/my/:page': 'list.listTwenty',
 
 	// Новый тикет без типа
 	'/new': 'create.mainTpl',
 
 	// Все тикеты
-	'/all': 'list.listAllTpl',
-	'/all/read': 'list.listNewest',
-	'/all/read/:page': 'list.list20',
-	'/all/:filter': 'list.listAllTpl',
-	'/all/:filter/read': 'list.listNewest',
-	'/all/:filter/read/:page': 'list.list20',
+	'/all': 'list.listTwenty',
+	'/all/:param': 'list.listTwenty',
 
 	// Багрепорты
-	'/bugreports': 'list.listBugreportTpl',
-	'/bugreports/read': 'list.listNewest',
-	'/bugreports/read/:page': 'list.list20',
-	'/bugreports/:filter': 'list.listBugreportTpl',
-	'/bugreports/:filter/read': 'list.listNewest',
-	'/bugreports/:filter/read/:page': 'list.list20',
+	'/bugreports': 'list.listTwenty',
+	'/bugreports/:param': 'list.listTwenty',
+	'/bugreports/:param/:page': 'list.listByProduct',
 	'get /new/bugreport': 'create.bugreportTpl',
 	'post /new/bugreport': 'create.bugreport',
 
 	// Расприваты
-	'/rempros': 'list.listRemproTpl',
-	'/rempros/read': 'list.listNewest',
-	'/rempros/read/:page': 'list.list20',
-	'/rempros/:filter': 'list.listBugreportTpl',
-	'/rempros/:filter/read': 'list.listNewest',
-	'/rempros/:filter/read/:page': 'list.list20',
+	'/rempros': 'list.listTwenty',
+	'/rempros/:param': 'list.listTwenty',
 	'get /new/rempro': 'create.remproTpl',
 	'post /new/rempro': 'create.rempro'
 };

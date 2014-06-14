@@ -6,10 +6,10 @@
 	<div class="header item">Фильтровать по видимости</div>
 	<div class="item">
 		<div class="menu">
-			<a class="item l-menu <% if (filterUrl === 'public') { %> active<% } %>" href="<%= listUrl %>/public">
+			<a class="item l-menu <% if (filterUrl === 'public') { %> active<% } %>" href="<%= listUrl %>/?visibility=public">
 				Публичный
 			</a>
-			<a class="item l-menu <% if (filterUrl === 'private') { %> active<% } %>" href="<%= listUrl %>/private">
+			<a class="item l-menu <% if (filterUrl === 'private') { %> active<% } %>" href="<%= listUrl %>/?visibility=private">
 				Приватный
 			</a>
 		</div>
@@ -19,27 +19,33 @@
 	<div class="item">
 		Общие статусы
 		<div class="menu">
-			<a class="item l-menu new <% if (filterUrl === 'new') { %> active<% } %>" href="<%= listUrl %>/new">
-				Новый
-			</a>
-			<a class="item l-menu rejected <% if (filterUrl === 'rejected') { %> active<% } %>" href="<%= listUrl %>/rejected">
-				Отменён
-			</a>
-			<a class="item l-menu specify <% if (filterUrl === 'specify') { %> active<% } %>" href="<%= listUrl %>/specify">
-				Уточнить
-			</a>
-			<a class="item l-menu declined <% if (filterUrl === 'declined') { %> active<% } %>" href="<%= listUrl %>/declined">
-				Отклонён
-			</a>
+			<div class="item l-menu new <% if (filterUrl === 'new') { %> active<% } %>">
+				<a class="left floated tiny gc-nostylelink" href="<%=listUrl%>?nostatus=new"><i class="icon disabled remove"></i></a>
+				<a href="<%= listUrl %>?status=new">Новый</a>
+			</div>
+			<div class="item l-menu rejected <% if (filterUrl === 'rejected') { %> active<% } %>">
+				<a class="left floated tiny gc-nostylelink" href="<%=listUrl%>?nostatus=rejected"><i class="icon disabled remove"></i></a>
+				<a href="<%= listUrl %>?status=rejected">Отменён</a>
+			</div>
+			<div class="item l-menu specify <% if (filterUrl === 'specify') { %> active<% } %>">
+				<a class="left floated tiny gc-nostylelink" href="<%=listUrl%>?nostatus=specify"><i class="icon disabled remove"></i></a>
+				<a href="<%= listUrl %>?status=specify">Уточнить</a>
+			</div>
+			<div class="item l-menu declined <% if (filterUrl === 'declined') { %> active<% } %>">
+				<a class="left floated tiny gc-nostylelink" href="<%=listUrl%>?nostatus=declined"><i class="icon disabled remove"></i></a>
+				<a href="<%= listUrl %>?status=declined">Отклонён</a>
+			</div>
 			<% if (req.user && req.user.group >= ugroup.helper) { %>
-			<a class="item l-menu hidden <% if (filterUrl === 'hidden') { %> active<% } %>" href="<%= listUrl %>/hidden">
-				Скрыт
-			</a>
+			<div class="item l-menu hidden <% if (filterUrl === 'hidden') { %> active<% } %>">
+				<a class="left floated tiny gc-nostylelink" href="<%=listUrl%>?nostatus=hidden"><i class="icon disabled remove"></i></a>
+				<a href="<%= listUrl %>?status=hidden">Скрыт</a>
+			</div>
 			<% } %>
 			<% if (req.user && req.user.group >= ugroup.staff) { %>
-			<a class="item l-menu removed <% if (filterUrl === 'removed') { %> active<% } %>" href="<%= listUrl %>/removed">
-				Удалён
-			</a>
+			<div class="item l-menu removed <% if (filterUrl === 'removed') { %> active<% } %>">
+				<a class="left floated tiny gc-nostylelink" href="<%=listUrl%>?nostatus=removed"><i class="icon disabled remove"></i></a>
+				<a href="<%= listUrl %>?status=removed">Удалён</a>
+			</div>
 			<% } %>
 			<% if (type.text !== 'Удаление защит') { %>
 		</div>
@@ -47,12 +53,14 @@
 	<div class="item">
 		Только для баг-репортов
 		<div class="menu">
-			<a class="item l-menu accepted <% if (filterUrl === 'accepted') { %> active<% } %>" href="<%= listUrl %>/accepted">
-				Принят
-			</a>
-			<a class="item l-menu fixed <% if (filterUrl === 'fixed') { %> active<% } %>" href="<%= listUrl %>/fixed">
-				Исправлен
-			</a>
+			<div class="item l-menu accepted <% if (filterUrl === 'accepted') { %> active<% } %>">
+				<a class="left floated tiny gc-nostylelink" href="<%=listUrl%>?nostatus=accepted"><i class="icon disabled remove"></i></a>
+				<a href="<%= listUrl %>?status=accepted">Принят</a>
+			</div>
+			<div class="item l-menu fixed <% if (filterUrl === 'fixed') { %> active<% } %>">
+				<a class="left floated tiny gc-nostylelink" href="<%=listUrl%>?nostatus=fixed"><i class="icon disabled remove"></i></a>
+				<a href="<%= listUrl %>?status=fixed">Исправлен</a>
+			</div>
 			<% } %>
 			<% if (type.text !== 'Баг-репорты') { %>
 		</div>
@@ -60,19 +68,42 @@
 	<div class="item">
 		Только для удаления защит
 		<div class="menu">
-			<a class="item l-menu helpfixed <% if (filterUrl === 'helpfixed') { %> active<% } %>" href="<%= listUrl %>/helpfixed">
-				Исправлен
-			</a>
-			<a class="item l-menu inreview <% if (filterUrl === 'inreview') { %> active<% } %>" href="<%= listUrl %>/inreview">
-				На рассмотрении
-			</a>
-			<a class="item l-menu delayed <% if (filterUrl === 'delayed') { %> active<% } %>" href="<%= listUrl %>/delayed">
-				Отложен
-			</a>
-			<a class="item l-menu done <% if (filterUrl === 'done') { %> active<% } %>" href="<%= listUrl %>/done">
-				Выполнен
-			</a>
+			<div class="item l-menu helpfixed <% if (filterUrl === 'helpfixed') { %> active<% } %>">
+				<a class="left floated tiny gc-nostylelink" href="<%=listUrl%>?nostatus=helpfixed"><i class="icon disabled remove"></i></a>
+				<a href="<%= listUrl %>?status=helpfixed">Исправлен</a>
+			</div>
+			<div class="item l-menu inreview <% if (filterUrl === 'inreview') { %> active<% } %>">
+				<a class="left floated tiny gc-nostylelink" href="<%=listUrl%>?nostatus=inreview"><i class="icon disabled remove"></i></a>
+				<a href="<%= listUrl %>?status=inreview">На рассмотрении</a>
+			</div>
+			<div class="item l-menu delayed <% if (filterUrl === 'delayed') { %> active<% } %>">
+				<a class="left floated tiny gc-nostylelink" href="<%=listUrl%>?nostatus=delayed"><i class="icon disabled remove"></i></a>
+				<a href="<%= listUrl %>?status=delayed">Отложен</a>
+			</div>
+			<div class="item l-menu done <% if (filterUrl === 'done') { %> active<% } %>">
+				<a class="left floated tiny gc-nostylelink" href="<%=listUrl%>?nostatus=done"><i class="icon disabled remove"></i></a>
+				<a href="<%= listUrl %>?status=done">Выполнен</a>
+			</div>
 			<% } %>
 		</div>
 	</div>
+	<% if (type.text === 'Баг-репорты') { %>
+	<div class="header item">Фильтровать по местоположению проблемы</div>
+	<div class="item">
+		<div class="menu">
+			<div class="item l-menu main <% if (filterUrl === 'main') { %> active<% } %>">
+				<a href="<%= listUrl %>/main">Сервер Main</a>
+			</div>
+			<div class="item l-menu rpg <% if (filterUrl === 'rpg') { %> active<% } %>">
+				<a href="<%= listUrl %>/rpg">Сервер RPG</a>
+			</div>
+			<div class="item l-menu apocalyptic <% if (filterUrl === 'apocalyptic') { %> active<% } %>">
+				<a href="<%= listUrl %>/apocalyptic">Сервер Apocalyptic</a>
+			</div>
+			<div class="item l-menu websites <% if (filterUrl === 'websites') { %> active<% } %>">
+				<a href="<%= listUrl %>/websites">Веб-сайты</a>
+			</div>
+		</div>
+	</div>
+	<% } %>
 </div>

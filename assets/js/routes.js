@@ -4,7 +4,7 @@ var app = app || {};
 crossroads.addRoute('/', app.main.index);
 crossroads.addRoute('/login', app.main.login);
 
-/* List pages */
+/* List pages *//*
 crossroads.addRoute('/all', app.list.get);
 crossroads.addRoute('/all/{status}', app.list.filterByStatus);
 crossroads.addRoute('/bugreports', app.list.get);
@@ -21,7 +21,7 @@ crossroads.addRoute('/regens', app.list.get);
 crossroads.addRoute('/regens/{status}', app.list.filterByStatus);
 crossroads.addRoute('/my', app.list.get);
 crossroads.addRoute('/my/{status}', app.list.filterByStatus);
-
+*/
 /* Ticket creation pages */
 crossroads.addRoute('/new/bugreport', app.create.main);
 crossroads.addRoute('/new/rempro', app.create.main);
