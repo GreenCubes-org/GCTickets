@@ -1,8 +1,8 @@
 <div class="ui selection list">
 	<% tickets.forEach(function(ticket) { %>
-	<div class="item" style="color:inherit;padding:0;border-top: 1px solid rgba(0, 0, 0, 0.1);">
-		<div class="right floated t-status <%= ticket.status.class %>" style="padding:1em 0.5em;"><%- ticket.status.text %></div>
-		<a class="content gc-nostylelink" style="display:block;padding: 0.2em 0em;" href="/id/<%= ticket.id %>">
+	<div class="item" style="color:inherit;padding:0;border-top: 1px solid rgba(0, 0, 0, 0.1);height: 5em;">
+		<div class="right floated t-status <%= ticket.status.class %>" style="padding:2.2em 1em;"><%- ticket.status.text %></div>
+		<a class="content gc-nostylelink" style="display:block;padding: 0.8em 0em;font-size:1.2em;" href="/id/<%= ticket.id %>">
 			<div class="header"><i class="<%= ticket.visibility.class %> icon" title="<%= ticket.visibility.text %>"></i><span style="font-weight: 400;">#<%= ticket.id %>:</span> <%= ticket.title %></div>
 			<div class="description" style="font-size: 0.9em;">
 				<i class="<%= ticket.type.iconclass %> icon" title="<%= ticket.type.descr %>"></i>
