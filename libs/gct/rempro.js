@@ -128,7 +128,10 @@ module.exports = rempro = {
 			},
 			function getCommentsCount(obj, ticket, callback) {
 				Comments.find({
-					tid: ticket[0].id
+					tid: ticket[0].id,
+					status: {
+						'!': 3
+					}
 				}).done(function (err, comments) {
 					if (err) return callback(err);
 
