@@ -1,4 +1,4 @@
-<% var listUrl = '/' + req.path.split('/')[1],
+<% var listUrl = '/' + req.path.split('/')[1] + (req.path.split('/')[1] === 'users') ? user.login : '',
 	filterUrl = req.path.split('/')[2] %>
 <div class="ui vertical fluid menu">
 	<a class="item" href="<%= listUrl %>">Сбросить фильтрацию</a>
