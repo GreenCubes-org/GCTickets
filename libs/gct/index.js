@@ -321,7 +321,7 @@ module.exports.serializeList = serializeList = function (type) {
 			return {
 				url: 'all',
 				text: 'Заявки на расприват',
-				iconclass: 'reorder',
+				iconclass: 'trash',
 				title: 'Список заявок на расприват — GC.Поддержка'
 			};
 

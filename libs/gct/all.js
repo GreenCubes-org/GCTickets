@@ -24,7 +24,7 @@ module.exports = {
 										owner: ownerLogin,
 										createdAt: ticket.createdAt,
 										visibility: {
-											class: (ticket.visiblity === 'Публичный') ? 'unlock alternate' : 'lock',
+											class: (ticket.visiblity === 'Публичный') ? 'unlock' : 'lock',
 											text: ticket.visiblity
 										},
 										type: {
@@ -67,12 +67,12 @@ module.exports = {
 									owner: ownerLogin,
 									createdAt: ticket.createdAt,
 									visibility: {
-										class: (ticket.visiblity === 'Публичный') ? 'unlock alternate' : 'lock',
+										class: (ticket.visiblity === 'Публичный') ? 'unlock' : 'lock',
 										text: ticket.visiblity
 									},
 									type: {
 										descr: 'Расприват',
-										iconclass: 'remove'
+										iconclass: 'trash'
 									},
 									commentsCount: ticket.commentsCount
 								});
