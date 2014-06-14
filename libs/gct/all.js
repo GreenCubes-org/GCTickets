@@ -31,6 +31,7 @@ module.exports = {
 											descr: 'Баг-репорт',
 											iconclass: 'bug'
 										},
+										product: ticket.product,
 										commentsCount: ticket.commentsCount
 									});
 								});

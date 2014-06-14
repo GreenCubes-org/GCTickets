@@ -21,6 +21,7 @@
 							<i class="user small icon"></i><%= ticket.owner %>
 							<span title="<%= moment(ticket.createdAt).format('Do MMM YYYY, h:mm') %>"><i class="time small icon"></i><%= moment(ticket.createdAt).fromNow() %></span>
 							<i class="comment small icon"></i><%= ticket.commentsCount %>
+							<% if (ticket.product) { %><i class="map marker icon"></i><%= ticket.product.ticketText %><% } %>
 						</div>
 					</a>
 				</div>
