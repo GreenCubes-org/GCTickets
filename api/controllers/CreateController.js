@@ -222,7 +222,7 @@ module.exports = {
 						} else {
 							if (!obj.title) {
 								gcdb.user.getCapitalizedLogin(obj.createdFor, function (err, login) {
-									obj.title = 'Заявка для ' + login;
+									obj.title = 'Заявка от ' + login;
 
 									obj.createdFor = uid;
 
