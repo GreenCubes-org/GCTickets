@@ -30,12 +30,12 @@
 					<a href="/<%= type.url %>/1<%= query %>" class="item <% if (currentPage === 1) { %>active<% } %>">
 						1
 					</a>
-					<% if (lastPage > 2) { %>
+					<% if (lastPage >= 2) { %>
 					<a href="/<%= type.url %>/2<%= query %>" class="item <% if (currentPage === 2) { %>active<% } %>">
 						2
 					</a>
 					<% } %>
-					<% if (lastPage > 3) { %>
+					<% if (lastPage >= 3) { %>
 					<a href="/<%= type.url %>/3<%= query %>" class="item <% if (currentPage === 3) { %>active<% } %>">
 						3
 					</a>
