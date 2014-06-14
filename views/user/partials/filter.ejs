@@ -1,15 +1,23 @@
-<% var login = (req.path.split('/')[1] === 'users') ? req.path.split('/')[2] : '',
-	listUrl = '/' + req.path.split('/')[1] + '/' + login,
-	filterUrl = req.path.split('/')[2] %>
+<% var splitedPath = req.path.split('/'),
+	login = (splitedPath[1] === 'users') ? splitedPath[2] : '',
+	listUrl = '/' + splitedPath[1] + '/' + login,
+	kfNoByModifed = '?' + 'cake=isalie' + ((req.param('status')) ? '&status=' + req.param('status') : '') + ((req.param('nostatus')) ? '&nostatus=' + req.param('nostatus') : '') + ((req.param('visibility')) ? '&visibility=' + req.param('visibility') : ''),
+	kfNoVisibility = '?' + 'cake=isalie' + ((req.param('status')) ? '&status=' + req.param('status') : '') + ((req.param('nostatus')) ? '&nostatus=' + req.param('nostatus') : '') + ((req.param('byModifed')) ? '&byModifed=' + req.param('byModifed') : ''),
+	kfNoStatus = '?' + 'cake=isalie' + ((req.param('nostatus')) ? '&nostatus=' + req.param('nostatus') : '') + ((req.param('visibility')) ? '&visibility=' + req.param('visibility') : '') + ((req.param('byModifed')) ? '&byModifed=' + req.param('byModifed') : ''),
+	kfNoNoStatus = '?' + 'cake=isalie' + ((req.param('status')) ? '&status=' + req.param('status') : '') + ((req.param('visibility')) ? '&visibility=' + req.param('visibility') : '') + ((req.param('byModifed')) ? '&byModifed=' + req.param('byModifed') : ''),
+	listUrl = '/' + splitedPath[1],
+	status = req.param('status'),
+	nostatus = req.param('nostatus'),
+	visibility = req.param('visibility') %>
 <div class="ui vertical fluid menu">
-	<a class="item" href="<%= listUrl %>">Сбросить фильтрацию</a>
+	<a class="item" href="<%= '/' + splitedPath[1] %>">Сбросить фильтрацию</a>
 	<div class="header item">Сортировка</div>
 	<div class="item">
 		<div class="menu">
-			<a class="item l-menu" href="<%= listUrl %>">
+			<a class="item l-menu <% if (!(req.param('byModifed') === 'true')) { %> active<% } %>" href="<%= listUrl + kfNoByModifed %>">
 				По дате создания
 			</a>
-			<a class="item l-menu" href="<%= listUrl %>?byModifed=true">
+			<a class="item l-menu <% if (req.param('byModifed') === 'true') { %> active<% } %>" href="<%= listUrl + kfNoByModifed %>&byModifed=true">
 				По дате изменения
 			</a>
 		</div>
@@ -18,10 +26,10 @@
 	<div class="header item">Фильтровать по видимости</div>
 	<div class="item">
 		<div class="menu">
-			<a class="item l-menu <% if (filterUrl === 'public') { %> active<% } %>" href="<%= listUrl %>?visibility=public">
+			<a class="item l-menu <% if (visibility === 'public') { %> active<% } %>" href="<%= listUrl + kfNoVisibility %>&visibility=public">
 				Публичный
 			</a>
-			<a class="item l-menu <% if (filterUrl === 'private') { %> active<% } %>" href="<%= listUrl %>?visibility=private">
+			<a class="item l-menu <% if (visibility === 'private') { %> active<% } %>" href="<%= listUrl + kfNoVisibility %>&visibility=private">
 				Приватный
 			</a>
 		</div>
@@ -31,32 +39,32 @@
 	<div class="item">
 		Общие статусы
 		<div class="menu">
-			<div class="item l-menu new <% if (filterUrl === 'new') { %> active<% } %>">
-				<a class="left floated tiny gc-nostylelink" href="<%=listUrl%>?nostatus=new"><i class="icon disabled remove"></i></a>
-				<a href="<%= listUrl %>?status=new">Новый</a>
+			<div class="item l-menu new <% if (status === 'new' || nostatus === 'new') { %> active<% } %>">
+				<a class="left floated tiny gc-nostylelink" href="<%= listUrl + kfNoNoStatus %>&nostatus=new"><i class="icon disabled remove"></i></a>
+				<a href="<%= listUrl + kfNoStatus %>&status=new">Новый</a>
 			</div>
-			<div class="item l-menu rejected <% if (filterUrl === 'rejected') { %> active<% } %>">
-				<a class="left floated tiny gc-nostylelink" href="<%=listUrl%>?nostatus=rejected"><i class="icon disabled remove"></i></a>
-				<a href="<%= listUrl %>?status=rejected">Отменён</a>
+			<div class="item l-menu rejected <% if (status === 'rejected' || nostatus === 'rejected') { %> active<% } %>">
+				<a class="left floated tiny gc-nostylelink" href="<%= listUrl + kfNoNoStatus %>&nostatus=rejected"><i class="icon disabled remove"></i></a>
+				<a href="<%= listUrl + kfNoStatus %>&status=rejected">Отменён</a>
 			</div>
-			<div class="item l-menu specify <% if (filterUrl === 'specify') { %> active<% } %>">
-				<a class="left floated tiny gc-nostylelink" href="<%=listUrl%>?nostatus=specify"><i class="icon disabled remove"></i></a>
-				<a href="<%= listUrl %>?status=specify">Уточнить</a>
+			<div class="item l-menu specify <% if (status === 'specify' || nostatus === 'specify') { %> active<% } %>">
+				<a class="left floated tiny gc-nostylelink" href="<%= listUrl + kfNoNoStatus %>&nostatus=specify"><i class="icon disabled remove"></i></a>
+				<a href="<%= listUrl + kfNoStatus %>&status=specify">Уточнить</a>
 			</div>
-			<div class="item l-menu declined <% if (filterUrl === 'declined') { %> active<% } %>">
-				<a class="left floated tiny gc-nostylelink" href="<%=listUrl%>?nostatus=declined"><i class="icon disabled remove"></i></a>
-				<a href="<%= listUrl %>?status=declined">Отклонён</a>
+			<div class="item l-menu declined <% if (status === 'declined' || nostatus === 'declined') { %> active<% } %>">
+				<a class="left floated tiny gc-nostylelink" href="<%= listUrl + kfNoNoStatus %>&nostatus=declined"><i class="icon disabled remove"></i></a>
+				<a href="<%= listUrl + kfNoStatus %>&status=declined">Отклонён</a>
 			</div>
 			<% if (req.user && req.user.group >= ugroup.helper) { %>
-			<div class="item l-menu hidden <% if (filterUrl === 'hidden') { %> active<% } %>">
-				<a class="left floated tiny gc-nostylelink" href="<%=listUrl%>?nostatus=hidden"><i class="icon disabled remove"></i></a>
-				<a href="<%= listUrl %>?status=hidden">Скрыт</a>
+			<div class="item l-menu hidden <% if (status === 'hidden' || nostatus === 'hidden') { %> active<% } %>">
+				<a class="left floated tiny gc-nostylelink" href="<%= listUrl + kfNoNoStatus %>&nostatus=hidden"><i class="icon disabled remove"></i></a>
+				<a href="<%= listUrl + kfNoStatus %>&status=hidden">Скрыт</a>
 			</div>
 			<% } %>
 			<% if (req.user && req.user.group >= ugroup.staff) { %>
-			<div class="item l-menu removed <% if (filterUrl === 'removed') { %> active<% } %>">
-				<a class="left floated tiny gc-nostylelink" href="<%=listUrl%>?nostatus=removed"><i class="icon disabled remove"></i></a>
-				<a href="<%= listUrl %>?status=removed">Удалён</a>
+			<div class="item l-menu removed <% if (status === 'removed' || nostatus === 'removed') { %> active<% } %>">
+				<a class="left floated tiny gc-nostylelink" href="<%= listUrl + kfNoNoStatus %>&nostatus=removed"><i class="icon disabled remove"></i></a>
+				<a href="<%= listUrl + kfNoStatus %>&status=removed">Удалён</a>
 			</div>
 			<% } %>
 			<% if (type.text !== 'Удаление защит') { %>
@@ -65,13 +73,13 @@
 	<div class="item">
 		Только для баг-репортов
 		<div class="menu">
-			<div class="item l-menu accepted <% if (filterUrl === 'accepted') { %> active<% } %>">
-				<a class="left floated tiny gc-nostylelink" href="<%=listUrl%>?nostatus=accepted"><i class="icon disabled remove"></i></a>
-				<a href="<%= listUrl %>?status=accepted">Принят</a>
+			<div class="item l-menu accepted <% if (status === 'accepted' || nostatus === 'accepted') { %> active<% } %>">
+				<a class="left floated tiny gc-nostylelink" href="<%= listUrl + kfNoNoStatus %>&nostatus=accepted"><i class="icon disabled remove"></i></a>
+				<a href="<%= listUrl + kfNoStatus %>&status=accepted">Принят</a>
 			</div>
-			<div class="item l-menu fixed <% if (filterUrl === 'fixed') { %> active<% } %>">
-				<a class="left floated tiny gc-nostylelink" href="<%=listUrl%>?nostatus=fixed"><i class="icon disabled remove"></i></a>
-				<a href="<%= listUrl %>?status=fixed">Исправлен</a>
+			<div class="item l-menu fixed <% if (status === 'fixed' || nostatus === 'fixed') { %> active<% } %>">
+				<a class="left floated tiny gc-nostylelink" href="<%= listUrl + kfNoNoStatus %>&nostatus=fixed"><i class="icon disabled remove"></i></a>
+				<a href="<%= listUrl + kfNoStatus %>&status=fixed">Исправлен</a>
 			</div>
 			<% } %>
 			<% if (type.text !== 'Баг-репорты') { %>
@@ -80,21 +88,21 @@
 	<div class="item">
 		Только для удаления защит
 		<div class="menu">
-			<div class="item l-menu helpfixed <% if (filterUrl === 'helpfixed') { %> active<% } %>">
-				<a class="left floated tiny gc-nostylelink" href="<%=listUrl%>?nostatus=helpfixed"><i class="icon disabled remove"></i></a>
-				<a href="<%= listUrl %>?status=helpfixed">Исправлен</a>
+			<div class="item l-menu helpfixed <% if (status === 'helpfixed' || nostatus === 'helpfixed') { %> active<% } %>">
+				<a class="left floated tiny gc-nostylelink" href="<%= listUrl + kfNoNoStatus %>&nostatus=helpfixed"><i class="icon disabled remove"></i></a>
+				<a href="<%= listUrl + kfNoStatus %>&status=helpfixed">Исправлен</a>
 			</div>
-			<div class="item l-menu inreview <% if (filterUrl === 'inreview') { %> active<% } %>">
-				<a class="left floated tiny gc-nostylelink" href="<%=listUrl%>?nostatus=inreview"><i class="icon disabled remove"></i></a>
-				<a href="<%= listUrl %>?status=inreview">На рассмотрении</a>
+			<div class="item l-menu inreview <% if (status === 'inreview' || nostatus === 'inreview') { %> active<% } %>">
+				<a class="left floated tiny gc-nostylelink" href="<%= listUrl + kfNoNoStatus %>&nostatus=inreview"><i class="icon disabled remove"></i></a>
+				<a href="<%= listUrl + kfNoStatus %>&status=inreview">На рассмотрении</a>
 			</div>
-			<div class="item l-menu delayed <% if (filterUrl === 'delayed') { %> active<% } %>">
-				<a class="left floated tiny gc-nostylelink" href="<%=listUrl%>?nostatus=delayed"><i class="icon disabled remove"></i></a>
-				<a href="<%= listUrl %>?status=delayed">Отложен</a>
+			<div class="item l-menu delayed <% if (status === 'delayed' || nostatus === 'delayed') { %> active<% } %>">
+				<a class="left floated tiny gc-nostylelink" href="<%= listUrl + kfNoNoStatus %>&nostatus=delayed"><i class="icon disabled remove"></i></a>
+				<a href="<%= listUrl + kfNoStatus %>&status=delayed">Отложен</a>
 			</div>
-			<div class="item l-menu done <% if (filterUrl === 'done') { %> active<% } %>">
-				<a class="left floated tiny gc-nostylelink" href="<%=listUrl%>?nostatus=done"><i class="icon disabled remove"></i></a>
-				<a href="<%= listUrl %>?status=done">Выполнен</a>
+			<div class="item l-menu done <% if (status === 'done' || nostatus === 'done') { %> active<% } %>">
+				<a class="left floated tiny gc-nostylelink" href="<%= listUrl + kfNoNoStatus %>&nostatus=done"><i class="icon disabled remove"></i></a>
+				<a href="<%= listUrl + kfNoStatus %>&status=done">Выполнен</a>
 			</div>
 			<% } %>
 		</div>
@@ -103,19 +111,20 @@
 	<div class="header item">Фильтровать по местоположению проблемы</div>
 	<div class="item">
 		<div class="menu">
-			<div class="item l-menu main <% if (filterUrl === 'main') { %> active<% } %>">
-				<a href="<%= listUrl %>/main">Сервер Main</a>
+			<div class="item l-menu main <% if (splitedPath[2] === 'main') { %> active<% } %>">
+				<a href="<%= listUrl + kf %>/main">Сервер Main</a>
 			</div>
-			<div class="item l-menu rpg <% if (filterUrl === 'rpg') { %> active<% } %>">
-				<a href="<%= listUrl %>/rpg">Сервер RPG</a>
+			<div class="item l-menu rpg <% if (splitedPath[2] === 'rpg') { %> active<% } %>">
+				<a href="<%= listUrl + kf %>/rpg">Сервер RPG</a>
 			</div>
-			<div class="item l-menu apocalyptic <% if (filterUrl === 'apocalyptic') { %> active<% } %>">
-				<a href="<%= listUrl %>/apocalyptic">Сервер Apocalyptic</a>
+			<div class="item l-menu apocalyptic <% if (splitedPath[2] === 'apocalyptic') { %> active<% } %>">
+				<a href="<%= listUrl + kf %>/apocalyptic">Сервер Apocalyptic</a>
 			</div>
-			<div class="item l-menu websites <% if (filterUrl === 'websites') { %> active<% } %>">
-				<a href="<%= listUrl %>/websites">Веб-сайты</a>
+			<div class="item l-menu websites <% if (splitedPath[2] === 'websites') { %> active<% } %>">
+				<a href="<%= listUrl + kf %>/websites">Веб-сайты</a>
 			</div>
 		</div>
 	</div>
 	<% } %>
 </div>
+
