@@ -47,39 +47,63 @@ module.exports = {
 		var action = req.param('action');
 		
 		if (action === 'remove' || action === 'recover' && req.param('cid') !== 0) {
-			Comments.findOne({id: req.param('cid')})
-				.done(function(err, comment) {
-					if (err) {
-						res.json({status: 'err'});
-						throw err;
-					}
-					
-					if (action === 'remove') {
-						if (comment.status === 3) {
-							comment.destroy(function(err) {
-								if (err) throw err;
+			async.waterfall([
+				function processRemoval(callback) {
+					Comments.findOne({id: req.param('cid')})
+						.done(function(err, comment) {
+							if (err) {
+								res.json({
+									status: 'err'
+								});
+								return callback(err);
+							}
 
-								res.json({status: 'OK'});
-							});
-						} else {
-							comment.status = 3;
+							if (action === 'remove') {
+								if (comment.status === 3) {
+									comment.destroy(function(err) {
+										if (err) return callback(err);
 
-							comment.save(function(err) {
-								if (err) throw err;
+										callback(null, comment.tid);
+									});
+								} else {
+									comment.status = 3;
 
-								res.json({status: 'OK'});
-							});
-						}
-					} else if (action === 'recover') {
-						comment.status = 1;
+									comment.save(function(err) {
+										if (err) return callback(err);
 
-						comment.save(function(err) {
-							if (err) throw err;
+										callback(null, comment.tid);
+									});
+								}
+							} else if (action === 'recover') {
+								comment.status = 1;
 
-							res.json({status: 'OK'});
+								comment.save(function(err) {
+									if (err) return callback(err);
+
+									callback(null, comment.tid);
+								});
+							}
 						});
-					}
+				},
+				function updateTicket(tid, callback) {
+					Ticket.findOne(tid)
+						.done(function (err, ticket) {
+							if (err) return callback(err);
+
+							ticket.save(function(err) {
+								if (err) return callback(err);
+
+								callback(null);
+							});
+						});
+				}
+			], function (err) {
+				if (err) throw err;
+
+				res.json({
+					status: 'OK'
 				});
+			});
 		} else {
 			res.status(403).view('403', {layout: false});
 		}
@@ -190,22 +214,20 @@ module.exports = {
 					});
 			},
 			function changeStatus(newComment, callback) {
-				if (newComment.changedTo) {
-					Ticket.findOne(tid)
-						.done(function (err, ticket) {
+				Ticket.findOne(tid)
+					.done(function (err, ticket) {
+						if (err) return callback(err);
+
+						if (newComment.changedTo) {
+							ticket.status = newComment.changedTo;
+						}
+
+						ticket.save(function (err) {
 							if (err) return callback(err);
 
-							ticket.status = newComment.changedTo;
-
-							ticket.save(function (err) {
-								if (err) return callback(err);
-
-								callback(null, newComment);
-							});
+							callback(null, newComment);
 						});
-				} else {
-					callback(null, newComment);
-				}
+					});
 			},
 			function serialize(newComment, callback) {
 				gcdb.user.getByID(newComment.owner, function(err, login) {

@@ -22,11 +22,13 @@ module.exports = {
 		}
 
 		var findBy = {},
+			whereBy = {},
 			filterBy = {},
 			filterByStatus = gct.getStatusByClass(req.query.status),
 			filterByNoStatus = gct.getStatusByClass(req.query.nostatus),
 			filterByVisibility = gct.getVisibilityByClass(req.query.visibility),
-			currentPage = parseInt(req.param('param'), 10) || 1;
+			currentPage = parseInt(req.param('param'), 10) || 1,
+			sortBy;
 
 		sails.log.verbose('currentPage:', currentPage);
 		sails.log.verbose('filterByStatus:', filterByStatus);
@@ -56,10 +58,6 @@ module.exports = {
 			case 'all':
 				break;
 
-			case 'my':
-				findBy.owner = req.user.id;
-				break;
-
 			case 'bugreports':
 				findBy.type = 1;
 				break;
@@ -85,7 +83,6 @@ module.exports = {
 				callback(null);
 			},
 			function findTickets(callback) {
-				var whereBy = {};
 				if (!filterBy.visibility && !filterBy.status) {
 					whereBy = {
 						status: {
@@ -130,9 +127,17 @@ module.exports = {
 				sails.log.verbose('findBy: ', findBy);
 				sails.log.verbose('whereBy: ', whereBy);
 
+				if (req.param('byModifed')) {
+					sortBy = 'updatedAt DESC';
+				} else {
+					sortBy = 'id DESC';
+				}
+
+				sails.log.verbose('sortBy:', sortBy);
+
 				Ticket.find(findBy)
 					.where(whereBy)
-					.sort('id DESC')
+					.sort(sortBy)
 					.done(function (err, tickets) {
 						if (err) return callback(err);
 

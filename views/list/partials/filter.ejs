@@ -2,6 +2,17 @@
 	filterUrl = req.path.split('/')[2] %>
 <div class="ui vertical fluid menu">
 	<a class="item" href="<%= listUrl %>">Сбросить фильтрацию</a>
+	<div class="header item">Сортировка</div>
+	<div class="item">
+		<div class="menu">
+			<a class="item l-menu" href="<%= listUrl %>/">
+				По дате создания
+			</a>
+			<a class="item l-menu" href="<%= listUrl %>/?byModifed=true">
+				По дате изменения
+			</a>
+		</div>
+	</div>
 	<% if (req.user && req.user.group >= ugroup.mod) { %>
 	<div class="header item">Фильтровать по видимости</div>
 	<div class="item">
