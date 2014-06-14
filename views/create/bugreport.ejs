@@ -26,18 +26,6 @@
 								<i class="dropdown icon"></i>
 							</div>
 						</div>
-						<div class="field" style="width: 260px !important;">
-							<label>Поле видимости тикета <i class="help icon gc-helppopup" data-content="Тикет может быть публичным, то есть быть видимым всем, или приватным - только администрации" data-variation="inverted"></i></label>
-							<div class="ui selection fluid dropdown">
-								<input name="visiblity" type="hidden">
-								<div class="default text">Выбери приватность тикета</div>
-								<div class="menu">
-									<div class="item" data-value="1">Виден всем</div>
-									<div class="item" data-value="2">Виден только разработчику</div>
-								</div>
-								<i class="dropdown icon"></i>
-							</div>
-						</div>
 					</div>
 					<div class="field">
 						<label>Краткое описание</label>
@@ -69,6 +57,7 @@
 		<div class="column" style="width:30%">
 			<h2>Баг-репорт</h2>
 			<p>Сообщение с описанием технической ошибки или проблемы (бага), предназначенное для разработчика. В баг-репорте нужно подробно описать, что произошло, в какой ситуации, и приложить лог или скриншот.</p>
+			<div class="gc-help">Тикет создаётся приватным и не показывается в общем списке тикетов. Хелперы и модераторы могут сами сделать тикет публичным.</div>
 			<h2>Другие типы тикетов</h2>
 			<div class="ui selection list">
 				<div class="active item">

@@ -23,7 +23,7 @@
 		</div>
 		<div class="right floated one wide column">
 			<div class="s-status <%= ticket.status.class %>"><%- ticket.status.text %></div>
-			<div class="s-visiblity"><%= ticket.visiblity %></div>
+			<div class="s-visiblity" id="s-visiblity" style="border-bottom: 1px dotted; cursor: pointer;"><%= ticket.visiblity %></div>
 		</div>
 	</div>
 	<div class="s-ui divider"></div>
@@ -136,3 +136,4 @@
 	</div>
 </div>
 <%- partial('partials/removecomment.ejs') %>
+<%- partial('partials/changevisibility.ejs') %>

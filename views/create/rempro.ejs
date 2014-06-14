@@ -11,18 +11,6 @@
 					</h1>
 					<div class="ui divider" style="margin: 1em 0em !important;"></div>
 					<div class="two fields">
-						<div class="field" style="width: 260px !important;">
-							<label>Поле видимости тикета <i class="help icon gc-helppopup" data-content="Тикет может быть публичным, то есть быть видимым всем, или приватным - только администрации" data-variation="inverted"></i></label>
-							<div class="ui selection fluid dropdown">
-								<input name="visiblity" type="hidden">
-								<div class="default text">Выбери приватность тикета</div>
-								<div class="menu">
-									<div class="item" data-value="1">Виден всем</div>
-									<div class="item" data-value="2">Виден только разработчику</div>
-								</div>
-								<i class="dropdown icon"></i>
-							</div>
-						</div>
 						<div class="field" style="width: 350px !important;margin-bottom: 0em;">
 							<div class="field">
 								<label>Заявитель <em>(не заполняйте, если это вы сами)</em> <i class="help icon gc-helppopup" data-content="Если вы заполняете заявку на расприват для другого игрока, то укажите никнейм этого игрока" data-variation="inverted"></i></label>
@@ -66,6 +54,7 @@
 		<div class="column" style="width:30%">
 			<h2>Удаление защит</h2>
 			<p>Тикет этого типа позволяет создать заявку на удаление старого региона или защиты сундука, печки и другого. Такие заявки рассматриваются модераторами.</p>
+			<div class="gc-help">Тикет создаётся приватным и не показывается в общем списке тикетов. Хелперы и модераторы могут сами сделать тикет публичным.</div>
 			<h2>Другие типы тикетов</h2>
 			<div class="ui selection list">
 				<div class="item">

@@ -101,6 +101,44 @@ module.exports = {
 				});
 			});
 		});
+	},
+
+	changeVisibility: function (req, res) {
+		if (req.param('action') !== 'changevisibility') {
+			return res.json({
+				status: 'err'
+			});
+		}
+
+		Ticket.findOne({
+			id: req.param('id')
+		}).done(function (err, result) {
+			if (err) {
+				res.json({
+					status: 'err'
+				});
+				throw err;
+			}
+
+			if (result.visiblity === 1) {
+				result.visiblity = 2;
+			} else {
+				result.visiblity = 1;
+			}
+
+			result.save(function (err) {
+				if (err) {
+					res.json({
+						status: 'err'
+					});
+					throw err
+				};
+
+				res.json({
+					status: 'OK'
+				});
+			});
+		});
 	}
 
 };

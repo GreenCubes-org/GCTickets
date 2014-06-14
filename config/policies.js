@@ -13,38 +13,33 @@
 
 
 module.exports.policies = {
-  '*': true,
-  
+	'*': true,
+
 	UserController: {
 		'*': ['authenticated'],
 		'loginTpl': 'notAuthenticated',
 		'login': 'notAuthenticated',
 		'logout': true
 	},
-  
+
 	CreateController: {
-		'*': ['authenticated','notBanned'],
+		'*': ['authenticated', 'notBanned'],
 		'mainTpl': ['notBanned']
 	},
-	
+
 	EditController: {
 		'*': ['ownerNModAbove'],
 		'deleteTpl': 'modAbove',
-		'deletePost': 'modAbove'
-	},
-	
-	AdminController: {
-		'*': ['authenticated','staffOnly']
-	},
-	
-	ViewController: {
-		'*': ['hidePrivateTickets']
+		'deletePost': 'modAbove',
+		'changeVisibility': 'modAbove'
 	},
 
-	ListController: {
-		'listMyTpl': 'authenticated',
-		'listNewestMy': 'authenticated',
-		'list20My': 'authenticated'
+	AdminController: {
+		'*': ['authenticated', 'staffOnly']
+	},
+
+	ViewController: {
+		'*': ['hidePrivateTickets']
 	}
-	
+
 };

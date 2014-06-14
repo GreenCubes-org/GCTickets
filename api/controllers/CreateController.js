@@ -54,16 +54,10 @@ module.exports = {
 					logs: req.param('logs') || '',
 					product: parseInt(req.param('product'), 10),
 					uploads: uploads || [],
-					visiblity: parseInt(req.param('visiblity'), 10)
+					visiblity: 2
 				})
 			},
 			function checkData(obj, callback) {
-				if (isNaN(obj.visiblity)) {
-					return callback({
-						msg: 'Выберите видимость тикета'
-					});
-				}
-
 				if (!obj.product) {
 					return callback({
 						msg: 'Выберите местоположение проблемы'
@@ -179,7 +173,7 @@ module.exports = {
 					regions: req.param('regions').trim().split(/\n/) || '',
 					stuff: req.param('stuff').trim().split(/\n/) || '',
 					uploads: uploads || [],
-					visiblity: parseInt(req.param('visiblity'), 10)
+					visiblity: 2
 				})
 			},
 			function checkData(obj, callback) {

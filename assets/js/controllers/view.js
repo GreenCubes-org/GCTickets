@@ -188,6 +188,42 @@ app.view = {
 		$('.ui.modal').modal();
 		$('#commentform').val('');
 
+		$(document).on('click', '#s-visiblity', function(e) {
+			$('#changevisibility')
+				.modal('setting', {
+					transition: 'fade up',
+					closable  : false,
+					onDeny    : function(){
+						return true;
+					},
+					onApprove : function() {
+						$.ajax({
+							type: "POST",
+							url: '/id/' + ticketId + '/changevisibility',
+							data: {action: 'changevisibility'},
+							beforeSend: function () {
+								$('body').fadeIn('slow').append('<div class="ui active segment dimmer" id="removedimmer"><div class="ui active dimmer" id="removedimmer"><div class="ui loader"></div></div></div>');
+							},
+							complete: function(data) {
+								$('#removedimmer').remove();
+								if (data.responseJSON.status === 'err') {
+									$('body').fadeIn('slow').append('<div class="ui active segment dimmer" id="removedimmer"><div class="header">Произошла ошибка!</div><div class="content">Пожалуйста, сообщите разработчику о ней</div><div class="actions"><div class="ui fluid button">Ладно, вернёмся обратно</div></div></div>');
+								}
+
+								if (data.responseJSON.msg) {
+									$('body').fadeIn('slow').append('<div class="ui active segment dimmer" id="removedimmer"><div class="header">' + data.msg + '</div><div class="actions"><div class="ui fluid button">Ладно, вернёмся обратно</div></div></div>');
+								}
+
+								if (data.responseJSON.status === 'OK') {
+									window.location.reload();
+								}
+							}
+						});
+					}
+				})
+				.modal('show');
+		});
+
 		$(document).on('click', '#commentsubmit', function(e) {
 			$.ajax({
 				type: "POST",
