@@ -109,18 +109,14 @@ module.exports = {
 						});
 					}
 
-					if (comments.length) {
-						callback(null, comments.length + 1);
-					} else {
-						callback(null, 1); // set comment id to 1 because there is no other comments
-					}
+					callback(null);
+
 				});
 			},
-			function setData(commentId, callback) {
+			function setData(callback) {
 				Ticket.findOne(tid)
 					.done(function(err, ticket) {
 						callback(null, {
-							id: commentId,
 							owner: req.user.id,
 							message: req.sanitize('message').entityEncode(),
 							status: 1,
