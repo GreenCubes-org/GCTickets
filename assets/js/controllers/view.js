@@ -1,8 +1,9 @@
 var app = app || {};
 
-function renderAllComments(ticketId) {
+var renderAllComments = function renderAllComments(ticketId) {
 	getComments(ticketId, function(err, comments) {
 		$('#commentssubheader').html('');
+
 		if (comments === null || comments.length === 0) {
 			$('#comments').html('<div style="padding: 5em 0em;text-align: center;font-size:1.4em">Нет комментариев</div>');
 			$('#commentpost').fadeIn(500);
@@ -14,10 +15,10 @@ function renderAllComments(ticketId) {
 
 		var removedCount = 0;
 
-		comments.forEach(function (comment) {
+		comments = comments.map(function (comment) {
 			if (comment.status === 3) {
 				removedCount++;
-				return;
+				return undefined;
 			}
 
 			if (comment.canModerate) {
@@ -41,7 +42,7 @@ function renderAllComments(ticketId) {
 			$('#comments').append(
 				'<div class="comment ' + comment.status + '" id="comment'+ comment.id +'">' +
 				 '<div class="content">' +
-					'<div class="ui ribbon label ' + comment.colorclass + '">' + comment.prefix + ' '+ comment.owner +'</div>' +
+					'<a class="ui ribbon label ' + comment.colorclass + ' gc-nostylelink" href="/users/' + comment.owner + '">' + comment.prefix + ' '+ comment.owner +'</a>' +
 					'<div class="metadata">' +
 					  '<a href="/id/'+ ticketId +'/#comment'+ comment.id +'" class="date" title="' + comment.createdAt.fullDate + '">'+ comment.createdAt.simply +'</a>' +
 					 menu +
@@ -53,12 +54,23 @@ function renderAllComments(ticketId) {
 				 '</div>' +
 			  '</div>');
 			$('.ui.inline.top.right.pointing.dropdown').dropdown();
+
+			return comment;
 		});
 
 		if (removedCount !== 0 ) {
-			$('#commentssubheader').html('Комментариев удалено: ' + removedCount);$('#commentssubheader');
+			$('#commentssubheader').html('Комментариев удалено: ' + removedCount);
 		} else {
 			$('#commentssubheader').html('');
+		}
+
+		// Remove undefined elements
+		comments = comments.filter(function (n) {
+			return n
+		});
+
+		if (comments === null || comments.length === 0) {
+			$('#comments').html('<div style="padding: 5em 0em;text-align: center;">Нет комментариев</div>');
 		}
 
 		$('#commentoptions').dropdown();
@@ -67,7 +79,7 @@ function renderAllComments(ticketId) {
 	});
 };
 
-function renderRemovedComments(ticketId) {
+var renderRemovedComments = function renderRemovedComments(ticketId) {
 	getComments(ticketId, function(err, comments) {
 		$('#commentpost').hide();
 		$('#commentdivider').hide();
@@ -98,7 +110,7 @@ function renderRemovedComments(ticketId) {
 			$('#comments').append(
 				'<div class="comment ' + comment.status + '" id="comment'+ comment.id +'">' +
 				 '<div class="content">' +
-					'<div class="ui ribbon label ' + comment.colorclass + '">' + comment.prefix + ' '+ comment.owner +'</div>' +
+					'<a class="ui ribbon label ' + comment.colorclass + ' gc-nostylelink" href="/users/' + comment.owner + '">' + comment.prefix + ' '+ comment.owner +'</a>' +
 					'<div class="metadata">' +
 					  '<a href="/id/'+ ticketId +'/#comment'+ comment.id +'" class="date" title="' + comment.createdAt.fullDate + '">'+ comment.createdAt.simply +'</a>' +
 					 menu +
@@ -128,7 +140,7 @@ function renderRemovedComments(ticketId) {
 	});
 };
 
-function getComments(ticketId, callback) {
+var getComments = function getComments(ticketId, callback) {
 	$.ajax({
 		type: "GET",
 		url: '/comments',
@@ -174,6 +186,7 @@ app.view = {
 		renderAllComments(ticketId);
 
 		$('.ui.modal').modal();
+		$('#commentform').val('');
 
 		$(document).on('click', '#commentsubmit', function(e) {
 			$.ajax({
@@ -201,9 +214,7 @@ app.view = {
 						$('.ui.active.dimmer').dimmer();
 					} else if (data.responseJSON.changedTo) {
 						$('#commentpost').trigger('reset');
-						setTimeout(function() {
-							window.location.reload();
-						}, 0);
+						window.location.reload();
 						return true;
 					} else if (data.responseJSON.code === 'OK') {
 						renderAllComments(ticketId);

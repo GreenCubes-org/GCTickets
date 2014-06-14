@@ -15,7 +15,7 @@
 <a class="gc-nostylelink"  href="/id/<%= globalid %>/edit" title="Изменить"><i class="pencil small icon" id="s-editicon"></i></a>
 <% } } %>
 &nbsp;<a class="gc-nostylelink"  href="/id/<%= globalid %>">#<%= globalid %></a>
-&raquo;&nbsp;<% if (ticket.createdFor && ticket.createdFor !== ticket.owner) { %><%= ticket.createdFor %> (заявка создана <%= ticket.owner %>)<% } else { %><%= ticket.owner %><% } %>
+&raquo;&nbsp;<% if (ticket.createdFor && ticket.createdFor !== ticket.owner) { %><a class="gc-nostylelink" href="/users/<%= ticket.createdFor %>"><%= ticket.createdFor %></a> (заявка создана <a class="gc-nostylelink" href="/users/<%= ticket.owner %>"><%= ticket.owner %></a>)<% } else { %><a class="gc-nostylelink" href="/users/<%= ticket.owner %>"><%= ticket.owner %></a><% } %>
 &raquo;&nbsp;<%= moment(ticket.createdAt).format('D MMM YYYY, h:mm') %>
 				</div>
 			</h2>

@@ -63,15 +63,13 @@ module.exports = {
 						msg: 'Выберите видимость тикета'
 					});
 				}
-				
-				var isStatus = new RegExp('(1|7|12)');
-				
+
 				if (!obj.product) {
 					return callback({
 						msg: 'Выберите местоположение проблемы'
 					});
 				}
-				if (!isStatus.test(obj.product)) {
+				if (!(obj.product >= 1 && obj.product <= 5)) {
 					return callback({
 						msg: 'Некорректное местоположение проблемы'
 					});

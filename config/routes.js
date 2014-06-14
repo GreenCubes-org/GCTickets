@@ -15,7 +15,14 @@ module.exports.routes = {
 
 	// Действия с пользователем
 	// Профиль
-	'/user/:user': 'dev.hideFeature',
+	'/user': 'user.profile',
+	'/users/:user': 'user.profile',
+	'/users/:user/:page': 'user.profile',
+
+	// Мои тикеты
+	'/my': 'list.listTwenty',
+	'/my/:page': 'list.listTwenty',
+
 
 	// Вход в аккаунт и выход из него
 	'get /login': 'user.loginTpl',
@@ -52,10 +59,6 @@ module.exports.routes = {
 	'get /comments/:cid/report': 'dev.hideFeature',
 	'post /comments/:cid/remove': 'comment.deleteComment',
 	'post /comments/new': 'comment.newComment',
-
-	// Мои тикеты
-	'/my': 'list.listTwenty',
-	'/my/:page': 'list.listTwenty',
 
 	// Новый тикет без типа
 	'/new': 'create.mainTpl',

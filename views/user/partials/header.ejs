@@ -1,0 +1,18 @@
+<div class="ui green inverted gc-header menu">
+	<div class="ui simple dropdown item">
+		<i class="user icon"></i> Профиль <%= user.login %> <i class="icon dropdown"></i>
+		<div class="menu">
+			<a href="/all" class="item"><i class="reorder icon"></i>Все тикеты</a>
+			<a href="/bugreports" class="item"><i class="bug icon"></i>Баг-репорты</a>
+			<a href="/rempros" class="item"><i class="remove icon"></i>Удаление защит</a>
+		</div>
+	</div>
+	<% if (!req.user) { %>
+	<a href="/" class="item">
+		<i class="home icon" title="На главную"></i>
+	</a>
+	<% } %>
+	<div class="right menu">
+		<%- partial('../../partials/userpanel')%>
+	</div>
+</div>
