@@ -146,7 +146,7 @@ module.exports = {
 				}).done(function(err, rights) {
 					if (err) return callback(err);
 
-					user.prefix = rights[0].prefix;
+					user.prefix = (rights[0]) ? rights[0].prefix : '';
 
 					callback(null, tickets);
 				});
