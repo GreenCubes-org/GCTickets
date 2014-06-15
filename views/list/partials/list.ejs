@@ -4,7 +4,7 @@
 		<div class="right floated t-status <%= ticket.status.class %>" style="padding:2.2em 1em;"><%- ticket.status.text %></div>
 		<i class="right floated big <%= ticket.type.iconclass %> icon"  style="padding: 0.8em 0.4em !important;margin: 0em !important;" title="<%= ticket.type.descr %>"></i>
 
-		<a class="content gc-nostylelink" style="display:block;padding: 0.8em 0em;font-size:1.2em;" href="/id/<%= ticket.id %>">
+		<a class="content gc-nostylelink" style="display:block;padding: 0.9em 0em;font-size:1.2em;" href="/id/<%= ticket.id %>">
 			<div class="header"><span style="font-weight: 400;">#<%= ticket.id %>:</span> <%= ticket.title %></div>
 			<div class="description" style="font-size: 0.9em;">
 				<i class="<%= ticket.visibility.class %> small icon" style="margin:0em !important;" title="<%= ticket.visibility.text %>"></i>
