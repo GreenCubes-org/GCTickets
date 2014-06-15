@@ -271,7 +271,7 @@ exports.parse = function(post, cb) {
   if (post) {
     // idea to replace single *'s from http://patorjk.com/bbcode-previewer/
     post = (function(_post) {
-      return _post.replace(/(\[\*\])([^\[]*)/g, function(m0, m1, m2, offset, mstr) {
+      return _post.replace(/(\[\*\])([^\[]*)(\[\/\*\])/g, function(m0, m1, m2, offset, mstr) {
         return '[li]' + m2 + '[/li]';
       });
     })(post);
