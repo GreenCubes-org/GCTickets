@@ -75,6 +75,19 @@ module.exports = {
 					}
 				});
 			},
+			function getCapitalizedLogin(callback) {
+				if (user.login !== req.user.username) {
+					gcdb.user.getCapitalizedLogin(user.login, function(err, login) {
+						if (err) return callback(err);
+
+						user.login = login;
+
+						callback(null);
+					});
+				} else {
+					callback(null);
+				}
+			},
 			function findTickets(callback) {
 				findBy.owner = user.id;
 
