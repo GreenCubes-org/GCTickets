@@ -297,7 +297,7 @@ module.exports = rempro = {
 							regions: req.param('regions').trim().split(/\n/) || '',
 							stuff: req.param('stuff').trim().split(/\n/) || '',
 							uploads: uploads,
-							visiblity: rempro.owner
+							visiblity: rempro.visiblity
 						});
 					});
 				},
@@ -348,24 +348,11 @@ module.exports = rempro = {
 						result.save(function(err) {
 							if (err) return callback(err);
 
-							callback(null, result.id, obj);
-						});
-					});
-				},
-				function setVisiblity(ticketId, obj, callback) {
-					Ticket.findOne(ticket.id).done(function (err, ticket) {
-						if (err) return callback(err);
-
-						ticket.visiblity = obj.visiblity;
-
-						ticket.save(function (err) {
-							if (err) return callback(err);
-
-							callback(null, ticket);
+							callback(null);
 						});
 					});
 				}
-			 ], function (err, ticket) {
+			 ], function (err) {
 				if (err) {
 					if (!err.msg) {
 						res.json({

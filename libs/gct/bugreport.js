@@ -328,24 +328,11 @@ module.exports = bugreport = {
 						result.save(function(err) {
 							if (err) return callback(err);
 
-							callback(null, result.id, obj);
-						});
-					});
-				},
-				function setVisiblity(ticketId, obj, callback) {
-					Ticket.findOne(ticket.id).done(function (err, ticket) {
-						if (err) return callback(err);
-
-						ticket.visiblity = obj.visiblity;
-
-						ticket.save(function (err) {
-							if (err) return callback(err);
-
-							callback(null, ticket);
+							callback(null);
 						});
 					});
 				}
-			 ], function (err, ticket) {
+			 ], function (err) {
 				if (err) {
 					if (!err.msg) {
 						res.json({
