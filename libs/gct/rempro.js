@@ -135,10 +135,45 @@ module.exports = rempro = {
 				}).done(function (err, comments) {
 					if (err) return callback(err);
 
-					obj.commentsCount =  comments.length;
+					var lastChangedToOwner;
+
+					for (var i = comments.length - 1; i >= 0; i--) {
+						if (comments[i].changedTo) {
+							lastChangedToOwner = comments[i].owner;
+						}
+					}
+
+					obj.comments = {
+						count: comments.length,
+						lastCommentOwner: (comments.length) ? comments[comments.length - 1].owner : 0,
+						lastChangedToOwner: lastChangedToOwner
+					};
 
 					callback(null, obj, ticket);
 				});
+			},
+			function getLoginsForLastCommentOwners(obj, ticket, callback) {
+				if (obj.comments.count) {
+					gcdb.user.getByID(obj.comments.lastCommentOwner, function(err, login) {
+						if (err) return callback(err);
+
+						obj.comments.lastCommentOwner = login;
+
+						if (obj.comments.lastChangedToOwner) {
+							gcdb.user.getByID(obj.comments.lastChangedToOwner, function(err, login) {
+								if (err) return callback(err);
+
+								obj.comments.lastChangedToOwner = login;
+
+								callback(null, obj, ticket);
+							});
+						} else {
+							callback(null, obj, ticket);
+						}
+					});
+				} else {
+					callback(null, obj, ticket);
+				}
 			}
 		], function (err, obj, ticket) {
 			if (err) return cb(err);
@@ -164,7 +199,7 @@ module.exports = rempro = {
 						iconclass: 'remove',
 						id: obj.type
 					},
-					commentsCount: obj.commentsCount
+					comments: obj.comments
 				});
 			} else {
 				cb(null, {
@@ -185,7 +220,7 @@ module.exports = rempro = {
 						iconclass: 'remove',
 						id: obj.type
 					},
-					commentsCount: obj.commentsCount
+					comments: obj.comments
 				});
 			}
 		});

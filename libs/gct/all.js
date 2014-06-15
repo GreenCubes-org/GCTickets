@@ -32,7 +32,7 @@ module.exports = {
 											iconclass: 'bug'
 										},
 										product: ticket.product,
-										commentsCount: ticket.commentsCount
+										comments: ticket.comments
 									});
 								});
 							});
@@ -74,7 +74,7 @@ module.exports = {
 										descr: 'Расприват',
 										iconclass: 'trash'
 									},
-									commentsCount: ticket.commentsCount
+									comments: ticket.comments
 								});
 							});
 						});
