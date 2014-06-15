@@ -268,12 +268,6 @@ module.exports = bugreport = {
 						});
 					}
 
-					if (!req.param('visiblity')) {
-						return callback({
-							msg: 'Введите поле видимости тикета'
-						});
-					}
-
 					callback(null);
 				},
 				function handleUpload(callback) {
@@ -301,17 +295,11 @@ module.exports = bugreport = {
 							logs: req.param('logs'),
 							product: bugreport.bugreport,
 							uploads: uploads,
-							visiblity: parseInt(req.param('visiblity'), 10)
+							visiblity: bugreport.owner
 						});
 					});
 				},
 				function checkData(obj, callback) {
-					if (isNaN(obj.visiblity)) {
-						return callback({
-							show: true, msg: 'Выберите видимость тикета'
-						});
-					}
-
 					var isErr = false;
 					req.onValidationError(function (msg) {
 						isErr = true;

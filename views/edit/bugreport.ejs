@@ -10,20 +10,6 @@
 					<h1 class="header" style="margin: 0px; padding: 0.2em 0em 0em;">Редактирование <a href="/id/<%= ticket.id %>">#<%= ticket.id %></a>: &laquo;<%= ticket.title %>&raquo;
 					</h1>
 					<div class="ui divider" style="margin: 1em 0em !important;"></div>
-					<div class="two fields">
-						<div class="field" style="width: 280px !important;">
-							<label>Поле видимости тикета <i class="help icon gc-helppopup" data-content="Тикет может быть публичным, то есть быть видимым всем, или приватным - только администрации" data-variation="inverted"></i></label>
-							<div class="ui selection fluid dropdown">
-								<input name="visiblity" type="hidden"  value="<%= ticket.visiblity.id %>">
-								<div class="default text">Выбери приватность тикета</div>
-								<div class="menu">
-									 <div class="item" data-value="1">Виден всем</div>
-									 <div class="item" data-value="2">Виден только разработчику</div>
-								</div>
-								<i class="dropdown icon"></i>
-							</div>
-						</div>
-					</div>
 					<div class="field">
 						<label>Краткое описание</label>
 						<input name="title" type="text" value="<%= ticket.title %>">

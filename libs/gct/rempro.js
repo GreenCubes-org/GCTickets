@@ -263,12 +263,6 @@ module.exports = rempro = {
 						});
 					}
 
-					if (!req.param('visiblity')) {
-						return callback({
-							msg: 'Введите поле видимости тикета'
-						});
-					}
-
 					if (!req.param('regions') && !req.param('stuff')) {
 						return callback({
 							msg: 'Введите хотя бы один регион или координату'
@@ -303,17 +297,11 @@ module.exports = rempro = {
 							regions: req.param('regions').trim().split(/\n/) || '',
 							stuff: req.param('stuff').trim().split(/\n/) || '',
 							uploads: uploads,
-							visiblity: parseInt(req.param('visiblity'), 10)
+							visiblity: rempro.owner
 						});
 					});
 				},
 				function checkData(obj, callback) {
-					if (isNaN(obj.visiblity)) {
-						return callback({
-							msg: 'Выберите видимость тикета'
-						});
-					}
-
 					var isErr = false;
 					req.onValidationError(function (msg) {
 						isErr = true;
