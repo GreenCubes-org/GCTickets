@@ -320,9 +320,9 @@ module.exports.serializeList = serializeList = function (type) {
 		case 'rempros':
 			return {
 				url: 'all',
-				text: 'Заявки на расприват',
+				text: 'Заявки на удаление защит',
 				iconclass: 'trash',
-				title: 'Список заявок на расприват — GC.Поддержка'
+				title: 'Список заявок на удаление защит — GC.Поддержка'
 			};
 
 		case 'bans':
