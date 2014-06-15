@@ -105,23 +105,4 @@
 			<% } %>
 		</div>
 	</div>
-	<% if (type.text === 'Баг-репорты') { %>
-	<div class="header item">Фильтровать по местоположению проблемы</div>
-	<div class="item">
-		<div class="menu">
-			<div class="item l-menu main <% if (splitedPath[2] === 'main') { %> active<% } %>">
-				<a href="<%= listUrl %>/main">Сервер Main</a>
-			</div>
-			<div class="item l-menu rpg <% if (splitedPath[2] === 'rpg') { %> active<% } %>">
-				<a href="<%= listUrl %>/rpg">Сервер RPG</a>
-			</div>
-			<div class="item l-menu apocalyptic <% if (splitedPath[2] === 'apocalyptic') { %> active<% } %>">
-				<a href="<%= listUrl %>/apocalyptic">Сервер Apocalyptic</a>
-			</div>
-			<div class="item l-menu websites <% if (splitedPath[2] === 'websites') { %> active<% } %>">
-				<a href="<%= listUrl  %>/websites">Веб-сайты</a>
-			</div>
-		</div>
-	</div>
-	<% } %>
 </div>
