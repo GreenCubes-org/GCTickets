@@ -5,7 +5,7 @@
 			<a href="/all" class="item<% if (type.url === 'all') { %> active<% } %>"><i class="reorder icon"></i>Все тикеты</a>
 			<% if (req.user) { %><a href="/user" class="item<% if (type.url === 'user') { %> active<% } %>"><i class="user icon"></i>Ваши тикеты</a><% } %>
 			<a href="/bugreports" class="item<% if (type.url === 'bugreports') { %> active<% } %>"><i class="bug icon"></i>Баг-репорты</a>
-			<a href="/rempros" class="item<% if (type.url === 'rempros') { %> active<% } %>"><i class="remove icon"></i>Удаление защит</a>
+			<a href="/rempros" class="item<% if (type.url === 'rempros') { %> active<% } %>"><i class="trash icon"></i>Удаление защит</a>
 		</div>
 	</div>
 	<% if (!req.user) { %>
