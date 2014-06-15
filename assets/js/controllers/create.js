@@ -5,13 +5,13 @@ app.create = {
 		if ($('#description')) {
 			$('#description').wysibb({
 				lang: 'ru',
-				buttons: 'bold,italic,underline,|,link,bullist,numlist'
+				buttons: 'bold,italic,underline,|,link,numlist'
 			});
 		}
 		if ($('#reason')) {
 			$('#reason').wysibb({
 				lang: 'ru',
-				buttons: 'bold,italic,underline,|,link,bullist,numlist'
+				buttons: 'bold,italic,underline,|,link,numlist'
 			});
 		}
 		$('#gc-reportform .ui.dropdown').dropdown();

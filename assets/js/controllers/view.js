@@ -345,7 +345,7 @@ app.view = {
 		if ($('#description').length > 0) {
 			$('#description').wysibb({
 				lang: 'ru',
-				buttons: 'bold,italic,underline,|,link,bullist,numlist'
+				buttons: 'bold,italic,underline,|,link,numlist'
 			});
 			descriptionCode = $('#description').html();
 			$('#description').sync();
@@ -353,7 +353,7 @@ app.view = {
 		if ($('#reason').length > 0) {
 			$('#reason').wysibb({
 				lang: 'ru',
-				buttons: 'bold,italic,underline,|,link,bullist,numlist'
+				buttons: 'bold,italic,underline,|,link,numlist'
 			});
 			descriptionCode = $('#reason').html();
 			$('#reason').sync();
