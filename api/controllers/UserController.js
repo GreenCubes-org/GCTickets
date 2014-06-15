@@ -14,9 +14,7 @@ module.exports = {
 	profile: function (req, res) {
 		sails.log.verbose('-> user.profile:');
 
-		var findBy = {
-				owner: req.user.id
-			},
+		var findBy = {},
 			whereBy = {},
 			filterBy = {},
 			filterByStatus = gct.getStatusByClass(req.query.status),
@@ -34,6 +32,7 @@ module.exports = {
 		sails.log.verbose('filterByStatus:', filterByStatus);
 		sails.log.verbose('filterByNoStatus:', filterByNoStatus);
 		sails.log.verbose('filterByVisibility:', filterByVisibility);
+		sails.log.verbose('user:', user);
 
 		if (filterByStatus) {
 			filterBy.status = filterByStatus
@@ -77,6 +76,8 @@ module.exports = {
 				});
 			},
 			function findTickets(callback) {
+				findBy.owner = user.id;
+
 				if (!filterBy.visibility && !filterBy.status) {
 					whereBy = {
 						status: {
@@ -157,6 +158,13 @@ module.exports = {
 
 				sails.log.verbose('lastPage: ', lastPage);
 				sails.log.verbose('skipRows: ', skipRows);
+
+				if (tickets.length <= skipRows) {
+					return res.view('user/notickets', {
+						user: user,
+						type: {}
+					});
+				}
 
 				tickets = tickets.slice(skipRows, skipRows + 20);
 
