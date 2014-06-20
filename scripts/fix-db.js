@@ -80,6 +80,21 @@ async.waterfall([
 		});
 	},
 	function f(callback) {
+		appdbconn.query('ALTER TABLE `comments` DROP `_waterline_dummy02492`; ', function (err, result) {
+			if (err) {
+				if (err.errno === 1091) {
+					console.log('[FIX-DB] DROP _waterline_dummy02492 IN comments - ALREADY REMOVED');
+					return callback(null)
+				} else if (err) {
+					console.error('[FIX-DB] ERROR. I\'M SO SORRY.');
+					return callback(err);
+				}
+			}
+			console.log('[FIX-DB] DROP _waterline_dummy02492 IN comments - SUCCESS');
+			callback(null);
+		});
+	},
+	function e(callback) {
 		appdbconn.query('ALTER TABLE `regen` DROP `_waterline_dummy02492`; ', function (err, result) {
 			if (err) {
 				if (err.errno === 1091) {
@@ -95,7 +110,7 @@ async.waterfall([
 			callback(null);
 		});
 	},
-	function e(callback) {
+	function g(callback) {
 		appdbconn.query('ALTER TABLE `rempro` DROP `_waterline_dummy02492`; ', function (err, result) {
 			if (err) {
 				if (err.errno === 1091) {
@@ -111,7 +126,7 @@ async.waterfall([
 			callback(null);
 		});
 	},
-	function g(callback) {
+	function j(callback) {
 		appdbconn.query('ALTER TABLE `rights` DROP `_waterline_dummy02492`; ', function (err, result) {
 			if (err) {
 				if (err.errno === 1091) {
@@ -127,7 +142,7 @@ async.waterfall([
 			callback(null);
 		});
 	},
-	function j(callback) {
+	function h(callback) {
 		appdbconn.query('ALTER TABLE `ticket` DROP `_waterline_dummy02492`; ', function (err, result) {
 			if (err) {
 				if (err.errno === 1091) {
@@ -143,7 +158,7 @@ async.waterfall([
 			callback(null);
 		});
 	},
-	function h(callback) {
+	function j(callback) {
 		appdbconn.query('ALTER TABLE `unban` DROP `_waterline_dummy02492`; ', function (err, result) {
 			if (err) {
 				if (err.errno === 1091) {
