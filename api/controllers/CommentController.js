@@ -126,7 +126,7 @@ module.exports = {
 				}).done(function (err, comments) {
 					if (err) return callback(err);
 
-					if ((!req.param('message') || req.param('message') === '') && req.param('status') === ticket.status) {
+					if ((!req.param('message') || req.param('message') === '')) {
 						return callback({
 							show: true,
 							msg: 'Комментарий слишком короткий'

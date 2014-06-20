@@ -153,10 +153,8 @@
 				<div class="field" id="commentfield">
 					<textarea id="commentform" name="message"></textarea>
 				</div>
-				<% if (["Новый","Уточнить","Принят"].indexOf(ticket.status.text) !== -1 && req.user && (canModerate || ticket.owner == (req.user.username || '') || ((req.user.group || 0) >= ugroup.helper && ticket.status.text === 'Новый'))) { %>
-				<div class="gc-help"><i class="help icon"></i>При смене статуса можно не писать комментарий</div>
+				<div class="gc-help"><i class="help icon"></i><% if (["Новый","Уточнить","Принят"].indexOf(ticket.status.text) !== -1 && req.user && (canModerate || ticket.owner == (req.user.username || '') || ((req.user.group || 0) >= ugroup.helper && ticket.status.text === 'Новый'))) { %>При смене статуса можно не писать комментарий. <% } %>Можно использовать BB-код.</div>
 				<div class="ui divider"></div>
-				<% } %>
 				<div class="ui teal submit fluid small button" type="submit" id="commentsubmit">Комментировать</div>
 				<input type="hidden" name="_csrf" value="<%= _csrf %>" />
 			</form>

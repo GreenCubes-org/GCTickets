@@ -1,4 +1,5 @@
-var gct = require('./index');
+var gct = require('./index'),
+	bbcode = require('../bbcode');
 
 module.exports = comment = {
 	serializeComments: function serializeComments(comments, userGroup, userId, cb) {
@@ -56,6 +57,13 @@ module.exports = comment = {
 						function setLogin(comment, callback) {
 								comment.owner = login;
 								callback(null, comment);
+						},
+						function bbcode2html(obj, callback) {
+							bbcode.parse(obj.message, function(result) {
+								obj.message = result;
+
+								callback(null, obj);
+							});
 						},
 						function cbComments(comment, callback) {
 								if (userGroup >= ugroup.mod) {
