@@ -375,22 +375,43 @@ app.view = {
 				processData: false,
 				success: function (data) {
 					data = JSON.parse(data);
+					$('#senddimmer').dimmer('toggle');
 					if (data.id) {
 						window.location = '/id/' + data.id;
 					} else if (data.err) {
 						$('#gc-reportformdiv').addClass('error');
 						$('#errmessage').html('<div class="ui divider"></div><div class="ui error message" id="errormessage"><div class="header">' + data.err + '</div></div>');
+						$('#modalerrormessage').html(data.err);
+						$('#errormodal')
+							.modal('setting', {
+								transition: 'fade up',
+								closable  : true
+							})
+							.modal('show');
 						window.location.hash = "errormessage";
 					} else if (data.status === 413) {
 						$('#gc-reportformdiv').addClass('error');
 						$('#errmessage').html('<div class="ui divider"></div><div class="ui error message" id="errormessage"><div class="header">Загрузка файлов больше 10 мегабайт запрещена</div></div>');
+						$('#modalerrormessage').html('Загрузка файлов больше 10 мегабайт запрещена');
+						$('#errormodal')
+							.modal('setting', {
+								transition: 'fade up',
+								closable  : true
+							})
+							.modal('show');
 						window.location.hash = "errormessage";
 					} else {
 						$('#gc-reportformdiv').addClass('error');
 						$('#errmessage').html('<div class="ui divider"></div><div class="ui error message" id="errormessage"><div class="header">Внезапная необычная ошибка. Пожалуйста, сообщите о ней разработчику.</div></div>');
+						$('#modalerrormessage').html('Внезапная необычная ошибка. Пожалуйста, сообщите о ней разработчику.');
+						$('#errormodal')
+							.modal('setting', {
+								transition: 'fade up',
+								closable  : true
+							})
+							.modal('show');
 						window.location.hash = "errormessage";
 					}
-					$('#senddimmer').dimmer('toggle');
 				},
 			});
 
