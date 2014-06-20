@@ -46,260 +46,274 @@
 //
 // post must be HTML-encoded
 //
-exports.parse = function(post, cb) {
-  var opentags = [];           // open tag stack
-  var crlf2br = true;     // convert CRLF to <br>?
-  var noparse = false;    // ignore BBCode tags?
+exports.parse = function (post, cb) {
+	var opentags = []; // open tag stack
+	var crlf2br = true; // convert CRLF to <br>?
+	var noparse = false; // ignore BBCode tags?
 
-  var urlstart = -1;      // beginning of the URL if zero or greater (ignored if -1)
+	var urlstart = -1; // beginning of the URL if zero or greater (ignored if -1)
 
-  // aceptable BBcode tags, optionally prefixed with a slash
-  var tagname_re = /^\/?(?:b|i|u|url|link|s|u?list|li)$/i;
+	// aceptable BBcode tags, optionally prefixed with a slash
+	var tagname_re = /^\/?(?:b|i|u|url|link|s|u?list|li)$/i;
 
-  // color names or hex color
-  var color_re = /^(:?black|silver|gray|white|maroon|red|purple|fuchsia|green|lime|olive|yellow|navy|blue|teal|aqua|#(?:[0-9a-f]{3})?[0-9a-f]{3})$/i;
+	// color names or hex color
+	var color_re = /^(:?black|silver|gray|white|maroon|red|purple|fuchsia|green|lime|olive|yellow|navy|blue|teal|aqua|#(?:[0-9a-f]{3})?[0-9a-f]{3})$/i;
 
-  // numbers
-  var number_re = /^[\\.0-9]{1,8}$/i;
+	// numbers
+	var number_re = /^[\\.0-9]{1,8}$/i;
 
-  // reserved, unreserved, escaped and alpha-numeric [RFC2396]
-  var uri_re = /^[-;\/\?:@&=\+\$,_\.!~\*'\(\)%0-9a-z]{1,512}$/i;
+	// reserved, unreserved, escaped and alpha-numeric [RFC2396]
+	var uri_re = /^[-;\/\?:@&=\+\$,_\.!~\*'\(\)%0-9a-z]{1,512}$/i;
 
-  // main regular expression: CRLF, [tag=option], [tag="option"] [tag] or [/tag]
-  var postfmt_re = /([\r\n])|(?:\[([a-z]{1,16})(?:=(?:"|'|)([^\x00-\x1F"'\(\)<>\[\]]{1,256}))?(?:"|'|)\])|(?:\[\/([a-z]{1,16})\])/ig;
+	// main regular expression: CRLF, [tag=option], [tag="option"] [tag] or [/tag]
+	var postfmt_re = /([\r\n])|(?:\[([a-z]{1,16})(?:=(?:"|'|)([^\x00-\x1F"'\(\)<>\[\]]{1,256}))?(?:"|'|)\])|(?:\[\/([a-z]{1,16})\])/ig;
 
-  // stack frame object
-  function taginfo_t(bbtag, etag)
-  {
-    return {
-      bbtag: bbtag,
-        etag: etag
-    };
-  }
+	// stack frame object
+	function taginfo_t(bbtag, etag) {
+		return {
+			bbtag: bbtag,
+			etag: etag
+		};
+	}
 
-  // check if it's a valid BBCode tag
-  function isValidTag(str)
-  {
-    if(!str || !str.length)
-      return false;
+	// check if it's a valid BBCode tag
+	function isValidTag(str) {
+		if (!str || !str.length)
+			return false;
 
-    return tagname_re.test(str);
-  }
+		return tagname_re.test(str);
+	}
 
-  //
-  // m1 - CR or LF
-  // m2 - the tag of the [tag=option] expression
-  // m3 - the option of the [tag=option] expression
-  // m4 - the end tag of the [/tag] expression
-  //
-  function textToHtmlCB(mstr, m1, m2, m3, m4, offset, string)
-  {
-    //
-    // CR LF sequences
-    //
-    if(m1 && m1.length) {
-      if(!crlf2br)
-        return mstr;
+	//
+	// m1 - CR or LF
+	// m2 - the tag of the [tag=option] expression
+	// m3 - the option of the [tag=option] expression
+	// m4 - the end tag of the [/tag] expression
+	//
+	function textToHtmlCB(mstr, m1, m2, m3, m4, offset, string) {
+		//
+		// CR LF sequences
+		//
+		if (m1 && m1.length) {
+			if (!crlf2br)
+				return mstr;
 
-      switch (m1) {
-        case '\r':
-          return "";
-        case '\n':
-          return "<br>";
-      }
-    }
+			switch (m1) {
+			case '\r':
+				return "";
+			case '\n':
+				return "<br>";
+			}
+		}
 
-    //
-    // handle start tags
-    //
-    if(isValidTag(m2)) {
-      var m2l = m2.toLowerCase();
+		//
+		// handle start tags
+		//
+		if (isValidTag(m2)) {
+			var m2l = m2.toLowerCase();
 
-      // if in the noparse state, just echo the tag
-      if(noparse)
-        return "[" + m2 + "]";
+			// if in the noparse state, just echo the tag
+			if (noparse)
+				return "[" + m2 + "]";
 
-      // ignore any tags if there's an open option-less [url] tag
-      if(opentags.length && (opentags[opentags.length-1].bbtag == "url" || opentags[opentags.length-1].bbtag == "link") && urlstart >= 0)
-        return "[" + m2 + "]";
+			// ignore any tags if there's an open option-less [url] tag
+			if (opentags.length && (opentags[opentags.length - 1].bbtag == "url" || opentags[opentags.length - 1].bbtag == "link") && urlstart >= 0)
+				return "[" + m2 + "]";
 
-      switch (m2l) {
-        case "code":
-          opentags.push(new taginfo_t(m2l, "</code></pre>"));
-          crlf2br = false;
-          return "<pre><code>";
+			switch (m2l) {
+			case "code":
+				opentags.push(new taginfo_t(m2l, "</code></pre>"));
+				crlf2br = false;
+				return "<pre><code>";
 
-        case "pre":
-          opentags.push(new taginfo_t(m2l, "</pre>"));
-          crlf2br = false;
-          return "<pre>";
+			case "pre":
+				opentags.push(new taginfo_t(m2l, "</pre>"));
+				crlf2br = false;
+				return "<pre>";
 
-        case "center":
-          opentags.push(new taginfo_t(m2l, "</center>"));
-          crlf2br = false;
-          return "<center>";
+			case "center":
+				opentags.push(new taginfo_t(m2l, "</center>"));
+				crlf2br = false;
+				return "<center>";
 
-        case "color":
-        case "colour":
-          if(!m3 || !color_re.test(m3))
-            m3 = "inherit";
-          opentags.push(new taginfo_t(m2l, "</span>"));
-          return "<span style=\"color: " + m3 + "\">";
+			case "color":
+			case "colour":
+				if (!m3 || !color_re.test(m3))
+					m3 = "inherit";
+				opentags.push(new taginfo_t(m2l, "</span>"));
+				return "<span style=\"color: " + m3 + "\">";
 
-        case "size":
-          if(!m3 || !number_re.test(m3))
-            m3 = "1";
-          opentags.push(new taginfo_t(m2l, "</span>"));
-          return "<span style=\"font-size: " + Math.min(Math.max(m3, 0.7), 3) + "em\">";
+			case "size":
+				if (!m3 || !number_re.test(m3))
+					m3 = "1";
+				opentags.push(new taginfo_t(m2l, "</span>"));
+				return "<span style=\"font-size: " + Math.min(Math.max(m3, 0.7), 3) + "em\">";
 
-        case "s":
-          opentags.push(new taginfo_t(m2l, "</span>"));
-          return "<span style=\"text-decoration: line-through\">";
+			case "s":
+				opentags.push(new taginfo_t(m2l, "</span>"));
+				return "<span style=\"text-decoration: line-through\">";
 
-        case "noparse":
-          noparse = true;
-          return "";
+			case "noparse":
+				noparse = true;
+				return "";
 
-        case "link":
-        case "url":
-          opentags.push(new taginfo_t(m2l, "</a>"));
+			case "link":
+			case "url":
+				opentags.push(new taginfo_t(m2l, "</a>"));
 
-          // check if there's a valid option
-          if(m3 && uri_re.test(m3)) {
-            // if there is, output a complete start anchor tag
-            urlstart = -1;
-            return "<a target=\"_blank\" href=\"" + m3 + "\">";
-          }
+				// check if there's a valid option
+				if (m3 && uri_re.test(m3)) {
+					// if there is, output a complete start anchor tag
+					urlstart = -1;
+					return "<a target=\"_blank\" href=\"" + m3 + "\">";
+				}
 
-          // otherwise, remember the URL offset
-          urlstart = mstr.length + offset;
+				// otherwise, remember the URL offset
+				urlstart = mstr.length + offset;
 
-          // and treat the text following [url] as a URL
-          return "<a target=\"_blank\" href=\"";
-        case "img":
-          opentags.push(new taginfo_t(m2l, "\" />"));
+				// and treat the text following [url] as a URL
+				return "<a target=\"_blank\" href=\"";
+			case "img":
+				opentags.push(new taginfo_t(m2l, "\" />"));
 
-          if (m3  && uri_re.test(m3)) {
-            urlstart = -1;
-            return "<" + m2l + " src=\"" + m3 + "";
-          }
+				if (m3 && uri_re.test(m3)) {
+					urlstart = -1;
+					return "<" + m2l + " src=\"" + m3 + "";
+				}
 
-          return "<"+m2l+" src=\"";
+				return "<" + m2l + " src=\"";
 
-        case "q":
-        case "quote":
-        case "blockquote":
-          var tag = (m2l === "q") ? "q" : "blockquote";
-          opentags.push(new taginfo_t(m2l, "</" + tag + ">"));
-          return m3 && m3.length && uri_re.test(m3) ? "<" + tag + " cite=\"" + m3 + "\">" : "<" + tag + ">";
+			case "q":
+			case "quote":
+			case "blockquote":
+				var tag = (m2l === "q") ? "q" : "blockquote";
+				opentags.push(new taginfo_t(m2l, "</" + tag + ">"));
+				return m3 && m3.length && uri_re.test(m3) ? "<" + tag + " cite=\"" + m3 + "\">" : "<" + tag + ">";
 
-        case "list":
-          opentags.push(new taginfo_t('list', '</ol>'));
-          return '<ol>';
+			case "list":
+				opentags.push(new taginfo_t('list', '</ol>'));
+				return '<ol>';
 
-        case "ulist":
-          opentags.push(new taginfo_t('ulist', '</ul>'));
-          return '<ul>';
+			case "ulist":
+				opentags.push(new taginfo_t('ulist', '</ul>'));
+				return '<ul>';
 
-        case "b":
-          opentags.push(new taginfo_t('b', '</strong>'));
-          return '<strong>';
+			case "b":
+				opentags.push(new taginfo_t('b', '</strong>'));
+				return '<strong>';
 
-        case "i":
-          opentags.push(new taginfo_t('i', '</em>'));
-          return '<em>';
+			case "i":
+				opentags.push(new taginfo_t('i', '</em>'));
+				return '<em>';
 
-        default:
-          // [samp] and [u] don't need special processing
-          opentags.push(new taginfo_t(m2l, "</" + m2l + ">"));
-          return "<" + m2l + ">";
+			default:
+				// [samp] and [u] don't need special processing
+				opentags.push(new taginfo_t(m2l, "</" + m2l + ">"));
+				return "<" + m2l + ">";
 
-      }
-    }
+			}
+		}
 
-    //
-    // process end tags
-    //
-    if(isValidTag(m4)) {
-      var m4l = m4.toLowerCase();
+		//
+		// process end tags
+		//
+		if (isValidTag(m4)) {
+			var m4l = m4.toLowerCase();
 
-      if(noparse) {
-        // if it's the closing noparse tag, flip the noparse state
-        if(m4 == "noparse")  {
-          noparse = false;
-          return "";
-        }
+			if (noparse) {
+				// if it's the closing noparse tag, flip the noparse state
+				if (m4 == "noparse") {
+					noparse = false;
+					return "";
+				}
 
-        // otherwise just output the original text
-        return "[/" + m4 + "]";
-      }
+				// otherwise just output the original text
+				return "[/" + m4 + "]";
+			}
 
-      // highlight mismatched end tags
-      if(!opentags.length || opentags[opentags.length-1].bbtag != m4l)
-        return "<span style=\"color: red\">[/" + m4 + "]</span>";
+			// highlight mismatched end tags
+			if (!opentags.length || opentags[opentags.length - 1].bbtag != m4l)
+				return "<span style=\"color: red\">[/" + m4 + "]</span>";
 
-      if(m4l == "url" || m4l == "link") {
-        // if there was no option, use the content of the [url] tag
-        if(urlstart > 0)
-          return "\">" + string.substr(urlstart, offset-urlstart) + opentags.pop().etag;
+			if (m4l == "url" || m4l == "link") {
+				// if there was no option, use the content of the [url] tag
+				if (urlstart > 0)
+					return "\">" + string.substr(urlstart, offset - urlstart) + opentags.pop().etag;
 
-        // otherwise just close the tag
-        return opentags.pop().etag;
-      }
-      else if(m4l == "code" || m4l == "pre")
-        crlf2br = true;
+				// otherwise just close the tag
+				return opentags.pop().etag;
+			} else if (m4l == "code" || m4l == "pre")
+				crlf2br = true;
 
-      // other tags require no special processing, just output the end tag
-      var end = opentags.pop().etag;
-      return end;
-    }
+			// other tags require no special processing, just output the end tag
+			var end = opentags.pop().etag;
+			return end;
+		}
 
-    return mstr;
-  }
+		return mstr;
+	}
 
-  // actual parsing can begin
-  var result = '', endtags, tag;
+	// actual parsing can begin
+	var result = '',
+		endtags, tag;
 
-  // convert CRLF to <br> by default
-  crlf2br = true;
+	// convert CRLF to <br> by default
+	crlf2br = true;
 
-  // create a new array for open tags
-  if(opentags == null || opentags.length)
-    opentags = new Array(0);
+	// create a new array for open tags
+	if (opentags == null || opentags.length)
+		opentags = new Array(0);
 
-  // run the text through main regular expression matcher
-  if (post) {
-    // idea to replace single *'s from http://patorjk.com/bbcode-previewer/
-    post = (function(_post) {
-      return _post.replace(/(\[\*\])([^\[]*)(\[\/\*\])/g, function(m0, m1, m2, offset, mstr) {
-        return '[li]' + m2 + '[/li]';
-      });
-    })(post);
-    result = post.replace(postfmt_re, textToHtmlCB);
+	// run the text through main regular expression matcher
+	if (post) {
+		// idea to replace single *'s from http://patorjk.com/bbcode-previewer/
+		post = (function (_post) {
+			return _post.replace(/(\[\*\])([^\[]*)(\[\/\*\])/g, function (m0, m1, m2, offset, mstr) {
+				return '[li]' + m2 + '[/li]';
+			});
+		})(post);
 
-    // reset noparse, if it was unbalanced
-    if(noparse)
-      noparse = false;
+		// replace non bbcode urls
+		post = (function (_post) {
+			return _post.replace(/(\[url\=)?(http|https|ftp|ftps)\:\/\/[a-zA-Z0-9\-\.]+\.[a-zA-Z]{2,3}(\/\S*)?/g, function (m0, m1, m2, offset, mstr) {
+				console.log(m0, m1, m2, offset, mstr);
+				if (m1 !== '[url=') {
+					return m0.replace(/(http|https|ftp|ftps)\:\/\/[a-zA-Z0-9\-\.]+\.[a-zA-Z]{2,3}(\/\S*)?/g, function (m0, m1, m2, offset, mstr) {
+						return "<a target=\"_blank\" href=\"" + m0 + "\">" + m0 + "</a>";
+					});
+				} else {
+					return m0;
+				}
 
-    // if there are any unbalanced tags, make sure to close them
-    if(opentags.length) {
-      endtags = new String();
+			});
+		})(post);
 
-      // if there's an open [url] at the top, close it
-      if(opentags[opentags.length-1].bbtag == "url" || opentags[opentags.length-1].bbtag == "link") {
-        opentags.pop();
-        endtags += "\">" + post.substr(urlstart, post.length-urlstart) + "</a>";
-      }
 
-      // close remaining open tags
-      while(opentags.length)
-        endtags += opentags.pop().etag;
-    }
-  }
-  var ret = endtags ? result + endtags : result;
-  if (cb) {
-    cb(ret);
-  } else {
-    return ret;
-  }
+		result = post.replace(postfmt_re, textToHtmlCB);
+
+		// reset noparse, if it was unbalanced
+		if (noparse)
+			noparse = false;
+
+		// if there are any unbalanced tags, make sure to close them
+		if (opentags.length) {
+			endtags = new String();
+
+			// if there's an open [url] at the top, close it
+			if (opentags[opentags.length - 1].bbtag == "url" || opentags[opentags.length - 1].bbtag == "link") {
+				opentags.pop();
+				endtags += "\">" + post.substr(urlstart, post.length - urlstart) + "</a>";
+			}
+
+			// close remaining open tags
+			while (opentags.length)
+				endtags += opentags.pop().etag;
+		}
+	}
+	var ret = endtags ? result + endtags : result;
+	if (cb) {
+		cb(ret);
+	} else {
+		return ret;
+	}
 }
