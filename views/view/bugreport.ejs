@@ -23,7 +23,7 @@
 		</div>
 		<div class="right floated one wide column">
 			<div class="s-status <%= ticket.status.class %>"><%- ticket.status.text %></div>
-			<div class="s-visiblity" id="s-visiblity" style="border-bottom: 1px dotted; cursor: pointer;"><%= ticket.visiblity %></div>
+			<div class="s-visiblity" <% if (req.user && req.user.group >= ugroup.mod) { %>id="s-visiblity" style="border-bottom: 1px dotted; cursor: pointer;"<% } %>><%= ticket.visiblity %></div>
 		</div>
 	</div>
 	<div class="s-ui divider"></div>
