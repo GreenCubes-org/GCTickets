@@ -46,7 +46,7 @@ module.exports = {
 			filterBy.visibility = filterByVisibility
 		}
 
-		if ((filterBy.visibility === 5 || filterBy.visibility === 6) && (!req.user || req.user.group < ugroup.mod)) {
+		if ((filterBy.visibility === 5 || filterBy.visibility === 6) && (!req.user || req.user.group < ugroup.helper)) {
 			return res.json({
 				status: 'err'
 			});
@@ -99,14 +99,14 @@ module.exports = {
 						}
 					};
 
-					if (!findBy.owner && (!req.user || req.user.group <= ugroup.mod)) {
+					if (!findBy.owner && (!req.user || req.user.group < ugroup.helper)) {
 						findBy.visiblity = 1;
 					}
 				}
 				if (filterBy.status) {
 					findBy.status = filterBy.status;
 
-					if (!findBy.owner && (!req.user || req.user.group <= ugroup.mod)) {
+					if (!findBy.owner && (!req.user || req.user.group < ugroup.helper)) {
 						findBy.visiblity = 1;
 					}
 				}
@@ -119,7 +119,7 @@ module.exports = {
 						}
 					};
 				}
-				if (filterBy.visibility && req.user && req.user.group >= ugroup.mod) {
+				if (filterBy.visibility && req.user && req.user.group >= ugroup.helper) {
 					findBy.visiblity = filterBy.visibility;
 
 					if (!filterByStatus) {
