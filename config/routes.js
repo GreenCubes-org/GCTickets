@@ -49,7 +49,6 @@ module.exports.routes = {
 	'get /id/:id/edit': 'edit.routeViewTpl',
 	'post /id/:id/edit': 'edit.routeView',
 	'post /id/:id/changevisibility': 'edit.changeVisibility',
-	'get /id/:id/delete': 'edit.deleteTpl',
 	'post /id/:id/delete': 'edit.deletePost',
 	'/id/:id/report': 'dev.hideFeature',
 	'get /comments': 'comment.listViewComments',
