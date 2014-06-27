@@ -9,31 +9,30 @@ module.exports = {
 								if (err) return callback(err);
 
 								result.status = obj.status;
+								result.owner = obj.owner;
 								callback(err, result);
 							});
 						},
 						function serialize(result, callback) {
-							bugreport.serializeView(result, null, function (err, ticket) {
+							bugreport.serializeList(result, function (err, ticket) {
 								if (err) return callback(err);
 
-								gcdb.user.getByID(obj.owner, function (err, ownerLogin) {
-									callback(null, {
-										id: ticket.id,
-										title: ticket.title,
-										status: ticket.status,
-										owner: ownerLogin,
-										createdAt: ticket.createdAt,
-										visibility: {
-											class: (ticket.visiblity === 'Публичный') ? 'unlock' : 'lock',
-											text: ticket.visiblity
-										},
-										type: {
-											descr: 'Баг-репорт',
-											iconclass: 'bug'
-										},
-										product: ticket.product,
-										comments: ticket.comments
-									});
+								callback(null, {
+									id: ticket.id,
+									title: ticket.title,
+									status: ticket.status,
+									owner: ticket.owner,
+									createdAt: ticket.createdAt,
+									visibility: {
+										class: (ticket.visiblity === 'Публичный') ? 'unlock' : 'lock',
+										text: ticket.visiblity
+									},
+									type: {
+										descr: 'Баг-репорт',
+										iconclass: 'bug'
+									},
+									product: ticket.product,
+									comments: ticket.comments
 								});
 							});
 						}
@@ -52,30 +51,29 @@ module.exports = {
 							if (err) return callback(err);
 
 							result.status = obj.status;
+							result.owner = obj.owner;
 							callback(err, result);
 						});
 					},
 					function serialize(result, callback) {
-						rempro.serializeView(result, null, function (err, ticket) {
+						rempro.serializeList(result, function (err, ticket) {
 							if (err) return callback(err);
 
-							gcdb.user.getByID(obj.owner, function (err, ownerLogin) {
-								callback(null, {
-									id: ticket.id,
-									title: ticket.title,
-									status: ticket.status,
-									owner: ownerLogin,
-									createdAt: ticket.createdAt,
-									visibility: {
-										class: (ticket.visiblity === 'Публичный') ? 'unlock' : 'lock',
-										text: ticket.visiblity
-									},
-									type: {
-										descr: 'Расприват',
-										iconclass: 'trash'
-									},
-									comments: ticket.comments
-								});
+							callback(null, {
+								id: ticket.id,
+								title: ticket.title,
+								status: ticket.status,
+								owner: ticket.owner,
+								createdAt: ticket.createdAt,
+								visibility: {
+									class: (ticket.visiblity === 'Публичный') ? 'unlock' : 'lock',
+									text: ticket.visiblity
+								},
+								type: {
+									descr: 'Расприват',
+									iconclass: 'trash'
+								},
+								comments: ticket.comments
 							});
 						});
 					}

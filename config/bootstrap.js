@@ -25,14 +25,21 @@ module.exports.bootstrap = function (cb) {
 		staff: 3
 	};
 
-	global.gcdbconn = require('mysql').createPool({
+	global.gcdbconn = mysql.createPool({
 		host: cfg.gcdb.host,
 		database: cfg.gcdb.database,
 		user: cfg.gcdb.user,
 		password: cfg.gcdb.password
 	});
 	
-	global.appdbconn = require('mysql').createPool({
+	global.gcmainconn = mysql.createPool({
+		host: cfg.gcmain.host,
+		database: cfg.gcmain.database,
+		user: cfg.gcmain.user,
+		password: cfg.gcmain.password
+	});
+
+	global.appdbconn = mysql.createPool({
 		host: cfg.appdb.host,
 		database: cfg.appdb.database,
 		user: cfg.appdb.user,

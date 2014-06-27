@@ -6,53 +6,107 @@ var moment = require('moment');
 moment.lang('ru');
 
 module.exports = bugreport = {
-	serializeList: function serializeList(array, cb) {
-		async.map(array, function (obj, callback) {
-			async.waterfall([
-				function getBugreport(callback) {
-					Ticket.findOne(obj.id).done(function (err, ticket) {
-						Bugreport.findOne(obj.tid).done(function (err, result) {
-							if (err) return callback(err);
+	serializeList: function serializeList(obj, cb) {
+		async.waterfall([
+			function getUserByID(callback) {
+				gcdb.user.getByID(obj.owner, function (err, result) {
+					if (err) return callback(err);
 
-							result.owner = obj.owner;
-							result.status = ticket.status;
-
-							callback(null, result);
-						});
+					callback(null, {
+						id: obj.id,
+						title: obj.title,
+						status: getStatusByID(obj.status),
+						owner: {
+							id: obj.owner,
+							login: result,
+							pinfo: null
+						},
+						type: obj.type,
+						visiblity: null,
+						createdAt: obj.createdAt
 					});
-				},
-				function serialize(result, callback) {
-					bugreport.serializeView(result, null, function (err, ticket) {
+				});
+			},
+			function getTicket(obj, callback) {
+				Ticket.find({
+					tid: obj.id,
+					type: 1
+				}).done(function (err, ticket) {
+					if (err) return cb(err);
+
+					callback(null, obj, ticket);
+				});
+			},
+			function getCommentsCount(obj, ticket, callback) {
+				Comments.find({
+					tid: ticket[0].id,
+					status: {
+						'!': 3
+					}
+				}).done(function (err, comments) {
+					if (err) return callback(err);
+
+					var lastChangedToOwner;
+					for (var i = comments.length - 1; i >= 0; i--) {
+						if (comments[i].changedTo) {
+							lastChangedToOwner = comments[i].owner;
+							break;
+						}
+					}
+
+					obj.comments = {
+						count: comments.length,
+						lastCommentOwner: (comments.length) ? comments[comments.length - 1].owner : null,
+						lastChangedToOwner: lastChangedToOwner
+					};
+
+					callback(null, obj, ticket);
+				});
+			},
+			function getLoginsForLastCommentOwners(obj, ticket, callback) {
+				if (obj.comments.count) {
+					gcdb.user.getByID(obj.comments.lastCommentOwner, function(err, login) {
 						if (err) return callback(err);
 
-						callback(null, {
-							id: ticket.id,
-							title: ticket.title,
-							status: ticket.status,
-							owner: ticket.owner,
-							createdAt: ticket.createdAt,
-							type: {
-								descr: 'Баг-репорт',
-								iconclass: 'bug'
-							}
-						});
-					})
+						obj.comments.lastCommentOwner = login;
+
+						if (obj.comments.lastChangedToOwner) {
+							gcdb.user.getByID(obj.comments.lastChangedToOwner, function(err, login) {
+								if (err) return callback(err);
+
+								obj.comments.lastChangedToOwner = login;
+
+								callback(null, obj, ticket);
+							});
+						} else {
+							callback(null, obj, ticket);
+						}
+					});
+				} else {
+					callback(null, obj, ticket);
 				}
-			],
-			function (err, bugreport) {
-				if (err) throw err;
+			}
+		], function (err, obj, ticket) {
+			if (err) return cb(err);
 
-				callback(null, bugreport);
+			cb(null, {
+				id: ticket[0].id,
+				title: obj.title,
+				status: obj.status,
+				owner: obj.owner,
+				visiblity: getVisiblityByID(ticket[0].visiblity),
+				createdAt: obj.createdAt,
+				type: {
+					descr: 'Баг-репорт',
+					iconclass: 'bug',
+					id: obj.type
+				},
+				comments: obj.comments
 			});
-		}, function (err, array) {
-			if (err) throw err;
-
-			cb(null, array);
 		});
-
 	},
 
-	serializeView: function serializeSingle(obj, config, cb) {
+	serializeView: function serializeView(obj, config, cb) {
 		async.waterfall([
 			function getUserByID(callback) {
 				gcdb.user.getByID(obj.owner, function (err, result) {
@@ -63,8 +117,11 @@ module.exports = bugreport = {
 						title: obj.title,
 						description: obj.description,
 						status: getStatusByID(obj.status),
-						owner: result,
-						ownerId: obj.owner,
+						owner: {
+							id: obj.owner,
+							login: result,
+							pinfo: null
+						},
 						type: obj.type,
 						logs: obj.logs,
 						uploads: obj.uploads,
@@ -148,6 +205,15 @@ module.exports = bugreport = {
 				} else {
 					callback(null, obj, ticket);
 				}
+			},
+			function getPInfo(obj, ticket, callback) {
+				gct.user.getPInfo(obj.owner.login, function(err, pinfo) {
+					if (err) return callback(err);
+
+					obj.owner.pinfo = pinfo;
+
+					callback(null, obj, ticket);
+				});
 			}
 		], function (err, obj, ticket) {
 			if (err) return cb(err);
@@ -181,7 +247,6 @@ module.exports = bugreport = {
 					description: obj.description,
 					status: obj.status,
 					owner: obj.owner,
-					ownerId: obj.ownerId,
 					logs: obj.logs,
 					uploads: obj.uploads,
 					product: obj.product,

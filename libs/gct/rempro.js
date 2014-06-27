@@ -6,58 +6,103 @@ var moment = require('moment');
 moment.lang('ru');
 
 module.exports = rempro = {
-	serializeList: function serializeList(array, cb) {
-		async.map(array, function (obj, callback) {
-			async.waterfall([
-				function getRempro(callback) {
-					Rempro.find({
-						id: obj.tid
-					}).done(function (err, result) {
-						if (err) return callback(err);
+	serializeList: function serializeList(obj, cb) {
+		async.waterfall([
+			function getOwnerID(callback) {
+				gcdb.user.getByID(obj.owner, function (err, result) {
+					if (err) return callback(err);
 
-						result[0].owner = obj.owner;
-						result[0].status = obj.status;
-						callback(null, result[0]);
+					callback(null, {
+						id: obj.id,
+						title: obj.title,
+						status: getStatusByID(obj.status),
+						owner: {
+							id: obj.owner,
+							login: result,
+							pinfo: null
+						},
+						type: obj.type,
+						visiblity: null,
+						createdAt: obj.createdAt
 					});
-				},
-				function getLoginForCreatedFor(result, callback) {
-					if (result.createdFor) {
-						gcdb.user.getByID(result.createdFor, function (err, login) {
-							result.createdFor = login;
+				});
+			},
+			function getTicket(obj, callback) {
+				Ticket.find({
+					tid: obj.id,
+					type: 2
+				}).done(function (err, ticket) {
+					if (err) return cb(err);
 
-							callback(null, result);
-						});
-					} else {
-						callback(null, result);
+					callback(null, obj, ticket);
+				});
+			},
+			function getCommentsCount(obj, ticket, callback) {
+				Comments.find({
+					tid: ticket[0].id,
+					status: {
+						'!': 3
 					}
-				},
-				function serialize(result, callback) {
-					rempro.serializeView(result, null, function (err, ticket) {
+				}).done(function (err, comments) {
+					if (err) return callback(err);
+
+					var lastChangedToOwner;
+
+					for (var i = comments.length - 1; i >= 0; i--) {
+						if (comments[i].changedTo) {
+							lastChangedToOwner = comments[i].owner;
+						}
+					}
+
+					obj.comments = {
+						count: comments.length,
+						lastCommentOwner: (comments.length) ? comments[comments.length - 1].owner : 0,
+						lastChangedToOwner: lastChangedToOwner
+					};
+
+					callback(null, obj, ticket);
+				});
+			},
+			function getLoginsForLastCommentOwners(obj, ticket, callback) {
+				if (obj.comments.count) {
+					gcdb.user.getByID(obj.comments.lastCommentOwner, function(err, login) {
 						if (err) return callback(err);
 
-						callback(null, {
-							id: ticket.id,
-							title: ticket.title,
-							status: ticket.status,
-							owner: ticket.owner,
-							createdAt: ticket.createdAt,
-							type: {
-								descr: 'Удаление защит',
-								iconclass: 'remove'
-							}
-						});
-					})
+						obj.comments.lastCommentOwner = login;
+
+						if (obj.comments.lastChangedToOwner) {
+							gcdb.user.getByID(obj.comments.lastChangedToOwner, function(err, login) {
+								if (err) return callback(err);
+
+								obj.comments.lastChangedToOwner = login;
+
+								callback(null, obj, ticket);
+							});
+						} else {
+							callback(null, obj, ticket);
+						}
+					});
+				} else {
+					callback(null, obj, ticket);
 				}
-			],
-			function (err, rempro) {
-				if (err) throw err;
+			}
+		], function (err, obj, ticket) {
+			if (err) return cb(err);
 
-				callback(null, rempro);
+			cb(null, {
+				id: ticket[0].id,
+				title: obj.title,
+				status: obj.status,
+				owner: obj.owner,
+				visiblity: getVisiblityByID(ticket[0].visiblity),
+				createdAt: obj.createdAt,
+				type: {
+					descr: 'Расприват',
+					iconclass: 'remove',
+					id: obj.type
+				},
+				comments: obj.comments
 			});
-		}, function (err, array) {
-			if (err) throw err;
-
-			cb(null, array);
 		});
 	},
 
@@ -74,9 +119,16 @@ module.exports = rempro = {
 						regions: obj.regions,
 						stuff: obj.stuff,
 						status: getStatusByID(obj.status),
-						createdFor: obj.createdFor,
-						owner: result,
-						ownerId: obj.owner,
+						createdFor: {
+							id: obj.createdFor,
+							login: null,
+							pinfo: null
+						},
+						owner: {
+							id: obj.owner,
+							login: result,
+							pinfo: null
+						},
 						type: obj.type,
 						uploads: obj.uploads,
 						visiblity: null,
@@ -84,25 +136,13 @@ module.exports = rempro = {
 					});
 				});
 			},
-			function getCreatedForID(obj, callback) {
-				gcdb.user.getByID(obj.createdFor, function (err, result) {
+			function getCreatedForLogin(obj, callback) {
+				gcdb.user.getByID(obj.createdFor.id, function (err, result) {
 					if (err) return callback(err);
 
-					callback(null, {
-						id: obj.id,
-						title: obj.title,
-						reason: obj.reason,
-						regions: obj.regions,
-						stuff: obj.stuff,
-						status: obj.status,
-						createdFor: result,
-						owner: obj.owner,
-						ownerId: obj.ownerId,
-						type: obj.type,
-						uploads: obj.uploads,
-						visiblity: null,
-						createdAt: obj.createdAt
-					});
+					obj.createdFor.login = result;
+
+					callback(null, obj);
 				});
 			},
 			function bbcode2html(obj, callback) {
@@ -174,6 +214,24 @@ module.exports = rempro = {
 				} else {
 					callback(null, obj, ticket);
 				}
+			},
+			function getPInfo4Owner(obj, ticket, callback) {
+				gct.user.getPInfo(obj.owner.login, function(err, pinfo) {
+					if (err) return callback(err);
+
+					obj.owner.pinfo = pinfo;
+
+					callback(null, obj, ticket);
+				});
+			},
+			function getPInfo4CreatedFor(obj, ticket, callback) {
+				gct.user.getPInfo(obj.createdFor.login, function(err, pinfo) {
+					if (err) return callback(err);
+
+					obj.createdFor.pinfo = pinfo;
+
+					callback(null, obj, ticket);
+				});
 			}
 		], function (err, obj, ticket) {
 			if (err) return cb(err);
@@ -211,7 +269,6 @@ module.exports = rempro = {
 					status: obj.status,
 					createdFor: obj.createdFor,
 					owner: obj.owner,
-					ownerId: obj.ownerId,
 					uploads: obj.uploads,
 					visiblity: getVisiblityByID(ticket[0].visiblity),
 					createdAt: obj.createdAt,

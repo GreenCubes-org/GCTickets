@@ -16,13 +16,9 @@ module.exports.routes = {
 	// Действия с пользователем
 	// Профиль
 	'/user': 'user.profile',
+	'/user/:page': 'user.profile',
 	'/users/:user': 'user.profile',
 	'/users/:user/:page': 'user.profile',
-
-	// Мои тикеты
-	'/my': 'list.listTwenty',
-	'/my/:page': 'list.listTwenty',
-
 
 	// Вход в аккаунт и выход из него
 	'get /login': 'user.loginTpl',

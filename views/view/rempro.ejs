@@ -10,12 +10,11 @@
 			<h2 class="ui header">
 				<span><%= ticket.title %></span>
 				<div class="sub header">
-<% if (req.user) {
-	if (canModerate  || req.user.username === ticket.owner) { %>
+<% if (req.user && (req.user.id === ticket.owner.id || req.user.group >= ugroup.mod)) { %>
 <a class="gc-nostylelink"  href="/id/<%= globalid %>/edit" title="Изменить"><i class="pencil small icon" id="s-editicon"></i></a>
-<% } } %>
+<% } %>
 &nbsp;<a class="gc-nostylelink"  href="/id/<%= globalid %>">#<%= globalid %></a>
-&raquo;&nbsp;<% if (ticket.createdFor && ticket.createdFor !== ticket.owner) { %><a class="gc-nostylelink" href="/users/<%= ticket.createdFor %>"><%= ticket.createdFor %></a> (заявка создана <a class="gc-nostylelink" href="/users/<%= ticket.owner %>"><%= ticket.owner %></a>)<% } else { %><a class="gc-nostylelink" href="/users/<%= ticket.owner %>"><%= ticket.owner %></a><% } %>
+&raquo;&nbsp;<% if (ticket.createdFor && ticket.createdFor.login !== ticket.owner.login) { %><a class="gc-nostylelink<% if (req.user && req.user.group >= ugroup.helper) { %> pinfopopup" style="cursor:pointer;border-bottom: 1px dotted;" data-position="bottom center" data-html="<%- partial('../partials/pinfo', {pinfo:ticket.createdFor.pinfo}) %>" data-variation="small" title="Нажатие активирует подсказку"<% } else { %>" href="/users/<%= ticket.createdFor.login %>"<% } %>><%= ticket.createdFor.login %></a> (заявка создана <a class="gc-nostylelink<% if (req.user && req.user.group >= ugroup.helper) { %> pinfopopup"style="cursor:pointer;border-bottom: 1px dotted;" data-position="bottom center" data-html="<%- partial('../partials/pinfo', {pinfo:ticket.owner.pinfo}) %>" data-variation="small" title="Нажатие активирует подсказку"<% } else { %>" href="/users/<%= ticket.owner.login %>"<% } %>><%= ticket.owner.login %></a>)<% } else { %><a class="gc-nostylelink<% if (req.user && req.user.group >= ugroup.helper) { %> pinfopopup"style="cursor:pointer;border-bottom: 1px dotted;" data-position="bottom center" data-html="<%- partial('../partials/pinfo', {pinfo:ticket.owner.pinfo}) %>" data-variation="small" title="Нажатие активирует подсказку"<% } else { %>" href="/users/<%= ticket.owner.login %>"<% } %>><%= ticket.owner.login %></a><% } %>
 &raquo;&nbsp;<%= moment(ticket.createdAt).format('D MMM YYYY, h:mm') %>
 				</div>
 			</h2>
@@ -104,7 +103,7 @@
 			<% if (req.user) { %>
 			<form class="ui reply form container" id="commentpost">
 				<% var statusRegexp = new RegExp('(Новый|Уточнить|На рассмотрении|Отложен)');
-				if (statusRegexp.test(ticket.status.text) &&  req.user && (canModerate || ticket.owner == (req.user.username || '') || ((req.user.group || 0) >= ugroup.helper && ticket.status.text === 'Новый'))) { %>
+				if (statusRegexp.test(ticket.status.text) &&  req.user && (canModerate || ticket.owner.id === req.user.id || ((req.user.group || 0) >= ugroup.helper && ticket.status.text === 'Новый'))) { %>
 				<div class="field">
 					<label>Смена статуса <a class="gc-nostylelink" href="https://wiki.greencubes.org/Система_поддержки/Статусы" target="_blank"><i class="help icon gc-helppopup" data-content="С помощью этого поля можно поменять статус тикета. Справка по статусам по клику на эту иконку" data-variation="inverted"></i></a></label>
 					<div class="ui selection dropdown" id="s-setstatus">
@@ -153,7 +152,7 @@
 				<div class="field" id="commentfield">
 					<textarea id="commentform" name="message"></textarea>
 				</div>
-				<div class="gc-help"><i class="help icon"></i><% if (["Новый","Уточнить","Принят"].indexOf(ticket.status.text) !== -1 && req.user && (canModerate || ticket.owner == (req.user.username || '') || ((req.user.group || 0) >= ugroup.helper && ticket.status.text === 'Новый'))) { %>При смене статуса можно не писать комментарий. <% } %>Можно использовать BB-код.</div>
+				<div class="gc-help"><i class="help icon"></i><% if (["Новый","Уточнить","Принят"].indexOf(ticket.status.text) !== -1 && req.user && (canModerate || ticket.owner.id === req.user.id || ((req.user.group || 0) >= ugroup.helper && ticket.status.text === 'Новый'))) { %>При смене статуса можно не писать комментарий. <% } %>Можно использовать BB-код.</div>
 				<div class="ui divider"></div>
 				<div class="ui teal submit fluid small button" type="submit" id="commentsubmit">Комментировать</div>
 				<input type="hidden" name="_csrf" value="<%= _csrf %>" />

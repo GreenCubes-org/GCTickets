@@ -188,6 +188,11 @@ app.view = {
 		$('.ui.modal').modal();
 		$('#commentform').val('');
 
+		$('.pinfopopup').popup({
+			on: 'click'
+		});
+
+
 		$(document).on('click', '#s-visiblity', function(e) {
 			$('#changevisibility')
 				.modal('setting', {
