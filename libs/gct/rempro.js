@@ -106,7 +106,7 @@ module.exports = rempro = {
 		});
 	},
 
-	serializeView: function serializeView(obj, config, cb) {
+	serializeView: function serializeView(req, res, obj, config, cb) {
 		async.waterfall([
 			function getOwnerID(callback) {
 				gcdb.user.getByID(obj.owner, function (err, result) {
@@ -216,22 +216,30 @@ module.exports = rempro = {
 				}
 			},
 			function getPInfo4Owner(obj, ticket, callback) {
-				gct.user.getPInfo(obj.owner.login, function(err, pinfo) {
-					if (err) return callback(err);
+				if (req.user && req.user.group >= ugroup.helper) {
+					gct.user.getPInfo(obj.owner.login, function(err, pinfo) {
+						if (err) return callback(err);
 
-					obj.owner.pinfo = pinfo;
+						obj.owner.pinfo = pinfo;
 
+						callback(null, obj, ticket);
+					});
+				} else {
 					callback(null, obj, ticket);
-				});
+				}
 			},
 			function getPInfo4CreatedFor(obj, ticket, callback) {
-				gct.user.getPInfo(obj.createdFor.login, function(err, pinfo) {
-					if (err) return callback(err);
+				if (req.user && req.user.group >= ugroup.helper) {
+					gct.user.getPInfo(obj.createdFor.login, function(err, pinfo) {
+						if (err) return callback(err);
 
-					obj.createdFor.pinfo = pinfo;
+						obj.createdFor.pinfo = pinfo;
 
+						callback(null, obj, ticket);
+					});
+				} else {
 					callback(null, obj, ticket);
-				});
+				}
 			}
 		], function (err, obj, ticket) {
 			if (err) return cb(err);
@@ -296,7 +304,7 @@ module.exports = rempro = {
 				});
 			},
 			function serializeView(rempro, callback) {
-				gct.rempro.serializeView(rempro, null, function(err, result) {
+				gct.rempro.serializeView(req, res, rempro, null, function(err, result) {
 					if (err) return callback(err);
 
 					callback(null, result, rempro);
@@ -326,7 +334,7 @@ module.exports = rempro = {
 			if (err) throw err;
 
 			rempro.owner = ticket.owner;
-			gct.rempro.serializeView(rempro, {isEdit: true}, function(err, result) {
+			gct.rempro.serializeView(req, res, rempro, {isEdit: true}, function(err, result) {
 				if (err) throw err;
 
 				res.view('edit/rempro', {

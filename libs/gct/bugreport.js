@@ -106,7 +106,7 @@ module.exports = bugreport = {
 		});
 	},
 
-	serializeView: function serializeView(obj, config, cb) {
+	serializeView: function serializeView(req, res, obj, config, cb) {
 		async.waterfall([
 			function getUserByID(callback) {
 				gcdb.user.getByID(obj.owner, function (err, result) {
@@ -206,14 +206,18 @@ module.exports = bugreport = {
 					callback(null, obj, ticket);
 				}
 			},
-			function getPInfo(obj, ticket, callback) {
-				gct.user.getPInfo(obj.owner.login, function(err, pinfo) {
-					if (err) return callback(err);
+			function getPInfo4Owner(obj, ticket, callback) {
+				if (req.user && req.user.group >= ugroup.helper) {
+					gct.user.getPInfo(obj.owner.login, function(err, pinfo) {
+						if (err) return callback(err);
 
-					obj.owner.pinfo = pinfo;
+						obj.owner.pinfo = pinfo;
 
+						callback(null, obj, ticket);
+					});
+				} else {
 					callback(null, obj, ticket);
-				});
+				}
 			}
 		], function (err, obj, ticket) {
 			if (err) return cb(err);
@@ -276,7 +280,7 @@ module.exports = bugreport = {
 				});
 			},
 			function serializeView(bugreport, callback) {
-				gct.bugreport.serializeView(bugreport, null, function(err, result) {
+				gct.bugreport.serializeView(req, res, bugreport, null, function(err, result) {
 					if (err) return callback(err);
 
 					callback(null, result, bugreport);
@@ -339,7 +343,7 @@ module.exports = bugreport = {
 			if (err) throw err;
 
 			bugreport.owner = ticket.owner;
-			gct.bugreport.serializeView(bugreport, {isEdit: true}, function(err, result) {
+			gct.bugreport.serializeView(req, res, bugreport, {isEdit: true}, function(err, result) {
 				if (err) throw err;
 
 				res.view('edit/bugreport', {
