@@ -282,10 +282,10 @@ module.exports = user = {
 			},
 			function serializeMemos(obj, callback) {
 				async.map(obj.memos, function(element, callback) {
-					gcdb.user.getByID(element.moderator, function(err, login) {
+					maindb.query('SELECT `name` FROM users WHERE id = ?', [element.moderator], function (err, result) {
 						if (err) return callback(err);
 
-						element.moderator = login;
+						element.moderator = result[0].name;
 
 						callback(null, element);
 					});
