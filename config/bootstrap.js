@@ -32,6 +32,13 @@ module.exports.bootstrap = function (cb) {
 		password: cfg.gcdb.password
 	});
 	
+	global.maindb = mysql.createPool({
+		host: cfg.maindb.host,
+		database: cfg.maindb.database,
+		user: cfg.maindb.user,
+		password: cfg.maindb.password
+	});
+
 	global.gcmainconn = mysql.createPool({
 		host: cfg.gcmain.host,
 		database: cfg.gcmain.database,
