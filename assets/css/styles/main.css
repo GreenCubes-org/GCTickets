@@ -393,9 +393,15 @@ input.s-regionstuffitem {
 	font-weight: bold;
 	font-size: 0.875em !important;
 	cursor: text;
-	width: 100%;
+	width: auto;
+	display: inline-block;
 	text-overflow: ellipsis;
 }
+span.s-regionstuffitemcomment {
+	font-weight: 700;
+	font-size: 0.875em !important;
+}
+
 /* Ticket list classes */
 .t-id {
 	width: 4%;

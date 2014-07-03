@@ -31,13 +31,13 @@
 						<div class="column" style="padding-left:0em !important;">
 							<div class="field">
 								<label>Регионы</label>
-								<textarea id="regions" name="regions"><% if (ticket.regions) { ticket.regions.forEach(function(element) { %><%= element.name + '\n' %><%}) } %></textarea>
+								<textarea id="regions" name="regions"><% if (ticket.regions) { ticket.regions.forEach(function(element) { %><%= element.name + ' ' + ((element.comment) ? element.comment : '') + '\n' %><%}) } %></textarea>
 							</div>
 						</div>
 						<div class="column" style="padding-right:0em !important;">
 							<div class="field">
 								<label>Сундуки/предметы</label>
-								<textarea id="stuff" name="stuff"><% if (ticket.stuff) { %><%= ticket.stuff.join('\n') %><% } %></textarea>
+								<textarea id="stuff" name="stuff"><% if (ticket.stuff) { ticket.stuff.forEach(function(element) { %><%= element.coord + ' ' + ((element.comment) ? element.comment : '') + '\n' %><% }) } %></textarea>
 							</div>
 						</div>
 					</div>

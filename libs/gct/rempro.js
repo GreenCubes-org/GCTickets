@@ -324,6 +324,18 @@ module.exports = rempro = {
 				} else {
 					callback(null, obj, ticket);
 				}
+			},
+			function serializeStuff (obj, ticket, callback) {
+				async.map(obj.stuff, function(element, callback) {
+					callback(null, {
+						coord: element.split(' ', 3).join(' '),
+						comment: element.split(' ', 4)[3]
+					});
+				}, function (err, stuff) {
+					obj.stuff = stuff;
+
+					callback(null, obj, ticket);
+				});
 			}
 		], function (err, obj, ticket) {
 			if (err) return cb(err);

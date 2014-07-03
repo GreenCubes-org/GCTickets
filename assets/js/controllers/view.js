@@ -338,6 +338,17 @@ app.view = {
 		$("input.s-regionstuffitem").on("click", function () {
 			$(this).select();
 		});
+
+		var resizeInput = function resizeInput() {
+			$(this).attr('size', $(this).val().length);
+		}
+
+		$('input.s-regionstuffitem')
+			// event handler
+			.keyup(resizeInput)
+			// resize on page load
+			.each(resizeInput);
+
 	},
 
 	edit: function(id) {

@@ -1,5 +1,5 @@
 <% title = '#'+ globalid + ': "' + ticket.title + '" — GC.Поддержка',
-	backUrl = gct.getBaseUrlTypeByID(ticket.type.id); console.log(ticket) %>
+	backUrl = gct.getBaseUrlTypeByID(ticket.type.id) %>
 <%- partial('../partials/header')%>
 <div class="container">
 	<div class="ui grid">
@@ -51,7 +51,7 @@
 				<h2 class="ui header">Регионы</h2>
 				<ul>
 				<% 	ticket.regions.forEach(function(item, index) { %>
-					<li><input class="s-regionstuffitem" readonly value="<%= item.name + ((item.comment) ? ' ' + item.comment : '') %>"></li>
+					<li><input class="s-regionstuffitem" readonly value="<%= item.name %>"><% if (item.comment) { %><span><%= item.comment %></span><% } %></li>
 				<% }) %>
 				</ul>
 				<div class="ui basic accordion">
@@ -72,7 +72,7 @@
 				<h2 class="ui header">Сундуки/предметы</h2>
 				<ul>
 				<% 	ticket.stuff.forEach(function(item, index) { %>
-					<li><input class="s-regionstuffitem" readonly value="<%= item %>"></li>
+					<li><input class="s-regionstuffitem" readonly value="<%= item.coord %>"><% if (item.comment) { %><span><%= item.comment %></span><% } %></li>
 				<% }) %>
 				</ul>
 			</div>
