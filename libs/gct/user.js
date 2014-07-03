@@ -232,7 +232,7 @@ module.exports = user = {
 				});
 			},
 			function getBanNUId(obj, callback) {
-				maindb.query('SELECT `id`, `isBanned`, `bannedTill`, UNIX_TIMESTAMP(`bannedTill`) AS `bannedTillTS`, UNIX_TIMESTAMP(NOW()) AS `currentTimestamp` FROM users WHERE name = ?', [obj.user.login], function (err, result) {
+				maindbconn.query('SELECT `id`, `isBanned`, `bannedTill`, UNIX_TIMESTAMP(`bannedTill`) AS `bannedTillTS`, UNIX_TIMESTAMP(NOW()) AS `currentTimestamp` FROM users WHERE name = ?', [obj.user.login], function (err, result) {
 					if (err) return callback(err);
 
 					if (result.length === 0) {
@@ -272,7 +272,7 @@ module.exports = user = {
 				});
 			},
 			function getLastTenMemos(obj, callback) {
-				maindb.query('SELECT `moderator_id` AS `moderator`, `memo`, `time` FROM memos WHERE user_id = ? ORDER BY time DESC LIMIT 10', [obj.user.gameId], function (err, result) {
+				maindbconn.query('SELECT `moderator_id` AS `moderator`, `memo`, `time` FROM memos WHERE user_id = ? ORDER BY time DESC LIMIT 10', [obj.user.gameId], function (err, result) {
 					if (err) return callback(err);
 
 					obj.memos = result;
@@ -282,7 +282,7 @@ module.exports = user = {
 			},
 			function serializeMemos(obj, callback) {
 				async.map(obj.memos, function(element, callback) {
-					maindb.query('SELECT `name` FROM users WHERE id = ?', [element.moderator], function (err, result) {
+					maindbconn.query('SELECT `name` FROM users WHERE id = ?', [element.moderator], function (err, result) {
 						if (err) return callback(err);
 
 						element.moderator = result[0].name;

@@ -230,12 +230,96 @@ module.exports = rempro = {
 			},
 			function getPInfo4CreatedFor(obj, ticket, callback) {
 				if (req.user && req.user.group >= ugroup.helper) {
-					gct.user.getPInfo(obj.createdFor.login, function(err, pinfo) {
-						if (err) return callback(err);
+					if (obj.createdFor.login) {
+						gct.user.getPInfo(obj.createdFor.login, function(err, pinfo) {
+							if (err) return callback(err);
 
-						obj.createdFor.pinfo = pinfo;
+							obj.createdFor.pinfo = pinfo;
 
+							callback(null, obj, ticket);
+						});
+					} else {
 						callback(null, obj, ticket);
+					}
+				} else {
+					callback(null, obj, ticket);
+				}
+			},
+			function getRegionsInfo (obj, ticket, callback) {
+				obj.regions = obj.regions.map(function(element) {
+					return {name: element};
+				});
+
+				if (req.user && req.user.group >= ugroup.helper) {
+					gct.getRegionsInfo(obj.regions, function (err, regions) {
+						if (err) callback(err);
+
+						async.each(regions, function (region, callback) {
+							async.waterfall([
+								function serializeFull_accessPlayers(callback) {
+									async.map(region.full_access.players, function (element, callback) {
+										gcdb.user.getByID(element, function (err, login) {
+											if (err) return callback(err);
+
+											callback(null, login);
+										});
+									}, function (err, array) {
+										if (err) return callback(err);
+
+										region.full_access.players = array;
+
+										callback(null);
+									});
+								},
+								function serializeBuild_accessPlayers(callback) {
+									async.map(region.build_access.players, function (element, callback) {
+										gcdb.user.getByID(element, function (err, login) {
+											if (err) return callback(err);
+
+											callback(null, login);
+										});
+									}, function (err, array) {
+										if (err) return callback(err);
+
+										region.build_access.players = array;
+
+										callback(null);
+									});
+								},
+								function serializeFull_accessOrgs(callback) {
+									async.map(region.full_access.orgs, function (element, callback) {
+										callback(null, 'Организация #' + element);
+									}, function (err, array) {
+										if (err) return callback(err);
+
+										region.full_access.orgs = array;
+
+										callback(null);
+									});
+								},
+								function serializeBuild_accessOrgs(callback) {
+									async.map(region.build_access.orgs, function (element, callback) {
+										callback(null, 'Организация #' + element);
+									}, function (err, array) {
+										if (err) return callback(err);
+
+										region.build_access.orgs = array;
+
+										callback(null);
+									});
+								}
+							], function (err) {
+								if (err) callback(err);
+
+								callback(null, region);
+							});
+						}, function (err) {
+							if (err) callback(err);
+
+							obj.regions = regions;
+
+							callback(null, obj, ticket);
+						});
 					});
 				} else {
 					callback(null, obj, ticket);
@@ -300,6 +384,7 @@ module.exports = rempro = {
 					rempro.owner = ticket.owner;
 					rempro.type = ticket.type;
 					rempro.status = ticket.status;
+
 					callback(null, rempro);
 				});
 			},
@@ -334,6 +419,7 @@ module.exports = rempro = {
 			if (err) throw err;
 
 			rempro.owner = ticket.owner;
+
 			gct.rempro.serializeView(req, res, rempro, {isEdit: true}, function(err, result) {
 				if (err) throw err;
 
@@ -348,6 +434,8 @@ module.exports = rempro = {
 	postEdit: function editRempro(req, res, ticket) {
 		Rempro.findOne(ticket.tid).done(function (err, rempro) {
 			if (err) throw err;
+
+			rempro.owner = ticket.owner;
 
 			async.waterfall([
 				function preCheck(callback) {
@@ -379,7 +467,7 @@ module.exports = rempro = {
 					});
 				},
 				function setData(uploads, callback) {
-					gct.rempro.serializeView(rempro, {isEdit: true}, function(err, result) {
+					gct.rempro.serializeView(req, res, rempro, {isEdit: true}, function(err, result) {
 						if (err) return callback(err);
 
 						if (!uploads) {
@@ -407,7 +495,6 @@ module.exports = rempro = {
 						isErr = true;
 						callback({ show: true, msg: msg });
 					});
-					req.check('title','Краткое описание должно содержать не менее %1 и не более %2 символов').len(6,64);
 
 					if (!isErr) callback(null, obj);
 				},

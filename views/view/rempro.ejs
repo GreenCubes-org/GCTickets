@@ -1,5 +1,5 @@
 <% title = '#'+ globalid + ': "' + ticket.title + '" — GC.Поддержка',
-	backUrl = gct.getBaseUrlTypeByID(ticket.type.id) %>
+	backUrl = gct.getBaseUrlTypeByID(ticket.type.id); console.log(ticket) %>
 <%- partial('../partials/header')%>
 <div class="container">
 	<div class="ui grid">
@@ -14,7 +14,7 @@
 <a class="gc-nostylelink"  href="/id/<%= globalid %>/edit" title="Изменить"><i class="pencil small icon" id="s-editicon"></i></a>
 <% } %>
 &nbsp;<a class="gc-nostylelink"  href="/id/<%= globalid %>">#<%= globalid %></a>
-&raquo;&nbsp;<% if (ticket.createdFor && ticket.createdFor.login !== ticket.owner.login) { %><a class="gc-nostylelink<% if (req.user && req.user.group >= ugroup.helper) { %> pinfopopup" style="cursor:pointer;border-bottom: 1px dotted;" data-position="bottom center" data-html="<%- partial('../partials/pinfo', {pinfo:ticket.createdFor.pinfo}) %>" data-variation="small" title="Нажатие активирует подсказку"<% } else { %>" href="/users/<%= ticket.createdFor.login %>"<% } %>><%= ticket.createdFor.login %></a> (заявка создана <a class="gc-nostylelink<% if (req.user && req.user.group >= ugroup.helper) { %> pinfopopup"style="cursor:pointer;border-bottom: 1px dotted;" data-position="bottom center" data-html="<%- partial('../partials/pinfo', {pinfo:ticket.owner.pinfo}) %>" data-variation="small" title="Нажатие активирует подсказку"<% } else { %>" href="/users/<%= ticket.owner.login %>"<% } %>><%= ticket.owner.login %></a>)<% } else { %><a class="gc-nostylelink<% if (req.user && req.user.group >= ugroup.helper) { %> pinfopopup"style="cursor:pointer;border-bottom: 1px dotted;" data-position="bottom center" data-html="<%- partial('../partials/pinfo', {pinfo:ticket.owner.pinfo}) %>" data-variation="small" title="Нажатие активирует подсказку"<% } else { %>" href="/users/<%= ticket.owner.login %>"<% } %>><%= ticket.owner.login %></a><% } %>
+&raquo;&nbsp;<% if (ticket.createdFor.login && ticket.createdFor.login !== ticket.owner.login) { %><a class="gc-nostylelink<% if (req.user && req.user.group >= ugroup.helper) { %> pinfopopup" style="cursor:pointer;border-bottom: 1px dotted;" data-position="bottom center" data-html="<%- partial('../partials/pinfo', {pinfo:ticket.createdFor.pinfo}) %>" data-variation="small" title="Нажатие активирует подсказку"<% } else { %>" href="/users/<%= ticket.createdFor.login %>"<% } %>><%= ticket.createdFor.login %></a> (заявка создана <a class="gc-nostylelink<% if (req.user && req.user.group >= ugroup.helper) { %> pinfopopup"style="cursor:pointer;border-bottom: 1px dotted;" data-position="bottom center" data-html="<%- partial('../partials/pinfo', {pinfo:ticket.owner.pinfo}) %>" data-variation="small" title="Нажатие активирует подсказку"<% } else { %>" href="/users/<%= ticket.owner.login %>"<% } %>><%= ticket.owner.login %></a>)<% } else { %><a class="gc-nostylelink<% if (req.user && req.user.group >= ugroup.helper) { %> pinfopopup"style="cursor:pointer;border-bottom: 1px dotted;" data-position="bottom center" data-html="<%- partial('../partials/pinfo', {pinfo:ticket.owner.pinfo}) %>" data-variation="small" title="Нажатие активирует подсказку"<% } else { %>" href="/users/<%= ticket.owner.login %>"<% } %>><%= ticket.owner.login %></a><% } %>
 &raquo;&nbsp;<%= moment(ticket.createdAt).format('D MMM YYYY, h:mm') %>
 				</div>
 			</h2>
@@ -51,7 +51,7 @@
 				<h2 class="ui header">Регионы</h2>
 				<ul>
 				<% 	ticket.regions.forEach(function(item, index) { %>
-					<li><input class="s-regionstuffitem" readonly value="<%= item %>"></li>
+					<li><input class="s-regionstuffitem" readonly value="<%= item.name + ((item.comment) ? ' ' + item.comment : '') %>"></li>
 				<% }) %>
 				</ul>
 				<div class="ui basic accordion">
@@ -60,7 +60,7 @@
 						Полный список регионов
 					</div>
 					<div class="content" >
-						<input class="s-regionstuffitem" readonly value="<%= ticket.regions.join(' ') %>">
+						<input class="s-regionstuffitem" readonly value="<% ticket.regions.forEach(function(item, index) { %><%= item.name %> <% }) %>">
 					</div>
 				</div>
 			</div>

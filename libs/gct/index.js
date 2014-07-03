@@ -593,66 +593,156 @@ module.exports.handleUpload = handleUpload = function (req, res, ticket, cb) {
 	});
 };
 
-module.exports.processStatus = processStatus = function (req, res, type, canModerate, ticket, changedTo, callback) {
+module.exports.processStatus = processStatus = function (req, res, type, canModerate, ticket, changedTo, cb) {
 	var isStatus;
 	switch (type) {
 		case 1:
 			// If status "Новый"
 			if ((canModerate || req.user.id === ticket.owner) && ticket.status === 1 && [11,4,3,2].indexOf(changedTo) != -1) {
-				return callback(true);
+				return cb(true);
 			}
 
 			// If status "Уточнить"
 			if (canModerate || req.user && (req.user.group >= ugroup.helper) && ticket.status === 3 && [11,4].indexOf(changedTo) != -1) {
-				return callback(true);
+				return cb(true);
 			}
 
 			// If status "Принят"
 			if ((canModerate || req.user.id === ticket.owner) && ticket.status === 3 && [12,4].indexOf(changedTo) != -1) {
-				return callback(true);
+				return cb(true);
 			}
 
-			return callback(false);
+			return cb(false);
 
 		case 2:
 			// If status "Новый"
 			if ((canModerate || req.user.id === ticket.owner) && ticket.status === 1 && [10,8,4,3,2].indexOf(changedTo) != -1) {
-				return callback(true);
+				return cb(true);
 			}
 
 			// If status "Уточнить"
 			if ((canModerate || req.user.id === ticket.owner) && req.user && (req.user.group >= ugroup.helper) || ticket.status === 3 && [8,4].indexOf(changedTo) != -1) {
-				return callback(true);
+				return cb(true);
 			}
 
 			// If status "На рассмотрении"
 			if ((canModerate || req.user.id === ticket.owner) && ticket.status === 8 && [10,9,4].indexOf(changedTo) != -1) {
-				return callback(true);
+				return cb(true);
 			}
 
 			// If status "Отложен"
 			if ((canModerate || req.user.id === ticket.owner) && ticket.status === 9 && [10,4].indexOf(changedTo) != -1) {
-				return callback(true);
+				return cb(true);
 			}
 
-			return callback(false);
+			return cb(false);
 
 		case 3:
-			return callback(false);
+			return cb(false);
 
 		case 4:
-			return callback(false);
+			return cb(false);
 
 		case 5:
-			return callback(false);
+			return cb(false);
 
 		case 6:
-			return callback(false);
+			return cb(false);
 
 		case 7:
-			return callback(false);
+			return cb(false);
 
 		default:
-			return callback(false);
+			return cb(false);
 	}
+};
+
+module.exports.getRegionsInfo = getRegionsInfo = function getRegionsInfo(regions, cb) {
+	async.map(regions, function (element, callback) {
+		var splitedName = element.name.split(' ', 2);
+		element = {
+			id: null,
+			name: splitedName[0],
+			comment: splitedName[1],
+			creator: null,
+			full_access: {
+				players: [],
+				orgs: [],
+				all: false
+			},
+			build_access: {
+				players: [],
+				orgs: [],
+				all: false
+			}
+		};
+
+		gcmainconn.query('SELECT `id`, `creator` FROM regions WHERE name = ?', [element.name], function (err, region) {
+			if (err) return callback(err);
+
+			if (!region.length) return callback(null, element);
+
+			element.id = region[0].id;
+			element.creator = region[0].creator;
+
+			gcmainconn.query('SELECT * FROM regions_rights WHERE region = ?', [element.id], function (err, rights) {
+				if (err) return callback(err);
+
+				for (var i = 0; i < rights.length; i++) {
+					/* right id: full - 0, build - 2, grant - 1, create_child - 9 */
+					if (rights[i].right === 0) {
+						if (rights[i].entityType === 1) {
+							element.full_access.players.push(rights[i].entityId);
+						}
+
+						if (rights[i].entityType === 2) {
+							element.full_access.orgs.push(rights[i].entityId);
+						}
+
+						if (rights[i].entityType === 3) {
+							element.full_access.all = true;
+						}
+					}
+
+					if ([1, 2, 9].indexOf(rights[i].right) !== -1) {
+						if (rights[i].entityType === 1) {
+							element.build_access.players.push(rights[i].entityId);
+						}
+
+						if (rights[i].entityType === 2) {
+							element.build_access.orgs.push(rights[i].entityId);
+						}
+
+						if (rights[i].entityType === 3) {
+							element.build_access.all = true;
+						}
+					}
+				}
+
+				element.full_access.players = element.full_access.players.filter(function(elem, pos) {
+					return element.full_access.players.indexOf(elem) === pos;
+				});
+
+				element.full_access.orgs = element.full_access.orgs.filter(function(elem, pos) {
+					return element.full_access.orgs.indexOf(elem) === pos;
+				});
+
+				element.build_access.players = element.build_access.players.filter(function(elem, pos) {
+					return element.build_access.players.indexOf(elem) === pos;
+				});
+
+				element.build_access.orgs = element.build_access.orgs.filter(function(elem, pos) {
+					return element.build_access.orgs.indexOf(elem) === pos;
+				});
+
+				callback(null, element);
+			});
+
+		});
+	}, function (err, obj) {
+		if (err) cb(err);
+
+		cb(null, obj);
+	});
+
 };

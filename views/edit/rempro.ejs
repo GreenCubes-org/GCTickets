@@ -10,10 +10,11 @@
 					<h1 class="header" style="margin: 0px; padding: 0.2em 0em 0em;">Редактирование <a href="/id/<%= ticket.id %>">#<%= ticket.id %></a>: &laquo;<%= ticket.title %>&raquo;
 					</h1>
 					<div class="ui divider" style="margin: 1em 0em !important;"></div>
+					<div class="two fields">
 						<div class="field" style="width: 350px !important;margin-bottom: 0em;">
 							<div class="field">
 								<label>Для кого создаётся заявка <em>(необязательно)</em> <i class="help icon gc-helppopup" data-content="Если вы заполняете заявку для другого игрока, то укажите никнейм этого игрока" data-variation="inverted"></i></label>
-								<input name="createdfor" type="text" value="<% if (ticket.createdFor) { %><%= ticket.createdFor %><% } %>">
+								<input name="createdfor" type="text" value="<% if (ticket.createdFor.login) { %><%= ticket.createdFor.login %><% } %>">
 							</div>
 						</div>
 					</div>
@@ -30,7 +31,7 @@
 						<div class="column" style="padding-left:0em !important;">
 							<div class="field">
 								<label>Регионы</label>
-								<textarea id="regions" name="regions"><% if (ticket.regions) { %><%= ticket.regions.join('\n') %><% } %></textarea>
+								<textarea id="regions" name="regions"><% if (ticket.regions) { ticket.regions.forEach(function(element) { %><%= element.name + '\n' %><%}) } %></textarea>
 							</div>
 						</div>
 						<div class="column" style="padding-right:0em !important;">
@@ -98,12 +99,12 @@
 				</div>
 				<div class="item">
 					<div class="header">Создатель</div>
-					<%= ticket.owner %>
+					<%= ticket.owner.login %>
 				</div>
 				<% if (ticket.createdFor) { %>
 				<div class="item">
 					<div class="header">Создан для</div>
-					<%= ticket.createdFor %>
+					<%= ticket.createdFor.login %>
 				</div>
 				<% } %>
 				<div class="item">

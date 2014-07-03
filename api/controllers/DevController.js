@@ -1,26 +1,37 @@
 /**
-* DevController
-*
-* @module :: Controller
-* @description :: Технический функционал.
-*/
+ * DevController
+ *
+ * @module :: Controller
+ * @description :: Технический функционал.
+ */
 
-var execFile = require('child_process').execFile;
+var gct = require('../../libs/gct');
 
 module.exports = {
-	notFound: function(req, res) {
-		res.view('404', {layout: false});
+	notFound: function (req, res) {
+		res.view('404', {
+			layout: false
+		});
 	},
 
-	serverError: function(req, res) {
-		res.view('500', {layout: false, test: true});
+	serverError: function (req, res) {
+		res.view('500', {
+			layout: false,
+			test: true
+		});
 	},
 
-	hideFeature: function(req, res) {
-		res.view('403-hf', {layout: false});
+	hideFeature: function (req, res) {
+		res.view('403-hf', {
+			layout: false
+		});
 	},
 
-	check: function(req, res) {
+	check: function (req, res) {
 		res.status(204).send('42');
+	},
+
+	test: function (req, res) {
+
 	}
 };
