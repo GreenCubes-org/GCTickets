@@ -328,8 +328,8 @@ module.exports = rempro = {
 			function serializeStuff (obj, ticket, callback) {
 				async.map(obj.stuff, function(element, callback) {
 					callback(null, {
-						coord: element.split(' ', 3).join(' '),
-						comment: element.split(' ', 4)[3]
+						coord: element.match(/(-?[0-9]*) (\-?[0-9]*) (\-?[0-9]*)/g),
+						comment: element.replace(/(-?[0-9]*) (\-?[0-9]*) (\-?[0-9]*)/g)
 					});
 				}, function (err, stuff) {
 					obj.stuff = stuff;
