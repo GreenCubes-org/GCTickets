@@ -31,7 +31,7 @@ module.exports.policies = {
 		'*': ['ownerNModAbove'],
 		'deleteTpl': 'modAbove',
 		'deletePost': 'modAbove',
-		'changeVisibility': 'modAbove'
+		'changeVisibility': 'helperAbove'
 	},
 
 	AdminController: {
