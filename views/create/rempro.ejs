@@ -14,13 +14,13 @@
 						<div class="field" style="width: 350px !important;margin-bottom: 0em;">
 							<div class="field">
 								<label>Заявитель <em>(не заполняйте, если это вы сами)</em> <i class="help icon gc-helppopup" data-content="Если вы заполняете заявку на расприват для другого игрока, то укажите никнейм этого игрока" data-variation="inverted"></i></label>
-								<input name="createdfor" type="text">
+								<input name="createdfor" type="text" id="createdfor">
 							</div>
 						</div>
 					</div>
 					<div class="field">
 						<label>Краткое описание <i>(необязательно, серым показано название по умолчанию)</i></label>
-						<input name="title" type="text" placeholder="Заявка от <%= req.user.username %>">
+						<input name="title" type="text" id="title" placeholder="Заявка от <%= req.user.username %>">
 					</div>
 					<div class="field">
 						<label>Причина распривата</label>

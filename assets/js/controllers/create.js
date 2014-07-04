@@ -93,5 +93,15 @@ app.create = {
 				.modal('show');
 			event.preventDefault();
 		});
+
+		var titleDefaultPlaceholder = $('#title').attr('placeholder');
+
+		$('#createdfor').on('input', function() {
+			if ($(this).val()) {
+				$('#title').attr('placeholder', 'Заявка для ' + $(this).val());
+			} else {
+				$('#title').attr('placeholder', titleDefaultPlaceholder);
+			}
+		});
 	}
 };

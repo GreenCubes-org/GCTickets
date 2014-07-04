@@ -1,5 +1,5 @@
 <% title = "Редактирование #" + ticket.id + ": \"" + ticket.title + "\" — GC.Поддержка",
-	backUrl = '/id/' + ticket.id; console.log(ticket) %>
+	backUrl = '/id/' + ticket.id %>
 <%- partial('../partials/header')%>
 <div class="container">
 	<div class="ui two column grid">
@@ -14,13 +14,13 @@
 						<div class="field" style="width: 350px !important;margin-bottom: 0em;">
 							<div class="field">
 								<label>Для кого создаётся заявка <em>(необязательно)</em> <i class="help icon gc-helppopup" data-content="Если вы заполняете заявку для другого игрока, то укажите никнейм этого игрока" data-variation="inverted"></i></label>
-								<input name="createdfor" type="text" value="<% if (ticket.createdFor.login) { %><%= ticket.createdFor.login %><% } %>">
+								<input name="createdfor" type="text" id="createdfor" value="<% if (ticket.createdFor.login) { %><%= ticket.createdFor.login %><% } %>">
 							</div>
 						</div>
 					</div>
 					<div class="field">
 						<label>Краткое описание</label>
-						<input name="title" type="text" value="<%= ticket.title %>">
+						<input name="title" type="text" id="title" placeholder="Заявка для <%= ticket.owner.login %>" value="<%= ticket.title %>">
 					</div>
 					<div class="field">
 						<label>Причина распривата</label>
