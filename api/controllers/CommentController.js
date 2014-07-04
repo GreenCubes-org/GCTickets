@@ -120,34 +120,34 @@ module.exports = {
 		var tid = parseInt(req.param('tid'), 10)
 
 		async.waterfall([
-			function checkOldCommentsNMessageLength(callback) {
+			function getTicket(callback) {
+				Ticket.findOne(tid)
+					.done(function(err, ticket) {
+						callback(null, ticket);
+					});
+			},
+			function checkOldCommentsNMessageLength(ticket, callback) {
 				Comments.find({
 					tid: tid
 				}).done(function (err, comments) {
 					if (err) return callback(err);
 
-					if ((!req.param('message') || req.param('message') === '')) {
+					if ((!req.param('message') || req.param('message') === '') && req.param('status') === ticket.status) {
 						return callback({
 							show: true,
 							msg: 'Комментарий слишком короткий'
 						});
 					}
 
-					callback(null);
+					callback(null,  {
+						owner: req.user.id,
+						message: req.sanitize('message').entityEncode(),
+						status: 1,
+						changedTo: parseInt(req.param('status'), 10),
+						tid: tid
+					}, ticket);
 
 				});
-			},
-			function setData(callback) {
-				Ticket.findOne(tid)
-					.done(function(err, ticket) {
-						callback(null, {
-							owner: req.user.id,
-							message: req.sanitize('message').entityEncode(),
-							status: 1,
-							changedTo: parseInt(req.body.status, 10),
-							tid: tid
-						}, ticket);
-					});
 			},
 			// Adding var for checking global moderators
 			function canModerate(newComment, ticket, callback) {
