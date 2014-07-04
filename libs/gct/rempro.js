@@ -425,8 +425,7 @@ module.exports = rempro = {
 			res.view('view/rempro', {
 				moment: moment,
 				ticket: result,
-				globalid: ticket.id,
-				canModerate: canModerate
+				globalid: ticket.id
 			});
 		});
 	},
