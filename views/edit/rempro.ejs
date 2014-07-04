@@ -101,7 +101,7 @@
 					<div class="header">Создатель</div>
 					<%= ticket.owner.login %>
 				</div>
-				<% if (ticket.createdFor) { %>
+				<% if (ticket.createdFor.login) { %>
 				<div class="item">
 					<div class="header">Создан для</div>
 					<%= ticket.createdFor.login %>
