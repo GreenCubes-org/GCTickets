@@ -172,7 +172,7 @@ module.exports = function (grunt) {
 			jsLibs: {
 				options: {
 					compress: {
-						//drop_console: true
+						drop_console: true
 					},
 					mangle: false,
 					preserveComments: 'all'
