@@ -1,5 +1,5 @@
 <% title = "Редактирование #" + ticket.id + ": \"" + ticket.title + "\" — GC.Поддержка",
-	backUrl = '/id/' + ticket.id %>
+	backUrl = '/id/' + ticket.id; console.log(ticket) %>
 <%- partial('../partials/header')%>
 <div class="container">
 	<div class="ui two column grid">
@@ -37,7 +37,7 @@
 						<div class="column" style="padding-right:0em !important;">
 							<div class="field">
 								<label>Сундуки/предметы</label>
-								<textarea id="stuff" name="stuff"><% if (ticket.stuff) { ticket.stuff.forEach(function(element) { %><%= element.coord + ' ' + ((element.comment) ? element.comment : '') %><% }) } %></textarea>
+								<textarea id="stuff" name="stuff"><% if (ticket.stuff) { ticket.stuff.forEach(function(element) { %><%= element.coord + ' ' + ((element.comment) ? element.comment : '') + '\r' %><% }) } %></textarea>
 							</div>
 						</div>
 					</div>

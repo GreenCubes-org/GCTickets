@@ -247,10 +247,13 @@ module.exports = rempro = {
 			},
 			function getRegionsInfo (obj, ticket, callback) {
 				obj.regions = obj.regions.map(function(element) {
-					return {name: element};
+					return {
+						name: element.match(/^([a-zA-Z0-9-_]*)/g)[0],
+						comment: element.replace(/^([a-zA-Z0-9-_]*)/g, '')
+					};
 				});
 
-				if (req.user && req.user.group >= ugroup.helper) {
+				if (req.user && req.user.group >= ugroup.helper && config && !config.isEdit) {
 					gct.getRegionsInfo(obj.regions, function (err, regions) {
 						if (err) callback(err);
 
@@ -327,9 +330,11 @@ module.exports = rempro = {
 			},
 			function serializeStuff (obj, ticket, callback) {
 				async.map(obj.stuff, function(element, callback) {
+					var strMatch = element.match(/(-?[0-9]*) (\-?[0-9]*) (\-?[0-9]*)/g),
+						strReplace = element.replace(/^(-?[0-9]*) (\-?[0-9]*) (\-?[0-9]*)/g, '').replace(/\r/g, '');
 					callback(null, {
-						coord: element.match(/(-?[0-9]*) (\-?[0-9]*) (\-?[0-9]*)/g),
-						comment: element.replace(/(-?[0-9]*) (\-?[0-9]*) (\-?[0-9]*)/g)
+						coord: (strMatch) ? strMatch[0] : element,
+						comment: strReplace
 					});
 				}, function (err, stuff) {
 					obj.stuff = stuff;

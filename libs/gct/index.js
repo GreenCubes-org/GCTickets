@@ -659,10 +659,11 @@ module.exports.processStatus = processStatus = function (req, res, type, canMode
 
 module.exports.getRegionsInfo = getRegionsInfo = function getRegionsInfo(regions, cb) {
 	async.map(regions, function (element, callback) {
+
 		element = {
 			id: null,
-			name: element.name.match(/^([a-zA-Z]*)/g)[0],
-			comment: element.name.replace(/^([a-zA-Z]*)/g, ''),
+			name: element.name,
+			comment: element.comment,
 			creator: null,
 			full_access: {
 				players: [],
