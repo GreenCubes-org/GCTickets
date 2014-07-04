@@ -102,7 +102,7 @@
 			<div class="ui divider" id="commentdivider"></div>
 			<% if (req.user) { %>
 			<form class="ui reply form container" id="commentpost">
-				<% var statusRegexp = new RegExp('(Новый|Уточнить|На рассмотрении|Отложен)');
+				<% var statusRegexp = new RegExp('(Новый|Уточнить|На&nbsp;рассмотрении|Отложен)');
 				if (statusRegexp.test(ticket.status.text) &&  req.user && (canModerate || ticket.owner.id === req.user.id || ((req.user.group || 0) >= ugroup.helper && ticket.status.text === 'Новый'))) { %>
 				<div class="field">
 					<label>Смена статуса <a class="gc-nostylelink" href="https://wiki.greencubes.org/Система_поддержки/Статусы" target="_blank"><i class="help icon gc-helppopup" data-content="С помощью этого поля можно поменять статус тикета. Справка по статусам по клику на эту иконку" data-variation="inverted"></i></a></label>
@@ -134,7 +134,7 @@
 								<div class="item" data-value="10">Выполнен</div>
 								<div class="item" data-value="4">Отклонён</div>
 							<% } %>
-							<% if (ticket.status.text === 'На рассмотрении') { %>
+							<% if (ticket.status.text === 'На&nbsp;рассмотрении') { %>
 								<div class="active item" data-value="8">На рассмотрении</div>
 								<div class="item" data-value="10">Выполнен</div>
 								<div class="item" data-value="9">Отложен</div>
