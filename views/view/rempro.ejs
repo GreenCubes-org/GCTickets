@@ -60,7 +60,7 @@
 						Полный список регионов
 					</div>
 					<div class="content" >
-						<input class="s-regionstuffitem" readonly value="<% ticket.regions.forEach(function(item, index) { %><%= item.name %> <% }) %>">
+						<textarea class="s-regionstuffitem" readonly><% ticket.regions.forEach(function(item, index) { %><%= item.name %> <% }) %></textarea>
 					</div>
 				</div>
 			</div>

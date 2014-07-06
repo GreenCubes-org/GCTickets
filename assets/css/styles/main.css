@@ -385,7 +385,7 @@ div.comment {
 	user-select: none;
 	-webkit-tap-highlight-color: rgba(0, 0, 0, 0)
 }
-input.s-regionstuffitem {
+input.s-regionstuffitem, textarea.s-regionstuffitem {
 	border: 0px none !important;
 	padding: 0px !important;
 	background-color: transparent !important;
