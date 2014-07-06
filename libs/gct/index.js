@@ -610,7 +610,7 @@ module.exports.processStatus = processStatus = function (req, res, type, canMode
 			}
 
 			// If status "Принят"
-			if (ticket.status === 3 && canModerate && [12,4].indexOf(changedTo) != -1) {
+			if (ticket.status === 11 && canModerate && [12,4].indexOf(changedTo) != -1) {
 				return cb(true);
 			}
 
