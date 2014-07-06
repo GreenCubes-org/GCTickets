@@ -620,13 +620,13 @@ module.exports.processStatus = processStatus = function (req, res, type, canMode
 			// If status "Новый"
 			if (ticket.status === 1 && (
 				(req.user.id === ticket.owner && changedTo === 2) || // Only owner can change to status 2 (Отклонён)
-				((canModerate || res.user.group >= ugroup.mod) && [10,8,4,3].indexOf(changedTo) != -1) ||
+				(canModerate && [10,8,4,3].indexOf(changedTo) != -1) ||
 				(res.user.group >= ugroup.mod && changedTo === 3))) {
 				return cb(true);
 			}
 
 			// If status "Уточнить"
-			if (ticket.status === 3 && canModerate && [8,4].indexOf(changedTo) != -1) {
+			if (ticket.status === 3 && canModerate && [10,4].indexOf(changedTo) != -1) {
 				return cb(true);
 			}
 
