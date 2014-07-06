@@ -358,6 +358,8 @@ module.exports = bugreport = {
 		Bugreport.findOne(ticket.tid).done(function (err, bugreport) {
 			if (err) throw err;
 
+			bugreport.owner = ticket.owner;
+
 			async.waterfall([
 				function preCheck(callback) {
 					if (!req.param('title')) {
@@ -382,7 +384,7 @@ module.exports = bugreport = {
 					});
 				},
 				function setData(uploads, callback) {
-					gct.bugreport.serializeView(bugreport, {isEdit: true}, function(err, result) {
+					gct.bugreport.serializeView(req, res, bugreport, {isEdit: true}, function(err, result) {
 						if (err) return callback(err);
 
 						if (!uploads) {
