@@ -330,10 +330,10 @@ module.exports = rempro = {
 			},
 			function serializeStuff (obj, ticket, callback) {
 				async.map(obj.stuff, function(element, callback) {
-					var strMatch = element.match(/(-?[0-9]*) (\-?[0-9]*) (\-?[0-9]*)/g),
+					var strMatch = element.match(/^(-?[0-9]*) (\-?[0-9]*) (\-?[0-9]*)/g),
 						strReplace = element.replace(/^(-?[0-9]*) (\-?[0-9]*) (\-?[0-9]*)/g, '').replace(/\r/g, '');
 					callback(null, {
-						coord: (strMatch) ? strMatch[0] : element,
+						coord: (strMatch) ? strMatch[0] : '-',
 						comment: strReplace
 					});
 				}, function (err, stuff) {
