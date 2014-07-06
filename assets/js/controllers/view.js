@@ -1,7 +1,7 @@
 var app = app || {};
 
 var renderAllComments = function renderAllComments(ticketId) {
-	getComments(ticketId, function(err, comments) {
+	getComments(ticketId, function (err, comments) {
 		$('#commentssubheader').html('');
 
 		if (comments === null || comments.length === 0) {
@@ -23,11 +23,11 @@ var renderAllComments = function renderAllComments(ticketId) {
 
 			if (comment.canModerate) {
 				var menu = '<div class="ui inline top right pointing dropdown" id="commentoptions">' +
-						 '<i class="ellipsis horizontal icon"></i>' +
-						 '<div class="menu">' +
-							'<a id="commentremove" cid="' + comment.id + '" do="remove" class="item">Удалить</a>' +
-						 '</div>' +
-					  '</div>';
+					'<i class="ellipsis horizontal icon"></i>' +
+					'<div class="menu">' +
+					'<a id="commentremove" cid="' + comment.id + '" do="remove" class="item">Удалить</a>' +
+					'</div>' +
+					'</div>';
 			} else {
 				var menu = '';
 			}
@@ -40,25 +40,25 @@ var renderAllComments = function renderAllComments(ticketId) {
 			}
 
 			$('#comments').append(
-				'<div class="comment ' + comment.status + '" id="comment'+ comment.id +'">' +
-				 '<div class="content">' +
-					'<a class="ui ribbon label ' + comment.colorclass + ' gc-nostylelink" href="/users/' + comment.owner + '">' + comment.prefix + ' '+ comment.owner +'</a>' +
-					'<div class="metadata">' +
-					  '<a href="/id/'+ ticketId +'/#comment'+ comment.id +'" class="date" title="' + comment.createdAt.fullDate + '">'+ comment.createdAt.simply +'</a>' +
-					 menu +
-					'</div>' +
-					'<div class="text">' +
-						comment.message +
-						changedTo +
-					'</div>' +
-				 '</div>' +
-			  '</div>');
+				'<div class="comment ' + comment.status + '" id="comment' + comment.id + '">' +
+				'<div class="content">' +
+				'<a class="ui ribbon label ' + comment.colorclass + ' gc-nostylelink" href="/users/' + comment.owner + '">' + comment.prefix + ' ' + comment.owner + '</a>' +
+				'<div class="metadata">' +
+				'<a href="/id/' + ticketId + '/#comment' + comment.id + '" class="date" title="' + comment.createdAt.fullDate + '">' + comment.createdAt.simply + '</a>' +
+				menu +
+				'</div>' +
+				'<div class="text">' +
+				comment.message +
+				changedTo +
+				'</div>' +
+				'</div>' +
+				'</div>');
 			$('.ui.inline.top.right.pointing.dropdown').dropdown();
 
 			return comment;
 		});
 
-		if (removedCount !== 0 ) {
+		if (removedCount !== 0) {
 			$('#commentssubheader').html('Комментариев удалено: ' + removedCount);
 		} else {
 			$('#commentssubheader').html('');
@@ -80,7 +80,7 @@ var renderAllComments = function renderAllComments(ticketId) {
 };
 
 var renderRemovedComments = function renderRemovedComments(ticketId) {
-	getComments(ticketId, function(err, comments) {
+	getComments(ticketId, function (err, comments) {
 		$('#commentpost').hide();
 		$('#commentdivider').hide();
 		$('#commentssubheader').html('Показаны только удалённые');
@@ -90,12 +90,12 @@ var renderRemovedComments = function renderRemovedComments(ticketId) {
 			if (comment.status !== 3) return undefined;
 			if (comment.canModerate) {
 				var menu = '<div class="ui inline top right pointing dropdown" id="commentoptions">' +
-						 '<i class="ellipsis horizontal icon"></i>' +
-						 '<div class="menu">' +
-							'<a id="commentremove" cid="' + comment.id + '" do="recover" class="item">Восстановить</a>' +
-							'<a id="commentremove" cid="' + comment.id + '" do="remove" class="item">Удалить безвозвратно</a>' +
-						 '</div>' +
-					  '</div>';
+					'<i class="ellipsis horizontal icon"></i>' +
+					'<div class="menu">' +
+					'<a id="commentremove" cid="' + comment.id + '" do="recover" class="item">Восстановить</a>' +
+					'<a id="commentremove" cid="' + comment.id + '" do="remove" class="item">Удалить безвозвратно</a>' +
+					'</div>' +
+					'</div>';
 			} else {
 				var menu = '';
 			}
@@ -108,19 +108,19 @@ var renderRemovedComments = function renderRemovedComments(ticketId) {
 			}
 
 			$('#comments').append(
-				'<div class="comment ' + comment.status + '" id="comment'+ comment.id +'">' +
-				 '<div class="content">' +
-					'<a class="ui ribbon label ' + comment.colorclass + ' gc-nostylelink" href="/users/' + comment.owner + '">' + comment.prefix + ' '+ comment.owner +'</a>' +
-					'<div class="metadata">' +
-					  '<a href="/id/'+ ticketId +'/#comment'+ comment.id +'" class="date" title="' + comment.createdAt.fullDate + '">'+ comment.createdAt.simply +'</a>' +
-					 menu +
-					'</div>' +
-					'<div class="text">' +
-						comment.message +
-						changedTo +
-					'</div>' +
-				 '</div>' +
-			  '</div>');
+				'<div class="comment ' + comment.status + '" id="comment' + comment.id + '">' +
+				'<div class="content">' +
+				'<a class="ui ribbon label ' + comment.colorclass + ' gc-nostylelink" href="/users/' + comment.owner + '">' + comment.prefix + ' ' + comment.owner + '</a>' +
+				'<div class="metadata">' +
+				'<a href="/id/' + ticketId + '/#comment' + comment.id + '" class="date" title="' + comment.createdAt.fullDate + '">' + comment.createdAt.simply + '</a>' +
+				menu +
+				'</div>' +
+				'<div class="text">' +
+				comment.message +
+				changedTo +
+				'</div>' +
+				'</div>' +
+				'</div>');
 			$('.ui.inline.top.right.pointing.dropdown').dropdown();
 
 			return comment;
@@ -147,11 +147,11 @@ var getComments = function getComments(ticketId, callback) {
 		data: {
 			tid: ticketId
 		},
-		beforeSend: function() {
+		beforeSend: function () {
 			$('#commentpost').hide();
 			$('#comments').html('<div class="ui active inverted dimmer" style="position: relative !important;padding:5em 0em;"><div class="ui text loader">Загружается</div></div>');
 		},
-		success: function(data) {
+		success: function (data) {
 			var comments = data || [];
 
 			var parsedComments = comments.map(function (comment) {
@@ -175,14 +175,14 @@ app.view = {
 		var currentUrl = window.location.pathname.split('/');
 		var ticketId = currentUrl[2];
 		$.ajax({
-				type: "GET",
-				url: '/csrfToken',
-				success: function(csrfToken) {
-					$.ajaxSetup({
-						data: csrfToken
-					});
-				}
-			});
+			type: "GET",
+			url: '/csrfToken',
+			success: function (csrfToken) {
+				$.ajaxSetup({
+					data: csrfToken
+				});
+			}
+		});
 		renderAllComments(ticketId);
 
 		$('.ui.modal').modal();
@@ -193,23 +193,25 @@ app.view = {
 		});
 
 
-		$(document).on('click', '#s-visiblity', function(e) {
+		$(document).on('click', '#s-visiblity', function (e) {
 			$('#changevisibility')
 				.modal('setting', {
 					transition: 'fade up',
-					closable  : false,
-					onDeny    : function(){
+					closable: false,
+					onDeny: function () {
 						return true;
 					},
-					onApprove : function() {
+					onApprove: function () {
 						$.ajax({
 							type: "POST",
 							url: '/id/' + ticketId + '/changevisibility',
-							data: {action: 'changevisibility'},
+							data: {
+								action: 'changevisibility'
+							},
 							beforeSend: function () {
 								$('body').fadeIn('slow').append('<div class="ui active segment dimmer" id="removedimmer"><div class="ui active dimmer" id="removedimmer"><div class="ui loader"></div></div></div>');
 							},
-							complete: function(data) {
+							complete: function (data) {
 								$('#removedimmer').remove();
 								if (data.responseJSON.status === 'err') {
 									$('body').fadeIn('slow').append('<div class="ui active segment dimmer" id="removedimmer"><div class="header">Произошла ошибка!</div><div class="content">Пожалуйста, сообщите разработчику о ней</div><div class="actions"><div class="ui fluid button">Ладно, вернёмся обратно</div></div></div>');
@@ -229,7 +231,7 @@ app.view = {
 				.modal('show');
 		});
 
-		$(document).on('click', '#commentsubmit', function(e) {
+		$(document).on('click', '#commentsubmit', function (e) {
 			$.ajax({
 				type: "POST",
 				url: '/comments/new',
@@ -237,21 +239,21 @@ app.view = {
 				beforeSend: function () {
 					$('#commentfield').fadeIn('slow').append('<div class="ui active segment dimmer"><div class="ui loader"></div></div>');
 				},
-				complete: function(data) {
+				complete: function (data) {
 					$('#commentfield').html('<textarea name="message" id="commentform"></textarea>');
 
 					if (data.responseJSON.error) {
 						$('#commentfield').append('<div class="ui active segment dimmer">' +
-						  '<div class="content">' +
-							 '<div class="center">' +
-								'<h2 class="ui inverted icon header">' +
-									'<i class="icon circular inverted emphasized red exclamation"></i>' +
-									data.responseJSON.error +
-								'</h2>' +
-								'<small style="display:block;">Кликните по сообщению чтобы оно пропало</small>' +
-							 '</div>' +
-						  '</div>' +
-						'</div>');
+							'<div class="content">' +
+							'<div class="center">' +
+							'<h2 class="ui inverted icon header">' +
+							'<i class="icon circular inverted emphasized red exclamation"></i>' +
+							data.responseJSON.error +
+							'</h2>' +
+							'<small style="display:block;">Кликните по сообщению чтобы оно пропало</small>' +
+							'</div>' +
+							'</div>' +
+							'</div>');
 						$('.ui.active.dimmer').dimmer();
 					} else if (data.responseJSON.changedTo) {
 						$('#commentpost').trigger('reset');
@@ -261,16 +263,16 @@ app.view = {
 						renderAllComments(ticketId);
 					} else {
 						$('#commentfield').append('<div class="ui active segment dimmer">' +
-						  '<div class="content">' +
-							 '<div class="center">' +
-								'<h2 class="ui inverted icon header">' +
-								  '<i class="icon circular inverted emphasized red exclamation"></i>' +
-								  'Увы, но произошла ошибка!' +
-								'</h2>' +
-								'<small style="display:block;">Кликните по сообщению чтобы оно пропало</small>' +
-							 '</div>' +
-						  '</div>' +
-						'</div>');
+							'<div class="content">' +
+							'<div class="center">' +
+							'<h2 class="ui inverted icon header">' +
+							'<i class="icon circular inverted emphasized red exclamation"></i>' +
+							'Увы, но произошла ошибка!' +
+							'</h2>' +
+							'<small style="display:block;">Кликните по сообщению чтобы оно пропало</small>' +
+							'</div>' +
+							'</div>' +
+							'</div>');
 						$('.ui.active.dimmer').dimmer();
 					}
 					$('#commentpost').trigger('reset');
@@ -280,12 +282,12 @@ app.view = {
 			return false;
 		});
 
-		$(document).on('click', '#commentrefresh', function(e) {
+		$(document).on('click', '#commentrefresh', function (e) {
 			renderAllComments(ticketId);
 			return false;
 		});
 
-		$(document).on('click', '#commentremoved', function(e) {
+		$(document).on('click', '#commentremoved', function (e) {
 			renderRemovedComments(ticketId);
 			return false;
 		});
@@ -293,28 +295,30 @@ app.view = {
 		$('#commentstatus').dropdown();
 		$('.ui.accordion').accordion();
 
-		$(document).on('click', '#commentremove', function(e) {
+		$(document).on('click', '#commentremove', function (e) {
 			rembutton = this;
 
 			$('#remcomment')
 				.modal('setting', {
 					transition: 'fade up',
-					closable  : false,
-					onDeny    : function(){
+					closable: false,
+					onDeny: function () {
 						return true;
 					},
-					onApprove : function() {
+					onApprove: function () {
 						var cid = $(rembutton).attr('cid');
 						var action = $(rembutton).attr('do');
 
 						$.ajax({
 							type: "POST",
 							url: '/comments/' + cid + '/remove',
-							data: {action: action},
+							data: {
+								action: action
+							},
 							beforeSend: function () {
 								$('body').fadeIn('slow').append('<div class="ui active segment dimmer" id="removedimmer"><div class="ui active dimmer" id="removedimmer"><div class="ui loader"></div></div></div>');
 							},
-							complete: function(data) {
+							complete: function (data) {
 								$('#removedimmer').remove();
 								if (data.responseJSON.status === 'err') {
 									$('body').fadeIn('slow').append('<div class="ui active segment dimmer" id="removedimmer"><div class="header">Произошла ошибка!</div><div class="content">Пожалуйста, сообщите разработчику о ней</div><div class="actions"><div class="ui fluid button">Ладно, вернёмся обратно</div></div></div>');
@@ -338,9 +342,19 @@ app.view = {
 		$(".s-regionstuffitem").on("click", function () {
 			$(this).select();
 		});
+
+		var resizeInput = function resizeInput() {
+			$(this).attr('size', $(this).val().length);
+		}
+
+		$('input.s-regionstuffitem')
+		// event handler
+		.keyup(resizeInput)
+		// resize on page load
+		.each(resizeInput);
 	},
 
-	edit: function(id) {
+	edit: function (id) {
 		var currentUrl = window.location.pathname.split('/');
 		var ticketId = currentUrl[2];
 		var csrfToken = $('#_csrf').attr('value');
@@ -390,7 +404,7 @@ app.view = {
 						$('#errormodal')
 							.modal('setting', {
 								transition: 'fade up',
-								closable  : true
+								closable: true
 							})
 							.modal('show');
 						window.location.hash = "errormessage";
@@ -401,7 +415,7 @@ app.view = {
 						$('#errormodal')
 							.modal('setting', {
 								transition: 'fade up',
-								closable  : true
+								closable: true
 							})
 							.modal('show');
 						window.location.hash = "errormessage";
@@ -412,7 +426,7 @@ app.view = {
 						$('#errormodal')
 							.modal('setting', {
 								transition: 'fade up',
-								closable  : true
+								closable: true
 							})
 							.modal('show');
 						window.location.hash = "errormessage";
@@ -427,11 +441,11 @@ app.view = {
 			$('#remticket')
 				.modal('setting', {
 					transition: 'fade up',
-					closable  : false,
-					onDeny    : function(){
+					closable: false,
+					onDeny: function () {
 						return true;
 					},
-					onApprove : function() {
+					onApprove: function () {
 						$.ajax({
 							type: "POST",
 							url: '/id/' + ticketId + '/delete',
@@ -442,7 +456,7 @@ app.view = {
 							beforeSend: function () {
 								$('body').fadeIn('slow').append('<div class="ui active dimmer" id="removedimmer"><div class="ui active dimmer" id="removedimmer"><div class="ui loader"></div></div></div>');
 							},
-							complete: function(data) {
+							complete: function (data) {
 								$('#removedimmer').remove();
 								if (data.responseJSON.status === 'err') {
 									$('body').fadeIn('slow').append('<div class="ui active dimmer" id="removedimmer"><div class="header">Произошла ошибка!</div><div class="content">Пожалуйста, сообщите разработчику о ней</div><div class="actions"><div class="ui fluid button">Ладно, вернёмся обратно</div></div></div>');
@@ -462,16 +476,16 @@ app.view = {
 				.modal('show');
 		});
 
-		$('a').click(function (event){
+		$('a').click(function (event) {
 			var link = this;
 			$('#unsavedlink')
 				.modal('setting', {
 					transition: 'fade up',
-					closable  : false,
-					onDeny    : function(){
+					closable: false,
+					onDeny: function () {
 						return true;
 					},
-					onApprove : function() {
+					onApprove: function () {
 						window.location.href = link;
 					}
 				})
@@ -481,7 +495,7 @@ app.view = {
 
 		var titleDefaultPlaceholder = $('#title').attr('placeholder');
 
-		$('#createdfor').on('input', function() {
+		$('#createdfor').on('input', function () {
 			if ($(this).val()) {
 				$('#title').attr('placeholder', 'Заявка для ' + $(this).val());
 			} else {
