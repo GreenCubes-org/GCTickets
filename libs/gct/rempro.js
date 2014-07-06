@@ -416,7 +416,7 @@ module.exports = rempro = {
 				if (req.user && req.user.group >= ugroup.mod) {
 					callback(null, rempro, true);
 				} else {
-					callback(null, rempro, origTicket);
+					callback(null, rempro, false);
 				}
 			}
 		], function (err, result, canModerate) {
@@ -425,7 +425,8 @@ module.exports = rempro = {
 			res.view('view/rempro', {
 				moment: moment,
 				ticket: result,
-				globalid: ticket.id
+				globalid: ticket.id,
+				canModerate: canModerate
 			});
 		});
 	},

@@ -78,7 +78,7 @@
 			<div class="ui divider" id="commentdivider"></div>
 			<% if (req.user) { %>
 			<form class="ui reply form container" id="commentpost">
-				<% if (["Новый","Уточнить","Принят"].indexOf(ticket.status.text) !== -1 && req.user && (ticket.owner.id === req.user.id || ((req.user.group || 0) >= ugroup.helper))) { %>
+				<% if (["Новый","Уточнить","Принят"].indexOf(ticket.status.text) !== -1 && req.user && ((ticket.owner.id === req.user.id || ((req.user.group || 0) >= ugroup.helper)) && ticket.status.text === 'Новый' || canModerate)) { %>
 				<div class="field">
 					<label>Смена статуса <a class="gc-nostylelink" href="https://wiki.greencubes.org/Система_поддержки/Статусы" target="_blank"><i class="help icon gc-helppopup" data-content="С помощью этого поля можно поменять статус тикета. Справка по статусам по клику на эту иконку" data-variation="inverted"></i></a></label>
 					<div class="ui selection dropdown" id="s-setstatus">
@@ -88,9 +88,7 @@
 						<i class="dropdown icon"></i>
 						<div class="menu">
 							<% if (ticket.status.text === 'Новый') { %>
-								<% if (ticket.owner.id === req.user.id) { %>
-								<div class="item" data-value="1">Новый</div>
-								<% } %>
+								<div class="active item" data-value="1">Новый</div>
 								<% if ((req.user.group || 0) >= ugroup.mod) { %>
 								<div class="item" data-value="11">Принят</div>
 								<% } %>

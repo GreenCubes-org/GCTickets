@@ -598,17 +598,19 @@ module.exports.processStatus = processStatus = function (req, res, type, canMode
 	switch (type) {
 		case 1:
 			// If status "Новый"
-			if ((canModerate || req.user.id === ticket.owner) && ticket.status === 1 && [11,4,3,2].indexOf(changedTo) != -1) {
+			if (ticket.status === 1 && (
+				(canModerate && [11,4,3].indexOf(changedTo) != -1) ||
+				(req.user.id === ticket.owner && changedTo === 2))) {
 				return cb(true);
 			}
 
 			// If status "Уточнить"
-			if (canModerate || req.user && (req.user.group >= ugroup.helper) && ticket.status === 3 && [11,4].indexOf(changedTo) != -1) {
+			if (ticket.status === 3 && canModerate && [11,4].indexOf(changedTo) != -1) {
 				return cb(true);
 			}
 
 			// If status "Принят"
-			if ((canModerate || req.user.id === ticket.owner) && ticket.status === 3 && [12,4].indexOf(changedTo) != -1) {
+			if (ticket.status === 3 && canModerate && [12,4].indexOf(changedTo) != -1) {
 				return cb(true);
 			}
 
@@ -616,22 +618,25 @@ module.exports.processStatus = processStatus = function (req, res, type, canMode
 
 		case 2:
 			// If status "Новый"
-			if ((canModerate || req.user.id === ticket.owner) && ticket.status === 1 && [10,8,4,3,2].indexOf(changedTo) != -1) {
+			if (ticket.status === 1 && (
+				(req.user.id === ticket.owner && changedTo === 2) || // Only owner can change to status 2 (Отклонён)
+				((canModerate || res.user.group >= ugroup.mod) && [10,8,4,3].indexOf(changedTo) != -1) ||
+				(res.user.group >= ugroup.mod && changedTo === 3))) {
 				return cb(true);
 			}
 
 			// If status "Уточнить"
-			if ((canModerate || req.user.id === ticket.owner) && req.user && (req.user.group >= ugroup.helper) || ticket.status === 3 && [8,4].indexOf(changedTo) != -1) {
+			if (ticket.status === 3 && canModerate && [8,4].indexOf(changedTo) != -1) {
 				return cb(true);
 			}
 
 			// If status "На рассмотрении"
-			if ((canModerate || req.user.id === ticket.owner) && ticket.status === 8 && [10,9,4].indexOf(changedTo) != -1) {
+			if (ticket.status === 8 && canModerate && [10,9,4,3].indexOf(changedTo) != -1) {
 				return cb(true);
 			}
 
 			// If status "Отложен"
-			if ((canModerate || req.user.id === ticket.owner) && ticket.status === 9 && [10,4].indexOf(changedTo) != -1) {
+			if (ticket.status === 9 && canModerate && [10,4,3].indexOf(changedTo) != -1) {
 				return cb(true);
 			}
 
