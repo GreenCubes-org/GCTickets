@@ -319,7 +319,7 @@ module.exports.serializeList = serializeList = function (type) {
 
 		case 'rempros':
 			return {
-				url: 'all',
+				url: 'rempros',
 				text: 'Заявки на удаление защит',
 				iconclass: 'trash',
 				title: 'Список заявок на удаление защит — GC.Поддержка'
