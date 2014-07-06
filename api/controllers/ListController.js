@@ -127,10 +127,10 @@ module.exports = {
 				sails.log.verbose('findBy: ', findBy);
 				sails.log.verbose('whereBy: ', whereBy);
 
-				if (req.param('byModifed')) {
-					sortBy = 'updatedAt DESC';
-				} else {
+				if (req.param('byCreation')) {
 					sortBy = 'id DESC';
+				} else {
+					sortBy = 'updatedAt DESC';
 				}
 
 				sails.log.verbose('sortBy:', sortBy);

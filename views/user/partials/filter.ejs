@@ -2,9 +2,9 @@
 	login = (splitedPath[1] === 'users') ? splitedPath[2] : '',
 	listUrl = '/' + splitedPath[1] + '/' + login,
 	kfNoByModifed = '?' + 'cake=isalie' + ((req.param('status')) ? '&status=' + req.param('status') : '') + ((req.param('nostatus')) ? '&nostatus=' + req.param('nostatus') : '') + ((req.param('visibility')) ? '&visibility=' + req.param('visibility') : ''),
-	kfNoVisibility = '?' + 'cake=isalie' + ((req.param('status')) ? '&status=' + req.param('status') : '') + ((req.param('nostatus')) ? '&nostatus=' + req.param('nostatus') : '') + ((req.param('byModifed')) ? '&byModifed=' + req.param('byModifed') : ''),
-	kfNoStatus = '?' + 'cake=isalie' + ((req.param('nostatus')) ? '&nostatus=' + req.param('nostatus') : '') + ((req.param('visibility')) ? '&visibility=' + req.param('visibility') : '') + ((req.param('byModifed')) ? '&byModifed=' + req.param('byModifed') : ''),
-	kfNoNoStatus = '?' + 'cake=isalie' + ((req.param('status')) ? '&status=' + req.param('status') : '') + ((req.param('visibility')) ? '&visibility=' + req.param('visibility') : '') + ((req.param('byModifed')) ? '&byModifed=' + req.param('byModifed') : ''),
+	kfNoVisibility = '?' + 'cake=isalie' + ((req.param('status')) ? '&status=' + req.param('status') : '') + ((req.param('nostatus')) ? '&nostatus=' + req.param('nostatus') : '') + ((req.param('byCreation')) ? '&byCreation=' + req.param('byCreation') : ''),
+	kfNoStatus = '?' + 'cake=isalie' + ((req.param('nostatus')) ? '&nostatus=' + req.param('nostatus') : '') + ((req.param('visibility')) ? '&visibility=' + req.param('visibility') : '') + ((req.param('byCreation')) ? '&byCreation=' + req.param('byCreation') : ''),
+	kfNoNoStatus = '?' + 'cake=isalie' + ((req.param('status')) ? '&status=' + req.param('status') : '') + ((req.param('visibility')) ? '&visibility=' + req.param('visibility') : '') + ((req.param('byCreation')) ? '&byCreation=' + req.param('byCreation') : ''),
 	listUrl = '/' + splitedPath[1] + '/' + login,
 	status = req.param('status'),
 	nostatus = req.param('nostatus'),
@@ -14,11 +14,11 @@
 	<div class="header item">Сортировка</div>
 	<div class="item">
 		<div class="menu">
-			<a class="item l-menu <% if (!(req.param('byModifed') === 'true')) { %> active<% } %>" href="<%= listUrl + kfNoByModifed %>">
-				По дате создания
+			<a class="item l-menu <% if (!(req.param('byCreation') === 'true')) { %> active<% } %>" href="<%= listUrl + kfNoByCreation %>">
+				По активности
 			</a>
-			<a class="item l-menu <% if (req.param('byModifed') === 'true') { %> active<% } %>" href="<%= listUrl + kfNoByModifed %>&byModifed=true">
-				По дате изменения
+			<a class="item l-menu <% if (req.param('byCreation') === 'true') { %> active<% } %>" href="<%= listUrl + kfNoByCreation %>&byCreation=true">
+				По дате создания
 			</a>
 		</div>
 	</div>
