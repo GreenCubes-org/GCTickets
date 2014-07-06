@@ -1,7 +1,7 @@
 <% var splitedPath = req.path.split('/'),
 	login = (splitedPath[1] === 'users') ? splitedPath[2] : '',
 	listUrl = '/' + splitedPath[1] + '/' + login,
-	kfNoByModifed = '?' + 'cake=isalie' + ((req.param('status')) ? '&status=' + req.param('status') : '') + ((req.param('nostatus')) ? '&nostatus=' + req.param('nostatus') : '') + ((req.param('visibility')) ? '&visibility=' + req.param('visibility') : ''),
+	kfNoByCreation = '?' + 'cake=isalie' + ((req.param('status')) ? '&status=' + req.param('status') : '') + ((req.param('nostatus')) ? '&nostatus=' + req.param('nostatus') : '') + ((req.param('visibility')) ? '&visibility=' + req.param('visibility') : ''),
 	kfNoVisibility = '?' + 'cake=isalie' + ((req.param('status')) ? '&status=' + req.param('status') : '') + ((req.param('nostatus')) ? '&nostatus=' + req.param('nostatus') : '') + ((req.param('byCreation')) ? '&byCreation=' + req.param('byCreation') : ''),
 	kfNoStatus = '?' + 'cake=isalie' + ((req.param('nostatus')) ? '&nostatus=' + req.param('nostatus') : '') + ((req.param('visibility')) ? '&visibility=' + req.param('visibility') : '') + ((req.param('byCreation')) ? '&byCreation=' + req.param('byCreation') : ''),
 	kfNoNoStatus = '?' + 'cake=isalie' + ((req.param('status')) ? '&status=' + req.param('status') : '') + ((req.param('visibility')) ? '&visibility=' + req.param('visibility') : '') + ((req.param('byCreation')) ? '&byCreation=' + req.param('byCreation') : ''),
