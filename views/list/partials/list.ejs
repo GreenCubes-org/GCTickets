@@ -1,6 +1,6 @@
 <div class="ui selection list">
 	<% tickets.forEach(function(ticket) { %>
-	<div class="item" style="color:inherit !important;padding:0 !important;border-top: 1px solid rgba(0, 0, 0, 0.1) !important;height: 80px !important;">
+	<div class="item" style="color:inherit !important;padding:0 !important;border-top: 1px solid rgba(0, 0, 0, 0.1) !important;height: 5em !important;">
 		<div class="right floated t-status <%= ticket.status.class %>"<% if (ticket.comments.lastChangedToOwner) { %> title="Статус установлен <%= ticket.comments.lastChangedToOwner %>"<% } %> style="padding:2.2em 1em;"><%- ticket.status.text %></div>
 		<i class="right floated big <%= ticket.type.iconclass %> icon"  style="margin: 22px 10px 0px !important" title="<%= ticket.type.descr %>"></i>
 
