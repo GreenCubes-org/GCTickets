@@ -278,7 +278,7 @@ div.comment {
 .l-label.specify,
 .s-status.specify,
 .ui.label.specify {
-	background-color: rgb(252, 240, 207) !important;
+	background-color: rgb(251, 196, 194); !important;
 }
 .l-label.declined,
 .s-status.declined,
@@ -313,7 +313,7 @@ div.comment {
 .l-label.accepted,
 .s-status.accepted,
 .ui.label.accepted {
-	background-color: rgb(252, 243, 215) !important;
+	background-color: rgb(205, 222, 226) !important;
 }
 .l-label.befixed,
 .s-status.befixed,
@@ -453,8 +453,8 @@ span.s-regionstuffitemcomment {
 }
 .l-menu.specify,
 .t-status.specify {
-	background-color: rgb(252, 240, 207);
-	box-shadow: 2px 0px 0px rgb(241, 194, 50) inset;
+	background-color: rgb(251, 196, 194);
+	box-shadow: 2px 0px 0px rgb(246, 107, 101) inset;
 }
 .l-menu.declined,
 .t-status.declined {
@@ -488,8 +488,8 @@ span.s-regionstuffitemcomment {
 }
 .l-menu.accepted,
 .t-status.accepted {
-	background-color: rgb(252, 243, 215);
-	box-shadow: 2px 0px 0px rgb(241, 194, 50) inset;
+	background-color: rgb(205, 222, 226);
+	box-shadow: 2px 0px 0px rgb(117, 163, 174) inset;
 }
 .l-menu.befixed,
 .t-status.befixed {
