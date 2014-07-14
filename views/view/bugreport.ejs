@@ -16,7 +16,7 @@
 &nbsp;<a class="gc-nostylelink" href="/id/<%= globalid %>">#<%= globalid %></a>
 &raquo;&nbsp;<a class="gc-nostylelink<% if (req.user && req.user.group >= ugroup.helper) { %> pinfopopup"style="cursor:pointer;border-bottom: 1px dotted;" data-position="bottom center" data-html="<%- partial('../partials/pinfo', {pinfo:ticket.owner.pinfo}) %>" data-variation="small" title="Нажатие активирует подсказку"<% } else { %>" href="/users/<%= ticket.owner.login %>"<% } %>><%= ticket.owner.login %></a>
 &raquo;&nbsp;<%= moment(ticket.createdAt).format('D MMM YYYY, h:mm') %>
-<% if (ticket.product && ticket.product.ticketText.length && ticket.product !== 42) { %>&raquo;&nbsp;<%= ticket.product.ticketText %><% } %>
+<% if (ticket.product && ticket.product.ticketText.length && ticket.product !== 42) { %>&raquo;&nbsp;<a class="gc-nostylelink" href="/bugreports/<%= ticket.product.techText %>"><%= ticket.product.ticketText %></a><% } %>
 				</div>
 			</h2>
 		</div>

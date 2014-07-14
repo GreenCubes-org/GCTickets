@@ -143,7 +143,7 @@ module.exports.getProductByID = getProductByID = function (id) {
 		case 1:
 			return {
 				ticketText: 'Неизвестно',
-				techText: ''
+				techText: 'unknown'
 			};
 
 		case 2:
@@ -180,6 +180,12 @@ module.exports.getProductByID = getProductByID = function (id) {
 
 module.exports.getProductByTechText = getProductByTechText = function (id) {
 	switch (id) {
+		case 'unknown':
+			return {
+				ticketText: 'Неизвестно',
+				id: 1
+			}
+
 		case 'main':
 			return {
 				ticketText: 'Сервер Main',

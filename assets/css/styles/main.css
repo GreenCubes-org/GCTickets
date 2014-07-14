@@ -527,6 +527,11 @@ span.s-regionstuffitemcomment {
 	background-color: #89cb96;
 	box-shadow: 2px 0px 0px #32713F inset;
 }
+.l-menu.unknown,
+.t-status.unknown {
+	background-color: rgb(214, 214, 214);
+	box-shadow: 2px 0px 0px rgb(0, 0, 0) inset;
+}
 
 /* List styles */
 .l-label {

@@ -10,6 +10,9 @@ module.exports = {
 
 								result.status = obj.status;
 								result.owner = obj.owner;
+								result.tid = obj.id;
+								result.visiblity = obj.visiblity;
+
 								callback(err, result);
 							});
 						},

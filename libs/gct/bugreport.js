@@ -14,6 +14,7 @@ module.exports = bugreport = {
 
 					callback(null, {
 						id: obj.id,
+						tid: obj.tid,
 						title: obj.title,
 						status: getStatusByID(obj.status),
 						owner: {
@@ -22,24 +23,15 @@ module.exports = bugreport = {
 							pinfo: null
 						},
 						type: obj.type,
-						visiblity: null,
+						product: obj.product,
+						visiblity: obj.visiblity,
 						createdAt: obj.createdAt
 					});
 				});
 			},
-			function getTicket(obj, callback) {
-				Ticket.find({
-					tid: obj.id,
-					type: 1
-				}).done(function (err, ticket) {
-					if (err) return cb(err);
-
-					callback(null, obj, ticket);
-				});
-			},
-			function getCommentsCount(obj, ticket, callback) {
+			function getCommentsCount(obj, callback) {
 				Comments.find({
-					tid: ticket[0].id,
+					tid: obj.tid,
 					status: {
 						'!': 3
 					}
@@ -60,10 +52,10 @@ module.exports = bugreport = {
 						lastChangedToOwner: lastChangedToOwner
 					};
 
-					callback(null, obj, ticket);
+					callback(null, obj);
 				});
 			},
-			function getLoginsForLastCommentOwners(obj, ticket, callback) {
+			function getLoginsForLastCommentOwners(obj, callback) {
 				if (obj.comments.count) {
 					gcdb.user.getByID(obj.comments.lastCommentOwner, function(err, login) {
 						if (err) return callback(err);
@@ -76,31 +68,32 @@ module.exports = bugreport = {
 
 								obj.comments.lastChangedToOwner = login;
 
-								callback(null, obj, ticket);
+								callback(null, obj);
 							});
 						} else {
-							callback(null, obj, ticket);
+							callback(null, obj);
 						}
 					});
 				} else {
-					callback(null, obj, ticket);
+					callback(null, obj);
 				}
 			}
-		], function (err, obj, ticket) {
+		], function (err, obj) {
 			if (err) return cb(err);
 
 			cb(null, {
-				id: ticket[0].id,
+				id: obj.tid,
 				title: obj.title,
 				status: obj.status,
 				owner: obj.owner,
-				visiblity: getVisiblityByID(ticket[0].visiblity),
+				visiblity: getVisiblityByID(obj.visiblity),
 				createdAt: obj.createdAt,
 				type: {
 					descr: 'Баг-репорт',
 					iconclass: 'bug',
 					id: obj.type
 				},
+				product: gct.getProductByID(obj.product),
 				comments: obj.comments
 			});
 		});

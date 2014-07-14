@@ -67,7 +67,7 @@ module.exports.routes = {
 	// Багрепорты
 	'/bugreports': 'list.listTwenty',
 	'/bugreports/:param': 'list.listTwenty',
-	'/bugreports/:param/:page': 'list.listByProduct',
+	'/bugreports/:param/:page': 'list.listTwenty',
 	'get /new/bugreport': 'create.bugreportTpl',
 	'post /new/bugreport': 'create.bugreport',
 

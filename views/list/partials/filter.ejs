@@ -3,7 +3,8 @@
 	kfNoVisibility = '?' + 'cake=isalie' + ((req.param('status')) ? '&status=' + req.param('status') : '') + ((req.param('nostatus')) ? '&nostatus=' + req.param('nostatus') : '') + ((req.param('byCreation')) ? '&byCreation=' + req.param('byCreation') : ''),
 	kfNoStatus = '?' + 'cake=isalie' + ((req.param('nostatus')) ? '&nostatus=' + req.param('nostatus') : '') + ((req.param('visibility')) ? '&visibility=' + req.param('visibility') : '') + ((req.param('byCreation')) ? '&byCreation=' + req.param('byCreation') : ''),
 	kfNoNoStatus = '?' + 'cake=isalie' + ((req.param('status')) ? '&status=' + req.param('status') : '') + ((req.param('visibility')) ? '&visibility=' + req.param('visibility') : '') + ((req.param('byCreation')) ? '&byCreation=' + req.param('byCreation') : ''),
-	listUrl = '/' + splitedPath[1],
+	listUrl = '/' + splitedPath[1] + ((['main','rpg','apocalyptic','unknown'].indexOf(splitedPath[2]) !== -1) ? splitedPath[2] : ''),
+	listUrlNoProduct = '/' + splitedPath[1],
 	status = req.param('status'),
 	nostatus = req.param('nostatus'),
 	visibility = req.param('visibility') %>
@@ -106,4 +107,27 @@
 			<% } %>
 		</div>
 	</div>
+	<% if (type.text === 'Баг-репорты') { %>
+	<div class="header item">Фильтровать по местоположению проблемы</div>
+	<div class="item">
+		<div class="menu">
+			<div class="item l-menu main <% if (splitedPath[2] === 'main') { %> active<% } %>">
+				<a href="<%= listUrlNoProduct %>/main">Сервер Main</a>
+			</div>
+			<div class="item l-menu rpg <% if (splitedPath[2] === 'rpg') { %> active<% } %>">
+				<a href="<%= listUrlNoProduct %>/rpg">Сервер RPG</a>
+			</div>
+			<div class="item l-menu apocalyptic <% if (splitedPath[2] === 'apocalyptic') { %> active<% } %>">
+				<a href="<%= listUrlNoProduct %>/apocalyptic">Сервер Apocalyptic</a>
+			</div>
+			<div class="item l-menu websites <% if (splitedPath[2] === 'websites') { %> active<% } %>">
+				<a href="<%= listUrlNoProduct  %>/websites">Веб-сервисы</a>
+			</div>
+			<div class="item l-menu unknown <% if (splitedPath[2] === 'unknown') { %> active<% } %>">
+				<a href="<%= listUrlNoProduct  %>/unknown">Неизвестно</a>
+			</div>
+		</div>
+	</div>
+
+ <% } %>
 </div>
