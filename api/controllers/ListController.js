@@ -100,7 +100,7 @@ module.exports = {
 					if (!findBy.owner && (!req.user || req.user.group < ugroup.helper)) {
 						findBy.visiblity = 1;
 
-						query.visiblity = '`visiblity` = 1';
+						query.visibility = '`visiblity` = 1';
 					}
 				}
 				if (filterBy.status) {
@@ -111,7 +111,7 @@ module.exports = {
 					if (!findBy.owner && (!req.user || req.user.group < ugroup.helper)) {
 						findBy.visiblity = 1;
 
-						query.visiblity = '`visiblity` = 1';
+						query.visibility = '`visiblity` = 1';
 					}
 				}
 				if (filterBy.nostatus) {
@@ -152,11 +152,16 @@ module.exports = {
 				}
 
 				sails.log.verbose('sortBy:', sortBy);
+				sails.log.verbose('query: ', query);
 
 				if (currentSubSectionId) {
-					query = 'SELECT * FROM `ticket` WHERE `type` = 1 AND `tid` in (SELECT `id` FROM `bugreport` WHERE `product` = ' + currentSubSectionId + ')' + ((query.status) ? ' AND ' + query.status : '') + ((query.visibility) ? ' AND ' + query.visibility : '') + ' ORDER BY `id` DESC LIMIT 20';
+					if (req.user && req.user.canModerate.indexOf(currentSubSectionId) !== -1) {
+						delete query.visibility;
+					}
 
-					sails.log.verbose(query);
+					query = 'SELECT * FROM `ticket` WHERE `type` = 1 AND `tid` in (SELECT `id` FROM `bugreport` WHERE `product` = ' + currentSubSectionId + ')' + ((query.status) ? ' AND ' + query.status : '') + ((query.visibility) ? ' AND ' + query.visibility : '') + ' ORDER BY ' + sortBy + ' LIMIT 20';
+
+					sails.log.verbose('query: ', query);
 
 					Ticket.query(query, function (err, tickets) {
 							if (err) return callback(err);

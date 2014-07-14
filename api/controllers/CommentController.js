@@ -85,6 +85,7 @@ module.exports = {
 							}
 						});
 				},
+				// I'm updating ticket for updating updatedOn record.
 				function updateTicket(tid, callback) {
 					Ticket.findOne(tid)
 						.done(function (err, ticket) {
@@ -123,8 +124,22 @@ module.exports = {
 			function getTicket(callback) {
 				Ticket.findOne(tid)
 					.done(function(err, ticket) {
-						callback(null, ticket);
+						callback(err, ticket);
 					});
+			},
+			function getBugreport(ticket, callback) {
+				if (ticket.type == 1) {
+					Bugreport.findOne(ticket.tid)
+						.done(function (err, bugreport) {
+							if (err) return callback(err);
+
+							ticket.product = bugreport.product;
+
+							callback(null, ticket);
+						});
+				} else {
+					callback(null, ticket);
+				}
 			},
 			function checkOldCommentsNMessageLength(ticket, callback) {
 				Comments.find({
@@ -184,7 +199,7 @@ module.exports = {
 						return callback(true);
 					}
 
-					callback(null);
+					callback(false);
 				}, function (canMod) {
 					if (canMod) return callback(null, newComment, true, ticket);
 

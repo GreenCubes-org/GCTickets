@@ -35,13 +35,14 @@ passport.deserializeUser(function (id, done) {
 				});
 		},
 		function getUserRights(user, callback) {
-				appdbconn.query('SELECT ugroup, prefix, colorclass FROM rights WHERE uid = ?', [id], function (err, result) {
+				appdbconn.query('SELECT ugroup, prefix, colorclass, canModerate FROM rights WHERE uid = ?', [id], function (err, result) {
 					if (err) return callback(err);
 
 					if (result.length !== 0) {
 						user.group = result[0].ugroup;
 						user.prefix = result[0].prefix;
 						user.colorclass = result[0].colorclass;
+						user.canModerate = result[0].canModerate;
 					} else {
 						user.group = 0; // User have group 0 by default
 					}

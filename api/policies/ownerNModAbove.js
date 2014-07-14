@@ -5,14 +5,7 @@ module.exports = function (req, res, ok) {
 	async.waterfall([
 		function getRights(callback) {
 			if (req.user) {
-				Rights.find({
-					uid: req.user.id
-				}).done(function (err, rights) {
-					if (err) throw err;
-
-					if (rights.length !== 0) callback(null, rights[0].ugroup, req.user.id, rights[0].canModerate);
-						else callback(null, 0, req.user.id, null);
-				});
+				callback(null, req.user.ugroup, req.user.id, req.user.canModerate);
 			} else {
 				callback(null, 0, 0, null);
 			}
@@ -41,7 +34,7 @@ module.exports = function (req, res, ok) {
 
 					callback(null);
 				}, function (canMod) {
-					if (canMod) ok();
+					if (canMod) return ok();
 
 					res.status(403).view('403', {layout: false});
 				});

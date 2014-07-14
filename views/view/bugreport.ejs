@@ -10,7 +10,7 @@
 			<h2 class="ui header">
 				<span><%= ticket.title %></span>
 				<div class="sub header">
-<% if (req.user && (req.user.id === ticket.owner.id || req.user.group >= ugroup.mod)) { %>
+<% if (req.user && (req.user.id === ticket.owner.id || req.user.group >= ugroup.mod) ||canModerate) { %>
 <a class="gc-nostylelink"  href="/id/<%= globalid %>/edit" title="Изменить"><i class="pencil small icon" id="s-editicon"></i></a>
 <% } %>
 &nbsp;<a class="gc-nostylelink" href="/id/<%= globalid %>">#<%= globalid %></a>
@@ -89,16 +89,16 @@
 						<div class="menu">
 							<% if (ticket.status.text === 'Новый') { %>
 								<div class="active item" data-value="1">Новый</div>
-								<% if ((req.user.group || 0) >= ugroup.mod) { %>
+								<% if ((req.user.group || 0) >= ugroup.mod || canModerate) { %>
 								<div class="item" data-value="11">Принят</div>
 								<% } %>
-								<% if ((req.user.group || 0) >= ugroup.helper) { %>
+								<% if ((req.user.group || 0) >= ugroup.helper || canModerate) { %>
 								<div class="item" data-value="3">Уточнить</div>
 								<% } %>
-								<% if ((req.user.group || 0) >= ugroup.mod) { %>
+								<% if ((req.user.group || 0) >= ugroup.mod || canModerate) { %>
 								<div class="item" data-value="4">Отклонён</div>
 								<% } %>
-								<% if (ticket.owner.id === req.user.id) { %>
+								<% if (ticket.owner.id === req.user.id || canModerate) { %>
 								<div class="item" data-value="2">Отменён</div>
 								<% } %>
 							<% } %>
