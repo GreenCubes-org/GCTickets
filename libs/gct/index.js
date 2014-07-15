@@ -674,7 +674,6 @@ module.exports.getRegionsInfo = getRegionsInfo = function getRegionsInfo(regions
 		element = {
 			id: null,
 			name: element.name,
-			comment: element.comment,
 			creator: null,
 			full_access: {
 				players: [],
