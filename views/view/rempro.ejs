@@ -60,7 +60,8 @@
 						Полный список регионов
 					</div>
 					<div class="content" >
-						<textarea class="s-regionstuffitem" readonly style="width: 100%;"><% ticket.regions.forEach(function(item, index) { %><%= item.name %> <% }) %></textarea>
+						<textarea class="s-regionstuffitem" id="s-regionstextarea" readonly style="width: 100%;"><% ticket.regions.forEach(function(item, index) { %><%= item.name %> <% }) %></textarea>
+						<small style="border-bottom: 1px dotted rgb(0, 0, 0); cursor: pointer;" id="s-regionsbutton">Выделить всё</small>
 					</div>
 				</div>
 			</div>
