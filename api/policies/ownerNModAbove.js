@@ -5,7 +5,7 @@ module.exports = function (req, res, ok) {
 	async.waterfall([
 		function getRights(callback) {
 			if (req.user) {
-				callback(null, req.user.ugroup, req.user.id, req.user.canModerate);
+				callback(null, req.user.group, req.user.id, req.user.canModerate);
 			} else {
 				callback(null, 0, 0, null);
 			}
