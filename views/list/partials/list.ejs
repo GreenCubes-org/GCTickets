@@ -9,7 +9,7 @@
 			<div class="description" style="font-size: 1.1rem !important;margin-left: 1rem !important;">
 				<i class="<%= ticket.visibility.class %> small icon" style="margin:0 !important;" title="<%= ticket.visibility.text %>"></i>
 				<i class="user small icon"></i><%= ticket.owner.login %>
-				<span title="<%= moment(ticket.createdAt).format('Do MMM YYYY, h:mm') %>"><i class="time small icon"></i><%= moment(ticket.createdAt).fromNow() %></span>
+				<span title="<%= moment(ticket.createdAt).format('Do MMM YYYY, H:mm') %>"><i class="time small icon"></i><%= moment(ticket.createdAt).fromNow() %></span>
 				<% if (ticket.comments.count) { %><span title="Последний ответивший: <%= ticket.comments.lastCommentOwner %>"><i class="comment small icon"></i><%= ticket.comments.count %> <small><%= ticket.comments.lastCommentOwner %></small></span><% } %>
 				<% if (ticket.product && ticket.product.ticketText.length) { %><i class="map marker icon"></i><%= ticket.product.ticketText %><% } %>
 			</div>

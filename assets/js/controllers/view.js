@@ -156,7 +156,7 @@ var getComments = function getComments(ticketId, callback) {
 
 			var parsedComments = comments.map(function (comment) {
 				comment.createdAt = {
-					fullDate: moment(comment.createdAt).format('Do MMM YYYY h:mm'),
+					fullDate: moment(comment.createdAt).format('Do MMM YYYY H:mm'),
 					simply: moment(comment.createdAt).fromNow()
 				};
 				return comment;
