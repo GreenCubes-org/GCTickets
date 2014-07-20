@@ -339,6 +339,10 @@ app.view = {
 		});
 
 		/* Rempro type only */
+		$("input.s-regionstuffitem").on("click", function () {
+			$(this).select();
+		});
+
 		$("#s-regionsbutton").on("click", function () {
 			$("#s-regionstextarea").select();
 		});
