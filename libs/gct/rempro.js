@@ -260,7 +260,7 @@ module.exports = rempro = {
 						async.each(regions, function (region, callback) {
 							async.waterfall([
 								function serializeCreator(callback) {
-									gcdb.user.getByID(region.creator, function (err, login) {
+									gcdb.user.getByID(region.creator, 'maindb', function (err, login) {
 										if (err) return callback(err);
 
 										region.creator = login;
@@ -270,7 +270,7 @@ module.exports = rempro = {
 								},
 								function serializeFull_accessPlayers(callback) {
 									async.map(region.full_access.players, function (element, callback) {
-										gcdb.user.getByID(element, function (err, login) {
+										gcdb.user.getByID(element, 'maindb', function (err, login) {
 											if (err) return callback(err);
 
 											callback(null, login);
@@ -285,7 +285,7 @@ module.exports = rempro = {
 								},
 								function serializeBuild_accessPlayers(callback) {
 									async.map(region.build_access.players, function (element, callback) {
-										gcdb.user.getByID(element, function (err, login) {
+										gcdb.user.getByID(element, 'maindb', function (err, login) {
 											if (err) return callback(err);
 
 											callback(null, login);
