@@ -6,10 +6,34 @@
  */
 module.exports.user = user = {
 
-	getByID: function (id, cb) {
-		if (!gcdbconn) return cb('You\'re not connected to GC MySQL DB');
+	getByID: function (id, db, cb) {
 
-		gcdbconn.query('SELECT login FROM users WHERE id = ?', [id], function (err, result) {
+		var query;
+
+		if (db instanceof Function) {
+			cb = db;
+			db = gcdbconn;
+			query = 'SELECT login FROM users WHERE id = ?';
+		} else {
+			switch (db) {
+				case 'gcdb':
+					query = 'SELECT login FROM users WHERE id = ?';
+					db = gcdbconn;
+					break;
+
+				case 'maindb':
+					query = 'SELECT name AS login FROM users WHERE id = ?';
+					db = maindbconn;
+					break;
+
+				default:
+					return cb('Wrong DB');
+			}
+		}
+
+		if (!db) return cb('You\'re not connected to GC MySQL DB');
+
+		db.query(query, [id], function (err, result) {
 			if (err) return cb(err);
 
 			if (result.length !== 0) {
@@ -19,11 +43,35 @@ module.exports.user = user = {
 			}
 		});
 	},
+	getByLogin: function (login, db, cb) {
 
-	getByLogin: function (login, cb) {
-		if (!gcdbconn) return cb('You\'re not connected to GC MySQL DB');
+		var query;
 
-		gcdbconn.query('SELECT id FROM users WHERE login = ?', [login], function (err, result) {
+		if (db instanceof Function) {
+			cb = db;
+			db = gcdbconn;
+			query = 'SELECT id FROM users WHERE login = ?';
+		} else {
+			switch (db) {
+				case 'gcdb':
+					query = 'SELECT id FROM users WHERE login = ?';
+					db = gcdbconn;
+					break;
+
+				case 'maindb':
+					query = 'SELECT id FROM users WHERE name = ?';
+					db = maindbconn;
+					break;
+
+				default:
+					return cb('Wrong DB');
+			}
+		}
+
+		if (!db) return cb('You\'re not connected to GC MySQL DB');
+
+
+		db.query(query, [login], function (err, result) {
 			if (err) return cb(err);
 
 			if (result.length !== 0) {
