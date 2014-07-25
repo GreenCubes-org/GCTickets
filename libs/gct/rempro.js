@@ -253,12 +253,21 @@ module.exports = rempro = {
 					};
 				});
 
-				if (req.user && req.user.group >= ugroup.helper && config && !config.isEdit) {
+				if (req.user && req.user.group >= ugroup.helper && (!config || !config.isEdit)) {
 					gct.getRegionsInfo(obj.regions, function (err, regions) {
 						if (err) callback(err);
 
 						async.each(regions, function (region, callback) {
 							async.waterfall([
+								function serializeCreator(callback) {
+									gcdb.user.getByID(region.creator, function (err, login) {
+										if (err) return callback(err);
+
+										region.creator = login;
+
+										callback(null);
+									});
+								},
 								function serializeFull_accessPlayers(callback) {
 									async.map(region.full_access.players, function (element, callback) {
 										gcdb.user.getByID(element, function (err, login) {
