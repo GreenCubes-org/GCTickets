@@ -1,7 +1,7 @@
 <b><%= rinfo.name %></b>
 <% if (req.user.group >= ugroup.helper) { %>
 <div class='ui fitted divider'></div>
-<b>Создатель:</b> <%= rinfo.creator %>
+<b>Создатель:</b> <%= (rinfo.creator) ? rinfo.creator : '' %>
 <% } %>
 <div class='ui fitted divider'></div>
 <b>Владельцы:</b> <% if (rinfo.full_access.players.length) { rinfo.full_access.players.forEach(function (el, idx) { %><%= el %><% if (idx !== rinfo.full_access.players.length - 1) { %>, <% } %><% }) } %><% if (rinfo.full_access.orgs.length) { %>, <% rinfo.full_access.orgs.forEach(function (el, idx) { %><%= el %><% if (idx !== rinfo.full_access.orgs.length - 1) { %>, <% } %><% }) } %><% if (rinfo.full_access.all) { %>, Все<% } %>
