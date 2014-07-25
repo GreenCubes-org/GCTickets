@@ -54,7 +54,7 @@ exports.parse = function (post, cb) {
 	var urlstart = -1; // beginning of the URL if zero or greater (ignored if -1)
 
 	// aceptable BBcode tags, optionally prefixed with a slash
-	var tagname_re = /^\/?(?:b|i|u|url|link|s|u?list|li)$/i;
+	var tagname_re = /^\/?(?:b|i|u|url|link|s|u?list|li|spoiler)$/i;
 
 	// color names or hex color
 	var color_re = /^(:?black|silver|gray|white|maroon|red|purple|fuchsia|green|lime|olive|yellow|navy|blue|teal|aqua|#(?:[0-9a-f]{3})?[0-9a-f]{3})$/i;
@@ -63,7 +63,7 @@ exports.parse = function (post, cb) {
 	var number_re = /^[\\.0-9]{1,8}$/i;
 
 	// reserved, unreserved, escaped and alpha-numeric [RFC2396]
-	var uri_re = /^[-;\/\?:@&=\+\$,_\.!~\*'\(\)%0-9a-z]{1,512}$/i;
+	var uri_re = /^[-;\/\?:@&=\+\$,_\.!~\*'\(\)%#0-9a-z]{1,512}$/i;
 
 	// main regular expression: CRLF, [tag=option], [tag="option"] [tag] or [/tag]
 	var postfmt_re = /([\r\n])|(?:\[([a-z]{1,16})(?:=(?:"|'|)([^\x00-\x1F"'\(\)<>\[\]]{1,256}))?(?:"|'|)\])|(?:\[\/([a-z]{1,16})\])/ig;
@@ -152,6 +152,10 @@ exports.parse = function (post, cb) {
 			case "s":
 				opentags.push(new taginfo_t(m2l, "</span>"));
 				return "<span style=\"text-decoration: line-through\">";
+
+			case "spoiler":
+				opentags.push(new taginfo_t(m2l, "</div></div>"));
+				return "<div class=\"ui basic accordion\"><div class=\"title\"><i class=\"dropdown icon\"></i>Спойлер</div><div class=\"content\">";
 
 			case "noparse":
 				noparse = true;
