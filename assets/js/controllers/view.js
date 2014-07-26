@@ -363,12 +363,22 @@ app.view = {
 		var ticketId = currentUrl[2];
 		var csrfToken = $('#_csrf').attr('value');
 		$('#gc-reportform .ui.dropdown').dropdown();
+		$('.ui.accordion').accordion();
 
 		var descriptionCode;
 		if ($('#description').length > 0) {
 			$('#description').wysibb({
 				lang: 'ru',
-				buttons: 'bold,italic,underline,|,link,numlist'
+				buttons: 'bold,italic,underline|,link,numlist,|,spoiler',
+				allButtons: {
+					spoiler: {
+						title: "Спойлер",
+						buttonText: 'Spoiler',
+						transform: {
+							'<div class="ui basic accordion"><div class="title"><i class="dropdown icon"></i>Спойлер</div><div class="content">{SELTEXT}</div></div>':'[spoiler]{SELTEXT}[/spoiler]'
+						}
+					}
+				}
 			});
 			descriptionCode = $('#description').html();
 			$('#description').sync();
@@ -376,11 +386,25 @@ app.view = {
 		if ($('#reason').length > 0) {
 			$('#reason').wysibb({
 				lang: 'ru',
-				buttons: 'bold,italic,underline,|,link,numlist'
+				buttons: 'bold,italic,underline|,link,numlist,|,spoiler',
+				allButtons: {
+					spoiler: {
+						title: "Спойлер",
+						buttonText: 'Spoiler',
+						transform: {
+							'<div class="ui basic accordion"><div class="title"><i class="dropdown icon"></i>Спойлер</div><div class="content">{SELTEXT}</div></div>':'[spoiler]{SELTEXT}[/spoiler]'
+						}
+					}
+				}
 			});
 			descriptionCode = $('#reason').html();
 			$('#reason').sync();
 		}
+
+		$('body').on('DOMNodeInserted', '.ui.accordion', function () {
+			$('.ui.accordion').accordion();
+		});
+
 		$('.ui.checkbox').checkbox();
 		$('.gc-helppopup').popup();
 

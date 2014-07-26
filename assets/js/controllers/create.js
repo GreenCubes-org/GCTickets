@@ -2,18 +2,42 @@ var app = app || {};
 
 app.create = {
 	main: function () {
+
 		if ($('#description')) {
 			$('#description').wysibb({
 				lang: 'ru',
-				buttons: 'bold,italic,underline,|,link,numlist'
+				buttons: 'bold,italic,underline|,link,numlist,|,spoiler',
+				allButtons: {
+					spoiler: {
+						title: "Спойлер",
+						buttonText: 'Spoiler',
+						transform: {
+							'<div class="ui basic accordion"><div class="title"><i class="dropdown icon"></i>Спойлер</div><div class="content">{SELTEXT}</div></div>':'[spoiler]{SELTEXT}[/spoiler]'
+						}
+					}
+				}
 			});
 		}
 		if ($('#reason')) {
 			$('#reason').wysibb({
 				lang: 'ru',
-				buttons: 'bold,italic,underline,|,link,numlist'
+				buttons: 'bold,italic,underline|,link,numlist,|,spoiler',
+				allButtons: {
+					spoiler: {
+						title: "Спойлер",
+						buttonText: 'Spoiler',
+						transform: {
+							'<div class="ui basic accordion"><div class="title"><i class="dropdown icon"></i>Спойлер</div><div class="content">{SELTEXT}</div></div>':'[spoiler]{SELTEXT}[/spoiler]'
+						}
+					}
+				}
 			});
 		}
+
+		$('body').on('DOMNodeInserted', '.ui.accordion', function () {
+			$('.ui.accordion').accordion();
+		});
+
 		$('#gc-reportform .ui.dropdown').dropdown();
 
 		$('.ui.checkbox').checkbox();
