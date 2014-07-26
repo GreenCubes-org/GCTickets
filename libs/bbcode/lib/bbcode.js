@@ -66,7 +66,7 @@ exports.parse = function (post, cb) {
 	var uri_re = /^[-;\/\?:@&=\+\$,_\.!~\*'\(\)%#0-9a-z]{1,512}$/i;
 
 	// main regular expression: CRLF, [tag=option], [tag="option"] [tag] or [/tag]
-	var postfmt_re = /([\r\n|\r|\n])|(?:\[([a-z]{1,16})(?:=(?:"|'|)([^\x00-\x1F"'\(\)<>\[\]]{1,256}))?(?:"|'|)\])|(?:\[\/([a-z]{1,16})\])/ig;
+	var postfmt_re = /([\r\n])|(?:\[([a-z]{1,16})(?:=(?:"|'|)([^\x00-\x1F"'\(\)<>\[\]]{1,256}))?(?:"|'|)\])|(?:\[\/([a-z]{1,16})\])/ig;
 
 	// stack frame object
 	function taginfo_t(bbtag, etag) {
