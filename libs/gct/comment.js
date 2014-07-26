@@ -69,7 +69,7 @@ module.exports = comment = {
 								}
 							},
 							function checkUGroup(comment, canModerate, commentCreator, callback) {
-								if (canModerate || comment.owner === commentCreator) {
+								if (canModerate || comment.owner === commentCreator || userGroup >= ugroup.mod) {
 									comment.canModerate = true;
 									callback(null, comment);
 								} else {
