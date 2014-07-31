@@ -22,10 +22,7 @@ module.exports = {
 		colorclass: 'string',
 
 		// Can moderate any product (for example), ex: user can moderate bugreports of ticket system
-		canModerate: 'array',
-
-		// Start page
-		startPage: 'string'
+		canModerate: 'array'
 
 	}
 
