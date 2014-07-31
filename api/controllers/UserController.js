@@ -281,12 +281,12 @@ module.exports = {
 					callback(null, user);
 				});
 			},
-			function checkUserTable(user, callback) {
-				User.findOrCreate({uid: user.id}).done(function (err, user) {
+			function checkUserTable(origUser, callback) {
+				User.findOrCreate({uid: origUser.id}).done(function (err, user) {
 					if (err) return callback(err);
 
 					if (user.prefix === undefined && user.canModerate === undefined) {
-						user.uid = user.id;
+						user.uid = origUser.id;
 						user.canModerate = [];
 						user.ugroup = 0;
 						user.startPage = '/all';
