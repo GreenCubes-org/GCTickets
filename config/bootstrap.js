@@ -53,11 +53,5 @@ module.exports.bootstrap = function (cb) {
 		password: cfg.appdb.password
 	});
 
-	appdbconn.query('TRUNCATE TABLE `user`', function (err, result) {
-		if (err) return cb(err);
-		appdbconn.query('INSERT INTO user (`uid`,`ugroup`,`prefix`,`colorclass`,`canModerate`,`createdAt`,`updatedAt`) SELECT `uid`,`ugroup`,`prefix`,`colorclass`,`canModerate`,`createdAt`,`updatedAt` FROM rights', function (err, result) {
-			if (err) return cb(err);
-			cb();
-		});
-	});
+	cb();
 };
