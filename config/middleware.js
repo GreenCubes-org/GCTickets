@@ -47,7 +47,7 @@ passport.deserializeUser(function (id, done) {
 					} else {
 						user.group = 0; // User have group 0 by default
 						user.canModerate = [];
-						user.mainPage = '/all';
+						user.startPage = '/all';
 					}
 
 					callback(null, user);

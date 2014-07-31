@@ -12,12 +12,12 @@ var mysql = require('mysql');
 module.exports.bootstrap = function (cb) {
 	// Init globals
 	global.appPath = __dirname.replace(/\b\/config\b/g, '');
-	
+
 	global.cfg = require('./local');
-	
+
 	global.gcdb = require('../libs/gcdb');
 	global.gct = require('../libs/gct');
-	
+
 	global.ugroup = {
 		user: 0,
 		helper: 1,
@@ -31,7 +31,7 @@ module.exports.bootstrap = function (cb) {
 		user: cfg.gcdb.user,
 		password: cfg.gcdb.password
 	});
-	
+
 	global.maindbconn = mysql.createPool({
 		host: cfg.maindb.host,
 		database: cfg.maindb.database,
@@ -53,5 +53,11 @@ module.exports.bootstrap = function (cb) {
 		password: cfg.appdb.password
 	});
 
-	cb();
+	appdbconn.query('TRUNCATE TABLE `user`', function (err, result) {
+		if (err) return cb(err);
+		appdbconn.query('INSERT INTO user (`uid`,`ugroup`,`prefix`,`colorclass`,`canModerate`,`createdAt`,`updatedAt`) SELECT `uid`,`ugroup`,`prefix`,`colorclass`,`canModerate`,`createdAt`,`updatedAt` FROM rights', function (err, result) {
+			if (err) return cb(err);
+			cb();
+		});
+	});
 };

@@ -274,14 +274,14 @@ module.exports = {
 					callback(null, user);
 				})(req, res);
 			},
-			function logIn(callback, user) {
+			function logIn(user, callback) {
 				req.logIn(user, function (err) {
 					if (err) return callback(err);
 
 					callback(null, user);
 				});
 			},
-			function checkUserTable(callback, user) {
+			function checkUserTable(user, callback) {
 				User.findOrCreate({uid: user.id}).done(function (err, user) {
 					if (err) return callback(err);
 

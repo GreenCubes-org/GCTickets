@@ -127,10 +127,10 @@ async.waterfall([
 		});
 	},
 	function j(callback) {
-		appdbconn.query('ALTER TABLE `rights` DROP `_waterline_dummy02492`; ', function (err, result) {
+		appdbconn.query('ALTER TABLE `user` DROP `_waterline_dummy02492`; ', function (err, result) {
 			if (err) {
 				if (err.errno === 1091) {
-					console.log('[FIX-DB] DROP _waterline_dummy02492 IN rights - ALREADY REMOVED');
+					console.log('[FIX-DB] DROP _waterline_dummy02492 IN user - ALREADY REMOVED');
 					return callback(null)
 				} else if (err) {
 					console.error('[FIX-DB] ERROR. I\'M SO SORRY.');
