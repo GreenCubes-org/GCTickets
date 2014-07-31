@@ -43,7 +43,7 @@ passport.deserializeUser(function (id, done) {
 						user.prefix = result[0].prefix;
 						user.colorclass = result[0].colorclass;
 						user.canModerate = result[0].canModerate;
-						user.startPage = result[0].startPage;
+						user.startPage = (result[0].startPage) ? result[0].startPage : '/all';
 					} else {
 						user.group = 0; // User have group 0 by default
 						user.canModerate = [];

@@ -285,6 +285,20 @@ module.exports = {
 				User.findOrCreate({uid: user.id}).done(function (err, user) {
 					if (err) return callback(err);
 
+					if (user.prefix === undefined && user.canModerate === undefined) {
+						user.uid = user.id;
+						user.canModerate = [];
+						user.ugroup = 0;
+						user.startPage = '/all';
+
+						user.save(function (err) {
+							if (err) return callback(err);
+							callback(null);
+						});
+
+						return;
+					}
+
 					callback(null);
 				});
 			}
