@@ -155,7 +155,7 @@ module.exports = {
 					});
 			},
 			function getUserInfo(tickets, callback) {
-				Rights.find({
+				User.find({
 					uid: user.id
 				}).done(function(err, rights) {
 					if (err) return callback(err);
@@ -212,6 +212,43 @@ module.exports = {
 		});
 	},
 
+	settingsTpl: function (req, res) {
+		User.findOne({uid: req.user.id}).done(function(err, user) {
+			if (err) throw err;
+
+			res.view('user/settings', {
+				settings: {
+					startPage: (user.startPage) ? user.startPage : '',
+					prefix: (user.prefix) ? user.prefix : '',
+					role: (user.ugroup) ? gct.user.getGroupString(user.ugroup) : ''
+				}
+			});
+		});
+	},
+
+	settings: function (req, res) {
+		if (req.param('startPage').split('.').length === 1) {
+			User.findOne({uid: req.user.id}).done(function(err, user) {
+				if (err) throw err;
+
+				user.startPage = req.param('startPage');
+
+				user.save(function (err) {
+					if (err) throw err;
+
+					res.json({
+						code: 'OK'
+					});
+				});
+			});
+		} else {
+			res.json(400, {
+				code: 'err',
+				message: 'Wrong URL'
+			});
+		}
+	},
+
 	loginTpl: function (req, res) {
 		var message;
 		if (req.query.errcode === '1') message = 'Требуется вход в систему';
@@ -223,21 +260,39 @@ module.exports = {
 	},
 
 	login: function (req, res) {
-		passport.authenticate('local', function (err, user, info) {
-			if (!user) {
-				if (info.message === 'Missing credentials') info.message = 'Введите логин/пароль';
-				return res.json({
-					error: info
+		async.waterfall([
+			function authenticate(callback) {
+				passport.authenticate('local', function (err, user, info) {
+					if (!user) {
+						if (info.message === 'Missing credentials') info.message = 'Введите логин/пароль';
+
+						return res.json({
+							error: info
+						});
+					}
+
+					callback(null, user);
+				})(req, res);
+			},
+			function logIn(callback, user) {
+				req.logIn(user, function (err) {
+					if (err) return callback(err);
+
+					callback(null, user);
+				});
+			},
+			function checkUserTable(callback, user) {
+				User.findOrCreate({uid: user.id}).done(function (err, user) {
+					if (err) return callback(err);
+
+					callback(null);
 				});
 			}
-			req.logIn(user, function (err) {
-				if (err) {
-					return new Error(err);
-				}
-				res.redirect('/');
-				return;
-			});
-		})(req, res);
+		], function (err) {
+			if (err) throw err;
+
+			res.redirect('/');
+		});
 	},
 
 	logout: function (req, res) {

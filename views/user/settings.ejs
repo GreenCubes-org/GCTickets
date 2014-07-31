@@ -1,0 +1,34 @@
+<% backUrl = '/' %>
+<%- partial( '../partials/header') %>
+	<div class="container">
+		<h1>Аккаунт</h1>
+		<div class="ui divider"></div>
+		<div class="container">
+			<form id="gc-reportform">
+				<div class="ui form">
+					<div class="field">
+						<label>Стартовая страница</label>
+						<div class="ui icon input">
+							<a href="<%= settings.startPage %>" class="gc-nostylelink"><%= settings.startPage %></a>
+						</div>
+						<small>Изменить стартовую страницу вы можете на любой странице со списком тикетов.</small>
+					</div>
+					<div class="field">
+						<label>Префикс</label>
+						<div class="ui icon input">
+							<p><%= settings.prefix %></p>
+						</div>
+						<small>Префикс имеют только Хелперы, Модераторы и представители Команды.</small>
+					</div>
+					<div class="field">
+						<label>Ваша роль</label>
+						<div class="ui icon input">
+							<p><%= settings.role %></p>
+						</div>
+						<small>Информация о вашем карьерном росте.</small>
+					</div>
+				</div>
+				<input type="hidden" name="_csrf" value="<%= _csrf %>" />
+			</form>
+		</div>
+	</div>

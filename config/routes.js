@@ -20,6 +20,9 @@ module.exports.routes = {
 	'/users/:user': 'user.profile',
 	'/users/:user/:page': 'user.profile',
 
+	'get /settings': 'user.settingsTpl',
+	'post /settings': 'user.settings',
+
 	// Вход в аккаунт и выход из него
 	'get /login': 'user.loginTpl',
 	'post /login': 'user.login',

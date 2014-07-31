@@ -35,7 +35,7 @@ passport.deserializeUser(function (id, done) {
 				});
 		},
 		function getUserRights(user, callback) {
-				appdbconn.query('SELECT ugroup, prefix, colorclass, canModerate FROM rights WHERE uid = ?', [id], function (err, result) {
+				appdbconn.query('SELECT * FROM user WHERE uid = ?', [id], function (err, result) {
 					if (err) return callback(err);
 
 					if (result.length !== 0) {
@@ -43,8 +43,11 @@ passport.deserializeUser(function (id, done) {
 						user.prefix = result[0].prefix;
 						user.colorclass = result[0].colorclass;
 						user.canModerate = result[0].canModerate;
+						user.startPage = result[0].startPage;
 					} else {
 						user.group = 0; // User have group 0 by default
+						user.canModerate = [];
+						user.mainPage = '/all';
 					}
 
 					callback(null, user);

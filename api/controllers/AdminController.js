@@ -13,7 +13,7 @@ module.exports = {
 	usersRights: function (req, res) {
 		async.waterfall([
 			function getRights(cb) {
-				Rights.find().done(function (err, rights) {
+				User.find().done(function (err, rights) {
 					if (err) return callback(err);
 
 					cb(null, rights);
@@ -127,7 +127,7 @@ module.exports = {
 				callback(null, obj);
 			},
 			function saveToDB(obj, callback) {
-				Rights.findOrCreate({
+				User.findOrCreate({
 					uid: obj.uid
 				}).done(function (err, rights) {
 					if (err) return callback(err);
@@ -175,7 +175,7 @@ module.exports = {
 			});
 		}
 		
-		Rights.findOne({
+		User.findOne({
 			uid: uid
 		}).done(function (err, rights) {
 			if (err) throw err;

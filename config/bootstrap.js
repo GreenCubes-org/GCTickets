@@ -53,5 +53,9 @@ module.exports.bootstrap = function (cb) {
 		password: cfg.appdb.password
 	});
 
-	cb();
+	appdbconn.query('INSERT INTO user SELECT * FROM rights',  function (err, result) {
+		if (err) return cb(err);
+
+		cb();
+	});
 };

@@ -1,7 +1,7 @@
 module.exports = user = {
 	getGroup: function getGroup(user, cb) {
         if (typeof user === 'number') {
-            appdbconn.query('SELECT ugroup FROM rights WHERE uid = ?', [user], function (err, result) {
+            appdbconn.query('SELECT ugroup FROM user WHERE uid = ?', [user], function (err, result) {
                 if (err) return cb(err);
 
                 if (result.length !== 0) {
@@ -14,7 +14,7 @@ module.exports = user = {
             gcdb.getByID(user, function (err, uid) {
                 if (err) return cb(err);
 
-                appdbconn.query('SELECT ugroup FROM rights WHERE uid = ?', [user], function (err, result) {
+                appdbconn.query('SELECT ugroup FROM user WHERE uid = ?', [user], function (err, result) {
                     if (err) return cb(err);
 
                     if (result.length !== 0) {
@@ -50,7 +50,7 @@ module.exports = user = {
 
 	getPrefix: function getPrefix(user, cb) {
         if (typeof(user) === 'number') {
-            appdbconn.query('SELECT prefix FROM rights WHERE uid = ?', [user], function (err, result) {
+            appdbconn.query('SELECT prefix FROM user WHERE uid = ?', [user], function (err, result) {
                 if (err) return cb(err);
 
                 if (result.length !== 0) {
@@ -63,7 +63,7 @@ module.exports = user = {
             gcdb.user.getByLogin(user, function (err, uid) {
                 if (err) return cb(err);
 
-                appdbconn.query('SELECT prefix FROM rights WHERE uid = ?', [uid], function (err, result) {
+                appdbconn.query('SELECT prefix FROM user WHERE uid = ?', [uid], function (err, result) {
                     if (err) return cb(err);
 
                     if (result.length !== 0) {
@@ -80,7 +80,7 @@ module.exports = user = {
 
 	getColorClass: function getColorClass(user, cb) {
         if (typeof user === 'number') {
-            appdbconn.query('SELECT colorclass FROM rights WHERE uid = ?', [user], function (err, result) {
+            appdbconn.query('SELECT colorclass FROM user WHERE uid = ?', [user], function (err, result) {
                 if (err) return cb(err);
 
                 if (result.length !== 0) {
@@ -93,7 +93,7 @@ module.exports = user = {
             gcdb.getByID(user, function (err, uid) {
                 if (err) return cb(err);
 
-                appdbconn.query('SELECT colorclass FROM rights WHERE uid = ?', [user], function (err, result) {
+                appdbconn.query('SELECT colorclass FROM user WHERE uid = ?', [user], function (err, result) {
                     if (err) return cb(err);
 
                     if (result.length !== 0) {

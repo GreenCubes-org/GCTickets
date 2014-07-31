@@ -8,7 +8,7 @@ module.exports = {
   
 	route: function(req,res) {
 		if (req.user) {
-			res.redirect('/all');
+			res.redirect(req.user.mainPage);
 		} else {
 			res.view('home/preview', {
 				layout: false

@@ -176,7 +176,7 @@ module.exports = {
 				if (pass) return callback(null, newComment, true, null, ticket);
 				
 				if (req.user) {
-					Rights.find({
+					User.find({
 						uid: req.user.id
 					}).done(function (err, rights) {
 						if (err) return callback(err);

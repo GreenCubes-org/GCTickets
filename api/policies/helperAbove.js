@@ -4,7 +4,7 @@
 module.exports = function (req, res, ok) {
 
 	if (req.user) {
-		Rights.find({
+		User.find({
 			uid: req.user.id
 		}).done(function (err, rights) {
 			if (err) throw err;

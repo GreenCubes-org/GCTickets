@@ -2,7 +2,7 @@
 	<a href="<%= backUrl %>" class="item">
 		<i class="reply mail icon"></i> Назад
 	</a>
-	<a href="/all" class="item" title="Список всех тикетов"><i class="reorder icon"></i></a>
+	<a href="<%= req.user.startPage %>" class="item" title="Стартовая страница (изменяемая)"><i class="reorder icon"></i></a>
 	<div class="right menu">
 		<%- partial( 'userpanel')%>
 	</div>

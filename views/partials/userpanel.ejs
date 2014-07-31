@@ -4,6 +4,7 @@
 		<% if (req.user.prefix) { %><%= req.user.prefix %><% } %>&nbsp;<%= req.user.username %> <i class="icon dropdown"></i>
 		<div class="menu">
 			<a href="/user" class="item"><i class="user icon"></i>Ваш профиль</a>
+			<a href="/settings" class="item"><i class="setting icon"></i>Аккаунт</a>
 		<% if (req.user.group === 3) { %>
 			<a href="/admin" class="item"><i class="dashboard icon"></i>Админпанель</a>
 		<% } %>
