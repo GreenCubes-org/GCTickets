@@ -446,91 +446,162 @@ span.s-regionstuffitemcomment {
 	background-color: rgb(231, 238, 250);
 	box-shadow: 2px 0px 0px rgb(60, 120, 216) inset;
 }
+.l-menu.new.active {
+	box-shadow: 3px 0px 0px rgb(60, 120, 216) inset !important;
+}
+
 .l-menu.rejected,
 .t-status.rejected {
 	background-color: rgb(219, 177, 198);
 	box-shadow: 2px 0px 0px rgb(166, 77, 121) inset;
 }
+.l-menu.rejected.active
+{
+	box-shadow: 3px 0px 0px rgb(166, 77, 121) inset !important;
+}
+
 .l-menu.specify,
 .t-status.specify {
 	background-color: rgb(251, 196, 194);
 	box-shadow: 2px 0px 0px rgb(246, 107, 101) inset;
 }
+.l-menu.specify.active {
+	box-shadow: 3px 0px 0px rgb(246, 107, 101) inset !important;
+}
+
 .l-menu.declined,
 .t-status.declined {
 	background-color: rgb(255, 203, 203);
 	box-shadow: 2px 0px 0px rgb(204, 0, 0) inset;
 }
+.l-menu.declined.active {
+	box-shadow: 3px 0px 0px rgb(204, 0, 0) inset !important;
+}
+
 .l-menu.hidden,
 .t-status.hidden {
 	background-color: rgb(214, 214, 214);
 	box-shadow: 2px 0px 0px rgb(0, 0, 0) inset;
 }
+.l-menu.hidden.active {
+	box-shadow: 3px 0px 0px rgb(0, 0, 0) inset !important;
+}
+
 .l-menu.removed,
 .t-status.removed {
 	background-color: rgb(214, 214, 214);
 	box-shadow: 2px 0px 0px rgb(0, 0, 0) inset;
 }
+.l-menu.removed.active {
+	box-shadow: 3px 0px 0px rgb(0, 0, 0) inset !important;
+}
+
 .l-menu.helpfixed,
 .t-status.helpfixed {
 	background-color: rgb(184, 218, 250);
 	box-shadow: 2px 0px 0px rgb(11, 83, 148) inset;
 }
+.l-menu.helpfixed.active {
+	box-shadow: 3px 0px 0px rgb(11, 83, 148) inset !important;
+}
+
 .l-menu.inreview,
 .t-status.inreview {
 	background-color: rgb(194, 221, 183);
 	box-shadow: 2px 0px 0px rgb(106, 168, 79) inset;
 }
+.l-menu.inreview.active {
+	box-shadow: 3px 0px 0px rgb(106, 168, 79) inset !important;
+}
+
 .l-menu.delayed,
 .t-status.delayed {
 	background-color: rgb(255, 239, 191);
 	box-shadow: 2px 0px 0px rgb(191, 144, 0) inset;
 }
+.l-menu.delayed.active {
+	box-shadow: 3px 0px 0px rgb(191, 144, 0) inset !important;
+}
+
 .l-menu.accepted,
 .t-status.accepted {
 	background-color: rgb(205, 222, 226);
 	box-shadow: 2px 0px 0px rgb(117, 163, 174) inset;
 }
+.l-menu.accepted.active {
+	box-shadow: 3px 0px 0px rgb(117, 163, 174) inset !important;
+}
+
 .l-menu.befixed,
 .t-status.befixed {
 	background-color: rgb(212, 241, 200);
 	box-shadow: 2px 0px 0px rgb(56, 118, 29) inset;
 }
+.l-menu.befixed.active {
+	box-shadow: 3px 0px 0px rgb(56, 118, 29) inset !important;
+}
+
 .l-menu.done,
 .t-status.done {
 	background-color: rgb(216, 255, 216);
 	box-shadow: 2px 0px 0px rgb(39, 216, 39) inset;
 }
+.l-menu.done.active {
+	box-shadow: 3px 0px 0px rgb(39, 216, 39) inset !important;
+}
+
 .l-menu.fixed,
 .t-status.fixed {
 	background-color: rgb(216, 255, 216);
 	box-shadow: 2px 0px 0px rgb(39, 216, 39) inset;
 }
+.l-menu.fixed.active {
+	box-shadow: 3px 0px 0px rgb(39, 216, 39) inset !important;
+}
 
 .l-menu.main,
 .t-status.main {
-	box-shadow: 2px 0px 0px #69A26D inset;
 	background-color: #cadecb;
+	box-shadow: 2px 0px 0px #69A26D inset;
 }
+.l-menu.main.active {
+	box-shadow: 3px 0px 0px #69A26D inset !important;
+}
+
 .l-menu.rpg,
 .t-status.rpg {
 	background-color: #efd4eb;
 	box-shadow: 2px 0px 0px #D58CC9 inset;
 }
+.l-menu.rpg.active {
+	box-shadow: 3px 0px 0px #D58CC9 inset !important;
+}
+
 .l-menu.apocalyptic,
 .t-status.apocalyptic {
 	background-color: #ffe0a2;
 	box-shadow: 2px 0px 0px #FFBF40 inset;
 }
+.l-menu.apocalyptic.active {
+	box-shadow: 3px 0px 0px #FFBF40 inset !important;
+}
+
 .l-menu.websites,
 .t-status.websites {
 	background-color: #89cb96;
 	box-shadow: 2px 0px 0px #32713F inset;
 }
+.l-menu.websites.active {
+	box-shadow: 3px 0px 0px #32713F inset !important;
+}
+
 .l-menu.unknown,
 .t-status.unknown {
 	background-color: rgb(214, 214, 214);
 	box-shadow: 2px 0px 0px rgb(0, 0, 0) inset;
+}
+.l-menu.unknown.active {
+	box-shadow: 3px 0px 0px rgb(0, 0, 0) inset !important;
 }
 
 /* List styles */
