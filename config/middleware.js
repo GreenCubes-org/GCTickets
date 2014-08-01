@@ -131,7 +131,7 @@ module.exports = {
 
 			app.use(function (req, res, next) {
 
-				if (sails.history && ['/comments','/csrfToken'].indexOf(req.path) === -1) {
+				if (sails.history && ['/comments', '/csrfToken'].indexOf(req.path) === -1 && sails.history[0] !== req.url) {
 					sails.history = [
 						req.url,
 						sails.history[0],
@@ -143,7 +143,11 @@ module.exports = {
 					sails.history = [ req.url ];
 				}
 
-				req.history = sails.history;
+
+
+				if (['/comments', '/csrfToken'].indexOf(req.path) === -1 && ['all', 'bugreports','rempros','bans','unbans','admreqs','user','users'].indexOf(req.path.split('/')[1]) !== -1) {
+					sails.historySpec = req.url;
+				}
 
 				next();
 			});
@@ -176,7 +180,7 @@ module.exports = {
 		},
 
 		bodyParser: function () {
-			return express.bodyParser();	
+			return express.bodyParser();
 		}
 
 	}
