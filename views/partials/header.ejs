@@ -4,7 +4,7 @@
 		<i class="reply mail icon"></i> Назад
 	</a>
 	<% } %>
-	<a href="<%= (req.user && req.user.startPage) ? req.user.startPage : '/all' %>" class="item" title="<%= (req.user && req.user.startPage) ? 'Стартовая страница (изменяемая)' : 'Все тикеты' %>"><i class="reorder icon"></i></a>
+	<a href="<%= (req.user && req.user.startPage) ? req.user.startPage : '/all' %>" class="item" title="<%= (req.user && req.user.startPage) ? 'Стартовая страница (изменяемая)' : 'Все тикеты' %>"><i class="home icon"></i></a>
 	<div class="right menu">
 		<%- partial( 'userpanel')%>
 	</div>
