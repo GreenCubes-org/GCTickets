@@ -53,7 +53,7 @@ module.exports = comment = {
 							},
 							function getRights(comment, callback) {
 								if (userId && bugreportProduct) {
-									U.find({
+									User.find({
 										uid: userId
 									}).done(function (err, rights) {
 										if (err) return callback(err);

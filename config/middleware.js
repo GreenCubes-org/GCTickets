@@ -129,6 +129,25 @@ module.exports = {
 
 			app.use(flash());
 
+			app.use(function (req, res, next) {
+
+				if (sails.history && ['/comments','/csrfToken'].indexOf(req.path) === -1) {
+					sails.history = [
+						req.url,
+						sails.history[0],
+						sails.history[1],
+						sails.history[2],
+						sails.history[3],
+					]
+				} else if (!sails.history) {
+					sails.history = [ req.url ];
+				}
+
+				req.history = sails.history;
+
+				next();
+			});
+
 			app.locals({
 				version: require('../package.json').version,
 				scripts: ['jquery.js', 'sem.js', 'uscore.js'],
