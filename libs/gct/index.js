@@ -715,7 +715,7 @@ module.exports.processStatus = processStatus = function (req, res, type, canMode
 	}
 };
 
-module.exports.getRegionsInfo = getRegionsInfo = function getRegionsInfo(regions, cb) {
+module.exports.getRegionsInfo = getRegionsInfo = function getRegionsInfo(regions, ugroup, cb) {
 	async.map(regions, function (element, callback) {
 
 		element = {
@@ -738,7 +738,7 @@ module.exports.getRegionsInfo = getRegionsInfo = function getRegionsInfo(regions
 		async.waterfall([
 			function getRegionIdNCreator(callback) {
 				// Skip status logic for non-auth users & non-helpers and higher.
-				if (req.user && req.user.group < ugroup.helper || !req.user) element.status = true;
+				if (ugroup < ugroup.helper) element.status = true;
 
 				gcmainconn.query('SELECT `id`, `creator` FROM regions WHERE name = ?', [element.name], function (err, region) {
 					if (err) return callback(err);

@@ -254,7 +254,7 @@ module.exports = rempro = {
 				});
 
 				if (req.user && req.user.group >= ugroup.helper && (!config || !config.isEdit)) {
-					gct.getRegionsInfo(obj.regions, function (err, regions) {
+					gct.getRegionsInfo(obj.regions, (req.user) ? req.user.group : 0, function (err, regions) {
 						if (err) callback(err);
 
 						async.each(regions, function (region, callback) {
