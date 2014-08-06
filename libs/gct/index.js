@@ -923,8 +923,6 @@ module.exports.getRegionsInfo = getRegionsInfo = function getRegionsInfo(regions
 							if (result.length === 0) {
 								callback('Incorrect user!');
 							} else {
-								obj.user.gameId = result[0].id;
-
 								if (result[0].isBanned) {
 									element.status = 'inactive';
 								} else if (result[0].bannedTillTS > result[0].currentTimestamp) {
