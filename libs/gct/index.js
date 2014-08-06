@@ -893,7 +893,7 @@ module.exports.getRegionsInfo = getRegionsInfo = function getRegionsInfo(regions
 					return callback(null);
 				}
 
-				if (!element.full_access.orgs.length) {
+				if (element.full_access.orgs.length) {
 					element.status = 'containsOrgs';
 
 					return callback(null);
