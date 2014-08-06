@@ -138,7 +138,7 @@ async.waterfall([
 				}
 			}
 			
-			console.log('[FIX-DB] DROP _waterline_dummy02492 IN rights - SUCCESS');
+			console.log('[FIX-DB] DROP _waterline_dummy02492 IN user - SUCCESS');
 			callback(null);
 		});
 	},
