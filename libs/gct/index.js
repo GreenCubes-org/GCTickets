@@ -939,7 +939,7 @@ module.exports.getRegionsInfo = getRegionsInfo = function getRegionsInfo(regions
 					if (err) return callback(err);
 
 					callback(null);
-				});;
+				});
 			},
 			function serializeStatus(callback) {
 				element.status = gct.serializeRegionActivity(element.status);
