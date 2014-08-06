@@ -270,10 +270,13 @@ module.exports = rempro = {
 								},
 								function serializeFull_accessPlayers(callback) {
 									async.map(region.full_access.players, function (element, callback) {
-										gcdb.user.getByID(element, 'maindb', function (err, login) {
+										gcdb.user.getByID(element.uid, 'maindb', function (err, login) {
 											if (err) return callback(err);
 
-											callback(null, login);
+											callback(null, {
+												name: login,
+												lastseen: moment(element.lastseen).format('D MMM YYYY, H:mm')
+											});
 										});
 									}, function (err, array) {
 										if (err) return callback(err);
@@ -285,10 +288,13 @@ module.exports = rempro = {
 								},
 								function serializeBuild_accessPlayers(callback) {
 									async.map(region.build_access.players, function (element, callback) {
-										gcdb.user.getByID(element, 'maindb', function (err, login) {
+										gcdb.user.getByID(element.uid, 'maindb', function (err, login) {
 											if (err) return callback(err);
 
-											callback(null, login);
+											callback(null, {
+												name: login,
+												lastseen: moment(element.lastseen).format('D MMM YYYY, H:mm')
+											});
 										});
 									}, function (err, array) {
 										if (err) return callback(err);

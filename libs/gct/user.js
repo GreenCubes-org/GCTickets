@@ -11,7 +11,7 @@ module.exports = user = {
                 }
             });
         } if (typeof user === 'string') {
-            gcdb.getByID(user, function (err, uid) {
+            gcdb.user.getByID(user, function (err, uid) {
                 if (err) return cb(err);
 
                 appdbconn.query('SELECT ugroup FROM user WHERE uid = ?', [user], function (err, result) {
@@ -112,7 +112,7 @@ module.exports = user = {
 		async.waterfall([
 			function checkData(callback) {
 				if (typeof user === 'number') {
-					gcdb.getByID(user, function (err, login) {
+					gcdb.user.getByID(user, function (err, login) {
 						if (err) return callback(err);
 
 						callback(null, login);

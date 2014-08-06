@@ -621,3 +621,31 @@ span.s-regionstuffitemcomment {
 	position: relative;
 	padding-right: 0em !important;
 }
+
+/* Region info status styles */
+
+.ui.label.inactive {
+	color: inherit;
+	background-color: #B71919;
+}
+
+.ui.label.inactivewithtempbans {
+	color: inherit;
+	background-color: #F26D00;
+}
+
+.ui.label.activebuilders {
+	color: inherit;
+	background-color: #D3B000;
+}
+
+.ui.label.containsorgs {
+	color: inherit;
+	background-color: #566FFF;
+
+}
+
+.ui.label.activeowners {
+	color: inherit;
+	background-color: #00AD11;
+}

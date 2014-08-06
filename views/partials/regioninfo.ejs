@@ -1,13 +1,13 @@
-<b><%= rinfo.name %></b>
+<b><%= rinfo.name %></b> <% if (req.user && req.user.group >= ugroup.helper && rinfo.status.className !== 'noregion') { %><div class='ui small label <%= rinfo.status.className %>'><%= rinfo.status.text %></div><% } %>
 <% if (rinfo.creator) { %>
 <% if (req.user.group >= ugroup.helper) { %>
 <div class='ui fitted divider'></div>
 <b>Создатель:</b> <%= (rinfo.creator) ? rinfo.creator : '' %>
 <% } %>
 <div class='ui fitted divider'></div>
-<b>Владельцы:</b> <% if (rinfo.full_access.players.length) { rinfo.full_access.players.forEach(function (el, idx) { %><%= el %><% if (idx !== rinfo.full_access.players.length - 1) { %>, <% } %><% }) } %><% if (rinfo.full_access.orgs.length) { %>, <% rinfo.full_access.orgs.forEach(function (el, idx) { %><%= el %><% if (idx !== rinfo.full_access.orgs.length - 1) { %>, <% } %><% }) } %><% if (rinfo.full_access.all) { %>, Все<% } %>
+<b>Владельцы:</b> <% if (rinfo.full_access.players.length) { rinfo.full_access.players.forEach(function (el, idx) { %><span title='<%= el.lastseen %>'><%= el.name %></span><% if (idx !== rinfo.full_access.players.length - 1) { %>, <% } %><% }) } %><% if (rinfo.full_access.orgs.length) { %>, <% rinfo.full_access.orgs.forEach(function (el, idx) { %><%= el %><% if (idx !== rinfo.full_access.orgs.length - 1) { %>, <% } %><% }) } %><% if (rinfo.full_access.all) { %>, Все<% } %>
 <div class='ui fitted divider'></div>
-<b>Могут строить:</b> <% if (rinfo.build_access.players.length) { rinfo.build_access.players.forEach(function (el, idx) { %><%= el %><% if (idx !== rinfo.build_access.players.length - 1) { %>, <% } %><% }) } %><% if (rinfo.build_access.orgs.length) { %>, <% rinfo.build_access.orgs.forEach(function (el, idx) { %><%= el %><% if (idx !== rinfo.build_access.orgs.length - 1) { %>, <% } %><% }) } %><% if (rinfo.build_access.all) { %>, Все<% } %>
+<b>Могут строить:</b> <% if (rinfo.build_access.players.length) { rinfo.build_access.players.forEach(function (el, idx) { %><span title='<%= el.lastseen %>'><%= el.name %></span><% if (idx !== rinfo.build_access.players.length - 1) { %>, <% } %><% }) } %><% if (rinfo.build_access.orgs.length) { %>, <% rinfo.build_access.orgs.forEach(function (el, idx) { %><%= el %><% if (idx !== rinfo.build_access.orgs.length - 1) { %>, <% } %><% }) } %><% if (rinfo.build_access.all) { %>, Все<% } %>
 <% } else { %>
 <div class='ui fitted divider'></div>
 <span style='text-align: center;'>Данного региона нет.</span>

@@ -369,6 +369,53 @@ module.exports.serializeList = serializeList = function (type) {
 	}
 };
 
+module.exports.serializeRegionActivity = serializeRegionActivity = function (status) {
+	switch (status) {
+		case 'activeOwners':
+			return {
+				className: 'activeowners',
+				text: 'Активен'
+			}
+
+		case 'containsOrgs':
+			return {
+				className: 'containsorgs',
+				text: 'Есть организации'
+			}
+
+		case 'activeBuilders':
+			return {
+				className: 'activebuilders',
+				text: 'Есть билдеры'
+			}
+
+		case 'inactiveWithTempBans':
+			return {
+				className: 'inactivewithtempbans',
+				text: 'Есть врем. баны'
+			}
+
+		case 'inactive':
+			return {
+				className: 'inactive',
+				text: 'Неактивен'
+			}
+
+		case 'noRegion':
+			return {
+				className: 'noregion',
+				text: 'Нет региона'
+			}
+
+		default:
+			return {
+				className: 'noregion',
+				text: 'Нет региона'
+			}
+	}
+};
+
+
 module.exports.handleUpload = handleUpload = function (req, res, ticket, cb) {
 	if (typeof(ticket) === 'function') cb = ticket;
 
@@ -684,73 +731,226 @@ module.exports.getRegionsInfo = getRegionsInfo = function getRegionsInfo(regions
 				players: [],
 				orgs: [],
 				all: false
-			}
+			},
+			status: null
 		};
 
-		gcmainconn.query('SELECT `id`, `creator` FROM regions WHERE name = ?', [element.name], function (err, region) {
-			if (err) return callback(err);
+		async.waterfall([
+			function getRegionIdNCreator(callback) {
+				// Skip status logic for non-auth users & non-helpers and higher.
+				if (req.user && req.user.group < ugroup.helper || !req.user) element.status = true;
 
-			if (!region.length) return callback(null, element);
+				gcmainconn.query('SELECT `id`, `creator` FROM regions WHERE name = ?', [element.name], function (err, region) {
+					if (err) return callback(err);
 
-			element.id = region[0].id;
-			element.creator = region[0].creator;
+					if (!region.length) {
+						element.status = 'noRegion';
 
-			gcmainconn.query('SELECT * FROM regions_rights WHERE region = ?', [element.id], function (err, rights) {
-				if (err) return callback(err);
-
-				for (var i = 0; i < rights.length; i++) {
-					/* right id: full - 0, build - 2, grant - 1, create_child - 9 */
-					if (rights[i].right === 0) {
-						if (rights[i].entityType === 1) {
-							element.full_access.players.push(rights[i].entityId);
-						}
-
-						if (rights[i].entityType === 2) {
-							element.full_access.orgs.push(rights[i].entityId);
-						}
-
-						if (rights[i].entityType === 3) {
-							element.full_access.all = true;
-						}
+						return callback(null);
 					}
 
-					if ([1, 2, 9].indexOf(rights[i].right) !== -1) {
-						if (rights[i].entityType === 1) {
-							element.build_access.players.push(rights[i].entityId);
-						}
+					element.id = region[0].id;
+					element.creator = region[0].creator;
 
-						if (rights[i].entityType === 2) {
-							element.build_access.orgs.push(rights[i].entityId);
-						}
-
-						if (rights[i].entityType === 3) {
-							element.build_access.all = true;
-						}
-					}
+					callback(null);
+				});
+			},
+			function getOwnersNMember(callback) {
+				if (element.status) {
+					return callback(null);
 				}
 
-				element.full_access.players = element.full_access.players.filter(function(elem, pos) {
-					return element.full_access.players.indexOf(elem) === pos;
+				gcmainconn.query('SELECT * FROM regions_rights WHERE region = ?', [element.id], function (err, rights) {
+					if (err) return callback(err);
+
+					for (var i = 0; i < rights.length; i++) {
+						/* right id: full - 0, build - 2, grant - 1, create_child - 9 */
+						if (rights[i].right === 0) {
+							if (rights[i].entityType === 1) {
+								element.full_access.players.push(rights[i].entityId);
+							}
+
+							if (rights[i].entityType === 2) {
+								element.full_access.orgs.push(rights[i].entityId);
+							}
+
+							if (rights[i].entityType === 3) {
+								element.full_access.all = true;
+							}
+						}
+
+						if ([1, 2, 9].indexOf(rights[i].right) !== -1) {
+							if (rights[i].entityType === 1) {
+								element.build_access.players.push(rights[i].entityId);
+							}
+
+							if (rights[i].entityType === 2) {
+								element.build_access.orgs.push(rights[i].entityId);
+							}
+
+							if (rights[i].entityType === 3) {
+								element.build_access.all = true;
+							}
+						}
+					}
+
+					element.full_access.players = element.full_access.players.filter(function(elem, pos) {
+						return element.full_access.players.indexOf(elem) === pos;
+					});
+
+					element.full_access.orgs = element.full_access.orgs.filter(function(elem, pos) {
+						return element.full_access.orgs.indexOf(elem) === pos;
+					});
+
+					element.build_access.players = element.build_access.players.filter(function(elem, pos) {
+						return element.build_access.players.indexOf(elem) === pos;
+					});
+
+					element.build_access.orgs = element.build_access.orgs.filter(function(elem, pos) {
+						return element.build_access.orgs.indexOf(elem) === pos;
+					});
+
+					callback(null);
+				});
+			},
+			function getLastseens4Fulls(callback) {
+				if (element.status) {
+					return callback(null);
+				}
+
+				async.map(element.full_access.players, function (element, callback) {
+					gct.user.getLastseen(element, function (err, time) {
+						if (err) return callback(err);
+
+						time = new Date(time);
+
+						callback(null, {
+							uid: element,
+							lastseen: time.toLocaleString()
+						});
+					});
+				}, function (err, array) {
+					if (err) return callback(err);
+
+					element.full_access.players = array;
+
+					callback(null);
+				});
+			},
+			function getLastseens4Builds(callback) {
+				if (element.status) {
+					return callback(null);
+				}
+
+				async.map(element.build_access.players, function (element, callback) {
+					gct.user.getLastseen(element, function (err, time) {
+						if (err) return callback(err);
+
+						time = new Date(time);
+
+						callback(null, {
+							uid: element,
+							lastseen: time.toLocaleString()
+						});
+					});
+				}, function (err, array) {
+					if (err) return callback(err);
+
+					element.build_access.players = array;
+
+					callback(null);
+				});
+			},
+			function checkFullOwners(callback) {
+				if (element.status) {
+					return callback(null);
+				}
+
+				element.full_access.players.forEach(function (element) {
+					if ((element.lastseens + 1814400) * 1000 > Date.now()) {
+						element.status = 'activeOwners';
+
+						return callback(null);
+					}
+
+					return;
 				});
 
-				element.full_access.orgs = element.full_access.orgs.filter(function(elem, pos) {
-					return element.full_access.orgs.indexOf(elem) === pos;
+				callback(null);
+			},
+			function check4Orgs(callback) {
+				if (element.status) {
+					return callback(null);
+				}
+
+				if (element.full_access.orgs.length) {
+					element.status = 'containsOrgs';
+
+					return callback(null);
+				}
+
+				callback(null);
+			},
+			function checkBuilders(callback) {
+				if (element.status) {
+					return callback(null);
+				}
+
+				element.build_access.players.forEach(function (element) {
+					if (element.lastseens + 1814400 > Date.now()) {
+						element.status = 'activeBuilders';
+
+						return callback(null);
+					}
+
+					return;
 				});
 
-				element.build_access.players = element.build_access.players.filter(function(elem, pos) {
-					return element.build_access.players.indexOf(elem) === pos;
+				callback(null);
+			},
+			function check4Bans(callback) {
+				if (element.status) {
+					return callback(null);
+				}
+
+				element.full_access.players.forEach(function (element) {
+					gcdb.user.getByID(element.uid, 'maindb', function (err, login) {
+						if (err) return callback(err);
+
+						maindbconn.query('SELECT `id`, `isBanned`, `bannedTill`, UNIX_TIMESTAMP(`bannedTill`) AS `bannedTillTS`, UNIX_TIMESTAMP(NOW()) AS `currentTimestamp` FROM users WHERE name = ?', [login], function (err, result) {
+							if (err) return callback(err);
+
+							if (result.length === 0) {
+								callback('Incorrect user!');
+							} else {
+								obj.user.gameId = result[0].id;
+
+								if (result[0].isBanned) {
+									element.status = 'inactive';
+								} else if (result[0].bannedTillTS > result[0].currentTimestamp) {
+									element.status = 'inactiveWithTempBans';
+								} else {
+									element.status = 'inactive';
+								}
+
+								callback(null);
+							}
+						});
+					});
 				});
+			},
+			function serializeStatus(callback) {
+				element.status = gct.serializeRegionActivity(element.status);
 
-				element.build_access.orgs = element.build_access.orgs.filter(function(elem, pos) {
-					return element.build_access.orgs.indexOf(elem) === pos;
-				});
+				callback(null);
+			}
+		], function (err) {
+			if (err) return callback(err);
 
-				callback(null, element);
-			});
-
+			callback(null, element);
 		});
 	}, function (err, obj) {
-		if (err) cb(err);
+		if (err) return cb(err);
 
 		cb(null, obj);
 	});
