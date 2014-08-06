@@ -913,7 +913,7 @@ module.exports.getRegionsInfo = getRegionsInfo = function getRegionsInfo(regions
 					return callback(null);
 				}
 
-				element.full_access.players.forEach(function (element) {
+				async.forEach(function (element, callback) {
 					gcdb.user.getByID(element.uid, 'maindb', function (err, login) {
 						if (err) return callback(err);
 
@@ -935,7 +935,11 @@ module.exports.getRegionsInfo = getRegionsInfo = function getRegionsInfo(regions
 							}
 						});
 					});
-				});
+				}, function (err) {
+					if (err) return callback(err);
+
+					callback(null);
+				});;
 			},
 			function serializeStatus(callback) {
 				element.status = gct.serializeRegionActivity(element.status);
