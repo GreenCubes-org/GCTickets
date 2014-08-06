@@ -375,43 +375,43 @@ module.exports.serializeRegionActivity = serializeRegionActivity = function (sta
 			return {
 				className: 'activeowners',
 				text: 'Активен'
-			}
+			};
 
 		case 'containsOrgs':
 			return {
 				className: 'containsorgs',
 				text: 'Есть организации'
-			}
+			};
 
 		case 'activeBuilders':
 			return {
 				className: 'activebuilders',
 				text: 'Есть билдеры'
-			}
+			};
 
 		case 'inactiveWithTempBans':
 			return {
 				className: 'inactivewithtempbans',
 				text: 'Есть врем. баны'
-			}
+			};
 
 		case 'inactive':
 			return {
 				className: 'inactive',
 				text: 'Неактивен'
-			}
+			};
 
 		case 'noRegion':
 			return {
 				className: 'noregion',
 				text: 'Нет региона'
-			}
+			};
 
 		default:
 			return {
 				className: 'noregion',
 				text: 'Нет региона'
-			}
+			};
 	}
 };
 
@@ -877,7 +877,6 @@ module.exports.getRegionsInfo = getRegionsInfo = function getRegionsInfo(regions
 				}
 
 				element.full_access.players.forEach(function (element) {
-
 					if ((element.lastseen + 1814400) * 1000 > Date.now()) {
 						element.status = 'activeOwners';
 
@@ -894,7 +893,7 @@ module.exports.getRegionsInfo = getRegionsInfo = function getRegionsInfo(regions
 					return callback(null);
 				}
 
-				if (element.full_access.orgs.length) {
+				if (!element.full_access.orgs.length) {
 					element.status = 'containsOrgs';
 
 					return callback(null);
@@ -908,7 +907,7 @@ module.exports.getRegionsInfo = getRegionsInfo = function getRegionsInfo(regions
 				}
 
 				element.build_access.players.forEach(function (element) {
-					if (element.lastseen + 1814400 > Date.now()) {
+					if ((element.lastseen + 1814400) * 1000 > Date.now()) {
 						element.status = 'activeBuilders';
 
 						return callback(null);
@@ -924,8 +923,8 @@ module.exports.getRegionsInfo = getRegionsInfo = function getRegionsInfo(regions
 					return callback(null);
 				}
 
-				async.forEach(element.full_access,function (element, callback) {
-					gcdb.user.getByID(element.uid, 'maindb', function (err, login) {
+				async.forEach(element.full_access.players, function (el, callback) {
+					gcdb.user.getByID(el.uid, 'maindb', function (err, login) {
 						if (err) return callback(err);
 
 						maindbconn.query('SELECT `id`, `isBanned`, `bannedTill`, UNIX_TIMESTAMP(`bannedTill`) AS `bannedTillTS`, UNIX_TIMESTAMP(NOW()) AS `currentTimestamp` FROM users WHERE name = ?', [login], function (err, result) {

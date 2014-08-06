@@ -1,4 +1,4 @@
-<b><%= rinfo.name %></b> <% if (req.user && req.user.group >= ugroup.helper && rinfo.status.className !== 'noregion') { %><div class='ui small label <%= rinfo.status.className %>'><%= rinfo.status.text %></div><% } %>
+<b><%= rinfo.name %></b> <% console.log(req.user.group, rinfo.status); if (req.user && req.user.group >= ugroup.helper && rinfo.status.className !== 'noregion') { %><div class='ui small label <%= rinfo.status.className %>'><%= rinfo.status.text %></div><% } %>
 <% if (rinfo.creator) { %>
 <% if (req.user.group >= ugroup.helper) { %>
 <div class='ui fitted divider'></div>

@@ -625,7 +625,7 @@ span.s-regionstuffitemcomment {
 /* Region info status styles */
 
 .ui.label.inactive {
-	color: inherit;
+	color: #fff;
 	background-color: #B71919;
 }
 
