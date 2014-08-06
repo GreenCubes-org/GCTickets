@@ -819,14 +819,19 @@ module.exports.getRegionsInfo = getRegionsInfo = function getRegionsInfo(regions
 				}
 
 				async.map(element.full_access.players, function (element, callback) {
-					gct.user.getLastseen(element, function (err, time) {
+					gcdb.user.getByID(element, 'maindb', function (err, login) {
 						if (err) return callback(err);
 
-						time = new Date(time);
+						gcmainconn.query('SELECT `exit`, UNIX_TIMESTAMP(time) AS `time` FROM login_log WHERE login = ? ORDER BY `time` DESC LIMIT 1', [login], function (err, result) {
+							if (err) return callback(err);
 
-						callback(null, {
-							uid: element,
-							lastseen: time.toLocaleString()
+								time = new Date(result[0].time);
+
+								callback(null, {
+									uid: element,
+									lastseen: result[0].time,
+									lastseenLocale: time.toLocaleString()
+								});
 						});
 					});
 				}, function (err, array) {
@@ -843,14 +848,19 @@ module.exports.getRegionsInfo = getRegionsInfo = function getRegionsInfo(regions
 				}
 
 				async.map(element.build_access.players, function (element, callback) {
-					gct.user.getLastseen(element, function (err, time) {
+					gcdb.user.getByID(element, 'maindb', function (err, login) {
 						if (err) return callback(err);
 
-						time = new Date(time);
+						gcmainconn.query('SELECT `exit`, UNIX_TIMESTAMP(time) AS `time` FROM login_log WHERE login = ? ORDER BY `time` DESC LIMIT 1', [login], function (err, result) {
+							if (err) return callback(err);
 
-						callback(null, {
-							uid: element,
-							lastseen: time.toLocaleString()
+								time = new Date(result[0].time);
+
+								callback(null, {
+									uid: element,
+									lastseen: result[0].time,
+									lastseenLocale: time.toLocaleString()
+								});
 						});
 					});
 				}, function (err, array) {
@@ -867,7 +877,8 @@ module.exports.getRegionsInfo = getRegionsInfo = function getRegionsInfo(regions
 				}
 
 				element.full_access.players.forEach(function (element) {
-					if ((element.lastseens + 1814400) * 1000 > Date.now()) {
+
+					if ((element.lastseen + 1814400) * 1000 > Date.now()) {
 						element.status = 'activeOwners';
 
 						return callback(null);
@@ -883,7 +894,7 @@ module.exports.getRegionsInfo = getRegionsInfo = function getRegionsInfo(regions
 					return callback(null);
 				}
 
-				if (element.full_access.orgs.length) {
+				if (!element.full_access.orgs.length) {
 					element.status = 'containsOrgs';
 
 					return callback(null);
@@ -897,7 +908,7 @@ module.exports.getRegionsInfo = getRegionsInfo = function getRegionsInfo(regions
 				}
 
 				element.build_access.players.forEach(function (element) {
-					if (element.lastseens + 1814400 > Date.now()) {
+					if (element.lastseen + 1814400 > Date.now()) {
 						element.status = 'activeBuilders';
 
 						return callback(null);
@@ -913,7 +924,7 @@ module.exports.getRegionsInfo = getRegionsInfo = function getRegionsInfo(regions
 					return callback(null);
 				}
 
-				async.forEach(function (element, callback) {
+				async.forEach(element.full_access,function (element, callback) {
 					gcdb.user.getByID(element.uid, 'maindb', function (err, login) {
 						if (err) return callback(err);
 

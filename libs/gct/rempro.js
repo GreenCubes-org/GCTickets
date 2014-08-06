@@ -275,7 +275,7 @@ module.exports = rempro = {
 
 											callback(null, {
 												name: login,
-												lastseen: moment(element.lastseen).format('D MMM YYYY, H:mm')
+												lastseen: moment(element.lastseenLocale).format('D MMM YYYY, H:mm')
 											});
 										});
 									}, function (err, array) {
@@ -293,7 +293,7 @@ module.exports = rempro = {
 
 											callback(null, {
 												name: login,
-												lastseen: moment(element.lastseen).format('D MMM YYYY, H:mm')
+												lastseen: moment(element.lastseenLocale).format('D MMM YYYY, H:mm')
 											});
 										});
 									}, function (err, array) {
