@@ -879,8 +879,6 @@ module.exports.getRegionsInfo = getRegionsInfo = function getRegionsInfo(regions
 				element.full_access.players.forEach(function (element) {
 					if ((element.lastseen + 1814400) * 1000 > Date.now()) {
 						element.status = 'activeOwners';
-
-						return callback(null);
 					}
 
 					return;
@@ -909,8 +907,6 @@ module.exports.getRegionsInfo = getRegionsInfo = function getRegionsInfo(regions
 				element.build_access.players.forEach(function (element) {
 					if ((element.lastseen + 1814400) * 1000 > Date.now()) {
 						element.status = 'activeBuilders';
-
-						return callback(null);
 					}
 
 					return;
