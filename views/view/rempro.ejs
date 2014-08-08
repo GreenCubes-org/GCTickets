@@ -51,7 +51,7 @@
 				<h2 class="ui header">Регионы</h2>
 				<ul>
 				<% 	ticket.regions.forEach(function(item, index) { %>
-					<li><input class="s-regionstuffitem<% if (req.user && req.user.group >= ugroup.helper) { %> pinfopopup" style="cursor:pointer;" data-position="bottom center" data-html="<%- partial('../partials/regioninfo', {rinfo:item}) %>" data-variation="small" title="Нажатие активирует подсказку"<% } else { %>"<% } %> readonly value="<%= item.name %>"><% if (item.comment) { %><span class="s-regionstuffitemcomment"><%= item.comment %></span><% } %></li>
+					<li><input class="s-regionstuffitem<% if (req.user && req.user.group >= ugroup.helper) { %> rinfopopup" style="cursor:pointer;" data-position="bottom center" data-html="<%- partial('../partials/regioninfo', {rinfo:item}) %>" title="Нажатие активирует подсказку"<% } else { %>"<% } %> readonly value="<%= item.name %>"><% if (item.comment) { %><span class="s-regionstuffitemcomment"><%= item.comment %></span><% } %></li>
 				<% }) %>
 				</ul>
 				<div class="ui basic accordion">

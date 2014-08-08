@@ -732,6 +732,7 @@ module.exports.getRegionsInfo = getRegionsInfo = function getRegionsInfo(regions
 				orgs: [],
 				all: false
 			},
+			memos: null,
 			status: null
 		};
 
@@ -943,6 +944,44 @@ module.exports.getRegionsInfo = getRegionsInfo = function getRegionsInfo(regions
 					});
 				}, function (err) {
 					if (err) return callback(err);
+
+					callback(null);
+				});
+			},
+			function getMemos4Owners(callback) {
+				if (['activeOwners','containsOrgs'].indexOf(element.status) !== -1) {
+					return callback(null);
+				}
+
+				async.map(element.full_access.players, function (element, callback) {
+					gcdb.user.getByID(element.uid, 'maindb', function (err, login) {
+						if (err) return callback(err);
+
+						maindbconn.query('SELECT `moderator_id` AS `moderator`, `memo`, `time` FROM memos WHERE user_id = ? ORDER BY time DESC', [element.uid], function (err, result) {
+							if (err) return callback(err);
+
+							async.map(result, function(element, callback) {
+								maindbconn.query('SELECT `name` FROM users WHERE id = ?', [element.moderator], function (err, result) {
+									if (err) return callback(err);
+
+									element.moderator = result[0].name;
+
+									callback(null, element);
+								});
+							}, function (err, memos) {
+								if (err) return callback(err);
+
+								callback(null, {
+									player: login,
+									memos: memos
+								});
+							});
+						});
+					});
+				}, function (err, array) {
+					if (err) return callback(err);
+
+					element.memos = array;
 
 					callback(null);
 				});

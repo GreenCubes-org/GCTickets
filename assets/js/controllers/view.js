@@ -356,6 +356,19 @@ app.view = {
 		.keyup(resizeInput)
 		// resize on page load
 		.each(resizeInput);
+
+		$('.rinfopopup').popup({
+			on: 'click'
+		});
+
+		$('.s-regionstuffitem.rinfopopup').click(function () {
+			$("#hiddenmemosbutton").on("click", function () {
+				$(this).next("#hiddenmemos").show();
+				$(this).hide();
+
+				return false;
+			});
+		});
 	},
 
 	edit: function (id) {
