@@ -219,8 +219,8 @@ module.exports = {
 			res.view('user/settings', {
 				settings: {
 					startPage: (user.startPage) ? user.startPage : '',
-					prefix: (user.prefix) ? user.prefix : '',
-					role: (user.ugroup) ? gct.user.getGroupString(user.ugroup) : ''
+					prefix: (user.prefix) ? user.prefix : '—',
+					role: (user.ugroup !== undefined) ? gct.user.getGroupString(user.ugroup) : '—'
 				}
 			});
 		});
