@@ -646,6 +646,6 @@ span.s-regionstuffitemcomment {
 }
 
 .ui.label.activeowners {
-	color: inherit;
+	color: #fff;
 	background-color: #00AD11;
 }
