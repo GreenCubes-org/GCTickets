@@ -825,7 +825,7 @@ module.exports.getRegionsInfo = getRegionsInfo = function getRegionsInfo(regions
 						gcmainconn.query('SELECT `exit`, UNIX_TIMESTAMP(time) AS `time` FROM login_log WHERE login = ? ORDER BY `time` DESC LIMIT 1', [login], function (err, result) {
 							if (err) return callback(err);
 
-								time = new Date(result[0].time);
+								time = new Date(result[0].time * 1000);
 
 								callback(null, {
 									uid: element,
@@ -858,7 +858,7 @@ module.exports.getRegionsInfo = getRegionsInfo = function getRegionsInfo(regions
 
 								callback(null, {
 									uid: element,
-									lastseen: result[0].time,
+									lastseen: result[0].time * 1000,
 									lastseenLocale: time.toLocaleString()
 								});
 						});
@@ -876,8 +876,8 @@ module.exports.getRegionsInfo = getRegionsInfo = function getRegionsInfo(regions
 					return callback(null);
 				}
 
-				element.full_access.players.forEach(function (element) {
-					if ((element.lastseen + 1814400) * 1000 > Date.now()) {
+				element.full_access.players.forEach(function (el) {
+					if ((el.lastseen + 1814400) * 1000 > Date.now()) {
 						element.status = 'activeOwners';
 					}
 
@@ -904,8 +904,8 @@ module.exports.getRegionsInfo = getRegionsInfo = function getRegionsInfo(regions
 					return callback(null);
 				}
 
-				element.build_access.players.forEach(function (element) {
-					if ((element.lastseen + 1814400) * 1000 > Date.now()) {
+				element.build_access.players.forEach(function (el) {
+					if ((el.lastseen + 1814400) * 1000 > Date.now()) {
 						element.status = 'activeBuilders';
 					}
 
