@@ -271,8 +271,8 @@ module.exports = user = {
 					callback(null, obj);
 				});
 			},
-			function getLastTenMemos(obj, callback) {
-				maindbconn.query('SELECT `moderator_id` AS `moderator`, `memo`, `time` FROM memos WHERE user_id = ? ORDER BY time DESC LIMIT 10', [obj.user.gameId], function (err, result) {
+			function getMemos(obj, callback) {
+				maindbconn.query('SELECT `moderator_id` AS `moderator`, `memo`, `time` FROM memos WHERE user_id = ? ORDER BY time DESC', [obj.user.gameId], function (err, result) {
 					if (err) return callback(err);
 
 					obj.memos = result;
