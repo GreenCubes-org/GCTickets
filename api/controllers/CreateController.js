@@ -63,7 +63,8 @@ module.exports = {
 						msg: 'Выберите местоположение проблемы'
 					});
 				}
-				if (!(obj.product >= 1 && obj.product <= 5)) {
+				// Only "Неизвестно", "Сервер Main", "Веб-сервисы"
+				if ([1,2,5].indexOf(obj.product) === -1) {
 					return callback({
 						msg: 'Некорректное местоположение проблемы'
 					});
