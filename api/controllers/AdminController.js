@@ -13,7 +13,11 @@ module.exports = {
 	usersRights: function (req, res) {
 		async.waterfall([
 			function getRights(cb) {
-				User.find().done(function (err, rights) {
+				User.find().where({
+					ugroup: {
+						'>': 0
+					}
+				}).done(function (err, rights) {
 					if (err) return callback(err);
 
 					cb(null, rights);
