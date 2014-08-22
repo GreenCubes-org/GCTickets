@@ -42,7 +42,7 @@ var renderAllComments = function renderAllComments(ticketId) {
 			$('#comments').append(
 				'<div class="comment ' + comment.status + '" id="comment' + comment.id + '">' +
 				'<div class="content">' +
-				'<a class="ui ribbon label ' + comment.colorclass + ' gc-nostylelink" href="/users/' + comment.owner + '">' + comment.prefix + ' ' + comment.owner + '</a>' +
+				'<a class="ui ribbon label ' + comment.colorclass + ' gc-nostylelink" href="/users/' + comment.owner + '">' + ((comment.prefix) ? comment.prefix : '') + ' ' + comment.owner + '</a>' +
 				'<div class="metadata">' +
 				'<a href="/id/' + ticketId + '/#comment' + comment.id + '" class="date" title="' + comment.createdAt.fullDate + '">' + comment.createdAt.simply + '</a>' +
 				menu +
@@ -110,7 +110,7 @@ var renderRemovedComments = function renderRemovedComments(ticketId) {
 			$('#comments').append(
 				'<div class="comment ' + comment.status + '" id="comment' + comment.id + '">' +
 				'<div class="content">' +
-				'<a class="ui ribbon label ' + comment.colorclass + ' gc-nostylelink" href="/users/' + comment.owner + '">' + comment.prefix + ' ' + comment.owner + '</a>' +
+				'<a class="ui ribbon label ' + comment.colorclass + ' gc-nostylelink" href="/users/' + comment.owner + '">' + ((comment.prefix) ? comment.prefix : '') + ' ' + comment.owner + '</a>' +
 				'<div class="metadata">' +
 				'<a href="/id/' + ticketId + '/#comment' + comment.id + '" class="date" title="' + comment.createdAt.fullDate + '">' + comment.createdAt.simply + '</a>' +
 				menu +

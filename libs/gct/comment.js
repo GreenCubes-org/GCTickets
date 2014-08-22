@@ -52,14 +52,16 @@ module.exports = comment = {
 								});
 							},
 							function getRights(comment, callback) {
-								if (userId && bugreportProduct) {
+								if (userId) {
 									User.find({
 										uid: userId
 									}).done(function (err, rights) {
 										if (err) return callback(err);
 
-										if (rights.length) {
+										if (rights.length && bugreportProduct) {
 											callback(null, comment, (rights[0].canModerate.indexOf(bugreportProduct) !== -1) ? true : false, userId);
+										} else if (rights.length && !bugreportProduct && comment.owner === userId) {
+											callback(null, comment, true, userId);
 										} else {
 											callback(null, comment, false, userId);
 										}
@@ -78,6 +80,7 @@ module.exports = comment = {
 							},
 							function setLogin(comment, callback) {
 								comment.owner = login;
+
 								callback(null, comment);
 							},
 							function bbcode2html(obj, callback) {
