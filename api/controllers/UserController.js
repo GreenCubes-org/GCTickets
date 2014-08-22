@@ -98,15 +98,15 @@ module.exports = {
 							'!': 6
 						}
 					};
-
-					if (!findBy.owner && (!req.user || req.user.group < ugroup.helper)) {
+					console.log(req.user.group, ugroup.helper);
+					if (!req.user || req.user.group < ugroup.helper) {
 						findBy.visiblity = 1;
 					}
 				}
 				if (filterBy.status) {
 					findBy.status = filterBy.status;
 
-					if (!findBy.owner && (!req.user || req.user.group < ugroup.helper)) {
+					if (!req.user || req.user.group < ugroup.helper) {
 						findBy.visiblity = 1;
 					}
 				}
