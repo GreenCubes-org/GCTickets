@@ -124,6 +124,12 @@ module.exports = {
 					};
 
 					query.status = '`status` not in (5,6,' + filterBy.nostatus + ')';
+
+					if (!findBy.owner && (!req.user || req.user.group < ugroup.helper)) {
+						findBy.visiblity = 1;
+
+						query.visibility = '`visiblity` = 1';
+					}
 				}
 				if (filterBy.visibility && req.user && req.user.group >= ugroup.helper) {
 					findBy.visiblity = filterBy.visibility;
