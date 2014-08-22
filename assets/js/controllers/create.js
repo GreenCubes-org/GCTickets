@@ -118,6 +118,10 @@ app.create = {
 			event.preventDefault();
 		});
 
+		$('span#venusguidelink').click(function (event){
+			window.open($(this).attr('href'),'_blank');
+		});
+
 		var titleDefaultPlaceholder = $('#title').attr('placeholder');
 
 		$('#createdfor').on('input', function() {

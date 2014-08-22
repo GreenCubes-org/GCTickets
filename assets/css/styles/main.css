@@ -20,12 +20,16 @@ optgroup,
 option {
 	font-family: inherit !important;
 }
-a {
+a,
+#venusguidelink {
 	color: #4183C4;
 	text-decoration: none;
+	cursor: pointer;
 }
 a:hover,
-a:active {
+a:active,
+#venusguidelink:hover,
+#venusguidelink:active{
 	text-decoration: underline;
 }
 a.gc-nostylelink {
