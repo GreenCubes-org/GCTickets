@@ -20,7 +20,7 @@ module.exports = {
 			filterByStatus = gct.getStatusByClass(req.query.status),
 			filterByNoStatus = gct.getStatusByClass(req.query.nostatus),
 			filterByVisibility = gct.getVisibilityByClass(req.query.visibility),
-			currentPage = parseInt(req.param('param'), 10) || 1,
+			currentPage = parseInt(req.param('page'), 10) || 1,
 			sortBy,
 			user = {
 				login: req.param('user') || req.user.username,
