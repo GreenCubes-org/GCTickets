@@ -12,8 +12,9 @@
 	<a href="/" class="item">
 		<i class="home icon" title="На главную"></i>
 	</a>
-	<% } %>
+	<% } else { %>
 	<a href="<%= (req.user && req.user.startPage) ? req.user.startPage : '/all' %>" class="item" title="<%= (req.user && req.user.startPage) ? 'Стартовая страница (изменяемая)' : 'Все тикеты' %>"><i class="home icon"></i></a>
+	<% } %>
 	<div class="right menu">
 		<%- partial('../../partials/userpanel')%>
 	</div>
