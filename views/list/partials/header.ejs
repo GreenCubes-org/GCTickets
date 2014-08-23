@@ -8,12 +8,12 @@
 			<a href="/rempros" class="item<% if (type.url === 'rempros') { %> active<% } %>"><i class="trash icon"></i>Удаление защит</a>
 		</div>
 	</div>
-	<a href="<%= (req.user && req.user.startPage) ? req.user.startPage : '/all' %>" class="item" title="<%= (req.user && req.user.startPage) ? 'Стартовая страница (изменяемая)' : 'Все тикеты' %>"><i class="home icon"></i></a>
 	<% if (!req.user) { %>
 	<a href="/" class="item">
 		<i class="home icon" title="На главную"></i>
 	</a>
 	<% } %>
+	<a href="<%= (req.user && req.user.startPage) ? req.user.startPage : '/all' %>" class="item" title="<%= (req.user && req.user.startPage) ? 'Стартовая страница (изменяемая)' : 'Все тикеты' %>"><i class="home icon"></i></a>
 	<div class="right menu">
 		<%- partial('../../partials/userpanel')%>
 	</div>
