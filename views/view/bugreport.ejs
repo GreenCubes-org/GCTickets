@@ -98,7 +98,7 @@
 								<% if ((req.user.group || 0) >= ugroup.mod || canModerate) { %>
 								<div class="item" data-value="4">Отклонён</div>
 								<% } %>
-								<% if (ticket.owner.id === req.user.id || canModerate) { %>
+								<% if (ticket.owner.id === req.user.id) { %>
 								<div class="item" data-value="2">Отменён</div>
 								<% } %>
 							<% } %>
