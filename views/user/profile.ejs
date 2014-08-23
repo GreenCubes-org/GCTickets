@@ -3,7 +3,7 @@
 <div class="container" style="position:relative">
 	<div class="ui grid">
 		<div class="column l-leftcolumn">
-			<div class="ui basic fluid button"><%= user.prefix %>&nbsp;<%= user.login %></div>
+			<div class="ui basic fluid button"><%= (user.prefix) ? user.prefix : '' %>&nbsp;<%= user.login %></div>
 			<% if (currentPage === 1) if (req.user && req.user.startPage === req.url) { %>
 			<div class="ui basic fluid button" style="margin: 1rem 0em;">
 				Это ваша стартовая страница
