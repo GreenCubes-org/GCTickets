@@ -7,6 +7,16 @@
 				<i class="add icon"></i>
 				Новый тикет
 			</a>
+			<% if (req.user) if (req.user.startPage === req.url) { %>
+			<div class="ui basic fluid button" style="margin: 1rem 0em;">
+				Это ваша стартовая страница
+			</div>
+			<% } else { %>
+			<div class="ui basic fluid button" id="l-setstartpage" style="margin: 1rem 0em;">
+				Установить как стартовую
+			</div>
+			<% } %>
+			<input type="hidden" name="_csrf" id="_csrf" value="<%= _csrf %>" />
 			<%- partial('partials/filter')%>
 		</div>
 		<div id="l-content" class="column l-rightcolumn" style="display: inline-block;">
