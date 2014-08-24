@@ -7,7 +7,7 @@
 				<i class="add icon"></i>
 				Новый тикет
 			</a>
-			<% if (currentPage === 1) if (req.user && req.user.startPage === req.url) { %>
+			<% if (req.user && currentPage === 1) if (req.user.startPage === req.url) { %>
 			<div class="ui basic fluid button" style="margin: 1rem 0em;">
 				Это ваша стартовая страница
 			</div>
