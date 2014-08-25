@@ -21,73 +21,85 @@ module.exports.getStatusByID = getStatusByID = function (id) {
 		case 1:
 			return {
 				text: 'Новый',
-				class: 'new'
+				class: 'new',
+				id: 1
 			};
 
 		case 2:
 			return {
 				text: 'Отменён',
-				class: 'rejected'
+				class: 'rejected',
+				id: 2
 			};
 
 		case 3:
 			return {
 				text: 'Уточнить',
-				class: 'specify'
+				class: 'specify',
+				id: 3
 			};
 
 		case 4:
 			return {
 				text: 'Отклонён',
-				class: 'declined'
+				class: 'declined',
+				id: 4
 			};
 
 		case 5:
 			return {
 				text: 'Скрыт',
-				class: 'hidden'
+				class: 'hidden',
+				id: 5
 			};
 
 		case 6:
 			return {
 				text: 'Удалён',
-				class: 'removed'
+				class: 'removed',
+				id: 6
 			};
 
 		case 7:
 			return {
 				text: 'Исправлен',
-				class: 'helpfixed'
+				class: 'helpfixed',
+				id: 7
 			};
 
 		case 8:
 			return {
 				text: 'На&nbsp;рассмотрении',
-				class: 'inreview'
+				class: 'inreview',
+				id: 8
 			};
 
 		case 9:
 			return {
 				text: 'Отложен',
-				class: 'delayed'
+				class: 'delayed',
+				id: 9
 			};
 
 		case 10:
 			return {
 				text: 'Выполнен',
-				class: 'done'
+				class: 'done',
+				id: 10
 			};
 
 		case 11:
 			return {
 				text: 'Принят',
-				class: 'accepted'
+				class: 'accepted',
+				id: 11
 			};
 
 		case 12:
 			return {
 				text: 'Исправлен',
-				class: 'fixed'
+				class: 'fixed',
+				id: 12
 			};
 
 		default:

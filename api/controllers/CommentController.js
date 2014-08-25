@@ -127,6 +127,16 @@ module.exports = {
 						callback(err, ticket);
 					});
 			},
+			function preCheck(ticket, callback) {
+				if ([2,4,5,6,7,10,12].indexOf(ticket.status) !== -1) {
+					return callback({
+						show: true,
+						msg: 'Комментирование закрытых тикетов запрещено'
+					});
+				}
+
+				callback(null, ticket);
+			},
 			function getBugreport(ticket, callback) {
 				if (ticket.type == 1) {
 					Bugreport.findOne(ticket.tid)

@@ -76,7 +76,11 @@
 			</div>
 			<div class="ui comments container" id="comments"></div>
 			<div class="ui divider" id="commentdivider"></div>
-			<% if (req.user) { %>
+			<% if (!req.user) { %>
+			<div style="padding: 2em 0em;text-align: center;font-size:1.4em">Комментирование разрешено только авторизованным пользователям</div>
+			<% } else if ([2,4,5,6,7,10,12].indexOf(ticket.status.id) !== -1) { %>
+				<div style="padding: 2em 0em;text-align: center;font-size:1.4em">Комментирование закрытых тикетов запрещено</div>
+			<% } else { %>
 			<form class="ui reply form container" id="commentpost">
 				<% if (["Новый","Уточнить","Принят"].indexOf(ticket.status.text) !== -1 && req.user && ((ticket.owner.id === req.user.id || ((req.user.group || 0) >= ugroup.helper)) && ticket.status.text === 'Новый' || canModerate)) { %>
 				<div class="field">
@@ -124,8 +128,6 @@
 				<div class="ui teal submit fluid small button" type="submit" id="commentsubmit">Комментировать</div>
 				<input type="hidden" name="_csrf" value="<%= _csrf %>" />
 			</form>
-			<% } else { %>
-			<div style="padding: 2em 0em;text-align: center;font-size:1.4em">Комментирование разрешено только авторизованным пользователям</div>
 			<% } %>
 		 </div>
 	</div>
