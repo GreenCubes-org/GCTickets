@@ -78,7 +78,7 @@
 			<div class="ui divider" id="commentdivider"></div>
 			<% if (!req.user) { %>
 			<div style="padding: 2em 0em;text-align: center;font-size:1.4em">Комментирование разрешено только авторизованным пользователям</div>
-			<% } else if ([2,4,5,6,7,10,12].indexOf(ticket.status.id) !== -1) { %>
+			<% } else if (req.user.group >= ugroup.helper && [2,4,5,6,7,10,12].indexOf(ticket.status.id) !== -1) { %>
 				<div style="padding: 2em 0em;text-align: center;font-size:1.4em">Комментирование закрытых тикетов запрещено</div>
 			<% } else { %>
 			<form class="ui reply form container" id="commentpost">
