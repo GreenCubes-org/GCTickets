@@ -128,7 +128,7 @@ module.exports = {
 					});
 			},
 			function preCheck(ticket, callback) {
-				if (req.user.group >= ugroup.helper && [2,4,5,6,7,10,12].indexOf(ticket.status) !== -1) {
+				if (req.user.group < ugroup.helper && [2,4,5,6,7,10,12].indexOf(ticket.status) !== -1) {
 					return callback({
 						show: true,
 						msg: 'Комментирование закрытых тикетов запрещено'
