@@ -6,7 +6,8 @@
 */
 
 var fs = require('fs'),
-	crypto = require('crypto');
+	crypto = require('crypto'),
+	validator = require('validator');
 
 module.exports = {
 	mainTpl: function(req,res) {
@@ -47,7 +48,7 @@ module.exports = {
 			},
 			function setData(uploads,callback) {
 				callback(null,{
-					title: req.param('title'),
+					title: req.param('title').replace(/^(\s*)$/g, ''),
 					description: req.param('description'),
 					status: 1,
 					owner: req.user.id,
@@ -58,6 +59,18 @@ module.exports = {
 				})
 			},
 			function checkData(obj, callback) {
+				if (!obj.title) {
+					return callback({
+						msg: 'Введите краткое описание'
+					});
+				}
+
+				if (!(validator.isLength(obj.title,6,64))) {
+					return callback(null, {
+						msg: 'Краткое описание должно содержать не менее %1 и не более %2 символов'
+					});
+				}
+
 				if (!obj.product) {
 					return callback({
 						msg: 'Выберите местоположение проблемы'
@@ -70,13 +83,7 @@ module.exports = {
 					});
 				}
 				
-				var isErr = false;
-				req.onValidationError(function (msg) {
-					isErr = true;
-					callback({ show: true, msg: msg });
-				});
-				req.check('title', 'Краткое описание должно содержать не менее %1 и не более %2 символов').len(6,64);
-				if (!isErr) return callback(null, obj);
+				return callback(null, obj);
 			},
 			function sanitizeData(obj, callback) {
 				obj.description = req.sanitize('description').entityEncode();
