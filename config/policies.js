@@ -27,6 +27,11 @@ module.exports.policies = {
 		'mainTpl': ['notBanned']
 	},
 
+	CommentsController: {
+		'*': ['authenticated'],
+		'deleteComment': ['modAbove']
+	},
+
 	EditController: {
 		'*': ['ownerNModAbove'],
 		'deleteTpl': 'modAbove',
