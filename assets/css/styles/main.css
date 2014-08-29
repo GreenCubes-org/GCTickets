@@ -260,8 +260,8 @@ div.comment {
 	font-size: 1.3rem;
 	line-height: 1.33;
 	margin: 0px;
-	padding: 4px 2px;
-	border-radius: .325em;
+	padding: 3px 7px;
+	border-radius: .150em;
 	-webkit-box-sizing: border-box;
 	-moz-box-sizing: border-box;
 	-ms-box-sizing: border-box;
@@ -624,6 +624,13 @@ span.s-regionstuffitemcomment {
 	border-left: 1px solid rgba(0,0,0,0.1);
 	position: relative;
 	padding-right: 0em !important;
+}
+
+.l.header {
+	font-weight: 700;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
 }
 
 /* Region info status styles */

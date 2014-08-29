@@ -1,20 +1,22 @@
 <div class="ui green inverted gc-header menu">
-	<div class="ui simple dropdown item">
-		<i class="<%= type.iconclass %> icon"></i> <%= type.text %> <i class="icon dropdown"></i>
-		<div class="menu">
-			<a href="/all" class="item<% if (type.url === 'all') { %> active<% } %>"><i class="reorder icon"></i>Все тикеты</a>
-			<% if (req.user) { %><a href="/user" class="item<% if (type.url === 'user') { %> active<% } %>"><i class="user icon"></i>Ваши тикеты</a><% } %>
-			<a href="/bugreports" class="item<% if (type.url === 'bugreports') { %> active<% } %>"><i class="bug icon"></i>Баг-репорты</a>
-			<a href="/rempros" class="item<% if (type.url === 'rempros') { %> active<% } %>"><i class="trash icon"></i>Удаление защит</a>
+	<div class="left menu">
+		<div class="ui simple dropdown item">
+			<i class="<%= type.iconclass %> icon"></i> <%= type.text %> <i class="icon dropdown"></i>
+			<div class="menu">
+				<a href="/all" class="item<% if (type.url === 'all') { %> active<% } %>"><i class="reorder icon"></i>Все тикеты</a>
+				<% if (req.user) { %><a href="/user" class="item<% if (type.url === 'user') { %> active<% } %>"><i class="user icon"></i>Ваши тикеты</a><% } %>
+				<a href="/bugreports" class="item<% if (type.url === 'bugreports') { %> active<% } %>"><i class="bug icon"></i>Баг-репорты</a>
+				<a href="/rempros" class="item<% if (type.url === 'rempros') { %> active<% } %>"><i class="trash icon"></i>Удаление защит</a>
+			</div>
 		</div>
+		<% if (!req.user) { %>
+		<a href="/" class="item">
+			<i class="home icon" title="На главную"></i>
+		</a>
+		<% } else { %>
+		<a href="<%= (req.user && req.user.startPage) ? req.user.startPage : '/all' %>" class="item" title="<%= (req.user && req.user.startPage) ? 'Стартовая страница (изменяемая)' : 'Все тикеты' %>"><i class="home icon"></i></a>
+		<% } %>
 	</div>
-	<% if (!req.user) { %>
-	<a href="/" class="item">
-		<i class="home icon" title="На главную"></i>
-	</a>
-	<% } else { %>
-	<a href="<%= (req.user && req.user.startPage) ? req.user.startPage : '/all' %>" class="item" title="<%= (req.user && req.user.startPage) ? 'Стартовая страница (изменяемая)' : 'Все тикеты' %>"><i class="home icon"></i></a>
-	<% } %>
 	<div class="right menu">
 		<%- partial('../../partials/userpanel')%>
 	</div>

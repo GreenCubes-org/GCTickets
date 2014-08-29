@@ -5,8 +5,8 @@
 		<i class="right floated big <%= ticket.type.iconclass %> icon"  style="margin: 22px 10px 0px !important" title="<%= ticket.type.descr %>"></i>
 
 		<a class="content gc-nostylelink" style="display:block !important;padding: 0.9em 0em !important;font-size:1.2rem !important;" href="/id/<%= ticket.id %>">
-			<div class="header" style="margin-left: 1rem !important;"><span style="font-weight: 400 !important;">#<%= ticket.id %>:</span> <%= ticket.title %></div>
-			<div class="description" style="font-size: 1.1rem !important;margin-left: 1rem !important;">
+			<div class="l header" style="margin-left: 1rem !important;"><span style="font-weight: 400 !important;">#<%= ticket.id %>:</span> <%= ticket.title %></div>
+			<div class="l description" style="font-size: 1.1rem !important;margin-left: 1rem !important;">
 				<i class="<%= ticket.visibility.class %> small icon" style="margin:0 !important;" title="<%= ticket.visibility.text %>"></i>
 				<i class="user small icon"></i><%= ticket.owner.login %>
 				<span title="<%= moment(ticket.createdAt).format('Do MMM YYYY, H:mm') %>"><i class="time small icon"></i><%= moment(ticket.createdAt).fromNow() %></span>
