@@ -120,6 +120,12 @@ module.exports = {
 				throw err;
 			}
 
+			if ((result.type === 1 && req.user.group < ugroup.mod) || (result.type === 2 && req.user.group < ugroup.helper)) {
+				return res.json({
+					status: 'err'
+				});
+			}
+
 			if (result.visiblity === 1) {
 				result.visiblity = 2;
 			} else {
