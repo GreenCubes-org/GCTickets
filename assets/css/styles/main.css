@@ -239,6 +239,10 @@ div.comment {
 #commentrefresh {
 	position: absolute;
 }
+i.icon.refresh:before {
+	content: "\f021";
+	margin-left: -65px;
+}
 /* Single ticket statuses */
 
 .s-visiblity {
