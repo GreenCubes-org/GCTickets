@@ -27,7 +27,7 @@ module.exports.policies = {
 		'mainTpl': ['notBanned']
 	},
 
-	CommentsController: {
+	CommentController: {
 		'*': ['authenticated', 'hidePrivateTickets'],
 		'listViewComments': 'hidePrivateTickets'
 	},

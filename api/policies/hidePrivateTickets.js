@@ -13,7 +13,7 @@ module.exports = function (req, res, ok) {
 						callback(null, comment.tid);
 					});
 			} else {
-				callback(null, req.params.tid);
+				callback(null, req.param('tid'));
 			}
 		},
 		function magicLogic(tid, callback) {
@@ -49,7 +49,10 @@ module.exports = function (req, res, ok) {
 							},
 							//Only for bugreports
 							function checkRights(canModerate, tid, callback) {
-								if (!canModerate) return res.status(403).view('403', {layout: false});
+								if (!canModerate) return res.status(403).json({
+									message: 'Forbidden',
+									status: 403
+								});
 
 								Bugreport.findOne(tid).done(function (err, bugreport) {
 									if (err) return callback(err);
