@@ -49,12 +49,12 @@ module.exports.routes = {
 
 	// Работа с тикетами
 	// Вывод и действия с тикетом
-	'/id/:id': 'view.routeView',
-	'get /id/:id/edit': 'edit.routeViewTpl',
-	'post /id/:id/edit': 'edit.routeView',
-	'post /id/:id/changevisibility': 'edit.changeVisibility',
-	'post /id/:id/delete': 'edit.deletePost',
-	'/id/:id/report': 'dev.hideFeature',
+	'/id/:tid': 'view.routeView',
+	'get /id/:tid/edit': 'edit.routeViewTpl',
+	'post /id/:tid/edit': 'edit.routeView',
+	'post /id/:tid/changevisibility': 'edit.changeVisibility',
+	'post /id/:tid/delete': 'edit.deletePost',
+	'/id/:tid/report': 'dev.hideFeature',
 	'get /comments': 'comment.listViewComments',
 	'get /comments/:cid/report': 'dev.hideFeature',
 	'post /comments/:cid/remove': 'comment.deleteComment',

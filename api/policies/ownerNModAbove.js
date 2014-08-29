@@ -11,7 +11,7 @@ module.exports = function (req, res, ok) {
 			}
 		},
 		function checkUGroup(userGroup, ticketCreator, canModerate, callback) {
-			Ticket.findOne(req.param('id')).done(function (err, ticket) {
+			Ticket.findOne(req.param('tid')).done(function (err, ticket) {
 				if (err) throw err;
 
 				if (userGroup >= ugroup.mod || ticket.owner === ticketCreator) {

@@ -28,8 +28,7 @@ module.exports.policies = {
 	},
 
 	CommentsController: {
-		'*': ['authenticated'],
-		'deleteComment': ['modAbove']
+		'*': ['authenticated', 'hidePrivateTickets']
 	},
 
 	EditController: {
