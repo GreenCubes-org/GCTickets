@@ -28,7 +28,8 @@ module.exports.policies = {
 	},
 
 	CommentsController: {
-		'*': ['authenticated', 'hidePrivateTickets']
+		'*': ['authenticated', 'hidePrivateTickets'],
+		'listViewComments': 'hidePrivateTickets'
 	},
 
 	EditController: {
