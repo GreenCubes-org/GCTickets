@@ -42,14 +42,14 @@ module.exports = {
 			filterBy.nostatus = filterByNoStatus
 		}
 
-		if (filterByVisibility) {
-			filterBy.visibility = filterByVisibility
+		if (filterByVisibility && req.user && req.user.group >= ugroup.helper) {
+			filterBy.visibility = filterByVisibility;
+		} else if (filterByVisibility && (!req.user || (req.user.group < ugroup.helper))) {
+			return res.status(403).view('403', {layout: false});
 		}
 
 		if ((filterBy.visibility === 5 || filterBy.visibility === 6) && (!req.user || req.user.group < ugroup.helper)) {
-			return res.json({
-				status: 'err'
-			});
+			return res.status(403).view('403', {layout: false});
 		}
 
 		sails.log.verbose('user:', user);

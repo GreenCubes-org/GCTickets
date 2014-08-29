@@ -47,14 +47,14 @@ module.exports = {
 			filterBy.nostatus = filterByNoStatus;
 		}
 
-		if (filterByVisibility) {
+		if (filterByVisibility && req.user && req.user.group >= ugroup.helper) {
 			filterBy.visibility = filterByVisibility;
+		} else if (filterByVisibility && (!req.user || (req.user.group < ugroup.helper))) {
+			return res.status(403).view('403', {layout: false});
 		}
 
 		if ((filterBy.visibility === 5 || filterBy.visibility === 6) && (!req.user || req.user.group < ugroup.mod)) {
-			return res.json({
-				status: 'err'
-			});
+			return res.status(403).view('403', {layout: false});
 		}
 
 		/* Set findBy criteria for sections */
@@ -81,7 +81,7 @@ module.exports = {
 		async.waterfall([
 			function checkData(callback) {
 				if ((filterBy === 5 || filterBy === 6) && (!req.user || req.user.group < ugroup.helper)) {
-					return res.forbidden()
+					return res.status(403).view('403', {layout: false});
 				}
 
 				callback(null);
