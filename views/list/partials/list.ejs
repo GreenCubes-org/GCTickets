@@ -5,7 +5,7 @@
 		<i class="right floated big <%= ticket.type.iconclass %> icon"  style="margin: 22px 10px 0px !important" title="<%= ticket.type.descr %>"></i>
 
 		<a class="content gc-nostylelink" style="display:block !important;padding: 0.9em 0em !important;font-size:1.2rem !important;" href="/id/<%= ticket.id %>">
-			<div class="l header" style="margin-left: 1rem !important;"><span style="font-weight: 400 !important;">#<%= ticket.id %>:</span> <%= ticket.title %></div>
+			<div class="l header" style="margin-left: 1rem !important;"><span style="font-weight: 400 !important;">#<%= ticket.id %>:</span> <span title="<%= ticket.title %>"><%= ticket.title %></span></div>
 			<div class="l description" style="font-size: 1.1rem !important;margin-left: 1rem !important;">
 				<i class="<%= ticket.visibility.class %> small icon" style="margin:0 !important;" title="<%= ticket.visibility.text %>"></i>
 				<i class="user small icon"></i><%= ticket.owner.login %>
