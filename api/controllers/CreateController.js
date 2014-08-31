@@ -56,7 +56,7 @@ module.exports = {
 					product: parseInt(req.param('product'), 10),
 					uploads: uploads || [],
 					visiblity: 2
-				})
+				});
 			},
 			function checkData(obj, callback) {
 				if (!obj.title) {
@@ -66,8 +66,8 @@ module.exports = {
 				}
 
 				if (!(validator.isLength(obj.title,6,64))) {
-					return callback(null, {
-						msg: 'Краткое описание должно содержать не менее %1 и не более %2 символов'
+					return callback({
+						msg: 'Краткое описание должно содержать не менее 6 и не более 64 символов'
 					});
 				}
 
@@ -83,7 +83,7 @@ module.exports = {
 					});
 				}
 				
-				return callback(null, obj);
+				callback(null, obj);
 			},
 			function sanitizeData(obj, callback) {
 				obj.description = req.sanitize('description').entityEncode();
@@ -97,7 +97,6 @@ module.exports = {
 				Bugreport.create({
 					title: obj.title,
 					description: obj.description,
-					owner: obj.owner,
 					logs: obj.logs,
 					product: obj.product,
 					uploads: obj.uploads
