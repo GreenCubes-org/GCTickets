@@ -1,6 +1,7 @@
 var gcdb = require('../gcdb'),
 	cfg = require('../../config/local.js'),
-	bbcode = require('../bbcode');
+	bbcode = require('../bbcode'),
+	validator = require('validator');
 
 var moment = require('moment');
 moment.lang('ru');
@@ -139,6 +140,11 @@ module.exports = bugreport = {
 						});
 					});
 				}
+			},
+			function fixNewlines(obj, callback) {
+				obj.description = obj.description.replace("\r\n","\n").replace("\r","\n").replace("\n","<br>");
+
+				callback(null, obj);
 			},
 			function getTicket(obj, callback) {
 				Ticket.find({
@@ -399,13 +405,13 @@ module.exports = bugreport = {
 					});
 				},
 				function checkData(obj, callback) {
-					var isErr = false;
-					req.onValidationError(function (msg) {
-						isErr = true;
-						callback({ show: true, msg: msg });
-					});
-					req.check('title','Краткое описание должно содержать не менее %1 и не более %2 символов').len(6,64);
-					if (!isErr) callback(null, obj);
+					if (!(validator.isLength(obj.title,6,128))) {
+						return callback({
+							msg: 'Краткое описание должно содержать не менее 6 и не более 128 символов'
+						});
+					}
+
+					callback(null, obj);
 				},
 				function sanitizeData(obj, callback) {
 					obj.description = req.sanitize('description').entityEncode();
