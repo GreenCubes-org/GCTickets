@@ -65,9 +65,9 @@ module.exports = {
 					});
 				}
 
-				if (!(validator.isLength(obj.title,6,64))) {
+				if (!(validator.isLength(obj.title,6,128))) {
 					return callback({
-						msg: 'Краткое описание должно содержать не менее 6 и не более 64 символов'
+						msg: 'Краткое описание должно содержать не менее 6 и не более 128 символов'
 					});
 				}
 
