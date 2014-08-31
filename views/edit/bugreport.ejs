@@ -10,6 +10,7 @@
 					<h1 class="header" style="margin: 0px; padding: 0.2em 0em 0em;">Редактирование <a href="/id/<%= ticket.id %>">#<%= ticket.id %></a>: &laquo;<%= ticket.title %>&raquo;
 					</h1>
 					<div class="ui divider" style="margin: 1em 0em !important;"></div>
+					<% if (req.user.group >= ugroup.mod) { %>
 					<div class="two fields">
 						<div class="field" style="width: 270px;">
 							<label>Местонахождение проблемы</label>
@@ -25,6 +26,7 @@
 							</div>
 						</div>
 					</div>
+					<% } %>
 					<div class="field">
 						<label>Краткое описание</label>
 						<input name="title" type="text" value="<%= ticket.title %>">
