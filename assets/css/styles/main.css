@@ -351,6 +351,7 @@ div.comment {
 .s-description {
 	font-size: 1.25rem;
 	word-spacing: -0.1rem;
+	word-break: break-all;
 }
 .s-specinfo {
 	display: inline-block;
