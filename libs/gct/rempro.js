@@ -156,6 +156,11 @@ module.exports = rempro = {
 					});
 				}
 			},
+			function fixNewlines(obj, callback) {
+				obj.reason = obj.reason.replace("\r\n","\n").replace("\r","\n").replace("\n","<br>");
+
+				callback(null, obj);
+			},
 			function getTicket(obj, callback) {
 				Ticket.find({
 					tid: obj.id,
