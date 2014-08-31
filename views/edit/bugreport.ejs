@@ -10,13 +10,28 @@
 					<h1 class="header" style="margin: 0px; padding: 0.2em 0em 0em;">Редактирование <a href="/id/<%= ticket.id %>">#<%= ticket.id %></a>: &laquo;<%= ticket.title %>&raquo;
 					</h1>
 					<div class="ui divider" style="margin: 1em 0em !important;"></div>
+					<div class="two fields">
+						<div class="field" style="width: 270px;">
+							<label>Местонахождение проблемы</label>
+							<div class="ui selection fluid dropdown">
+								<input name="product" type="hidden">
+								<div class="default text"><%= ticket.product.ticketText %></div>
+								<div class="menu">
+									<div class="<% if (ticket.product.id == 1) { %>active <% } %>item" data-value="1">Неизвестно</div>
+									<div class="<% if (ticket.product.id == 2) { %>active <% } %>item" data-value="2">Сервер Main</div>
+									<div class="<% if (ticket.product.id == 5) { %>active <% } %>item" data-value="5">Веб-сервисы</div>
+								</div>
+								<i class="dropdown icon"></i>
+							</div>
+						</div>
+					</div>
 					<div class="field">
 						<label>Краткое описание</label>
 						<input name="title" type="text" value="<%= ticket.title %>">
 					</div>
 					<div class="field">
 						<label>Подробное описание</label>
-						<textarea id="description" name="description"><%= ticket.description %></textarea>
+						<textarea id="description" name="description"><%- ticket.description.edit %></textarea>
 					</div>
 					<div class="field">
 						<label>Логи <em>(необязательно)</em></label>

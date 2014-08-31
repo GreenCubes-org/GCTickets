@@ -155,37 +155,43 @@ module.exports.getProductByID = getProductByID = function (id) {
 		case 1:
 			return {
 				ticketText: 'Неизвестно',
-				techText: 'unknown'
+				techText: 'unknown',
+				id: 1
 			};
 
 		case 2:
 			return {
 				ticketText: 'Сервер Main',
-				techText: 'main'
+				techText: 'main',
+				id: 2
 			};
 
 		case 3:
 			return {
 				ticketText: 'Сервер RPG',
-				techText: 'rpg'
+				techText: 'rpg',
+				id: 3
 			};
 
 		case 4:
 			return {
 				ticketText: 'Сервер Apocalyptic',
-				techText: 'apocalyptic'
+				techText: 'apocalyptic',
+				id: 4
 			};
 
 		case 5:
 			return {
 				ticketText: 'Веб-сервисы',
-				techText: 'websites'
+				techText: 'websites',
+				id: 5
 			};
 
 		default:
 			return {
 				ticketText: '',
-				techText: ''
+				techText: '',
+				id: 0
 			};
 	}
 };

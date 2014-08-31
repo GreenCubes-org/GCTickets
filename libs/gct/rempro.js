@@ -157,7 +157,10 @@ module.exports = rempro = {
 				}
 			},
 			function fixNewlines(obj, callback) {
-				obj.reason = obj.reason.replace("\r\n","\n").replace("\r","\n").replace("\n","<br>");
+				obj.reason = {
+					view: obj.reason.replace("\r\n","\n").replace("\r","\n").replace("\n","<br>"),
+					edit: obj.reason
+				};
 
 				callback(null, obj);
 			},

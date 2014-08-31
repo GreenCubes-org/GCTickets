@@ -142,7 +142,10 @@ module.exports = bugreport = {
 				}
 			},
 			function fixNewlines(obj, callback) {
-				obj.description = obj.description.replace("\r\n","\n").replace("\r","\n").replace("\n","<br>");
+				obj.description = {
+					view: obj.description.replace("\r\n","\n").replace("\r","\n").replace("\n","<br>"),
+					edit: obj.description
+				};
 
 				callback(null, obj);
 			},
@@ -342,6 +345,7 @@ module.exports = bugreport = {
 			if (err) throw err;
 
 			bugreport.owner = ticket.owner;
+
 			gct.bugreport.serializeView(req, res, bugreport, {isEdit: true}, function(err, result) {
 				if (err) throw err;
 
@@ -373,6 +377,12 @@ module.exports = bugreport = {
 						});
 					}
 
+					if (req.param('product') && req.user.group < ugroup.mod) {
+						return callback({
+							msg: 'Местоположение проблемы могут менять только модераторы'
+						});
+					}
+
 					callback(null);
 				},
 				function handleUpload(callback) {
@@ -398,9 +408,9 @@ module.exports = bugreport = {
 							status: bugreport.status,
 							owner: bugreport.owner,
 							logs: req.param('logs'),
-							product: bugreport.bugreport,
+							product: (req.param('product') && req.user.group >= ugroup.mod) ? req.param('product') : bugreport.product,
 							uploads: uploads,
-							visiblity: bugreport.owner
+							visiblity: bugreport.visiblity
 						});
 					});
 				},
@@ -429,6 +439,7 @@ module.exports = bugreport = {
 						result.description = obj.description;
 						result.logs = obj.logs;
 						result.uploads = obj.uploads;
+						result.product = obj.product;
 
 						result.save(function(err) {
 							if (err) return callback(err);
