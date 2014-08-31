@@ -121,11 +121,12 @@
 				</div>
 				<% } %>
 				<div class="field" id="commentfield">
+					<label>Текст сообщения</label>
 					<textarea id="commentform" name="message"></textarea>
 				</div>
 				<div class="gc-help"><i class="help icon"></i><% if (["Новый","Уточнить","Принят"].indexOf(ticket.status.text) !== -1 && req.user && (ticket.owner.id == req.user.id || ((req.user.group || 0) >= ugroup.helper && ticket.status.text === 'Новый'))) { %>При смене статуса можно не писать комментарий. <% } %>Можно использовать BB-код.</div>
 				<div class="ui divider"></div>
-				<div class="ui teal submit fluid small button" type="submit" id="commentsubmit">Комментировать</div>
+				<div class="ui teal submit fluid small button" type="submit" id="commentsubmit">Отправить</div>
 				<input type="hidden" name="_csrf" value="<%= _csrf %>" />
 			</form>
 			<% } %>
