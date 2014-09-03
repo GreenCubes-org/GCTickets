@@ -286,7 +286,7 @@ exports.parse = function (post, cb) {
 
 		// replace non bbcode urls
 		post = (function (_post) {
-			return _post.replace(/(\[url\=)?(http|https|ftp|ftps)\:\/\/[a-zA-Z0-9\-\.]+\.[a-zA-Z]{2,3}(\/\S*)?/g, function (m0, m1, m2, offset, mstr) {
+			return _post.replace(/(http|ftp|https):\/\/[\w-]+(\.[\w-]+)+([\w.,@?^=%&amp;:/~+#-]*[\w@?^=%&amp;/~+#-])?/g, function (m0, m1, m2, offset, mstr) {
 				if (m1 !== '[url=') {
 					return m0.replace(/(http|https|ftp|ftps)\:\/\/[a-zA-Z0-9\-\.]+\.[a-zA-Z]{2,3}(\/\S*)?/g, function (m0, m1, m2, offset, mstr) {
 						return "<a target=\"_blank\" href=\"" + m0 + "\">" + m0 + "</a>";
@@ -297,7 +297,6 @@ exports.parse = function (post, cb) {
 
 			});
 		})(post);
-
 
 		result = post.replace(postfmt_re, textToHtmlCB);
 
