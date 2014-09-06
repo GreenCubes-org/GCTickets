@@ -21,7 +21,7 @@ module.exports = function (req, res, ok) {
 				if (err) return callback(err);
 
 				if (!ticket) {
-					res.status(404).view('404', {layout: false});
+					return res.status(404).view('404', {layout: false});
 				}
 
 				if (req.user && req.user.group >= ugroup.helper || req.user && req.user.id === ticket.owner) {
