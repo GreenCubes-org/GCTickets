@@ -1,6 +1,6 @@
 <% if (req.user) { %>
 	<a href="/new" class="item" title="Новый тикет"><i class="add icon"></i></a>
-	<a href="#" class="item" title="Оповещения" id="gc-notifheaderbutton"><i class="rss icon"></i><span id="gc-notifnumber"></span></a>
+	<a href="#" class="item" title="Оповещения" id="gc-notifheaderbutton"><i class="bell icon"></i><span id="gc-notifnumber"></span></a>
 	<div class="ui simple top right pointing dropdown item" style="float: none;">
 		<% if (req.user.prefix) { %><%= req.user.prefix %><% } %>&nbsp;<%= req.user.username %> <i class="icon dropdown"></i>
 		<div class="menu">
