@@ -221,6 +221,14 @@ body.main.ui.dimmable.scrolling.dimmed {
 #gc-notifmodal-deletebutton {
 	padding: 0.8em 1.5em;
 }
+
+#gc-logoutbutton:hover, #gc-notifheaderbutton:hover {
+	background-color: rgba(255, 255, 255, 0.1);
+}
+
+#gc-logoutbutton:active, #gc-notifheaderbutton:hover {
+	background-color: rgba(255, 255, 255, 0.15);
+}
 /* Comments changes */
 
 .ui.divider.small {
