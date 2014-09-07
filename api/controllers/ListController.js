@@ -25,7 +25,8 @@ module.exports = {
 			filterByStatus = gct.getStatusByClass(req.query.status),
 			filterByNoStatus = gct.getStatusByClass(req.query.nostatus),
 			filterByVisibility = gct.getVisibilityByClass(req.query.visibility),
-			currentPage = parseInt(req.param('param'), 10) || 1,
+			currentPage = parseInt(req.param('param'), 10) || ((req.param('page')) ? parseInt(req.param('page'), 10) : 1),
+			currentSubSection = splitedPath[2],
 			currentSubSectionId = (splitedPath[2] && isNaN(splitedPath[2], 10) && splitedPath[1] === 'bugreports') ? gct.getProductByTechText(splitedPath[2]).id : null,
 			sortBy,
 			query = {
@@ -165,7 +166,7 @@ module.exports = {
 						delete query.visibility;
 					}
 
-					query = 'SELECT * FROM `ticket` WHERE `type` = 1 AND `tid` in (SELECT `id` FROM `bugreport` WHERE `product` = ' + currentSubSectionId + ')' + ((query.status) ? ' AND ' + query.status : '') + ((query.visibility) ? ' AND ' + query.visibility : '') + ' ORDER BY ' + sortBy + ' LIMIT 20';
+					query = 'SELECT * FROM `ticket` WHERE `type` = 1 AND `tid` in (SELECT `id` FROM `bugreport` WHERE `product` = ' + currentSubSectionId + ')' + ((query.status) ? ' AND ' + query.status : '') + ((query.visibility) ? ' AND ' + query.visibility : '') + ' ORDER BY ' + sortBy + '';
 
 					sails.log.verbose('query: ', query);
 
@@ -215,6 +216,7 @@ module.exports = {
 						tickets: result,
 						lastPage: lastPage,
 						currentPage: currentPage,
+						currentSubSection: currentSubSection,
 						query: query
 					});
 
