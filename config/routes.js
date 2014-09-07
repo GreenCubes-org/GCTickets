@@ -28,6 +28,10 @@ module.exports.routes = {
 	'post /login': 'user.login',
 	'/logout': 'user.logout',
 
+	// Оповещения
+	'get /notifs': 'notif.listNotifications',
+	'delete /notifs': 'notif.removeNotifications',
+
 	// Админпанель
 	'/admin': 'admin.main',
 	'/admin/users': 'dev.hideFeature',
@@ -45,7 +49,6 @@ module.exports.routes = {
 	'/404': 'dev.notFound',
 	'/hiddenfeature': 'dev.hideFeature',
 	'/check': 'dev.check',
-	'/regions/:region': 'dev.test',
 
 	// Работа с тикетами
 	// Вывод и действия с тикетом

@@ -53,5 +53,18 @@ module.exports.bootstrap = function (cb) {
 		password: cfg.appdb.password
 	});
 
+
+	var redis = require('redis').createClient();
+
+	if (cfg.redis.pass) redis.auth(cfg.redis.pass);
+
+	redis.select(cfg.redis.db.notif);
+
+	redis.on('error', function (err) {
+	  console.log("[REDIS][ERR]: " + err);
+	});
+
+	global.redis = redis;
+
 	cb();
 };

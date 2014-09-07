@@ -63,7 +63,7 @@ module.exports = {
 									comment.destroy(function(err) {
 										if (err) return callback(err);
 
-										callback(null, comment.tid);
+										callback(null, comment.tid, comment);
 									});
 								} else {
 									comment.status = 3;
@@ -71,7 +71,7 @@ module.exports = {
 									comment.save(function(err) {
 										if (err) return callback(err);
 
-										callback(null, comment.tid);
+										callback(null, comment.tid, comment);
 									});
 								}
 							} else if (action === 'recover') {
@@ -80,13 +80,13 @@ module.exports = {
 								comment.save(function(err) {
 									if (err) return callback(err);
 
-									callback(null, comment.tid);
+									callback(null, comment.tid, comment);
 								});
 							}
 						});
 				},
 				// I'm updating ticket for updating updatedOn record.
-				function updateTicket(tid, callback) {
+				function updateTicket(tid, comment, callback) {
 					Ticket.findOne(tid)
 						.done(function (err, ticket) {
 							if (err) return callback(err);
@@ -94,9 +94,23 @@ module.exports = {
 							ticket.save(function(err) {
 								if (err) return callback(err);
 
-								callback(null);
+								callback(null, tid, comment);
 							});
 						});
+				},
+				function sendNotifs(tid, comment, callback) {
+					if (comment.owner !== req.user.id && action === 'remove') {
+						Notif.add(3, comment.owner, {
+							ticket: tid
+						}, function (err) {
+							if (err) return callback(err);
+
+							callback(null);
+						});
+
+					} else {
+						callback(null);
+					}
 				}
 			], function (err) {
 				if (err) throw err;
@@ -235,6 +249,8 @@ module.exports = {
 					.done(function (err, comment) {
 						if (err) return callback(err);
 
+						newComment.id = comment.id;
+
 						callback(null, newComment);
 					});
 			},
@@ -250,18 +266,48 @@ module.exports = {
 						ticket.save(function (err) {
 							if (err) return callback(err);
 
-							callback(null, newComment);
+							callback(null, newComment, ticket);
 						});
 					});
 			},
-			function serialize(newComment, callback) {
+			function serialize(newComment, ticket, callback) {
 				gcdb.user.getByID(newComment.owner, function(err, login) {
 					if (err) return callback(err);
 					
+					newComment.ownerId = newComment.owner;
 					newComment.owner = login;
 					newComment.code = 'OK';
-					callback(null, newComment);
+
+					callback(null, newComment, ticket);
 				})
+			},
+			function sendNotifs(newComment, ticket, callback) {
+				if (newComment.ownerId !== ticket.owner) {
+					if (newComment.changedTo) {
+						Notif.add(2, ticket.owner, {
+							ticket: tid,
+							user: newComment.ownerId,
+							cid: newComment.id,
+							changedTo: newComment.changedTo
+						}, function (err) {
+							if (err) return callback(err);
+
+							callback(null, newComment);
+						});
+					} else {
+						Notif.add(1, ticket.owner, {
+							ticket: tid,
+							user: newComment.ownerId,
+							cid: newComment.id
+						}, function (err) {
+							if (err) return callback(err);
+
+							callback(null, newComment);
+						});
+					}
+				} else {
+					callback(null, newComment);
+				}
 			}
 		],
 		function (err, comment, reload) {

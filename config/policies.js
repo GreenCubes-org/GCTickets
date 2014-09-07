@@ -45,6 +45,10 @@ module.exports.policies = {
 
 	ViewController: {
 		'*': ['hidePrivateTickets']
+	},
+
+	NotifController: {
+		'*': 'authenticated'
 	}
 
 };

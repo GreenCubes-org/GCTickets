@@ -433,6 +433,31 @@ module.exports.serializeRegionActivity = serializeRegionActivity = function (sta
 	}
 };
 
+module.exports.serializeNotifType = serializeNotifType = function (id) {
+	switch (id) {
+		case 1:
+			return {
+				id: 1,
+				text: 'Комментарий',
+				iconclass: 'comment'
+			};
+
+		case 2:
+			return {
+				id: 2,
+				name: 'Комментарий со статусом',
+				iconclass: 'comment'
+			};
+
+		case 3:
+			return {
+				id: 3,
+				text: 'Удаление',
+				iconclass: 'trash'
+			};
+	}
+};
+
 
 module.exports.handleUpload = handleUpload = function (req, res, ticket, cb) {
 	if (typeof(ticket) === 'function') cb = ticket;
