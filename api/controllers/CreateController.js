@@ -204,7 +204,7 @@ module.exports = {
 						gcdb.user.getByID(obj.owner, function (err, login) {
 							if (err) return callback(err);
 
-							obj.title = 'Заявка для ' + login;
+							obj.title = 'Заявка от ' + login;
 							callback(null, obj);
 						});
 					} else {
