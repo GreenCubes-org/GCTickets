@@ -7,7 +7,7 @@ module.exports = function (req, res, ok) {
 		function check4CIds(callback) {
 			if (req.params.cid) {
 				Comments.findOne(req.params.cid)
-					.done(function (err, comment) {
+					.exec(function (err, comment) {
 						if (err) return callback(err);
 
 						callback(null, comment.tid);
@@ -17,7 +17,7 @@ module.exports = function (req, res, ok) {
 			}
 		},
 		function magicLogic(tid, callback) {
-			Ticket.findOne(tid).done(function (err, ticket) {
+			Ticket.findOne(tid).exec(function (err, ticket) {
 				if (err) return callback(err);
 
 				if (!ticket) {
@@ -37,7 +37,7 @@ module.exports = function (req, res, ok) {
 								}
 							},
 							function checkUGroup(userGroup, ticketCreator, canModerate, callback) {
-								Ticket.findOne(tid).done(function (err, ticket) {
+								Ticket.findOne(tid).exec(function (err, ticket) {
 									if (err) return callback(err);
 
 									if (userGroup >= ugroup.mod || ticket.owner === ticketCreator) {
@@ -54,7 +54,7 @@ module.exports = function (req, res, ok) {
 									status: 403
 								});
 
-								Bugreport.findOne(tid).done(function (err, bugreport) {
+								Bugreport.findOne(tid).exec(function (err, bugreport) {
 									if (err) return callback(err);
 
 									async.each(canModerate, function (element, callback) {

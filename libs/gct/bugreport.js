@@ -36,7 +36,7 @@ module.exports = bugreport = {
 					status: {
 						'!': 3
 					}
-				}).done(function (err, comments) {
+				}).exec(function (err, comments) {
 					if (err) return callback(err);
 
 					var lastChangedToOwner;
@@ -153,7 +153,7 @@ module.exports = bugreport = {
 				Ticket.find({
 					tid: obj.id,
 					type: 1
-				}).done(function (err, ticket) {
+				}).exec(function (err, ticket) {
 					if (err) return cb(err);
 
 					callback(null, obj, ticket);
@@ -165,7 +165,7 @@ module.exports = bugreport = {
 					status: {
 						'!': 3
 					}
-				}).done(function (err, comments) {
+				}).exec(function (err, comments) {
 					if (err) return callback(err);
 
 					var lastChangedToOwner;
@@ -272,7 +272,7 @@ module.exports = bugreport = {
 	tplView: function viewBugreport(req, res, ticket) {
 		async.waterfall([
 			function findBugreport(callback) {
-				Bugreport.findOne(ticket.tid).done(function (err, bugreport) {
+				Bugreport.findOne(ticket.tid).exec(function (err, bugreport) {
 					if (err) return callback(err);
 
 					bugreport.owner = ticket.owner;
@@ -300,7 +300,7 @@ module.exports = bugreport = {
 				if (req.user) {
 					User.find({
 						uid: req.user.id
-					}).done(function (err, rights) {
+					}).exec(function (err, rights) {
 						if (err) return callback(err);
 
 						if (rights.length !== 0) callback(null, bugreport, rights[0].canModerate, origTicket);
@@ -341,7 +341,7 @@ module.exports = bugreport = {
 	},
 
 	tplEdit: function editBugreportTpl(req, res, ticket) {
-		Bugreport.findOne(ticket.tid).done(function (err, bugreport) {
+		Bugreport.findOne(ticket.tid).exec(function (err, bugreport) {
 			if (err) throw err;
 
 			bugreport.owner = ticket.owner;
@@ -358,7 +358,7 @@ module.exports = bugreport = {
 	},
 
 	postEdit: function editBugreport(req, res, ticket) {
-		Bugreport.findOne(ticket.tid).done(function (err, bugreport) {
+		Bugreport.findOne(ticket.tid).exec(function (err, bugreport) {
 			if (err) throw err;
 
 			bugreport.owner = ticket.owner;
@@ -432,7 +432,7 @@ module.exports = bugreport = {
 					callback(null, obj);
 				},
 				function editBugreport(obj, callback) {
-					Bugreport.findOne(ticket.tid).done(function(err, result) {
+					Bugreport.findOne(ticket.tid).exec(function(err, result) {
 						if (err) return callback(err);
 
 						result.title = obj.title;

@@ -17,7 +17,7 @@ module.exports = {
 					ugroup: {
 						'>': 0
 					}
-				}).done(function (err, rights) {
+				}).exec(function (err, rights) {
 					if (err) return callback(err);
 
 					cb(null, rights);
@@ -133,7 +133,7 @@ module.exports = {
 			function saveToDB(obj, callback) {
 				User.findOrCreate({
 					uid: obj.uid
-				}).done(function (err, rights) {
+				}).exec(function (err, rights) {
 					if (err) return callback(err);
 					
 					rights.uid = obj.uid;
@@ -181,7 +181,7 @@ module.exports = {
 		
 		User.findOne({
 			uid: uid
-		}).done(function (err, rights) {
+		}).exec(function (err, rights) {
 			if (err) throw err;
 			
 			if (rights.length === 0) {
@@ -199,7 +199,7 @@ module.exports = {
 	usersBans: function (req, res) {
 		async.waterfall([
 			function getRights(cb) {
-				Banlist.find().done(function (err, banlist) {
+				Banlist.find().exec(function (err, banlist) {
 					if (err) return callback(err);
 
 					cb(null, banlist);
@@ -284,7 +284,7 @@ module.exports = {
 				Banlist.findOrCreate({
 					uid: obj.uid,
 					ip: obj.ip
-				}).done(function (err, ban) {
+				}).exec(function (err, ban) {
 					if (err) return callback(err);
 
 					ban.uid = obj.uid;
@@ -331,7 +331,7 @@ module.exports = {
 
 		Banlist.findOne({
 			id: id
-		}).done(function (err, ban) {
+		}).exec(function (err, ban) {
 			if (err) throw err;
 
 			if (ban.length === 0) {

@@ -181,7 +181,7 @@ module.exports = {
 					Ticket.find(findBy)
 						.where(whereBy)
 						.sort(sortBy)
-						.done(function (err, tickets) {
+						.exec(function (err, tickets) {
 							if (err) return callback(err);
 
 							sails.log.verbose('tickets.length: ', tickets.length);

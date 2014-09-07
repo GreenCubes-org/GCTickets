@@ -7,7 +7,7 @@ module.exports = ban = {
 				function getBan(callback) {
 					Ban.find({
 						id: obj.tid
-					}).done(function (err, result) {
+					}).exec(function (err, result) {
 						if (err) return callback(err);
 
 						callback(null, result[0]);
@@ -81,7 +81,7 @@ module.exports = ban = {
 			Ticket.find({
 				tid: obj.id,
 				type: 3
-			}).done(function (err, ticket) {
+			}).exec(function (err, ticket) {
 				if (err) return callback(err);
 
 				if (config && config.isEdit) {

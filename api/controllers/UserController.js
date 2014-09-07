@@ -146,7 +146,7 @@ module.exports = {
 				Ticket.find(findBy)
 					.where(whereBy)
 					.sort(sortBy)
-					.done(function (err, tickets) {
+					.exec(function (err, tickets) {
 						if (err) return callback(err);
 
 						sails.log.verbose('tickets.length: ', tickets.length);
@@ -157,7 +157,7 @@ module.exports = {
 			function getUserInfo(tickets, callback) {
 				User.find({
 					uid: user.id
-				}).done(function(err, rights) {
+				}).exec(function(err, rights) {
 					if (err) return callback(err);
 
 					user.prefix = (rights[0]) ? rights[0].prefix : '';
@@ -213,7 +213,7 @@ module.exports = {
 	},
 
 	settingsTpl: function (req, res) {
-		User.findOne({uid: req.user.id}).done(function(err, user) {
+		User.findOne({uid: req.user.id}).exec(function(err, user) {
 			if (err) throw err;
 
 			res.view('user/settings', {
@@ -228,7 +228,7 @@ module.exports = {
 
 	settings: function (req, res) {
 		if (req.param('startPage').split('.').length === 1) {
-			User.findOne({uid: req.user.id}).done(function(err, user) {
+			User.findOne({uid: req.user.id}).exec(function(err, user) {
 				if (err) throw err;
 
 				user.startPage = req.param('startPage');
@@ -282,7 +282,7 @@ module.exports = {
 				});
 			},
 			function checkUserTable(origUser, callback) {
-				User.findOrCreate({uid: origUser.id}).done(function (err, user) {
+				User.findOrCreate({uid: origUser.id}).exec(function (err, user) {
 					if (err) return callback(err);
 
 					if (user.prefix === undefined && user.canModerate === undefined) {

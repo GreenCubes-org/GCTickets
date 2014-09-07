@@ -8,12 +8,12 @@ module.exports = comment = {
 		async.waterfall([
 			function getBugreportProduct(callback) {
 				Ticket.findOne(comments[0].tid)
-					.done(function (err, ticket) {
+					.exec(function (err, ticket) {
 						if (err) return callback(err);
 
 						if (ticket.type == 1) {
 							Bugreport.findOne(ticket.tid)
-								.done(function (err, bugreport) {
+								.exec(function (err, bugreport) {
 									if (err) return callback(err);
 
 									callback(null, bugreport.product);
@@ -55,7 +55,7 @@ module.exports = comment = {
 								if (userId) {
 									User.find({
 										uid: userId
-									}).done(function (err, rights) {
+									}).exec(function (err, rights) {
 										if (err) return callback(err);
 
 										if (rights.length && bugreportProduct) {

@@ -31,7 +31,7 @@ module.exports = rempro = {
 				Ticket.find({
 					tid: obj.id,
 					type: 2
-				}).done(function (err, ticket) {
+				}).exec(function (err, ticket) {
 					if (err) return cb(err);
 
 					callback(null, obj, ticket);
@@ -43,7 +43,7 @@ module.exports = rempro = {
 					status: {
 						'!': 3
 					}
-				}).done(function (err, comments) {
+				}).exec(function (err, comments) {
 					if (err) return callback(err);
 
 					var lastChangedToOwner;
@@ -168,7 +168,7 @@ module.exports = rempro = {
 				Ticket.find({
 					tid: obj.id,
 					type: 2
-				}).done(function (err, ticket) {
+				}).exec(function (err, ticket) {
 					if (err) return cb(err);
 
 					callback(null, obj, ticket);
@@ -180,7 +180,7 @@ module.exports = rempro = {
 					status: {
 						'!': 3
 					}
-				}).done(function (err, comments) {
+				}).exec(function (err, comments) {
 					if (err) return callback(err);
 
 					var lastChangedToOwner;
@@ -418,7 +418,7 @@ module.exports = rempro = {
 	tplView: function viewRempro(req, res, ticket) {
 		async.waterfall([
 			function findRempro(callback) {
-				Rempro.findOne(ticket.tid).done(function (err, rempro) {
+				Rempro.findOne(ticket.tid).exec(function (err, rempro) {
 					if (err) return callback(err);
 
 					rempro.owner = ticket.owner;
@@ -455,7 +455,7 @@ module.exports = rempro = {
 	},
 
 	tplEdit: function editRemproTpl(req, res, ticket) {
-		Rempro.findOne(ticket.tid).done(function (err, rempro) {
+		Rempro.findOne(ticket.tid).exec(function (err, rempro) {
 			if (err) throw err;
 
 			rempro.owner = ticket.owner;
@@ -472,7 +472,7 @@ module.exports = rempro = {
 	},
 
 	postEdit: function editRempro(req, res, ticket) {
-		Rempro.findOne(ticket.tid).done(function (err, rempro) {
+		Rempro.findOne(ticket.tid).exec(function (err, rempro) {
 			if (err) throw err;
 
 			rempro.owner = ticket.owner;
@@ -562,7 +562,7 @@ module.exports = rempro = {
 					}
 				},
 				function editRempro(obj, callback) {
-					Rempro.findOne(ticket.tid).done(function(err, result) {
+					Rempro.findOne(ticket.tid).exec(function(err, result) {
 						if (err) return callback(err);
 
 						result.title = obj.title;

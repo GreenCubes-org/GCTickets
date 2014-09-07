@@ -18,7 +18,7 @@ module.exports = {
 
 		Comments.find({
 			tid: tid
-		}).done(function(err, comments) {
+		}).exec(function(err, comments) {
 				if (err) throw err;
 				
 				if (req.user) {
@@ -50,7 +50,7 @@ module.exports = {
 			async.waterfall([
 				function processRemoval(callback) {
 					Comments.findOne({id: req.param('cid')})
-						.done(function(err, comment) {
+						.exec(function(err, comment) {
 							if (err) {
 								res.json({
 									status: 'err'
@@ -88,7 +88,7 @@ module.exports = {
 				// I'm updating ticket for updating updatedOn record.
 				function updateTicket(tid, comment, callback) {
 					Ticket.findOne(tid)
-						.done(function (err, ticket) {
+						.exec(function (err, ticket) {
 							if (err) return callback(err);
 
 							ticket.save(function(err) {
@@ -137,7 +137,7 @@ module.exports = {
 		async.waterfall([
 			function getTicket(callback) {
 				Ticket.findOne(tid)
-					.done(function(err, ticket) {
+					.exec(function(err, ticket) {
 						callback(err, ticket);
 					});
 			},
@@ -154,7 +154,7 @@ module.exports = {
 			function getBugreport(ticket, callback) {
 				if (ticket.type == 1) {
 					Bugreport.findOne(ticket.tid)
-						.done(function (err, bugreport) {
+						.exec(function (err, bugreport) {
 							if (err) return callback(err);
 
 							ticket.product = bugreport.product;
@@ -168,7 +168,7 @@ module.exports = {
 			function checkOldCommentsNMessageLength(ticket, callback) {
 				Comments.find({
 					tid: tid
-				}).done(function (err, comments) {
+				}).exec(function (err, comments) {
 					if (err) return callback(err);
 
 					if ((!req.param('message') && !req.param('status')) && !(req.param('status') === ticket.status && !req.param('message'))) {
@@ -202,7 +202,7 @@ module.exports = {
 				if (req.user) {
 					User.find({
 						uid: req.user.id
-					}).done(function (err, rights) {
+					}).exec(function (err, rights) {
 						if (err) return callback(err);
 
 						if (rights.length) {
@@ -246,7 +246,7 @@ module.exports = {
 			},
 			function createComment(newComment, callback) {
 				Comments.create(newComment)
-					.done(function (err, comment) {
+					.exec(function (err, comment) {
 						if (err) return callback(err);
 
 						newComment.id = comment.id;
@@ -256,7 +256,7 @@ module.exports = {
 			},
 			function changeStatus(newComment, callback) {
 				Ticket.findOne(tid)
-					.done(function (err, ticket) {
+					.exec(function (err, ticket) {
 						if (err) return callback(err);
 
 						if (newComment.changedTo) {

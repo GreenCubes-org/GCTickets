@@ -5,7 +5,7 @@ module.exports = {
 				case 1:
 					async.waterfall([
 						function getBugreport(callback) {
-							Bugreport.findOne(obj.tid).done(function (err, result) {
+							Bugreport.findOne(obj.tid).exec(function (err, result) {
 								if (err) return callback(err);
 
 								result.status = obj.status;
@@ -50,7 +50,7 @@ module.exports = {
 			case 2:
 				async.waterfall([
 					function getRempro(callback) {
-						Rempro.findOne(obj.tid).done(function (err, result) {
+						Rempro.findOne(obj.tid).exec(function (err, result) {
 							if (err) return callback(err);
 
 							result.status = obj.status;

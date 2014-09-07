@@ -100,7 +100,7 @@ module.exports = {
 					logs: obj.logs,
 					product: obj.product,
 					uploads: obj.uploads
-				}).done(function(err, result) {
+				}).exec(function(err, result) {
 					if (err) return callback(err);
 					
 					callback(null, result.id, obj);
@@ -114,7 +114,7 @@ module.exports = {
 					visiblity: obj.visiblity,
 					comments: [],
 					owner: obj.owner
-				}).done(function (err, ticket) {
+				}).exec(function (err, ticket) {
 					if (err) return callback(err);
 
 					callback(null, ticket)
@@ -245,7 +245,7 @@ module.exports = {
 					regions: obj.regions,
 					stuff: obj.stuff,
 					uploads: obj.uploads
-				}).done(function(err, result) {
+				}).exec(function(err, result) {
 					if (err) return callback(err);
 
 					callback(null, result.id, obj);
@@ -259,7 +259,7 @@ module.exports = {
 					visiblity: obj.visiblity,
 					comments: [],
 					owner: obj.owner
-				}).done(function (err, ticket) {
+				}).exec(function (err, ticket) {
 					if (err) return callback(err);
 
 					callback(null, ticket)

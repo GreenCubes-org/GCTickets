@@ -7,7 +7,7 @@
 
 module.exports = {
 	routeView: function(req, res) {
-		Ticket.findOne(req.param('tid')).done(function (err, result) {
+		Ticket.findOne(req.param('tid')).exec(function (err, result) {
 			if (err) throw err;
 
 			if (result) {
@@ -34,7 +34,7 @@ module.exports = {
 	},
 
 	routeViewTpl: function(req, res) {
-		Ticket.findOne(req.param('tid')).done(function (err, result) {
+		Ticket.findOne(req.param('tid')).exec(function (err, result) {
 			if (err) throw err;
 
 			if (result) {
@@ -61,7 +61,7 @@ module.exports = {
 	},
 
 	deleteTpl: function (req, res) {
-		Ticket.findOne(req.param('tid')).done(function (err, result) {
+		Ticket.findOne(req.param('tid')).exec(function (err, result) {
 			if (err) throw err;
 
 			res.view('delete', {
@@ -79,7 +79,7 @@ module.exports = {
 
 		Ticket.findOne({
 			id: req.param('tid')
-		}).done(function (err, result) {
+		}).exec(function (err, result) {
 			if (err) {
 				res.json({
 					status: 'err'
@@ -112,7 +112,7 @@ module.exports = {
 
 		Ticket.findOne({
 			id: req.param('tid')
-		}).done(function (err, result) {
+		}).exec(function (err, result) {
 			if (err) {
 				res.json({
 					status: 'err'

@@ -11,7 +11,7 @@ module.exports = function (req, res, ok) {
 			}
 		},
 		function checkUGroup(userGroup, ticketCreator, canModerate, callback) {
-			Ticket.findOne(req.param('tid')).done(function (err, ticket) {
+			Ticket.findOne(req.param('tid')).exec(function (err, ticket) {
 				if (err) throw err;
 
 				if (userGroup >= ugroup.mod || ticket.owner === ticketCreator) {
@@ -25,7 +25,7 @@ module.exports = function (req, res, ok) {
 		function checkRights(canModerate, tid, callback) {
 			if (!canModerate) return res.status(403).view('403', {layout: false});
 			
-			Bugreport.findOne(tid).done(function (err, bugreport) {
+			Bugreport.findOne(tid).exec(function (err, bugreport) {
 				if (err) throw err;
 				
 				async.each(canModerate, function (element, callback) {

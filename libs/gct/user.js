@@ -263,7 +263,7 @@ module.exports = user = {
 			function getTicketsCount(obj, callback) {
 				Ticket.count({
 					owner: obj.user.id
-				}).done(function (err, count) {
+				}).exec(function (err, count) {
 					if (err) return callback(err);
 
 					obj.ticketsCount = count;

@@ -7,7 +7,7 @@ module.exports = function (req, res, ok) {
 	
 	Banlist.find({
 		ip: ip
-	}).done(function (err, ban) {
+	}).exec(function (err, ban) {
 		if (err) throw err;
 
 		if (ban.length) {
@@ -18,7 +18,7 @@ module.exports = function (req, res, ok) {
 			if (req.user) {
 				Banlist.find({
 					uid: req.user.id
-				}).done(function (err, ban) {
+				}).exec(function (err, ban) {
 					if (err) throw err;
 
 					if (ban.length) {
