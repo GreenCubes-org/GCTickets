@@ -26,8 +26,8 @@ module.exports = {
 			filterByNoStatus = gct.getStatusByClass(req.query.nostatus),
 			filterByVisibility = gct.getVisibilityByClass(req.query.visibility),
 			currentPage = parseInt(req.param('param'), 10) || ((req.param('page')) ? parseInt(req.param('page'), 10) : 1),
-			currentSubSection = splitedPath[2],
 			currentSubSectionId = (splitedPath[2] && isNaN(splitedPath[2], 10) && splitedPath[1] === 'bugreports') ? gct.getProductByTechText(splitedPath[2]).id : null,
+			currentSubSection = (currentSubSectionId) ? splitedPath[2] : null,
 			sortBy,
 			query = {
 				status: null,
