@@ -24,7 +24,7 @@ var renderNotifs = function renderNotifs() {
 		$('#nonotifs').remove();
 
 		if (!notifs.length) {
-			return $('#gc-notifmodal .content').append('<div style="padding: 5em 0em;text-align: center;font-size:1.4em" id="nonotifs">Нет оповещений</div>');
+			return $('#gc-notifmodal .content').append('<div style="padding: 7em 0em;text-align: center;font-size:1.4em" id="nonotifs">Нет оповещений</div>');
 		}
 
 		$('#gc-notifmodal .content').html('<table class="ui basic padded large table" id="gc-notiftable">' +
