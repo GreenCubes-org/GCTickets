@@ -101,6 +101,8 @@ $(document).ready(function () {
 			$('#gc-notifmodal .content').css('height', $(window).height() - 250);
 			$('#gc-notifmodal').css('margin-top','3em');
 			$('#gc-notifmodal').css('top','0%');
+
+			//return true;
 		}
 	}).modal('attach events', '#gc-notifheaderbutton', 'show');
 });
