@@ -75,6 +75,7 @@ $(document).ready(function () {
 
 	renderNotifs();
 
+	/* Notification modal */
 	$('#gc-notifmodal').modal('setting', {
 		onShow: function () {
 			$('#gc-notifmodal .content').css('height', $(window).height() - 250);
@@ -101,4 +102,15 @@ $(document).ready(function () {
 			}
 		});
 	});
+
+	/* Logout modal */
+
+	$('#gc-logoutmodal').modal('setting', {
+		onDeny: function () {
+			return true;
+		},
+		onApprove: function () {
+			window.location.replace('/logout');
+		}
+	}).modal('attach events', '#gc-logoutbutton', 'show');
 });
