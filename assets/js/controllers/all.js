@@ -76,41 +76,47 @@ $(document).ready(function () {
 	renderNotifs();
 
 	/* Notification modal */
-	$('#gc-notifmodal').modal('setting', {
-		onShow: function () {
-			$('#gc-notifmodal .content').css('height', $(window).height() - 250);
-			$('#gc-notifmodal').css('margin-top','3em');
-			$('#gc-notifmodal').css('top','0%');
-		}
-	}).modal('attach events', '#gc-notifheaderbutton', 'show');
+	$('#gc-notifheaderbutton').click(function () {
+		$('#gc-notifmodal').modal('setting', {
+			onDeny: function () {
+				$.ajax({
+					type: "DELETE",
+					url: '/notifs',
+					data: {},
+					beforeSend: function () {
+						$('#gc-notifmodal #gc-notiftable').hide();
+						$('#gc-notifmodal .content').append('<div class="ui active inverted dimmer" style="position: relative !important;padding:5em 0em;" id="loadingmodal"><div class="ui text loader">Загружается</div></div>');
+					},
+					success: function (data) {
+						$('#gc-notifmodal .content').html('<div style="padding: 7em 0em;text-align: center;font-size:1.4em" id="nonotifs">Оповещения успешно удалены</div>');
+					}
+				});
 
-	$('#gc-notifmodal-refreshbutton').click(function () {
-		renderNotifs();
-	});
-
-	$('#gc-notifmodal-deletebutton').click(function () {
-		$.ajax({
-			type: "DELETE",
-			url: '/notifs',
-			data: {},
-			beforeSend: function () {
-				$('#gc-notifmodal #gc-notiftable').hide();
-				$('#gc-notifmodal .content').append('<div class="ui active inverted dimmer" style="position: relative !important;padding:5em 0em;" id="loadingmodal"><div class="ui text loader">Загружается</div></div>');
+				return false;
 			},
-			success: function (data) {
-				$('#gc-notifmodal .content').html('<div style="padding: 7em 0em;text-align: center;font-size:1.4em" id="nonotifs">Оповещения успешно удалены</div>');
+			onApprove: function () {
+				renderNotifs();
+
+				return false;
+			},
+			onShow: function () {
+				$('#gc-notifmodal .content').css('height', $(window).height() - 250);
+				$('#gc-notifmodal').css('margin-top','3em');
+				$('#gc-notifmodal').css('top','0%');
 			}
-		});
+		}).modal('show');
 	});
 
 	/* Logout modal */
 
-	$('#gc-logoutmodal').modal('setting', {
-		onDeny: function () {
-			return true;
-		},
-		onApprove: function () {
-			window.location.replace('/logout');
-		}
-	}).modal('attach events', '#gc-logoutbutton', 'show');
+	$('#gc-logoutbutton').click(function () {
+		$('#gc-logoutmodal').modal('setting', {
+			onDeny: function () {
+				return true;
+			},
+			onApprove: function () {
+				window.location.replace('/logout');
+			}
+		}).modal('show');
+	});
 });
