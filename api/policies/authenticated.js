@@ -4,10 +4,9 @@
 module.exports = function (req, res, ok) {
 
 	// User is allowed, proceed to controller
-	if (req.isAuthenticated()) {
+	if (req.user) {
 		return ok();
-	}
-	else {
+	} else {
 		if (req.wantsJSON) {
 			res.json(403, {error: 403});
 		} else {
