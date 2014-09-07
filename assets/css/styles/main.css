@@ -187,6 +187,40 @@ label {
 body.main.ui.dimmable.scrolling.dimmed {
 	overflow: hidden;
 }
+
+#gc-notifmodal-refreshbutton, #gc-notifmodal-deletebutton {
+	background-color: transparent !important;
+	background-image: none;
+	color: #808080 !important;
+	font-weight: 400;
+	text-transform: none;
+	box-shadow: 0px 0px 0px 1px rgba(0, 0, 0, 0.1) inset;
+	font-size: 1rem;
+	cursor: pointer;
+	display: inline-block;
+	vertical-align: middle;
+	min-height: 1em;
+	outline: 0px none;
+	border: 0px none;
+	margin: 0px;
+	line-height: 1;
+	font-style: normal;
+	text-align: center;
+	text-decoration: none;
+	border-radius: 0.25em;
+	-moz-user-select: none;
+	box-sizing: border-box;
+	transition: opacity 0.25s ease 0s, background-color 0.25s ease 0s, color 0.25s ease 0s, #DEDEDE 0.25s ease 0s, box-shadow 0.25s ease 0s;
+	margin-left: 0.75em;
+}
+
+#gc-notifmodal-refreshbutton {
+	padding: 0.8em;
+}
+
+#gc-notifmodal-deletebutton {
+	padding: 0.8em 1.5em;
+}
 /* Comments changes */
 
 .ui.divider.small {
