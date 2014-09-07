@@ -58,7 +58,7 @@ module.exports.bootstrap = function (cb) {
 
 	if (cfg.redis.pass) redis.auth(cfg.redis.pass);
 
-	redis.select(cfg.redis.db.notif);
+	redis.select(cfg.redis.db.session);
 
 	redis.on('error', function (err) {
 	  console.log("[REDIS][ERR]: " + err);
