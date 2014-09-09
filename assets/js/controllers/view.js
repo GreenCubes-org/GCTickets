@@ -517,7 +517,9 @@ app.view = {
 				.modal('show');
 		});
 
-		$('a').click(function (event) {
+		$('a').mousedown(function (event) {
+			if (event.which !== 1) return;
+
 			var link = this;
 			$('#unsavedlink')
 				.modal('setting', {
