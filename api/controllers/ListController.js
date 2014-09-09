@@ -40,6 +40,10 @@ module.exports = {
 		sails.log.verbose('filterByNoStatus:', filterByNoStatus);
 		sails.log.verbose('filterByVisibility:', filterByVisibility);
 
+		if (isNaN(splitedPath[3])) {
+			return res.notFound();
+		}
+
 		if (filterByStatus) {
 			filterBy.status = filterByStatus;
 		}
