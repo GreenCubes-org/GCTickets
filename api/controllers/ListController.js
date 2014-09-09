@@ -34,13 +34,14 @@ module.exports = {
 				visibility: null
 			};
 
+		sails.log.verbose('splitedPath:', splitedPath);
 		sails.log.verbose('currentPage:', currentPage);
 		sails.log.verbose('currentSubSectionId:', currentSubSectionId);
 		sails.log.verbose('filterByStatus:', filterByStatus);
 		sails.log.verbose('filterByNoStatus:', filterByNoStatus);
 		sails.log.verbose('filterByVisibility:', filterByVisibility);
 
-		if (isNaN(splitedPath[3])) {
+		if (splitedPath[3] && isNaN(splitedPath[3])) {
 			return res.notFound();
 		}
 
