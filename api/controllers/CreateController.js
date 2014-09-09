@@ -175,7 +175,7 @@ module.exports = {
 					title: req.param('title'),
 					reason: req.param('reason'),
 					status: 1,
-					createdFor: req.param('createdfor').replace(/[^a-zA-Z0-9_-]/g, ''),
+					createdFor: req.param('createdfor').replace(/[^a-zA-Z0-9_-]/g, '') || null,
 					owner: req.user.id,
 					regions: req.param('regions').trim().split(/\n/) || '',
 					stuff: req.param('stuff').trim().split(/\n/) || '',
@@ -269,10 +269,8 @@ module.exports = {
 		 function (err, ticket) {
 			if (err) {
 				if (!err.msg) {
-					res.json(500, {
-						 err: 'Внезапная ошибка! Пожалуйста, сообщите о ней разработчику.'
-					});
-
+					res.serverError();
+					console.log(err);
 					throw err;
 				} else {
 					return res.json({
