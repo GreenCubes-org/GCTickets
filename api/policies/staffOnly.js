@@ -12,10 +12,10 @@ module.exports = function (req, res, ok) {
 			if (rights.length !== 0 && rights[0].ugroup === ugroup.staff) {
 				ok();
 			} else {
-				res.status(403).view('403', {layout: false});
+				res.forbidden();
 			}
 		});
 	} else {
-		res.status(403).view('403', {layout: false});
+		res.forbidden();
 	}
 };

@@ -40,6 +40,7 @@
 						<button type="submit" class="ui blue submit button">Войти</button>
 					</div>
 					<input type="hidden" name="_csrf" value="<%= _csrf %>" />
+					<input type="hidden" name="redirectto" value="<%= redirectto %>" />
 				</form>
 				<div id="loginerr"><% if (typeof message !== 'undefined') { %>
 						<div class="ui error message">

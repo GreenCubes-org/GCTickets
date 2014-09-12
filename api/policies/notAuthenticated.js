@@ -9,7 +9,7 @@ module.exports = function (req, res, ok) {
 	}
 	else {
 		if (req.wantsJSON) {
-			res.json(403, {error: 403});
+			res.forbidden();;
 		} else {
 			res.redirect('/');
 		}

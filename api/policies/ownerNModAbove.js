@@ -23,7 +23,7 @@ module.exports = function (req, res, ok) {
 		},
 		//Only for bugreports
 		function checkRights(canModerate, tid, callback) {
-			if (!canModerate) return res.status(403).view('403', {layout: false});
+			if (!canModerate) return res.forbidden();
 			
 			Bugreport.findOne(tid).exec(function (err, bugreport) {
 				if (err) throw err;
@@ -36,7 +36,7 @@ module.exports = function (req, res, ok) {
 				}, function (canMod) {
 					if (canMod) return ok();
 
-					res.status(403).view('403', {layout: false});
+					res.forbidden();
 				});
 			});
 		}

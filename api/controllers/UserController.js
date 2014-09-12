@@ -255,7 +255,8 @@ module.exports = {
 
 		res.view('user/login', {
 			layout: false,
-			message: message
+			message: message,
+			redirectto: req.query.redirectto
 		});
 	},
 
@@ -304,6 +305,12 @@ module.exports = {
 			}
 		], function (err) {
 			if (err) throw err;
+
+			if (req.body.redirectto) {
+				return res.json({
+					redirectto: 'http://' + req.host + req.body.redirectto
+				});
+			}
 
 			res.redirect('/');
 		});

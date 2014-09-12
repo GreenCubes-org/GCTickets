@@ -76,11 +76,16 @@ app.main = {
 				url: '/login',
 				data: $('form#loginform').serialize(),
 				success: function (data) {
-					if (!data.error) {
-						window.location = '/';
-					} else {
-						$('#loginerr').html('<div class="ui error message"><div class="header">' + data.error.message + '</div></div>');
+
+					if (data.error) {
+						return $('#loginerr').html('<div class="ui error message"><div class="header">' + data.error.message + '</div></div>');
 					}
+
+					if (data.redirectto) {
+						return window.location = data.redirectto;
+					}
+
+					window.location = '/';
 				},
 				error: function (err) {
 					$('#loginerr').html('<div class="ui error message"><div class="header">Проблемка. Попробуйте позже.</div></div>');

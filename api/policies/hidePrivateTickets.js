@@ -21,7 +21,7 @@ module.exports = function (req, res, ok) {
 				if (err) return callback(err);
 
 				if (!ticket) {
-					return res.status(404).view('404', {layout: false});
+					return res.notFound();
 				}
 
 				if (req.user && req.user.group >= ugroup.helper || req.user && req.user.id === ticket.owner) {
@@ -33,7 +33,11 @@ module.exports = function (req, res, ok) {
 								if (req.user) {
 									callback(null, req.user.ugroup, req.user.id, req.user.canModerate);
 								} else {
-									callback(null, 0, 0, null);
+									if (req.wantsJSON) {
+										res.json(403, {error: 403});
+									} else {
+										res.redirect('/login?errcode=1&redirectto=' + req.path);
+									}
 								}
 							},
 							function checkUGroup(userGroup, ticketCreator, canModerate, callback) {
@@ -49,10 +53,7 @@ module.exports = function (req, res, ok) {
 							},
 							//Only for bugreports
 							function checkRights(canModerate, tid, callback) {
-								if (!canModerate) return res.status(403).json({
-									message: 'Forbidden',
-									status: 403
-								});
+								if (!canModerate) return res.forbidden();
 
 								Bugreport.findOne(tid).exec(function (err, bugreport) {
 									if (err) return callback(err);
@@ -65,7 +66,7 @@ module.exports = function (req, res, ok) {
 									}, function (canMod) {
 										if (canMod) return ok();
 
-										res.status(403).view('403', {layout: false});
+										return res.forbidden();
 									});
 								});
 							}
