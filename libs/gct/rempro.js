@@ -520,7 +520,7 @@ module.exports = rempro = {
 							title: req.param('title'),
 							reason: req.param('reason'),
 							status: ticket.status,
-							createdFor: req.param('createdfor'),
+							createdFor: req.param('createdfor') || null,
 							owner: rempro.owner,
 							regions: req.param('regions').trim().split(/\n/) || '',
 							stuff: req.param('stuff').trim().split(/\n/) || '',
