@@ -452,7 +452,7 @@ module.exports = {
 							callback(null, comment);
 					});
 				},
-				function checkUGroup(comment, canModerate, callback) {
+				function checkUGroup(comment, callback) {
 					if (req.user.group >= ugroup.mod || comment.owner === req.user.id) {
 						callback(null, comment, 'pass');
 					} else {

@@ -73,10 +73,18 @@ module.exports = comment = {
 							function checkUGroup(comment, canModerate, commentCreator, callback) {
 								if (canModerate || comment.owner === commentCreator || userGroup >= ugroup.mod) {
 									comment.canModerate = true;
-									callback(null, comment);
-								} else {
-									callback(null, comment);
 								}
+
+								callback(null, comment);
+							},
+							function canEdit(comment, callback) {
+								if (comment.owner === userId) {
+									comment.canEdit = true;
+								} else {
+									comment.canEdit = false;
+								}
+
+								callback(null, comment);
 							},
 							function setLogin(comment, callback) {
 								comment.owner = login;

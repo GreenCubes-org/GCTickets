@@ -22,10 +22,11 @@ var renderAllComments = function renderAllComments(ticketId) {
 			}
 
 			if (comment.canModerate) {
+				var edititem = (comment.canEdit) ? '<a id="commentedit" cid="' + comment.id + '" class="item">Редактировать</a>' : '';
 				var menu = '<div class="ui inline top right pointing dropdown" id="commentoptions">' +
 					'<i class="ellipsis horizontal icon"></i>' +
 					'<div class="menu">' +
-					'<a id="commentedit" cid="' + comment.id + '" class="item">Редактировать</a>' +
+					edititem +
 					'<a id="commentremove" cid="' + comment.id + '" do="remove" class="item">Удалить</a>' +
 					'</div>' +
 					'</div>';
