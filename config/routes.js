@@ -59,8 +59,9 @@ module.exports.routes = {
 	'post /id/:tid/delete': 'edit.deletePost',
 	'/id/:tid/report': 'dev.hideFeature',
 	'get /comments': 'comment.listViewComments',
-	'get /comments/:cid/report': 'dev.hideFeature',
-	'post /comments/:cid/remove': 'comment.deleteComment',
+	'get /comments/:cid': 'comment.getComment',
+	'put /comments/:cid': 'comment.editComment',
+	'delete /comments/:cid': 'comment.deleteComment',
 	'post /comments/new': 'comment.newComment',
 
 	// Новый тикет без типа

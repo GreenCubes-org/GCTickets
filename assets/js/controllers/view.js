@@ -25,6 +25,7 @@ var renderAllComments = function renderAllComments(ticketId) {
 				var menu = '<div class="ui inline top right pointing dropdown" id="commentoptions">' +
 					'<i class="ellipsis horizontal icon"></i>' +
 					'<div class="menu">' +
+					'<a id="commentedit" cid="' + comment.id + '" class="item">Редактировать</a>' +
 					'<a id="commentremove" cid="' + comment.id + '" do="remove" class="item">Удалить</a>' +
 					'</div>' +
 					'</div>';
@@ -40,9 +41,9 @@ var renderAllComments = function renderAllComments(ticketId) {
 			}
 
 			$('#comments').append(
-				'<div class="comment ' + comment.status + '" id="comment' + comment.id + '">' +
+				'<div class="comment" id="comment' + comment.id + '">' +
 				'<div class="content">' +
-				'<a class="ui ribbon label ' + comment.colorclass + ' gc-nostylelink" href="/users/' + comment.owner + '">' + ((comment.prefix) ? comment.prefix : '') + ' ' + comment.owner + '</a>' +
+				'<a id="comment-author" class="ui ribbon label ' + comment.colorclass + ' gc-nostylelink" href="/users/' + comment.owner + '">' + ((comment.prefix) ? comment.prefix : '') + ' ' + comment.owner + '</a>' +
 				'<div class="metadata">' +
 				'<a href="/id/' + ticketId + '/#comment' + comment.id + '" class="date" title="' + comment.createdAt.fullDate + '">' + comment.createdAt.simply + '</a>' +
 				menu +
@@ -295,8 +296,54 @@ app.view = {
 		$('#commentstatus').dropdown();
 		$('.ui.accordion').accordion();
 
+		$(document).on('click', '#commentedit', function (e) {
+			var editbutton = this;
+			var cid = $(editbutton).attr('cid');
+
+			$.ajax({
+				type: "GET",
+				url: '/comments/' + cid,
+				complete: function (data) {
+					var author = data.responseJSON.owner;
+
+					$('#editcomment')
+						.modal('setting', {
+							transition: 'fade up',
+							closable: false,
+							onShow: function () {
+								$('#editcomment-textarea').val(data.responseJSON.message);
+								$('#editcomment-cid').html(cid);
+								$('#editcomment-author').html(author);
+							},
+							onDeny: function () {
+								return true;
+							},
+							onApprove: function () {
+								$.ajax({
+									type: "PUT",
+									url: '/comments/' + cid,
+									data: {
+										message: $('#editcomment-textarea').val()
+									},
+									complete: function (data) {
+										if (data.statusCode === 400) {
+											alert('Произошла ошибка! Пожалуйста, сообщите разработчику о ней!');
+										}
+
+										if (data.responseJSON.status === 'OK') {
+											renderAllComments(ticketId);
+										}
+									}
+								});
+							}
+						})
+						.modal('show');
+				}
+			});
+		});
+
 		$(document).on('click', '#commentremove', function (e) {
-			rembutton = this;
+			var rembutton = this;
 
 			$('#remcomment')
 				.modal('setting', {
@@ -310,8 +357,8 @@ app.view = {
 						var action = $(rembutton).attr('do');
 
 						$.ajax({
-							type: "POST",
-							url: '/comments/' + cid + '/remove',
+							type: "DELETE",
+							url: '/comments/' + cid,
 							data: {
 								action: action
 							},
@@ -320,7 +367,7 @@ app.view = {
 							},
 							complete: function (data) {
 								$('#removedimmer').remove();
-								if (data.responseJSON.status === 'err') {
+								if (data.statusCode === 400) {
 									$('body').fadeIn('slow').append('<div class="ui active segment dimmer" id="removedimmer"><div class="header">Произошла ошибка!</div><div class="content">Пожалуйста, сообщите разработчику о ней</div><div class="actions"><div class="ui fluid button">Ладно, вернёмся обратно</div></div></div>');
 								}
 

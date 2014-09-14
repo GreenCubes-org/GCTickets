@@ -2,7 +2,6 @@
  * Hide private tickets
  */
 module.exports = function (req, res, ok) {
-	
 	async.waterfall([
 		function check4CIds(callback) {
 			if (req.params.cid) {
@@ -13,6 +12,10 @@ module.exports = function (req, res, ok) {
 						callback(null, comment.tid);
 					});
 			} else {
+				if (!req.param('tid')) {
+					return res.badRequest();
+				}
+
 				callback(null, req.param('tid'));
 			}
 		},
