@@ -54,7 +54,7 @@ exports.parse = function (post, cb) {
 	var urlstart = -1; // beginning of the URL if zero or greater (ignored if -1)
 
 	// aceptable BBcode tags, optionally prefixed with a slash
-	var tagname_re = /^\/?(?:b|i|u|url|link|s|u?list|li|spoiler)$/i;
+	var tagname_re = /^\/?(?:b|i|u|url|link|s|u?list|li|spoiler|code)$/i;
 
 	// color names or hex color
 	var color_re = /^(:?black|silver|gray|white|maroon|red|purple|fuchsia|green|lime|olive|yellow|navy|blue|teal|aqua|#(?:[0-9a-f]{3})?[0-9a-f]{3})$/i;
@@ -287,7 +287,6 @@ exports.parse = function (post, cb) {
 		// replace non bbcode urls
 		post = (function (_post) {
 			return _post.replace(/(\[url\=)?(http|https|ftp|ftps)\:\/\/[a-zA-Z0-9\-\.]+\.[a-zA-Z]{2,3}([\w.,@?^=%&amp;:/~+#-]*[\w@?^=%&amp;/~+#-])?/g, function (m0, m1, m2, offset, mstr) {
-				console.log(arguments);
 				if (m1 !== '[url=') {
 					return m0.replace(/(http|ftp|https):\/\/[\w-]+(\.[\w-]+)+([\w.,@?^=%&amp;:/~+#-]*[\w@?^=%&amp;/~+#-])?/g, function (m0, m1, m2, offset, mstr) {
 						return "<a target=\"_blank\" href=\"" + m0 + "\">" + m0 + "</a>";

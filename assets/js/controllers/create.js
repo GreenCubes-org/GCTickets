@@ -6,13 +6,20 @@ app.create = {
 		if ($('#description')) {
 			$('#description').wysibb({
 				lang: 'ru',
-				buttons: 'bold,italic,underline|,link,numlist,|,spoiler',
+				buttons: 'bold,italic,underline,|,link,numlist,code,|,spoiler',
 				allButtons: {
 					spoiler: {
 						title: "Спойлер",
 						buttonText: 'Spoiler',
 						transform: {
 							'<div class="ui basic accordion"><div class="title"><i class="dropdown icon"></i>Спойлер</div><div class="content">{SELTEXT}</div></div>':'[spoiler]{SELTEXT}[/spoiler]'
+						}
+					},
+					code: {
+						title: "Код",
+						buttonText: 'Code',
+						transform: {
+							'<pre><code>{SELTEXT}</code></pre>':'[code]{SELTEXT}[/code]'
 						}
 					}
 				}
@@ -21,13 +28,20 @@ app.create = {
 		if ($('#reason')) {
 			$('#reason').wysibb({
 				lang: 'ru',
-				buttons: 'bold,italic,underline|,link,numlist,|,spoiler',
+				buttons: 'bold,italic,underline,|,link,numlist,code,|,spoiler',
 				allButtons: {
 					spoiler: {
 						title: "Спойлер",
 						buttonText: 'Spoiler',
 						transform: {
 							'<div class="ui basic accordion"><div class="title"><i class="dropdown icon"></i>Спойлер</div><div class="content">{SELTEXT}</div></div>':'[spoiler]{SELTEXT}[/spoiler]'
+						}
+					},
+					code: {
+						title: "Код",
+						buttonText: 'Code',
+						transform: {
+							'<pre><code>{SELTEXT}</code></pre>':'[code]{SELTEXT}[/code]'
 						}
 					}
 				}
