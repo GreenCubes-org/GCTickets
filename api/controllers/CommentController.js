@@ -361,7 +361,7 @@ module.exports = {
 			return res.badRequest();
 		}
 
-		if (!req.param('message')) {
+		if (!req.param('message') && req.param('message') !== '') {
 			return res.badRequest();
 		}
 
@@ -452,6 +452,29 @@ module.exports = {
 							callback(null, comment);
 					});
 				},
+				function getTicket(comment, callback) {
+					Ticket.findOne(comment.tid)
+						.exec(function(err, ticket) {
+							callback(err, comment, ticket);
+						});
+				},
+				function preCheck(comment, ticket, callback) {
+					if (req.user.group < ugroup.helper && [2,4,5,6,7,10,12].indexOf(ticket.status) !== -1) {
+						return callback({
+							show: true,
+							msg: 'Удаление в закрытых тикетах запрещено'
+						});
+					}
+
+					if (comment.changedTo && action === 'remove') {
+						return callback({
+							show: true,
+							msg: 'Нельзя удалить сообщение со статусом'
+						});
+					}
+
+					callback(null, comment);
+				},
 				function checkUGroup(comment, callback) {
 					if (req.user.group >= ugroup.mod || comment.owner === req.user.id) {
 						callback(null, comment, 'pass');
@@ -536,7 +559,15 @@ module.exports = {
 					}
 				}
 			], function (err) {
-				if (err) throw err;
+				if (err) {
+					if (err.show) {
+						return res.json({
+							msg: err.msg
+						});
+					}
+
+					throw err;
+				}
 
 				res.json({
 					status: 'OK'

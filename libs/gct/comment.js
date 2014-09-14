@@ -71,8 +71,8 @@ module.exports = comment = {
 								}
 							},
 							function checkUGroup(comment, canModerate, commentCreator, callback) {
-								if (canModerate || comment.owner === commentCreator || userGroup >= ugroup.mod) {
-									comment.canModerate = true;
+								if ((canModerate || comment.owner === commentCreator || userGroup >= ugroup.mod ) && !comment.changedTo) {
+									comment.canRemove = true;
 								}
 
 								callback(null, comment);

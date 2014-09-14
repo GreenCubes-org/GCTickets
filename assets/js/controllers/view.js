@@ -21,13 +21,14 @@ var renderAllComments = function renderAllComments(ticketId) {
 				return undefined;
 			}
 
-			if (comment.canModerate) {
+			if (comment.canRemove || comment.canEdit) {
 				var edititem = (comment.canEdit) ? '<a id="commentedit" cid="' + comment.id + '" class="item">Редактировать</a>' : '';
+				var removeitem = (comment.canRemove) ? '<a id="commentremove" cid="' + comment.id + '" do="remove" class="item">Удалить</a>' : '';
 				var menu = '<div class="ui inline top right pointing dropdown" id="commentoptions">' +
 					'<i class="ellipsis horizontal icon"></i>' +
 					'<div class="menu">' +
 					edititem +
-					'<a id="commentremove" cid="' + comment.id + '" do="remove" class="item">Удалить</a>' +
+					removeitem +
 					'</div>' +
 					'</div>';
 			} else {
@@ -90,7 +91,8 @@ var renderRemovedComments = function renderRemovedComments(ticketId) {
 
 		comments = comments.map(function (comment) {
 			if (comment.status !== 3) return undefined;
-			if (comment.canModerate) {
+
+			if (comment.canRemove) {
 				var menu = '<div class="ui inline top right pointing dropdown" id="commentoptions">' +
 					'<i class="ellipsis horizontal icon"></i>' +
 					'<div class="menu">' +
@@ -349,6 +351,7 @@ app.view = {
 			$('#remcomment')
 				.modal('setting', {
 					transition: 'fade up',
+					allowMultiple: true,
 					closable: false,
 					onDeny: function () {
 						return true;
@@ -369,11 +372,25 @@ app.view = {
 							complete: function (data) {
 								$('#removedimmer').remove();
 								if (data.statusCode === 400) {
-									$('body').fadeIn('slow').append('<div class="ui active segment dimmer" id="removedimmer"><div class="header">Произошла ошибка!</div><div class="content">Пожалуйста, сообщите разработчику о ней</div><div class="actions"><div class="ui fluid button">Ладно, вернёмся обратно</div></div></div>');
+									$('#modalerrormessage').html('Неправильный запрос. Сообщите об этой ошибке разработчику.');
+									$('#errormodal')
+										.modal('setting', {
+											allowMultiple: true,
+											transition: 'fade',
+											closable: true
+										})
+										.modal('show');
 								}
 
 								if (data.responseJSON.msg) {
-									$('body').fadeIn('slow').append('<div class="ui active segment dimmer" id="removedimmer"><div class="header">' + data.msg + '</div><div class="actions"><div class="ui fluid button">Ладно, вернёмся обратно</div></div></div>');
+									$('#modalerrormessage').html(data.responseJSON.msg);
+									$('#errormodal')
+										.modal('setting', {
+											allowMultiple: true,
+											transition: 'fade',
+											closable: true
+										})
+										.modal('show');
 								}
 
 								if (data.responseJSON.status === 'OK') {
