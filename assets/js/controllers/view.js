@@ -314,7 +314,7 @@ app.view = {
 							transition: 'fade up',
 							closable: false,
 							onShow: function () {
-								$('#editcomment-textarea').val(data.responseJSON.message);
+								$('#editcomment-textarea').val($('<div/>').html(data.responseJSON.message).text());
 								$('#editcomment-cid').html(cid);
 								$('#editcomment-author').html(author);
 							},
