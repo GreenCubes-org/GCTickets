@@ -1,19 +1,19 @@
-<% title = 'Права пользователей / Админпанель — GC.Поддержка',
+<% title = __('view.admin.users.roles.pagetitle') + " — " + __('global.pagetitle'),
 	backUrl = '/admin'; %>
 <%- partial('../../partials/header')%>
 
 <div class="container">
-	<h1 class="ui header">Права пользователей / <a class="gc-nostylelink" href="/admin">Админпанель</a></h1>
+	<h1 class="ui header"><%- __('view.admin.users.roles.title', '<a class="gc-nostylelink" href="/admin">', '</a>') %></h1>
 	<div class="ui divider"></div>
-	<h5>Показаны только игроки с группой хелпер и выше</h5>
+	<h5><%- __('view.admin.users.roles.disclaimer') %></h5>
 	<table class="ui table">
 		<thead>
 			<tr>
-				<th>Никнейм</th>
-				<th>Группа</th>
-				<th>Префикс</th>
-				<th>Цветовой класс</th>
-				<th>Может модерировать</th>
+				<th><%- __('view.admin.users.roles.nickname') %></th>
+				<th><%- __('view.admin.users.roles.group') %></th>
+				<th><%- __('view.admin.users.roles.prefix') %></th>
+				<th><%- __('view.admin.users.roles.colorclass') %></th>
+				<th><%- __('view.admin.users.roles.canmoderate') %></th>
 				<th style="width:5%"></th>
 			</tr>
 		</thead>
@@ -33,43 +33,43 @@
 	
 	<div class="ui divider"></div>
 	
-	<h2 class="ui header">Изменить права</h2>
+	<h2 class="ui header"><%- __('view.admin.users.roles.form.title') %></h2>
 	<form id="gc-newrole">
 		<input type="hidden" name="_csrf" value="<%= _csrf %>" />
 		<div class="ui small form" style="width: 600px;">
 			<div class="two fields">
 				<div class="field">
-					<label>Префикс</label>
+					<label><%- __('view.admin.users.roles.prefix') %></label>
 					<input placeholder="[HELP!]" type="text" name="prefix">
 				  </div>
 				<div class="field">
-					<label>Никнейм</label>
+					<label><%- __('view.admin.users.roles.nickname') %></label>
 					<input placeholder="ChangedNick" type="text" name="username">
 				</div>
 			</div>
 			<div class="two fields">
 			  <div class="field">
-				<label>Группа</label>
+				<label><%- __('view.admin.users.roles.group') %></label>
 				<div class="ui fluid selection dropdown">
-				  <div class="text">Выбрать</div>
+				  <div class="text"><%- __('view.ui.dropdown.select') %></div>
 				  <i class="dropdown icon"></i>
 				  <input name="ugroup" type="hidden">
 				  <div class="menu">
-					<div class="item" data-value="0">Пользователь</div>
-					<div class="item" data-value="1">Хелпер</div>
-					<div class="item" data-value="2">Модератор</div>
-					<div class="item" data-value="3">Персонал</div>
+					<div class="item" data-value="0"><%- __('global.ugroup.user') %></div>
+					<div class="item" data-value="1"><%- __('global.ugroup.helper') %></div>
+					<div class="item" data-value="2"><%- __('global.ugroup.moderator') %></div>
+					<div class="item" data-value="3"><%- __('global.ugroup.team') %></div>
 				  </div>
 				</div>
 			  </div>
 			  <div class="field">
-				<label>Цветовой класс</label>
+				<label><%- __('view.admin.users.roles.colorclass') %></label>
 				<div class="ui fluid selection dropdown">
-				  <div class="text">Выбрать</div>
+				  <div class="text"><%- __('view.ui.dropdown.select') %></div>
 				  <i class="dropdown icon"></i>
 				  <input name="colorclass" type="hidden">
 				  <div class="menu">
-					<div class="item" data-value="none">Никакой</div>
+					<div class="item" data-value="none"><%- __('view.admin.users.roles.colorclass.item.none') %></div>
 					<div class="item" data-value="red">Red</div>
 					<div class="item" data-value="green">Green</div>
 					<div class="item" data-value="purple">Purple</div>
@@ -78,7 +78,7 @@
 			  </div>
 			</div>
 			<div class="grouped inline fields">
-				<label>Может модерировать</label>
+				<label><%- __('view.admin.users.roles.canmoderate') %></label>
 				<div class="field">
 				  <div class="ui checkbox">
 					<input name="mod-main" type="checkbox">

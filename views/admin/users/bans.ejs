@@ -1,18 +1,18 @@
-<% title = 'Бан-лист / Админпанель — GC.Поддержка',
+<% title = __('view.admin.users.bans.pagetitle') + " — " + __('global.pagetitle'),
 	backUrl = '/admin'; %>
 <%- partial('../../partials/header')%>
 
 <div class="container">
-	<h1 class="ui header">Бан-лист / <a class="gc-nostylelink" href="/admin">Админпанель</a></h1>
+	<h1 class="ui header"><%- __('view.admin.users.bans.title','<a class=\"gc-nostylelink\" href=\"/admin\">','</a>') %></h1>
 	<div class="ui divider"></div>
 
 	<table class="ui table">
 		<thead>
 			<tr>
-				<th>Логин</th>
-				<th>IP</th>
-				<th>Кто забанил</th>
-				<th>Сообщение</th>
+				<th><%- __('view.admin.users.bans.login') %></th>
+				<th><%- __('view.admin.users.bans.ip') %></th>
+				<th><%- __('view.admin.users.bans.whoban') %></th>
+				<th><%- __('view.admin.users.bans.message') %></th>
 				<th style="width:5%"></th>
 			</tr>
 		</thead>
@@ -37,20 +37,20 @@
 		<div class="ui small form" style="width: 600px;">
 			<div class="two fields">
 				<div class="field">
-					<label>Логин</label>
+					<label><%- __('view.admin.users.bans.login') %></label>
 					<input placeholder="ChangedNick" type="text" name="username">
 				</div>
 				<div class="field">
-					<label>IP</label>
+					<label><%- __('view.admin.users.bans.ip') %></label>
 					<input placeholder="127.0.0.1" type="text" name="ip">
 				</div>
 			</div>
 			<div class="field">
-				<label>Сообщение</label>
-				<textarea placeholder="Потому что можем" name="message"></textarea>
+				<label><%- __('view.admin.users.bans.message') %></label>
+				<textarea placeholder="<%- __('view.admin.users.bans.message.placeholder') %>" name="message"></textarea>
 			</div>
 			<div class="ui divider"></div>
-			<button class="ui blue submit button" type="submit">Отправить</button>
+			<button class="ui blue submit button" type="submit"><%- __('view.admin.users.bans.send') %></button>
 			<div id="errmessage"></div>
 		</div>
 	</form>

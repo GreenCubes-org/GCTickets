@@ -2,10 +2,10 @@
 	<div class="left menu">
 		<% if (sails.historySpec) { %>
 		<a href="<%= sails.historySpec %>" class="item">
-			<i class="reply mail icon"></i> Назад
+			<i class="reply mail icon"></i> <%- __('view.header.back') %>
 		</a>
 		<% } %>
-		<a href="<%= (req.user && req.user.startPage) ? req.user.startPage : '/all' %>" class="item" title="<%= (req.user && req.user.startPage) ? 'Стартовая страница (изменяемая)' : 'Все тикеты' %>"><i class="home icon"></i></a>
+		<a href="<%= (req.user && req.user.startPage) ? req.user.startPage : '/all' %>" class="item" title="<%= (req.user && req.user.startPage) ? __('view.header.startpage') : __('view.header.alltickets') %>"><i class="home icon"></i></a>
 	</div>
 	<div class="right menu">
 		<%- partial( 'userpanel')%>

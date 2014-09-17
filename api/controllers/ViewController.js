@@ -27,10 +27,10 @@ module.exports = {
 					 case 6:
 						return gct.admreq.tplView(req, res, result);
 					 default:
-						return res.status(404).view('404', {layout: false});
+						return res.notFound();
 				}
 			} else {
-				res.status(404).view('404', {layout: false});
+				res.notFound();
 			}
 		})
 	}

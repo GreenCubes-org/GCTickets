@@ -1,4 +1,4 @@
-<% title = 'Профиль пользователя ' + user.login + ' — GC.Поддержка' %>
+<% title = __('view.user.profile.pagetitle', user.login) + " — " + __('global.pagetitle') %>
 <%- partial('partials/header')%>
 <div class="container" style="position:relative">
 	<div class="ui grid">
@@ -6,15 +6,15 @@
 			<div class="ui basic fluid button"><%= (user.prefix) ? user.prefix : '' %>&nbsp;<%= user.login %></div>
 			<% if (req.user && currentPage === 1) if (req.user.startPage === req.url) { %>
 			<div class="ui basic fluid button" style="margin: 1rem 0em;">
-				Это ваша стартовая страница
+				<%- __('view.list.yourstartpage') %>
 			</div>
 			<% } else { %>
 			<div class="ui basic fluid button" id="l-setstartpage" style="margin: 1rem 0em;">
-				Установить как стартовую
+				<%- __('view.list.setstartpage') %>
 			</div>
 			<% } %>
 			<input type="hidden" name="_csrf" id="_csrf" value="<%= _csrf %>" />
-			<%- partial('partials/filter') %>
+			<%- partial('../list/partials/filter') %>
 		</div>
 		<div id="l-content" class="column l-rightcolumn" style="display: inline-block;margin-top: 2em;">
 			<%- partial('../list/partials/list') %>

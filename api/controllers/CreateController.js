@@ -27,13 +27,13 @@ module.exports = {
 			function preCheck(callback) {
 				if (!req.param('title')) {
 					return callback({
-						msg: 'Введите краткое описание'
+						msg: sails.__('controller.create.bugreport.entertitle')
 					});
 				}
 
 				if (!req.param('description')) {
 					return callback({
-						msg: 'Введите подробное описание'
+						msg: sails.__('controller.create.bugreport.enterdescription')
 					});
 				}
 				
@@ -61,25 +61,25 @@ module.exports = {
 			function checkData(obj, callback) {
 				if (!obj.title) {
 					return callback({
-						msg: 'Введите краткое описание'
+						msg: sails.__('controller.create.bugreport.entertitle')
 					});
 				}
 
 				if (!(validator.isLength(obj.title,6,128))) {
 					return callback({
-						msg: 'Краткое описание должно содержать не менее 6 и не более 128 символов'
+						msg: sails.__('controller.create.bugreport.titleshouldcontain')
 					});
 				}
 
 				if (!obj.product) {
 					return callback({
-						msg: 'Выберите местоположение проблемы'
+						msg: sails.__('controller.create.bugreport.enterproduct')
 					});
 				}
 				// Only "Неизвестно", "Сервер Main", "Веб-сервисы"
 				if ([1,2,5].indexOf(obj.product) === -1) {
 					return callback({
-						msg: 'Некорректное местоположение проблемы'
+						msg: sails.__('controller.create.bugreport.incorrectproduct')
 					});
 				}
 				
@@ -125,7 +125,7 @@ module.exports = {
 			if (err) {
 				if (!err.msg) {
 					res.json(500, {
-						 err: 'Внезапная ошибка! Пожалуйста, сообщите о ней разработчику.'
+						 err: sails.__('global.suddenerror')
 					});
 					
 					throw err;
@@ -151,13 +151,13 @@ module.exports = {
 			function preCheck(callback) {
 				if (!req.param('reason')) {
 					return callback({
-						msg: 'Введите причину распривата'
+						msg: sails.__('controller.create.rempro.enterreason')
 					});
 				}
 
 				if (!(req.param('regions') || req.param('stuff'))) {
 					return callback({
-						msg: 'Введите хотя бы один регион или координату'
+						msg: sails.__('controller.create.rempro.enterstuff')
 					});
 				}
 
@@ -186,7 +186,7 @@ module.exports = {
 			function checkData(obj, callback) {
 				if (isNaN(obj.visiblity)) {
 					return callback({
-						msg: 'Выберите видимость тикета'
+						msg: sails.__('controller.create.rempro.entervisibility')
 					});
 				}
 
@@ -216,7 +216,7 @@ module.exports = {
 
 						if (!uid) {
 							callback({
-								msg: 'Игрока для которого создаётся заявка не существует'
+								msg: sails.__('controller.create.rempro.noplayer')
 							})
 						} else {
 							if (!obj.title) {

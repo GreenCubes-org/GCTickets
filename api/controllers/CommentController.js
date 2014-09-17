@@ -41,7 +41,7 @@ module.exports = {
 		if (!req.param('tid')) {
 			return callback({
 				show: true,
-				msg: 'Некорректный запрос'
+				msg: sails.__('controller.comment.incorrentrequest')
 			});
 		}
 
@@ -58,7 +58,7 @@ module.exports = {
 				if (req.user.group < ugroup.helper && [2,4,5,6,7,10,12].indexOf(ticket.status) !== -1) {
 					return callback({
 						show: true,
-						msg: 'Комментирование закрытых тикетов запрещено'
+						msg: sails.__('controller.comment.newComment.cantcommentclosed')
 					});
 				}
 
@@ -87,7 +87,7 @@ module.exports = {
 					if ((!req.param('message') && !req.param('status')) && !(req.param('status') === ticket.status && !req.param('message'))) {
 						return callback({
 							show: true,
-							msg: 'Комментарий слишком короткий'
+							msg: sails.__('controller.comment.newComment.commenttoosmall')
 						});
 					}
 
@@ -394,7 +394,7 @@ module.exports = {
 				if (req.user.group < ugroup.helper && [2,4,5,6,7,10,12].indexOf(ticket.status) !== -1) {
 					return callback({
 						show: true,
-						msg: 'Редактирование в закрытых тикетах запрещено'
+						msg: sails.__('controller.comment.editComment.canteditinclosed')
 					});
 				}
 
@@ -462,14 +462,14 @@ module.exports = {
 					if (req.user.group < ugroup.helper && [2,4,5,6,7,10,12].indexOf(ticket.status) !== -1) {
 						return callback({
 							show: true,
-							msg: 'Удаление в закрытых тикетах запрещено'
+							msg: sails.__('controller.comment.deleteComment.cantdeleteinclosed')
 						});
 					}
 
 					if (comment.changedTo && action === 'remove') {
 						return callback({
 							show: true,
-							msg: 'Нельзя удалить сообщение со статусом'
+							msg: sails.__('controller.comment.deleteComment.cantremovecommentwithstatus')
 						});
 					}
 

@@ -45,11 +45,11 @@ module.exports = {
 		if (filterByVisibility && req.user && req.user.group >= ugroup.helper) {
 			filterBy.visibility = filterByVisibility;
 		} else if (filterByVisibility && (!req.user || (req.user.group < ugroup.helper))) {
-			return res.status(403).view('403', {layout: false});
+			return res.forbidden();
 		}
 
 		if ((filterBy.visibility === 5 || filterBy.visibility === 6) && (!req.user || req.user.group < ugroup.helper)) {
-			return res.status(403).view('403', {layout: false});
+			return res.forbidden();
 		}
 
 		sails.log.verbose('user:', user);
@@ -220,14 +220,15 @@ module.exports = {
 				settings: {
 					startPage: (user.startPage) ? user.startPage : '',
 					prefix: (user.prefix) ? user.prefix : '—',
-					role: (user.ugroup !== undefined) ? gct.user.getGroupString(user.ugroup) : '—'
+					role: (user.ugroup !== undefined) ? gct.user.getGroupString(user.ugroup) : '—',
+					language: (req.language) ? sails.__('global.language.' + req.language) : '—',
 				}
 			});
 		});
 	},
 
 	settings: function (req, res) {
-		if (req.param('startPage').split('.').length === 1) {
+		if (req.param('startPage') && req.param('startPage').split('.').length === 1) {
 			User.findOne({uid: req.user.id}).exec(function(err, user) {
 				if (err) throw err;
 
@@ -241,22 +242,33 @@ module.exports = {
 					});
 				});
 			});
-		} else {
-			res.json(400, {
-				code: 'err',
-				message: 'Wrong URL'
+		} else if (sails.config.i18n.locales.indexOf(req.param('language')) !== -1) {
+			User.findOne({uid: req.user.id}).exec(function(err, user) {
+				if (err) throw err;
+
+				user.locale = req.param('language');
+
+				user.save(function (err) {
+					if (err) throw err;
+
+					res.json({
+						code: 'OK'
+					});
+				});
 			});
+		} else{
+			res.badRequest();
 		}
 	},
 
 	loginTpl: function (req, res) {
 		var message;
-		if (req.query.errcode === '1') message = 'Требуется вход в систему';
+		if (req.query.errcode === '1') message = sails.__('controller.user.loginTpl.needlogin');
 
 		res.view('user/login', {
 			layout: false,
 			message: message,
-			redirectto: req.query.redirectto
+			redirectto: (req.query.redirectto) ? req.query.redirectto : null
 		});
 	},
 
@@ -265,7 +277,7 @@ module.exports = {
 			function authenticate(callback) {
 				passport.authenticate('local', function (err, user, info) {
 					if (!user) {
-						if (info.message === 'Missing credentials') info.message = 'Введите логин/пароль';
+						if (info.message === 'Missing credentials') info.message = sails.__('controller.user.login.missingcredentials');
 
 						return res.json({
 							error: info

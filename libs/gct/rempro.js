@@ -97,7 +97,7 @@ module.exports = rempro = {
 				visiblity: getVisiblityByID(ticket[0].visiblity),
 				createdAt: obj.createdAt,
 				type: {
-					descr: 'Расприват',
+					descr: sails.__('global.type.rempro'),
 					iconclass: 'remove',
 					id: obj.type
 				},
@@ -385,7 +385,7 @@ module.exports = rempro = {
 					},
 					createdAt: obj.createdAt,
 					type: {
-						descr: 'Расприват',
+						descr: sails.__('global.type.rempro'),
 						iconclass: 'remove',
 						id: obj.type
 					},
@@ -405,7 +405,7 @@ module.exports = rempro = {
 					visiblity: getVisiblityByID(ticket[0].visiblity),
 					createdAt: obj.createdAt,
 					type: {
-						descr: 'Расприват',
+						descr: sails.__('global.type.rempro'),
 						iconclass: 'remove',
 						id: obj.type
 					},
@@ -481,19 +481,19 @@ module.exports = rempro = {
 				function preCheck(callback) {
 					if (!req.param('title')) {
 						return callback({
-							msg: 'Введите краткое описание'
+							msg: sails.__('gct.rempro.postEdit.entertitle')
 						});
 					}
 
 					if (!req.param('reason')) {
 						return callback({
-							msg: 'Введите причину удаления привата'
+							msg: sails.__('gct.rempro.postEdit.enterreason')
 						});
 					}
 
 					if (!req.param('regions') && !req.param('stuff')) {
 						return callback({
-							msg: 'Введите хотя бы один регион или координату'
+							msg: sails.__('gct.rempro.postEdit.enterstuff')
 						});
 					}
 
@@ -552,7 +552,7 @@ module.exports = rempro = {
 
 							if (!uid) {
 								callback({
-									msg: 'Игрока для которого создаётся заявка не существует'
+									msg: sails.__('gct.rempro.postEdit.noplayerfound')
 								})
 							} else {
 								obj.createdFor = uid;
@@ -583,7 +583,7 @@ module.exports = rempro = {
 				if (err) {
 					if (!err.msg) {
 						res.json({
-							err: 'Внезапная ошибка! Пожалуйста, сообщите о ней разработчику.'
+							err: sails.__('global.suddenerror')
 						});
 
 						throw err;
