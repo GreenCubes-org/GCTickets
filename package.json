@@ -11,6 +11,7 @@
     "optimist": "0.3.4",
     "passport": "~0.1.17",
     "passport-local": "~0.1.6",
+    "passport-oauth2": "1.1.x",
     "connect-redis": "1.4.x",
     "connect-flash": "0.1.x",
     "mysql": "2.0.0-alpha9",

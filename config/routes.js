@@ -24,9 +24,10 @@ module.exports.routes = {
 	'post /settings': 'user.settings',
 
 	// Вход в аккаунт и выход из него
-	'get /login': 'user.loginTpl',
-	'post /login': 'user.login',
+	'get /login': 'user.login',
+	//'post /login': 'user.login',
 	'/logout': 'user.logout',
+	'/oauth/callback': 'user.callback',
 
 	// Оповещения
 	'get /notifs': 'notif.listNotifications',

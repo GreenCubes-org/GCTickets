@@ -19,6 +19,7 @@ module.exports.policies = {
 		'*': ['authenticated'],
 		'loginTpl': 'notAuthenticated',
 		'login': 'notAuthenticated',
+		'callback': 'notAuthenticated',
 		'logout': true
 	},
 
