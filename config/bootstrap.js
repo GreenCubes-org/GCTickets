@@ -10,6 +10,7 @@
 var mysql = require('mysql');
 
 module.exports.bootstrap = function (cb) {
+
 	// Init globals
 	global.appPath = __dirname.replace(/\b\/config\b/g, '');
 

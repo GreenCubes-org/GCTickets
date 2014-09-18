@@ -20,84 +20,84 @@ module.exports.getStatusByID = getStatusByID = function (id) {
 	switch (id) {
 		case 1:
 			return {
-				text: 'Новый',
+				text: sails.__('global.status.new'),
 				class: 'new',
 				id: 1
 			};
 
 		case 2:
 			return {
-				text: 'Отменён',
+				text: sails.__('global.status.rejected'),
 				class: 'rejected',
 				id: 2
 			};
 
 		case 3:
 			return {
-				text: 'Уточнить',
+				text: sails.__('global.status.specify'),
 				class: 'specify',
 				id: 3
 			};
 
 		case 4:
 			return {
-				text: 'Отклонён',
+				text: sails.__('global.status.declined'),
 				class: 'declined',
 				id: 4
 			};
 
 		case 5:
 			return {
-				text: 'Скрыт',
+				text: sails.__('global.status.hidden'),
 				class: 'hidden',
 				id: 5
 			};
 
 		case 6:
 			return {
-				text: 'Удалён',
+				text: sails.__('global.status.removed'),
 				class: 'removed',
 				id: 6
 			};
 
 		case 7:
 			return {
-				text: 'Исправлен',
+				text: sails.__('global.status.helpfixed'),
 				class: 'helpfixed',
 				id: 7
 			};
 
 		case 8:
 			return {
-				text: 'На&nbsp;рассмотрении',
+				text: sails.__('global.status.inreview'),
 				class: 'inreview',
 				id: 8
 			};
 
 		case 9:
 			return {
-				text: 'Отложен',
+				text: sails.__('global.status.delayed'),
 				class: 'delayed',
 				id: 9
 			};
 
 		case 10:
 			return {
-				text: 'Выполнен',
+				text: sails.__('global.status.done'),
 				class: 'done',
 				id: 10
 			};
 
 		case 11:
 			return {
-				text: 'Принят',
+				text: sails.__('global.status.accepted'),
 				class: 'accepted',
 				id: 11
 			};
 
 		case 12:
 			return {
-				text: 'Исправлен',
+				text: sails.__('global.status.fixed'),
 				class: 'fixed',
 				id: 12
 			};
@@ -154,35 +154,35 @@ module.exports.getProductByID = getProductByID = function (id) {
 	switch (id) {
 		case 1:
 			return {
-				ticketText: 'Неизвестно',
+				ticketText: sails.__('global.product.unknown'),
 				techText: 'unknown',
 				id: 1
 			};
 
 		case 2:
 			return {
-				ticketText: 'Сервер Main',
+				ticketText: sails.__('global.product.main'),
 				techText: 'main',
 				id: 2
 			};
 
 		case 3:
 			return {
-				ticketText: 'Сервер RPG',
+				ticketText: sails.__('global.product.rpg'),
 				techText: 'rpg',
 				id: 3
 			};
 
 		case 4:
 			return {
-				ticketText: 'Сервер Apocalyptic',
+				ticketText: sails.__('global.product.apocalyptic'),
 				techText: 'apocalyptic',
 				id: 4
 			};
 
 		case 5:
 			return {
-				ticketText: 'Веб-сервисы',
+				ticketText: sails.__('global.product.websites'),
 				techText: 'websites',
 				id: 5
 			};
@@ -200,31 +200,31 @@ module.exports.getProductByTechText = getProductByTechText = function (id) {
 	switch (id) {
 		case 'unknown':
 			return {
-				ticketText: 'Неизвестно',
+				ticketText: sails.__('global.product.unknown'),
 				id: 1
 			}
 
 		case 'main':
 			return {
-				ticketText: 'Сервер Main',
+				ticketText: sails.__('global.product.main'),
 				id: 2
 			};
 
 		case 'rpg':
 			return {
-				ticketText: 'Сервер RPG',
+				ticketText: sails.__('global.product.rpg'),
 				id: 3
 			};
 
 		case 'apocalyptic':
 			return {
-				ticketText: 'Сервер Apocalyptic',
+				ticketText: sails.__('global.product.apocalyptic'),
 				id: 4
 			};
 
 		case 'websites':
 			return {
-				ticketText: 'Веб-сервисы',
+				ticketText: sails.__('global.product.websites'),
 				id: 5
 			};
 
@@ -236,10 +236,10 @@ module.exports.getProductByTechText = getProductByTechText = function (id) {
 module.exports.getVisiblityByID = getVisiblityByID = function (id) {
 	switch (id) {
 		case 1:
-			return 'Публичный';
+			return sails.__('global.visibility.public');
 
 		case 2:
-			return 'Приватный';
+			return sails.__('global.visibility.private');
 
 		default:
 			return;
@@ -320,65 +320,65 @@ module.exports.serializeList = serializeList = function (type) {
 		case 'all':
 			return {
 				url: 'all',
-				text: 'Все тикеты',
+				text: sails.__('global.list.alltickets'),
 				iconclass: 'reorder',
-				title: 'Список всех тикетов — GC.Поддержка'
+				title: sails.__('gct.index.serializeList.all')
 			};
 
 		case 'my':
 			return {
 				url: 'my',
-				text: 'Ваши тикеты',
+				text: sails.__('global.list.yourtickets'),
 				iconclass: 'user',
-				title: 'Список Ваших тикетов — GC.Поддержка'
+				title: sails.__('gct.index.serializeList.my')
 			};
 
 		case 'bugreports':
 			return {
 				url: 'bugreports',
-				text: 'Баг-репорты',
+				text: sails.__('global.list.bugreports'),
 				iconclass: 'bug',
-				title: 'Список баг-репортов — GC.Поддержка'
+				title: sails.__('gct.index.serializeList.bugreports')
 			};
 
 		case 'rempros':
 			return {
 				url: 'rempros',
-				text: 'Заявки на удаление защит',
+				text: sails.__('global.list.rempros'),
 				iconclass: 'trash',
-				title: 'Список заявок на удаление защит — GC.Поддержка'
+				title: sails.__('gct.index.serializeList.rempros')
 			};
 
 		case 'bans':
 			return {
 				url: 'bans',
-				text: 'Заявки на бан',
+				text: sails.__('global.list.bans'),
 				iconclass: 'ban circle',
-				title: 'Список заявок на бан — GC.Поддержка'
+				title: sails.__('gct.index.serializeList.bans')
 			};
 
 		case 'unbans':
 			return {
 				url: 'unbans',
-				text: 'Заявки на разбан',
+				text: sails.__('global.list.unbans'),
 				iconclass: 'circle blank',
-				title: 'Список заявок на разбан — GC.Поддержка'
+				title: sails.__('gct.index.serializeList.unbans')
 			};
 
 		case 'regen':
 			return {
 				url: 'regens',
-				text: 'Заявки на регенерацию',
+				text: sails.__('global.list.regens'),
 				iconclass: 'leaf',
-				title: 'Список заявок на регенерацию — GC.Поддержка'
+				title: sails.__('gct.index.serializeList.regens')
 			}
 
 		case 'admreq':
 			return {
 				url: 'admreq',
-				text: 'Обращения к администрации',
+				text: sails.__('global.list.admreq'),
 				iconclass: 'briefcase',
-				title: 'Список обращений к администрации — GC.Поддержка'
+				title: sails.__('gct.index.serializeList.admreq')
 			}
 
 		default:
@@ -392,43 +392,43 @@ module.exports.serializeRegionActivity = serializeRegionActivity = function (sta
 		case 'activeOwners':
 			return {
 				className: 'activeowners',
-				text: 'Активен'
+				text: sails.__('gct.serializeRegionActivity.activeowners')
 			};
 
 		case 'containsOrgs':
 			return {
 				className: 'containsorgs',
-				text: 'Есть организации'
+				text: sails.__('gct.serializeRegionActivity.containsorgs')
 			};
 
 		case 'activeBuilders':
 			return {
 				className: 'activebuilders',
-				text: 'Есть билдеры'
+				text: sails.__('gct.serializeRegionActivity.activebuilders')
 			};
 
 		case 'inactiveWithTempBans':
 			return {
 				className: 'inactivewithtempbans',
-				text: 'Есть врем. баны'
+				text: sails.__('gct.serializeRegionActivity.inactivewithtempbans')
 			};
 
 		case 'inactive':
 			return {
 				className: 'inactive',
-				text: 'Неактивен'
+				text: sails.__('gct.serializeRegionActivity.inactive')
 			};
 
 		case 'noRegion':
 			return {
 				className: 'noregion',
-				text: 'Нет региона'
+				text: sails.__('gct.serializeRegionActivity.noregion')
 			};
 
 		default:
 			return {
 				className: 'noregion',
-				text: 'Нет региона'
+				text: sails.__('gct.serializeRegionActivity.noregion')
 			};
 	}
 };
@@ -438,21 +438,21 @@ module.exports.serializeNotifType = serializeNotifType = function (id) {
 		case 1:
 			return {
 				id: 1,
-				text: 'Комментарий',
+				text: sails.__('gct.serializeNotifType.comment'),
 				iconclass: 'comment'
 			};
 
 		case 2:
 			return {
 				id: 2,
-				name: 'Комментарий со статусом',
+				name: sails.__('gct.serializeNotifType.commentwithstatus'),
 				iconclass: 'comment'
 			};
 
 		case 3:
 			return {
 				id: 3,
-				text: 'Удаление',
+				text: sails.__('gct.serializeNotifType.removedcomment'),
 				iconclass: 'trash'
 			};
 	}
@@ -470,7 +470,7 @@ module.exports.handleUpload = handleUpload = function (req, res, ticket, cb) {
 
 			if (removeImage instanceof Array) {
 				if (removeImage.length > ticket.uploads.length) {
-					return callback({show: true, msg: 'Нельзя удалить больше картинок чем есть на самом деле '});
+					return callback({show: true, msg: sails.__('gct.handleUpload.youcannotremovemorepics')});
 				}
 				async.each(removeImage, function (item, callback) {
 					if (ticket.uploads[parseInt(item, 10)]) {
@@ -484,7 +484,7 @@ module.exports.handleUpload = handleUpload = function (req, res, ticket, cb) {
 					} else {
 						callback({
 							show: true,
-							msg: 'Невозможно удалить изображение, которого нет'
+							msg: sails.__('gct.handleUpload.youcannotremoveunkownpic')
 						 });
 					}
 				}, function (err) {
@@ -519,7 +519,7 @@ module.exports.handleUpload = handleUpload = function (req, res, ticket, cb) {
 				} else {
 					callback({
 						show: true,
-						msg: 'Невозможно удалить изображение, которого нет'
+						msg: sails.__('gct.handleUpload.youcannotremoveunkownpic')
 					});
 				}
 			}  else {
@@ -547,7 +547,7 @@ module.exports.handleUpload = handleUpload = function (req, res, ticket, cb) {
 
 									callback({
 										show: true,
-										msg: 'Файлы больше 10 мегабайт загружать запрещено'
+										msg: sails.__('gct.handleUpload.youcannotuploadmorethan10mb')
 									});
 								});
 							} else {
@@ -585,7 +585,7 @@ module.exports.handleUpload = handleUpload = function (req, res, ticket, cb) {
 								fs.unlink(files.path, function (err) {
 									if (err) return callback(err);
 
-									callback({show: true, msg: 'Некорректный тип файла. Разрешены только файлы .jpg .jpeg .png'}, null);
+									callback({show: true, msg: sails.__('gct.handleUpload.incorrecttypeoffile')}, null);
 								});
 							}
 						}
@@ -620,7 +620,7 @@ module.exports.handleUpload = handleUpload = function (req, res, ticket, cb) {
 
 								callback({
 									show: true,
-									msg: 'Файлы больше 10 мегабайт загружать запрещено'
+									msg: sails.__('gct.handleUpload.youcannotuploadmorethan10mb')
 								});
 							});
 						} else {
@@ -658,7 +658,7 @@ module.exports.handleUpload = handleUpload = function (req, res, ticket, cb) {
 							fs.unlink(files.path, function (err) {
 								if (err) return callback(err);
 
-								callback({show: true, msg: 'Некорректный тип файла. Разрешены только файлы .jpg .jpeg .png'}, null);
+								callback({show: true, msg: sails.__('gct.handleUpload.incorrecttypeoffile')}, null);
 							});
 						}
 					}

@@ -68,9 +68,7 @@ module.exports = {
 
 	setRights: function (req, res) {
 		if(!req.body.username) {
-			res.json(400, {
-				msg: 'Некорректный запрос'
-			});
+			res.badRequest();
 		}
 		
 		async.waterfall([
@@ -87,12 +85,12 @@ module.exports = {
 			function checkData(obj, callback) {
 				if (!obj.username) {
 					return callback({
-						show: true, msg: 'Введите никнейм'
+						show: true, msg: sails.__('controller.admin.setRights.enternickname')
 					});
 				}
 				if (isNaN(obj.ugroup)) {
 					return callback({
-						show: true, msg: 'Выберите группу пользователя'
+						show: true, msg: sails.__('controller.admin.setRights.enterugroup')
 					});
 				}
 				
@@ -105,7 +103,7 @@ module.exports = {
 					
 					if (result.length === 0) {
 						return callback({
-							show: true, msg: 'Такого пользователя нет'
+							show: true, msg: sails.__('controller.admin.nouser')
 						});
 					}
 					
@@ -153,7 +151,7 @@ module.exports = {
 			if (err) {
 				if (!err.show) {
 					res.json({
-						 err: 'Внезапная ошибка! Пожалуйста, сообщите о ней разработчику.'
+						 err: sails.__('global.suddenerror')
 					});
 					
 					throw err;
@@ -174,9 +172,7 @@ module.exports = {
 		var uid = parseInt(req.params.uid, 10);
 		
 		if (!req.params.uid) {
-			return res.json(400, {
-				msg: 'Некорректный запрос'
-			});
+			return res.badRequest();
 		}
 		
 		User.findOne({
@@ -235,9 +231,7 @@ module.exports = {
 
 	setBan: function (req, res) {
 		if(!req.body.username) {
-			res.json(400, {
-				msg: 'Некорректный запрос'
-			});
+			res.badRequest();
 		}
 
 		async.waterfall([
@@ -253,7 +247,7 @@ module.exports = {
 			function checkData(obj, callback) {
 				if (!obj.ip && !obj.username) {
 					return callback({
-						show: true, msg: 'Введите либо ник, либо IP'
+						show: true, msg: sails.__('controller.admin.setBan.enternickorip')
 					});
 				}
 
@@ -270,7 +264,7 @@ module.exports = {
 
 					if (result.length === 0) {
 						return callback({
-							show: true, msg: 'Такого пользователя нет'
+							show: true, msg: sails.__('controller.admin.nouser')
 						});
 					}
 
@@ -303,7 +297,7 @@ module.exports = {
 			if (err) {
 				if (!err.show) {
 					res.json({
-						 err: 'Внезапная ошибка! Пожалуйста, сообщите о ней разработчику.'
+						 err: sails.__('global.suddenerror')
 					});
 
 					throw err;
@@ -324,9 +318,7 @@ module.exports = {
 		var id = parseInt(req.params.id, 10);
 
 		if (!req.params.id) {
-			return res.json(400, {
-				msg: 'Некорректный запрос'
-			});
+			return res.badRequest();
 		}
 
 		Banlist.findOne({

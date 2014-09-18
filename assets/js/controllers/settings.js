@@ -8,10 +8,12 @@ app.settings = function () {
 			url: '/settings',
 			data: $(this).serialize(),
 			success: function (data) {
-
+				window.location.reload();
 			},
 		});
 		return false;
 	});
+
+	$('#gc-languagedropdown').dropdown();
 
 };

@@ -1,4 +1,4 @@
-<% title = "Редактирование #" + ticket.id + ": \"" + ticket.title + "\" — GC.Поддержка",
+<% title = __('view.edit.pagetitle', ticket.id, ticket.title) + " — " + __('global.pagetitle'),
 	backUrl = '/id/' + ticket.id %>
 <%- partial('partials/header')%>
 <div class="container">
@@ -7,45 +7,45 @@
 			<form id="gc-reportform" action="/id/<%= ticket.id %>/edit" method="POST" enctype="multipart/form-data">
 				<input type="hidden" name="_csrf" id="_csrf" value="<%= _csrf %>" />
 				<div class="ui fluid form" id="gc-reportformdiv">
-					<h1 class="header" style="margin: 0px; padding: 0.2em 0em 0em;">Редактирование <a href="/id/<%= ticket.id %>">#<%= ticket.id %></a>: &laquo;<%= ticket.title %>&raquo;
+					<h1 class="header" style="margin: 0px; padding: 0.2em 0em 0em;"><%- __('view.edit.title', '<a href="/id/' + ticket.id + '">', ticket.id, '</a>', ticket.title) %>
 					</h1>
 					<div class="ui divider" style="margin: 1em 0em !important;"></div>
 					<div class="two fields">
 						<div class="field" style="width: 350px !important;margin-bottom: 0em;">
 							<div class="field">
-								<label>Для кого создаётся заявка <em>(необязательно)</em> <i class="help icon gc-helppopup" data-content="Если вы заполняете заявку для другого игрока, то укажите никнейм этого игрока" data-variation="inverted"></i></label>
+								<label><%- __('view.edit.rempro.form.createdfor.title') %> <i class="help icon gc-helppopup" data-content="<%- __('view.edit.rempro.form.createdfor.placeholder') %>" data-variation="inverted"></i></label>
 								<input name="createdfor" type="text" id="createdfor" value="<% if (ticket.createdFor.login) { %><%= ticket.createdFor.login %><% } %>">
 							</div>
 						</div>
 					</div>
 					<div class="field">
-						<label>Краткое описание</label>
-						<input name="title" type="text" id="title" placeholder="Заявка для <%= ticket.owner.login %>" value="<%= ticket.title %>">
+						<label><%- __('view.edit.rempro.form.title') %></label>
+						<input name="title" type="text" id="title" placeholder="<%- __('view.edit.rempro.form.title.placeholder', ticket.owner.login) %>" value="<%= ticket.title %>">
 					</div>
 					<div class="field">
-						<label>Причина распривата</label>
+						<label><%- __('view.edit.rempro.form.reason') %></label>
 						<textarea id="reason" name="reason"><%= ticket.reason.edit %></textarea>
 					</div>
 					<div class="ui divider"></div>
 					<div class="ui two column grid">
 						<div class="column" style="padding-left:0em !important;">
 							<div class="field">
-								<label>Регионы</label>
+								<label><%- __('view.edit.rempro.form.regions') %></label>
 								<textarea id="regions" name="regions"><% if (ticket.regions) { ticket.regions.forEach(function(element) { %><%= element.name + ' ' + ((element.comment) ? element.comment : '') %><%}) } %></textarea>
 							</div>
 						</div>
 						<div class="column" style="padding-right:0em !important;">
 							<div class="field">
-								<label>Сундуки/предметы</label>
+								<label><%- __('view.edit.rempro.form.stuff.title') %></label>
 								<textarea id="stuff" name="stuff"><% if (ticket.stuff) { ticket.stuff.forEach(function(element) { %><%= element.coord + ' ' + ((element.comment) ? element.comment : '') + '\r' %><% }) } %></textarea>
 							</div>
 						</div>
 					</div>
-					<div class="gc-help"><i class="help icon"></i>Каждая координата/регион записываются по одному на строчку. Комментарии разделяются от координаты/региона пробелом. Одно из этих двух полей должно быть заполнено</div>
+					<div class="gc-help"><i class="help icon"></i><%- __('view.edit.rempro.form.stuff.helphint') %></div>
 					<div class="ui divider"></div>
 					<div class="field">
 						<% if (ticket.uploads.length) { %>
-						<label>Изображения</label>
+						<label><%- __('view.edit.upload.title') %></label>
 						<div class="ui stackable items">
 							<div class="row">
 							<% 	ticket.uploads.forEach(function(item, index) { %>
@@ -57,7 +57,7 @@
 										<div class="extra">
 											<div class="ui checkbox">
 											  <input name="removeimage" type="checkbox" value="<%= index %>">
-											  <label>Удалить</label>
+											  <label><%- __('view.edit.upload.remove') %></label>
 											</div>
 										</div>
 									</div>
@@ -68,47 +68,47 @@
 						<% } %>
 					</div>
 					<div class="field">
-						<label>Прикрепить изображение <em>(необязательно)</em></label>
-						<input class="ui basic button" type="file" multiple name="upload" value="Загрузить изображения"></input>
+						<label><%- __('view.edit.form.upload.title') %></label>
+						<input class="ui basic button" type="file" multiple name="upload" value="<%- __('view.edit.form.upload.placeholder') %>"></input>
 					</div>
-					<div class="gc-help"><i class="attention icon"></i>Один файл не более 10 Мбайт</div>
+					<div class="gc-help"><i class="attention icon"></i><%- __('view.edit.form.upload.attention') %></div>
 					<div class="ui divider"></div>
 					<div class="ui grid">
 						<div class="left floated four wide column" style="margin: 0em !important;padding: 0px !important;">
-							<button class="ui blue fluid button" type="submit">Отправить</button>
+							<button class="ui blue fluid button" type="submit"><%- __('view.edit.form.send') %></button>
 						</div>
 						<% if (req.user.group >= ugroup.mod) { %>
 						<div class="right floated four wide column" style="margin: 0em !important;padding: 0px !important;">
-							<a class="ui red fluid button" href="#" id="deleteticket">Удалить тикет</a>
+							<a class="ui red fluid button" href="#" id="deleteticket"><%- __('view.edit.form.deleteticket') %></a>
 						</div>
 						<% } %>
 					</div>
 					<div id="errmessage"></div>
 					<div class="ui dimmer" id="senddimmer">
-						<div class="ui large text loader">Тикет отправляется</div>
+						<div class="ui large text loader"><%- __('view.edit.dimmertext') %></div>
 					</div>
 				</div>
 			</form>
 		</div>
 		<div class="column" style="width:30%">
-			<h2 class="header">Информация о тикете</h2>
+			<h2 class="header"><%- __('view.edit.panel.title') %></h2>
 			<div class="ui relaxed list">
 				<div class="item">
-					<div class="header">Видимость тикета</div>
+					<div class="header"><%- __('view.edit.panel.visibility') %></div>
 					<%= ticket.visiblity.text %>
 				</div>
 				<div class="item">
-					<div class="header">Создатель</div>
+					<div class="header"><%- __('view.edit.rempro.panel.creator') %></div>
 					<%= ticket.owner.login %>
 				</div>
 				<% if (ticket.createdFor.login) { %>
 				<div class="item">
-					<div class="header">Создан для</div>
+					<div class="header"><%- __('view.edit.rempro.panel.createdfor') %></div>
 					<%= ticket.createdFor.login %>
 				</div>
 				<% } %>
 				<div class="item">
-					<div class="header">Дата создания</div>
+					<div class="header"><%- __('view.edit.rempro.panel.createdate') %></div>
 					<%= moment(ticket.createdAt).format('D MMM YYYY, H:mm') %>
 				</div>
 			</div>
@@ -116,5 +116,5 @@
 	</div>
 </div>
 <%- partial('partials/delete') %>
-<%- partial('partials/unsaved') %>
+<%- partial('../partials/unsaved') %>
 <%- partial('partials/errormodal') %>

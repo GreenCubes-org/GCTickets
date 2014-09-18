@@ -9,116 +9,116 @@
 	nostatus = req.param('nostatus'),
 	visibility = req.param('visibility') %>
 <div class="ui vertical fluid menu">
-	<a class="item" href="<%= '/' + splitedPath[1] %>">Сбросить фильтрацию</a>
-	<div class="header item">Сортировка</div>
+	<a class="item" href="<%= '/' + splitedPath[1] %>"><%- __('view.list.partials.filter.reset') %></a>
+	<div class="header item"><%- __('view.list.partials.filter.sort.title') %></div>
 	<div class="item">
 		<div class="menu">
 			<a class="item l-menu <% if (!(req.param('byCreation') === 'true')) { %> active<% } %>" href="<%= listUrl + kfNoByCreation %>">
-				По активности
+				<%- __('view.list.partials.filter.sort.byactivity') %>
 			</a>
 			<a class="item l-menu <% if (req.param('byCreation') === 'true') { %> active<% } %>" href="<%= listUrl + kfNoByCreation %>&byCreation=true">
-				По дате создания
+				<%- __('view.list.partials.filter.sort.bycreation') %>
 			</a>
 		</div>
 	</div>
 	<% if (req.user && req.user.group >= ugroup.helper) { %>
-	<div class="header item">Фильтровать по видимости</div>
+	<div class="header item"><%- __('view.list.partials.filter.by.visibility.title') %></div>
 	<a class="item" href="<%= listUrl + kfNoVisibility %>">
-		Сброс фильтрации
+		<%- __('view.list.partials.filter.reset') %>
 	</a>
 	<div class="item">
 		<div class="menu">
 			<a class="item l-menu <% if (visibility === 'public') { %> active<% } %>" href="<%= listUrl + kfNoVisibility %>&visibility=public">
-				Публичный
+				<%- __('global.visibility.public') %>
 			</a>
 			<a class="item l-menu <% if (visibility === 'private') { %> active<% } %>" href="<%= listUrl + kfNoVisibility %>&visibility=private">
-				Приватный
+				<%- __('global.visibility.private') %>
 			</a>
 		</div>
 	</div>
 	<% } %>
-	<div class="header item">Фильтровать по статусу</div>
+	<div class="header item"><%- __('view.list.partials.filter.by.status.title') %></div>
 	<div class="item">
-		Общие статусы
+		<%- __('view.list.partials.filter.by.status.generaltitle') %>
 		<div class="menu">
 			<div class="item l-menu new <% if (status === 'new' || nostatus === 'new') { %> active<% } %>">
 				<a class="left floated tiny gc-nostylelink" href="<%= listUrl + kfNoNoStatus %>&nostatus=new"><i class="icon disabled remove"></i></a>
-				<a href="<%= listUrl + kfNoStatus %>&status=new">Новый</a>
+				<a href="<%= listUrl + kfNoStatus %>&status=new"><%- __('global.status.new') %></a>
 			</div>
 			<div class="item l-menu rejected <% if (status === 'rejected' || nostatus === 'rejected') { %> active<% } %>">
 				<a class="left floated tiny gc-nostylelink" href="<%= listUrl + kfNoNoStatus %>&nostatus=rejected"><i class="icon disabled remove"></i></a>
-				<a href="<%= listUrl + kfNoStatus %>&status=rejected">Отменён</a>
+				<a href="<%= listUrl + kfNoStatus %>&status=rejected"><%- __('global.status.rejected') %></a>
 			</div>
 			<div class="item l-menu specify <% if (status === 'specify' || nostatus === 'specify') { %> active<% } %>">
 				<a class="left floated tiny gc-nostylelink" href="<%= listUrl + kfNoNoStatus %>&nostatus=specify"><i class="icon disabled remove"></i></a>
-				<a href="<%= listUrl + kfNoStatus %>&status=specify">Уточнить</a>
+				<a href="<%= listUrl + kfNoStatus %>&status=specify"><%- __('global.status.specify') %></a>
 			</div>
 			<div class="item l-menu declined <% if (status === 'declined' || nostatus === 'declined') { %> active<% } %>">
 				<a class="left floated tiny gc-nostylelink" href="<%= listUrl + kfNoNoStatus %>&nostatus=declined"><i class="icon disabled remove"></i></a>
-				<a href="<%= listUrl + kfNoStatus %>&status=declined">Отклонён</a>
+				<a href="<%= listUrl + kfNoStatus %>&status=declined"><%- __('global.status.declined') %></a>
 			</div>
 			<% if (req.user && req.user.group >= ugroup.helper) { %>
 			<div class="item l-menu hidden <% if (status === 'hidden' || nostatus === 'hidden') { %> active<% } %>">
 				<a class="left floated tiny gc-nostylelink" href="<%= listUrl + kfNoNoStatus %>&nostatus=hidden"><i class="icon disabled remove"></i></a>
-				<a href="<%= listUrl + kfNoStatus %>&status=hidden">Скрыт</a>
+				<a href="<%= listUrl + kfNoStatus %>&status=hidden"><%- __('global.status.hidden') %></a>
 			</div>
 			<div class="item l-menu removed <% if (status === 'removed' || nostatus === 'removed') { %> active<% } %>">
 				<a class="left floated tiny gc-nostylelink" href="<%= listUrl + kfNoNoStatus %>&nostatus=removed"><i class="icon disabled remove"></i></a>
-				<a href="<%= listUrl + kfNoStatus %>&status=removed">Удалён</a>
+				<a href="<%= listUrl + kfNoStatus %>&status=removed"><%- __('global.status.removed') %></a>
 			</div>
 			<% } %>
-			<% if (type.text !== 'Удаление защит') { %>
+			<% if (type.url !== 'rempros') { %>
 		</div>
 	</div>
 	<div class="item">
-		Только для баг-репортов
+		<%- __('view.list.partials.filter.by.status.bugreporttitle') %>
 		<div class="menu">
 			<div class="item l-menu accepted <% if (status === 'accepted' || nostatus === 'accepted') { %> active<% } %>">
 				<a class="left floated tiny gc-nostylelink" href="<%= listUrl + kfNoNoStatus %>&nostatus=accepted"><i class="icon disabled remove"></i></a>
-				<a href="<%= listUrl + kfNoStatus %>&status=accepted">Принят</a>
+				<a href="<%= listUrl + kfNoStatus %>&status=accepted"><%- __('global.status.accepted') %></a>
 			</div>
 			<div class="item l-menu fixed <% if (status === 'fixed' || nostatus === 'fixed') { %> active<% } %>">
 				<a class="left floated tiny gc-nostylelink" href="<%= listUrl + kfNoNoStatus %>&nostatus=fixed"><i class="icon disabled remove"></i></a>
-				<a href="<%= listUrl + kfNoStatus %>&status=fixed">Исправлен</a>
+				<a href="<%= listUrl + kfNoStatus %>&status=fixed"><%- __('global.status.fixed') %></a>
 			</div>
 			<% } %>
-			<% if (type.text !== 'Баг-репорты') { %>
+			<% if (type.url !== 'bugreports') { %>
 		</div>
 	</div>
 	<div class="item">
-		Только для удаления защит
+		<%- __('view.list.partials.filter.by.status.remprotitle') %>
 		<div class="menu">
 			<div class="item l-menu helpfixed <% if (status === 'helpfixed' || nostatus === 'helpfixed') { %> active<% } %>">
 				<a class="left floated tiny gc-nostylelink" href="<%= listUrl + kfNoNoStatus %>&nostatus=helpfixed"><i class="icon disabled remove"></i></a>
-				<a href="<%= listUrl + kfNoStatus %>&status=helpfixed">Исправлен</a>
+				<a href="<%= listUrl + kfNoStatus %>&status=helpfixed"><%- __('global.status.helpfixed') %></a>
 			</div>
 			<div class="item l-menu inreview <% if (status === 'inreview' || nostatus === 'inreview') { %> active<% } %>">
 				<a class="left floated tiny gc-nostylelink" href="<%= listUrl + kfNoNoStatus %>&nostatus=inreview"><i class="icon disabled remove"></i></a>
-				<a href="<%= listUrl + kfNoStatus %>&status=inreview">На рассмотрении</a>
+				<a href="<%= listUrl + kfNoStatus %>&status=inreview"><%- __('global.status.inreview') %></a>
 			</div>
 			<div class="item l-menu delayed <% if (status === 'delayed' || nostatus === 'delayed') { %> active<% } %>">
 				<a class="left floated tiny gc-nostylelink" href="<%= listUrl + kfNoNoStatus %>&nostatus=delayed"><i class="icon disabled remove"></i></a>
-				<a href="<%= listUrl + kfNoStatus %>&status=delayed">Отложен</a>
+				<a href="<%= listUrl + kfNoStatus %>&status=delayed"><%- __('global.status.delayed') %></a>
 			</div>
 			<div class="item l-menu done <% if (status === 'done' || nostatus === 'done') { %> active<% } %>">
 				<a class="left floated tiny gc-nostylelink" href="<%= listUrl + kfNoNoStatus %>&nostatus=done"><i class="icon disabled remove"></i></a>
-				<a href="<%= listUrl + kfNoStatus %>&status=done">Выполнен</a>
+				<a href="<%= listUrl + kfNoStatus %>&status=done"><%- __('global.status.done') %></a>
 			</div>
 			<% } %>
 		</div>
 	</div>
-	<% if (type.text === 'Баг-репорты') { %>
-	<div class="header item">Фильтровать по местоположению проблемы</div>
+	<% if (type.url === 'bugreports') { %>
+	<div class="header item"><%- __('view.list.partials.filter.by.product.title') %></div>
 	<div class="item">
 		<div class="menu">
 			<div class="item l-menu main <% if (splitedPath[2] === 'main') { %> active<% } %>">
-				<a href="<%= listUrlNoProduct %>/main">Сервер Main</a>
+				<a href="<%= listUrlNoProduct %>/main"><%- __('view.list.partials.filter.by.product.main') %></a>
 			</div>
 			<div class="item l-menu websites <% if (splitedPath[2] === 'websites') { %> active<% } %>">
-				<a href="<%= listUrlNoProduct  %>/websites">Веб-сервисы</a>
+				<a href="<%= listUrlNoProduct  %>/websites"><%- __('view.list.partials.filter.by.product.webservices') %></a>
 			</div>
 			<div class="item l-menu unknown <% if (splitedPath[2] === 'unknown') { %> active<% } %>">
-				<a href="<%= listUrlNoProduct  %>/unknown">Неизвестно</a>
+				<a href="<%= listUrlNoProduct  %>/unknown"><%- __('view.list.partials.filter.by.product.unknown') %></a>
 			</div>
 		</div>
 	</div>

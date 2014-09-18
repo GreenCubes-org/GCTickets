@@ -27,11 +27,11 @@ module.exports = {
 									owner: ticket.owner,
 									createdAt: ticket.createdAt,
 									visibility: {
-										class: (ticket.visiblity === 'Публичный') ? 'unlock' : 'lock',
+										class: (ticket.visiblity === sails.__('global.visibility.public')) ? 'unlock' : 'lock',
 										text: ticket.visiblity
 									},
 									type: {
-										descr: 'Баг-репорт',
+										descr: sails.__('global.type.bugreport'),
 										iconclass: 'bug'
 									},
 									product: ticket.product,
@@ -69,11 +69,11 @@ module.exports = {
 								owner: ticket.owner,
 								createdAt: ticket.createdAt,
 								visibility: {
-									class: (ticket.visiblity === 'Публичный') ? 'unlock' : 'lock',
+									class: (ticket.visiblity === sails.__('global.visibility.public')) ? 'unlock' : 'lock',
 									text: ticket.visiblity
 								},
 								type: {
-									descr: 'Расприват',
+									descr: sails.__('global.type.rempro'),
 									iconclass: 'trash'
 								},
 								comments: ticket.comments

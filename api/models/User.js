@@ -25,7 +25,10 @@ module.exports = {
 		canModerate: 'array',
 
 		// Start page
-		startPage: 'string'
+		startPage: 'string',
+
+		// Language
+		locale: 'string'
 
 	}
 

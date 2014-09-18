@@ -1,23 +1,23 @@
 <div class="ui modal" id="remticket">
 	<div class="header">
-	 Удалить #<%= ticket.id %> &laquo;<%= ticket.title %>&raquo;?
+		<%- __('view.edit.partials.delete.header', ticket.id, ticket.title) %>
 	</div>
 	<div class="content">
 	  <div class="left">
 		<i class="remove sign icon"></i>
 	  </div>
 	  <div class="right">
-		<p>Вы уверены, что хотите удалить этот тикет?</p>
+		<p><%- __('view.edit.partials.delete.description') %></p>
 	  </div>
 	</div>
 	<div class="actions">
 	  <div class="two fluid ui buttons">
 		<div class="ui negative labeled icon button">
 			<i class="remove icon"></i>
-			Нет, вернёмся обратно
+			<%- __('view.edit.partials.delete.action.no') %>
 		</div>
 		<div class="ui positive right labeled icon button" type="submit">
-			Да, удалить
+			<%- __('view.edit.partials.delete.action.yes') %>
 			<i class="checkmark icon"></i>
 		</div>
 	  </div>

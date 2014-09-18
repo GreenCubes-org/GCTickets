@@ -90,7 +90,7 @@ module.exports = bugreport = {
 				visiblity: getVisiblityByID(obj.visiblity),
 				createdAt: obj.createdAt,
 				type: {
-					descr: 'Баг-репорт',
+					descr: sails.__('global.type.bugreport'),
 					iconclass: 'bug',
 					id: obj.type
 				},
@@ -240,7 +240,7 @@ module.exports = bugreport = {
 					},
 					createdAt: obj.createdAt,
 					type: {
-						descr: 'Баг-репорт',
+						descr: sails.__('global.type.bugreport'),
 						iconclass: 'bug',
 						id: obj.type
 					},
@@ -259,7 +259,7 @@ module.exports = bugreport = {
 					visiblity: getVisiblityByID(ticket[0].visiblity),
 					createdAt: obj.createdAt,
 					type: {
-						descr: 'Баг-репорт',
+						descr: sails.__('global.type.bugreport'),
 						iconclass: 'bug',
 						id: obj.type
 					},
@@ -367,19 +367,19 @@ module.exports = bugreport = {
 				function preCheck(callback) {
 					if (!req.param('title')) {
 						return callback({
-							msg: 'Введите краткое описание'
+							msg: sails.__('gct.bugreport.postEdit.entertitle')
 						});
 					}
 
 					if (!req.param('description')) {
 						return callback({
-							msg: 'Введите подробное описание'
+							msg: sails.__('gct.bugreport.postEdit.enterdescription')
 						});
 					}
 
 					if (req.param('product') && req.user.group < ugroup.mod) {
 						return callback({
-							msg: 'Местоположение проблемы могут менять только модераторы'
+							msg: sails.__('gct.bugreport.postEdit.productcanmodifyonlymods')
 						});
 					}
 
@@ -417,7 +417,7 @@ module.exports = bugreport = {
 				function checkData(obj, callback) {
 					if (!(validator.isLength(obj.title,6,128))) {
 						return callback({
-							msg: 'Краткое описание должно содержать не менее 6 и не более 128 символов'
+							msg: sails.__('gct.bugreport.postEdit.titleshouldhave')
 						});
 					}
 
@@ -452,7 +452,7 @@ module.exports = bugreport = {
 				if (err) {
 					if (!err.msg) {
 						res.json({
-							err: 'Внезапная ошибка! Пожалуйста, сообщите о ней разработчику.'
+							err: sails.__('global.suddenerror')
 						});
 
 						throw err;

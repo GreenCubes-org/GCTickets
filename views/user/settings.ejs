@@ -1,35 +1,51 @@
 <% backUrl = '/',
-	title = 'Информация об аккаунте  — GC.Поддержка' %>
+	title = __('view.user.settings.pagetitle') + ' — ' + __('global.pagetitle') %>
 <%- partial( '../partials/header') %>
 	<div class="container">
-		<h1>Аккаунт</h1>
+		<h1><%- __('view.user.settings.title') %></h1>
 		<div class="ui divider"></div>
 		<div class="container">
 			<form id="gc-reportform">
 				<div class="ui form">
 					<div class="field">
-						<label>Стартовая страница</label>
+						<label><%- __('view.user.settings.startpage.title') %></label>
 						<div class="ui icon input">
 							<a href="<%= settings.startPage %>" class="gc-nostylelink"><%= settings.startPage %></a>
 						</div>
-						<small>Изменить стартовую страницу вы можете на любой странице со списком тикетов.</small>
+						<small><%- __('view.user.settings.startpage.description') %></small>
 					</div>
 					<div class="field">
-						<label>Префикс</label>
+						<label><%- __('view.user.settings.prefix.title') %></label>
 						<div class="ui icon input">
 							<p><%= settings.prefix %></p>
 						</div>
-						<small>Префикс имеют только Хелперы, Модераторы и представители Команды.</small>
+						<small><%- __('view.user.settings.prefix.description') %></small>
 					</div>
 					<div class="field">
-						<label>Ваша роль</label>
+						<label><%- __('view.user.settings.role.title') %></label>
 						<div class="ui icon input">
 							<p><%= settings.role %></p>
 						</div>
-						<small>Информация о вашем карьерном росте.</small>
+						<small><%- __('view.user.settings.role.description') %></small>
+					</div>
+					<div class="field">
+						<label><%- __('view.user.settings.language.title') %></label>
+						<div class="ui icon input">
+							<div class="ui dropdown" id="gc-languagedropdown">
+								<div class="text"><%= settings.language %></div>
+								<i class="dropdown icon"></i>
+								<input name="language" type="hidden">
+								<div class="menu">
+									<div class="item" data-value="ru"><%- __('global.language.ru') %></div>
+									<div class="item" data-value="en"><%- __('global.language.en') %></div>
+								</div>
+							</div>
+						</div>
+						<small><%- __('view.user.settings.language.description') %></small>
 					</div>
 				</div>
 				<input type="hidden" name="_csrf" value="<%= _csrf %>" />
+				<button class="ui submit blue button" type="submit"><%- sails.__('view.user.settings.send') %></button>
 			</form>
 		</div>
 	</div>
