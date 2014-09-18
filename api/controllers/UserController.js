@@ -4,10 +4,11 @@
  * @module :: Controller
  * @description :: Пользователи.
  */
-var passport = require('passport');
-
 var moment = require('moment');
 moment.lang('ru');
+
+var passport = require('passport'),
+	cfg = require('../../config/local');
 
 module.exports = {
 
@@ -261,59 +262,24 @@ module.exports = {
 	},
 
 	login: function (req, res) {
-		async.waterfall([
-			function authenticate(callback) {
-				passport.authenticate('local', function (err, user, info) {
-					if (!user) {
-						if (info.message === 'Missing credentials') info.message = 'Введите логин/пароль';
+		res.redirect(cfg.oauth2.loginURI);
+	},
 
-						return res.json({
-							error: info
-						});
-					}
-
-					callback(null, user);
-				})(req, res);
-			},
-			function logIn(user, callback) {
-				req.logIn(user, function (err) {
-					if (err) return callback(err);
-
-					callback(null, user);
-				});
-			},
-			function checkUserTable(origUser, callback) {
-				User.findOrCreate({uid: origUser.id}).exec(function (err, user) {
-					if (err) return callback(err);
-
-					if (user.prefix === undefined && user.canModerate === undefined) {
-						user.uid = origUser.id;
-						user.canModerate = [];
-						user.ugroup = 0;
-						user.startPage = '/all';
-
-						user.save(function (err) {
-							if (err) return callback(err);
-							callback(null);
-						});
-
-						return;
-					}
-
-					callback(null);
-				});
-			}
-		], function (err) {
-			if (err) throw err;
-
-			if (req.body.redirectto) {
+	callback: function (req, res) {
+		passport.authenticate('oauth2', function (err, user, info) {
+			if (!user) {
 				return res.json({
-					redirectto: 'http://' + req.host + req.body.redirectto
+					error: info
 				});
 			}
-
-			res.redirect('/');
-		});
+			req.logIn(user, function (err) {
+				if (err) {
+					throw err;
+				}
+				res.redirect('/');
+				return;
+			});
+		})(req, res);
 	},
 
 	logout: function (req, res) {

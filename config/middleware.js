@@ -1,5 +1,5 @@
 var passport = require('passport');
-var LocalStrategy = require('passport-local').Strategy;
+var OAuth2Strategy = require('passport-oauth2').Strategy;
 var mysql = require('mysql');
 var crypto = require('crypto');
 var flash = require('connect-flash');
@@ -17,7 +17,7 @@ appdbconn = mysql.createPool({
 });
 
 passport.serializeUser(function (user, done) {
-	done(null, user.id);
+	done(null, user.uid);
 });
 
 passport.deserializeUser(function (id, done) {
@@ -50,6 +50,8 @@ passport.deserializeUser(function (id, done) {
 						user.startPage = '/all';
 					}
 
+					user.id = user.uid;
+
 					callback(null, user);
 				});
 		}
@@ -66,61 +68,35 @@ module.exports = {
 	// Init custom express middleware
 	express: {
 		customMiddleware: function (app) {
-			passport.use(new LocalStrategy(function (username, password, done) {
-				username = username.replace(/[^a-zA-Z0-9_-]/g, '');
-				gcdbconn.query('SELECT id, password, activation_code FROM users WHERE login = ?', [username], function (err, result) {
-					// database error
-					if (err) {
-						return done(err, false, {
-							message: 'Ошибка базы данных'
-						});
-						// username not found
-					} else if (result.length === 0) {
-						return done(null, false, {
-							message: 'Неверный логин/пароль'
-						});
-						// check password
-					} else if (result[0].activation_code === undefined) {
-						return done(null, false, {
-							message: 'Аккаунт не активирован'
-						});
-					} else {
-						var passwd = result[0].password.split('$');
-						var hash;
-						if (passwd.length == 1) {
-							hash = crypto.createHash('md5')
-								.update(password)
-								.digest('hex');
-						} else {
-							hash = crypto.createHash('sha1')
-								.update(passwd[1] + password)
-								.digest('hex');
-						}
-						// if md5 passwords match
-						if (passwd.length === 1 && passwd[0] === hash) {
-							var user = {
-								id: result[0].id,
-								username: username,
-								password: hash
-							};
-							// if sha1 passwords match
-						} else if (passwd.length !== 1 && passwd[2] === hash) {
-							var user = {
-								id: result[0].id,
-								username: username,
-								password: hash
-							};
+			passport.use(new OAuth2Strategy({
+				authorizationURL: cfg.oauth2.authorizationURL,
+				tokenURL: cfg.oauth2.tokenURL,
+				clientID: cfg.oauth2.clientID,
+				clientSecret: cfg.oauth2.clientSecret,
+				callbackURL: cfg.oauth2.callbackURL
+			}, function(accessToken, refreshToken, profile, done) {
+					gcdb.user.getByLogin(accessToken.username, 'gcdb', function (err, uid) {
+						User.findOrCreate({uid: uid}, function (err, user) {
+							if (!user) {
+								if (err) return done(err);
 
-						} else {
-							return done(null, false, {
-								message: 'Неверный пароль'
-							});
-						}
+								user.uid = uid;
 
-						done(null, user);
-					}
-				});
-			}));
+								user.group = 0; // User have group 0 by default
+								user.canModerate = [];
+								user.startPage = '/all';
+								//user.locale = 'ru';
+
+								user.save(function (err, user) {
+									return done(err, user);
+								});
+							} else {
+								return done(err, user);
+							}
+						});
+					});
+				}
+			));
 
 			app.use(passport.initialize());
 			app.use(passport.session());
@@ -129,6 +105,7 @@ module.exports = {
 
 			app.use(flash());
 
+			// Back button exceptions.
 			app.use(function (req, res, next) {
 
 				if (sails.history && ['/comments', '/csrfToken'].indexOf(req.path) === -1 && sails.history[0] !== req.url) {
@@ -142,7 +119,6 @@ module.exports = {
 				} else if (!sails.history) {
 					sails.history = [ req.url ];
 				}
-
 
 
 				if (['/comments', '/csrfToken'].indexOf(req.path) === -1 && ['all', 'bugreports','rempros','bans','unbans','admreqs','user','users'].indexOf(req.path.split('/')[1]) !== -1) {
