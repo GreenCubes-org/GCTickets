@@ -82,5 +82,11 @@ module.exports.routes = {
 	'/rempros': 'list.listTwenty',
 	'/rempros/:param': 'list.listTwenty',
 	'get /new/rempro': 'create.remproTpl',
-	'post /new/rempro': 'create.rempro'
+	'post /new/rempro': 'create.rempro',
+
+	// Расприваты
+	'/bans': 'list.listTwenty',
+	'/bans/:param': 'list.listTwenty',
+	'get /new/ban': 'create.banTpl',
+	'post /new/ban': 'create.ban'
 };

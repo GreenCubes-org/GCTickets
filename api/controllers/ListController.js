@@ -76,6 +76,13 @@ module.exports = {
 				findBy.type = 2;
 				break;
 
+			case 'bans':
+				findBy.type = 3;
+				break;
+
+			case 'unbans':
+				findBy.type = 4;
+
 			default:
 				return res.notFound();
 		}

@@ -367,7 +367,7 @@ module.exports = bugreport = {
 				function preCheck(callback) {
 					if (!req.param('title')) {
 						return callback({
-							msg: sails.__('gct.bugreport.postEdit.entertitle')
+							msg: sails.__('gct.postEdit.entertitle')
 						});
 					}
 
@@ -404,7 +404,7 @@ module.exports = bugreport = {
 
 						callback(null, {
 							title: req.param('title'),
-							description: req.param('description', 10),
+							description: req.param('description'),
 							status: bugreport.status,
 							owner: bugreport.owner,
 							logs: req.param('logs'),
@@ -417,7 +417,7 @@ module.exports = bugreport = {
 				function checkData(obj, callback) {
 					if (!(validator.isLength(obj.title,6,128))) {
 						return callback({
-							msg: sails.__('gct.bugreport.postEdit.titleshouldhave')
+							msg: sails.__('gct.postEdit.titleshouldhave')
 						});
 					}
 

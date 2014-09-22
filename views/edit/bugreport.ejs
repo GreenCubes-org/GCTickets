@@ -95,11 +95,11 @@
 					<%= ticket.visiblity.text %>
 				</div>
 				<div class="item">
-					<div class="header"><%- __('view.edit.bugreport.panel.creator') %></div>
+					<div class="header"><%- __('view.edit.panel.creator') %></div>
 					<%= ticket.owner.login %>
 				</div>
 				<div class="item">
-					<div class="header"><%- __('view.edit.bugreport.panel.createdate') %></div>
+					<div class="header"><%- __('view.edit.panel.createdate') %></div>
 					<%= moment(ticket.createdAt).format('D MMM YYYY, H:mm') %>
 				</div>
 				<% if (ticket.product || ticket.product !== 42) { %>

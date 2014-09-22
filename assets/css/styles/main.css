@@ -610,6 +610,15 @@ span.s-regionstuffitemcomment {
 	box-shadow: 3px 0px 0px rgb(39, 216, 39) inset !important;
 }
 
+.l-menu.banned,
+.t-status.banned {
+	background-color: #ffa9fe;
+	box-shadow: 2px 0px 0px #cf01ce inset;
+}
+.l-menu.banned.active {
+	box-shadow: 2px 0px 0px #cf01ce inset;
+}
+
 .l-menu.main,
 .t-status.main {
 	background-color: #cadecb;

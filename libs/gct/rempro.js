@@ -481,7 +481,7 @@ module.exports = rempro = {
 				function preCheck(callback) {
 					if (!req.param('title')) {
 						return callback({
-							msg: sails.__('gct.rempro.postEdit.entertitle')
+							msg: sails.__('gct.postEdit.entertitle')
 						});
 					}
 

@@ -25,6 +25,8 @@ crossroads.addRoute('/users/{user}', app.list.main);
 /* Ticket creation pages */
 crossroads.addRoute('/new/bugreport', app.create.main);
 crossroads.addRoute('/new/rempro', app.create.main);
+crossroads.addRoute('/new/ban', app.create.main);
+crossroads.addRoute('/new/unban', app.create.main);
 
 /* Ticket pages */
 crossroads.addRoute('/id/{id}', app.view.main);

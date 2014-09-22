@@ -1,6 +1,29 @@
 /* Configuration */
 var migrations = [
-	//{ do: 'modify', table: 'client', column: 'internal', type: 'varchar(2)' }
+	//{ do: 'alter modify', table: 'client', column: 'internal', type: 'varchar(2)' }
+	/*{ do: 'create table', query: "CREATE TABLE IF NOT EXISTS `bugreport` (\
+  `title` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,\
+  `description` longtext COLLATE utf8_unicode_ci,\
+  `product` int(11) DEFAULT NULL,\
+  `logs` longtext COLLATE utf8_unicode_ci,\
+  `uploads` longtext COLLATE utf8_unicode_ci,\
+  `id` int(11) NOT NULL AUTO_INCREMENT,\
+  `createdAt` datetime DEFAULT NULL,\
+  `updatedAt` datetime DEFAULT NULL,\
+  PRIMARY KEY (`id`)\
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=48 ;"}*/
+	{ do: 'custom', query: "CREATE TABLE IF NOT EXISTS `ban` (\
+  `title` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,\
+  `description` longtext COLLATE utf8_unicode_ci,\
+  `targetUser` int(11) DEFAULT NULL,\
+  `logs` longtext COLLATE utf8_unicode_ci,\
+  `uploads` longtext COLLATE utf8_unicode_ci,\
+  `id` int(11) NOT NULL AUTO_INCREMENT,\
+  `createdAt` datetime DEFAULT NULL,\
+  `updatedAt` datetime DEFAULT NULL,\
+  PRIMARY KEY (`id`)\
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;"}
+
 ];
 
 /* Example config:
@@ -43,15 +66,18 @@ function migrate(migrations, cb) {
 		var query;
 
 		switch (migrate.do) {
-			case 'add':
+			case 'custom':
+				query = migrate.query;
+				break;
+			case 'alter add':
 				query = 'ALTER TABLE ' + migrate.table + ' ADD ' + migrate.column + ' ' + migrate.type;
 				break;
 
-			case 'modify':
+			case 'alter modify':
 				query = 'ALTER TABLE ' + migrate.table + ' MODIFY ' + migrate.column + ' ' + migrate.type;
 				break;
 
-			case 'drop':
+			case 'alter drop':
 				query = 'ALTER TABLE ' + migrate.table + ' DROP ' + migrate.column;
 				break;
 		}

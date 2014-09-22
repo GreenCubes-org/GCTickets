@@ -89,6 +89,47 @@ module.exports = {
 				break;
 
 			case 3:
+				async.waterfall([
+					function getBugreport(callback) {
+						Ban.findOne(obj.tid).exec(function (err, result) {
+							if (err) return callback(err);
+
+							result.status = obj.status;
+							result.owner = obj.owner;
+							result.tid = obj.id;
+							result.visiblity = obj.visiblity;
+
+							callback(err, result);
+						});
+					},
+					function serialize(result, callback) {
+						ban.serializeList(result, function (err, ticket) {
+							if (err) return callback(err);
+
+							callback(null, {
+								id: ticket.id,
+								title: ticket.title,
+								status: ticket.status,
+								owner: ticket.owner,
+								createdAt: ticket.createdAt,
+								visibility: {
+									class: (ticket.visiblity === sails.__('global.visibility.public')) ? 'unlock' : 'lock',
+									text: ticket.visiblity
+								},
+								type: {
+									descr: sails.__('global.type.ban'),
+									iconclass: 'legal'
+								},
+								comments: ticket.comments
+							});
+						});
+					}
+				],
+				function (err, bugreport) {
+					if (err) return callback(err);
+
+					callback(null, bugreport);
+				});
 				break;
 
 			case 4:
