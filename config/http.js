@@ -9,6 +9,8 @@
  * http://sailsjs.org/#/documentation/reference/sails.config/sails.config.http.html
  */
 
+var moment = require('moment');
+
 module.exports.http = {
 
 	/****************************************************************************
@@ -29,6 +31,11 @@ module.exports.http = {
 		 * router is invoked by the "router" middleware below.)                     *
 		 *                                                                          *
 		 ***************************************************************************/
+		momentLang: function (req, res, next) {
+			moment.lang((sails.userLocale) ? sails.userLocale : 'ru');
+
+			next();
+		},
 
 		order: [
 			'startRequestTimer',
@@ -40,6 +47,7 @@ module.exports.http = {
 			'compress',
 			'methodOverride',
 			//'poweredBy',
+			'momentLang',
 			'$custom',
 			'router',
 			'www',

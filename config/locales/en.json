@@ -104,5 +104,16 @@
 	"view.view.partials.changevisibility.title": "view.view.partials.changevisibility.title",
 	"view.view.partials.changevisibility.description": "view.view.partials.changevisibility.description",
 	"view.view.partials.changevisibility.action.no": "view.view.partials.changevisibility.action.no",
-	"view.view.partials.changevisibility.action.yes": "view.view.partials.changevisibility.action.yes"
+	"view.view.partials.changevisibility.action.yes": "view.view.partials.changevisibility.action.yes",
+	"global.status.banned": "global.status.banned",
+	"view.list.partials.filter.by.product.title": "view.list.partials.filter.by.product.title",
+	"view.list.partials.filter.by.product.main": "view.list.partials.filter.by.product.main",
+	"view.list.partials.filter.by.product.webservices": "view.list.partials.filter.by.product.webservices",
+	"view.list.partials.filter.by.product.unknown": "view.list.partials.filter.by.product.unknown",
+	"view.admin.dashboard.pagetitle": "view.admin.dashboard.pagetitle",
+	"view.admin.dashboard.list.users": "view.admin.dashboard.list.users",
+	"view.admin.dashboard.list.users.roles.title": "view.admin.dashboard.list.users.roles.title",
+	"view.admin.dashboard.list.users.roles.description": "view.admin.dashboard.list.users.roles.description",
+	"view.admin.dashboard.list.users.bans.title": "view.admin.dashboard.list.users.bans.title",
+	"view.admin.dashboard.list.users.bans.description": "view.admin.dashboard.list.users.bans.description"
 }

@@ -3,7 +3,7 @@ var cfg = require('../../config/local.js');
 var bbcode = require('../bbcode');
 
 var moment = require('moment');
-moment.lang('ru');
+
 
 module.exports = rempro = {
 	serializeList: function serializeList(obj, cb) {

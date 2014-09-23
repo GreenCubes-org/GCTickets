@@ -7,8 +7,6 @@
 var passport = require('passport');
 
 var moment = require('moment');
-moment.lang('ru');
-
 module.exports = {
 
 	profile: function (req, res) {

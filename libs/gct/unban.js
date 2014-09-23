@@ -4,7 +4,6 @@ var gcdb = require('../gcdb'),
 	validator = require('validator');
 
 var moment = require('moment');
-moment.lang('ru');
 
 module.exports = unban = {
 	serializeList: function serializeList(obj, cb) {

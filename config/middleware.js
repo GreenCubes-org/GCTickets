@@ -51,6 +51,8 @@ passport.deserializeUser(function (id, done) {
 					user.locale = 'ru';
 				}
 
+				sails.userLocale = user.locale;
+
 				callback(null, user);
 			});
 		}
