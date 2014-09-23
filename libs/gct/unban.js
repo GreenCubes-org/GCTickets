@@ -6,7 +6,7 @@ var gcdb = require('../gcdb'),
 var moment = require('moment');
 moment.lang('ru');
 
-module.exports = ban = {
+module.exports = unban = {
 	serializeList: function serializeList(obj, cb) {
 		async.waterfall([
 			function getUserByID(callback) {
@@ -89,8 +89,8 @@ module.exports = ban = {
 				visiblity: getVisiblityByID(obj.visiblity),
 				createdAt: obj.createdAt,
 				type: {
-					descr: sails.__('global.type.ban'),
-					iconclass: 'ban circle',
+					descr: sails.__('global.type.unban'),
+					iconclass: 'circle blank',
 					id: obj.type
 				},
 				comments: obj.comments
@@ -275,8 +275,8 @@ module.exports = ban = {
 					},
 					createdAt: obj.createdAt,
 					type: {
-						descr: sails.__('global.type.ban'),
-						iconclass: 'ban circle',
+						descr: sails.__('global.type.unban'),
+						iconclass: 'circle blank',
 						id: obj.type
 					},
 					comments: obj.comments
@@ -294,8 +294,8 @@ module.exports = ban = {
 					visiblity: getVisiblityByID(ticket[0].visiblity),
 					createdAt: obj.createdAt,
 					type: {
-						descr: sails.__('global.type.ban'),
-						iconclass: 'ban circle',
+						descr: sails.__('global.type.unban'),
+						iconclass: 'circle blank',
 						id: obj.type
 					},
 					comments: obj.comments
@@ -304,24 +304,24 @@ module.exports = ban = {
 		});
 	},
 
-	tplView: function viewBan(req, res, ticket) {
+	tplView: function viewUnban(req, res, ticket) {
 		async.waterfall([
-			function findBan(callback) {
-				Ban.findOne(ticket.tid).exec(function (err, ban) {
+			function findUnban(callback) {
+				Unban.findOne(ticket.tid).exec(function (err, unban) {
 					if (err) return callback(err);
 
-					ban.owner = ticket.owner;
-					ban.type = ticket.type;
-					ban.status = ticket.status;
+					unban.owner = ticket.owner;
+					unban.type = ticket.type;
+					unban.status = ticket.status;
 
-					callback(null, ban);
+					callback(null, unban);
 				});
 			},
-			function serializeView(ban, callback) {
-				gct.ban.serializeView(req, res, ban, null, function(err, result) {
+			function serializeView(unban, callback) {
+				gct.unban.serializeView(req, res, unban, null, function(err, result) {
 					if (err) return callback(err);
 
-					callback(null, result, ban);
+					callback(null, result, unban);
 				});
 			},
 			function checkRights(rempro, origTicket, callback) {
@@ -336,7 +336,7 @@ module.exports = ban = {
 				if (!err.show) throw err;
 
 
-			res.view('view/ban', {
+			res.view('view/unban', {
 				moment: moment,
 				ticket: result,
 				globalid: ticket.id,
@@ -345,16 +345,16 @@ module.exports = ban = {
 		});
 	},
 
-	tplEdit: function editBanTpl(req, res, ticket) {
-		Ban.findOne(ticket.tid).exec(function (err, ban) {
+	tplEdit: function editUnbanTpl(req, res, ticket) {
+		Unban.findOne(ticket.tid).exec(function (err, unban) {
 			if (err) throw err;
 
-			ban.owner = ticket.owner;
+			unban.owner = ticket.owner;
 
-			gct.ban.serializeView(req, res, ban, {isEdit: true}, function(err, result) {
+			gct.unban.serializeView(req, res, unban, {isEdit: true}, function(err, result) {
 				if (err) throw err;
 
-				res.view('edit/ban', {
+				res.view('edit/unban', {
 					ticket: result,
 					globalid: ticket.id
 				});
@@ -362,53 +362,53 @@ module.exports = ban = {
 		});
 	},
 
-	postEdit: function editBan(req, res, ticket) {
-		Ban.findOne(ticket.tid).exec(function (err, ban) {
+	postEdit: function editUnban(req, res, ticket) {
+		Unban.findOne(ticket.tid).exec(function (err, unban) {
 			if (err) throw err;
 
-			ban.owner = ticket.owner;
+			unban.owner = ticket.owner;
 
 			async.waterfall([
 				function preCheck(callback) {
 					if (!req.param('title')) {
 						return callback({
-							msg: sails.__('gct.ban.postEdit.entertitle')
+							msg: sails.__('gct.unban.postEdit.entertitle')
 						});
 					}
 
 					if (!req.param('reason')) {
 						return callback({
-							msg: sails.__('gct.ban.postEdit.enterreason')
+							msg: sails.__('gct.unban.postEdit.enterreason')
 						});
 					}
 
 					callback(null);
 				},
 				function handleUpload(callback) {
-					gct.handleUpload(req, res, ban, function (err, uploads) {
+					gct.handleUpload(req, res, unban, function (err, uploads) {
 						if (err) return callback(err);
 
 						callback(null, uploads);
 					});
 				},
 				function setData(uploads, callback) {
-					gct.ban.serializeView(req, res, ban, {isEdit: true}, function(err, result) {
+					gct.unban.serializeView(req, res, unban, {isEdit: true}, function(err, result) {
 						if (err) return callback(err);
 
 						if (!uploads) {
-							uploads = ban.uploads;
+							uploads = unban.uploads;
 						} else if (uploads instanceof Array) {
-							uploads = ban.uploads.concat(uploads);
+							uploads = unban.uploads.concat(uploads);
 						}
 
 						callback(null, {
 							title: req.param('title'),
 							reason: req.param('reason'),
-							status: ban.status,
-							owner: ban.owner,
+							status: unban.status,
+							owner: unban.owner,
 							logs: req.param('logs'),
 							uploads: uploads,
-							visiblity: ban.visiblity
+							visiblity: unban.visiblity
 						});
 					});
 				},
@@ -429,8 +429,8 @@ module.exports = ban = {
 
 					callback(null, obj);
 				},
-				function editBan(obj, callback) {
-					Ban.findOne(ticket.tid).exec(function(err, result) {
+				function editUnban(obj, callback) {
+					Unban.findOne(ticket.tid).exec(function(err, result) {
 						if (err) return callback(err);
 
 						result.title = obj.title;

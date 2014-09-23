@@ -76,17 +76,24 @@ module.exports.routes = {
 	'/bugreports/:param': 'list.listTwenty',
 	'/bugreports/:param/:page': 'list.listTwenty',
 	'get /new/bugreport': 'create.bugreportTpl',
-	'post /new/bugreport': 'create.bugreport',
+	'post /new/bugreport': 'create.bugreportPost',
 
 	// Расприваты
 	'/rempros': 'list.listTwenty',
 	'/rempros/:param': 'list.listTwenty',
 	'get /new/rempro': 'create.remproTpl',
-	'post /new/rempro': 'create.rempro',
+	'post /new/rempro': 'create.remproPost',
 
-	// Расприваты
+	// Заявки на бан
 	'/bans': 'list.listTwenty',
 	'/bans/:param': 'list.listTwenty',
 	'get /new/ban': 'create.banTpl',
-	'post /new/ban': 'create.ban'
+	'post /new/ban': 'create.banPost',
+
+	// Заявки на разбан
+	'/unbans': 'list.listTwenty',
+	'/unbans/:param': 'list.listTwenty',
+	'get /new/unban': 'create.unbanTpl',
+	'post /new/unban': 'create.unbanPost'
+
 };

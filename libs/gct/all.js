@@ -118,7 +118,7 @@ module.exports = {
 								},
 								type: {
 									descr: sails.__('global.type.ban'),
-									iconclass: 'legal'
+									iconclass: 'ban circle'
 								},
 								comments: ticket.comments
 							});
@@ -133,6 +133,47 @@ module.exports = {
 				break;
 
 			case 4:
+				async.waterfall([
+					function getBugreport(callback) {
+						Unban.findOne(obj.tid).exec(function (err, result) {
+							if (err) return callback(err);
+
+							result.status = obj.status;
+							result.owner = obj.owner;
+							result.tid = obj.id;
+							result.visiblity = obj.visiblity;
+
+							callback(err, result);
+						});
+					},
+					function serialize(result, callback) {
+						unban.serializeList(result, function (err, ticket) {
+							if (err) return callback(err);
+
+							callback(null, {
+								id: ticket.id,
+								title: ticket.title,
+								status: ticket.status,
+								owner: ticket.owner,
+								createdAt: ticket.createdAt,
+								visibility: {
+									class: (ticket.visiblity === sails.__('global.visibility.public')) ? 'unlock' : 'lock',
+									text: ticket.visiblity
+								},
+								type: {
+									descr: sails.__('global.type.unban'),
+									iconclass: 'circle blank'
+								},
+								comments: ticket.comments
+							});
+						});
+					}
+				],
+				function (err, bugreport) {
+					if (err) return callback(err);
+
+					callback(null, bugreport);
+				});
 				break; //unban.serializeSingle
 
 			case 5:

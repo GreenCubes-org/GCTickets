@@ -18,8 +18,6 @@ module.exports = {
 		},
 		// 'because you can'
 		reason: 'text',
-		// 'i'm not an idiot, lel'
-		description: 'text',
 		// uid
 		targetUser: 'integer',
 		// 'longtext'

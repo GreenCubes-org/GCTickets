@@ -1,5 +1,5 @@
-<% title = __('view.create.ban.pagetitle') + " — " + __('global.pagetitle'),
-	backUrl = '/bans' %>
+<% title = __('view.create.unban.pagetitle') + " — " + __('global.pagetitle'),
+	backUrl = '/unbans' %>
 <%- partial( '../partials/header') %>
 <div class="container">
 	<div class="ui two column grid">
@@ -7,27 +7,27 @@
 			<form id="gc-reportform">
 				<input type="hidden" name="_csrf" value="<%= _csrf %>" />
 				<div class="ui fluid form" id="gc-reportformdiv">
-					<h1 class="header" style="margin: 0px; padding: 0.2em 0em 0em;"><%- __('view.create.ban.pagetitle') %></h1>
+					<h1 class="header" style="margin: 0px; padding: 0.2em 0em 0em;"><%- __('view.create.unban.pagetitle') %></h1>
 					<div class="ui divider" style="margin: 1em 0em !important;"></div>
 					<div class="two fields">
 						<div class="field" style="width: 350px !important;margin-bottom: 0em;">
 							<div class="field">
-								<label><%- __('view.create.ban.form.targetuser.title') %></label>
-								<input name="targetuser" type="text" id="targetuser">
+								<label><%- __('view.create.unban.form.targetuser.title') %></label>
+								<input name="targetuser" type="text" id="targetuser" value="<%- req.user.username %>">
 							</div>
 						</div>
 					</div>
 					<div class="field">
-						<label><%- __('view.create.ban.form.title.title') %></label>
+						<label><%- __('view.create.unban.form.title.title') %></label>
 						<input name="title" type="text" id="title">
 					</div>
 					<div class="field">
-						<label><%- __('view.create.ban.form.reason') %></label>
+						<label><%- __('view.create.unban.form.reason') %></label>
 						<textarea id="reason" name="reason"></textarea>
 					</div>
 					<div class="ui divider"></div>
 					<div class="field">
-						<label><%- __('view.create.ban.form.logs') %></label>
+						<label><%- __('view.create.unban.form.logs') %></label>
 						<textarea id="logs" style="min-height: 1em; height: 6em;" name="logs"></textarea>
 					</div>
 					<div class="ui divider"></div>
@@ -46,8 +46,8 @@
 			</form>
 		</div>
 		<div class="column" style="width:30%">
-			<h2><%- __('view.create.ban.panel.title') %></h2>
-			<p><%- __('view.create.ban.panel.description') %></p>
+			<h2><%- __('view.create.unban.panel.title') %></h2>
+			<p><%- __('view.create.unban.panel.description') %></p>
 			<div class="gc-help"><%- __('view.create.panel.helptip') %></div>
 			<h2><%- __('view.create.panel.nav.title') %></h2>
 			<div class="ui selection list">
@@ -60,19 +60,19 @@
 				</div>
 				<div class="item">
 					<i class="remove big icon" style="margin:0em 0.5em 0em 0em"></i>
-					<a class="gc-nostylelink content" style="display:block" href="/new/ban">
+					<a class="gc-nostylelink content" style="display:block" href="/new/unban">
 						<span class="header" style="display:block"><%- __('view.create.panel.nav.rempro.title') %></span>
 						<span><%- __('view.create.panel.nav.rempro.description') %></span>
 					</a>
 				</div>
-				<div class="active item">
+				<div class="item">
 					<i class="legal big icon" style="margin:0em 0.5em 0em 0em"></i>
 					<a class="gc-nostylelink content" style="display:block" href="/new/ban">
 						<span class="header" style="display:block"><%- __('view.create.panel.nav.ban.title') %></span>
 						<span><%- __('view.create.panel.nav.ban.description') %></span>
 					</a>
 				</div>
-				<div class="item">
+				<div class="active item">
 					<i class="legal big icon" style="margin:0em 0.5em 0em 0em"></i>
 					<a class="gc-nostylelink content" style="display:block" href="/new/ban">
 						<span class="header" style="display:block"><%- __('view.create.panel.nav.unban.title') %></span>

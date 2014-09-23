@@ -4,7 +4,7 @@
 <div class="container">
 	<div class="ui grid">
 		<div class="left floated column" style="width: auto; max-width: 20%; padding-right: 0px;">
-			<i class="ban circle icon" style="font-size: 2em; margin-top: 15px;"></i>
+			<i class="circle blank icon" style="font-size: 2em; margin-top: 15px;"></i>
 		</div>
 		<div class="left floated column" style="width: auto; max-width: 72%; padding-left: 0px; min-width: 60%;">
 			<h2 class="ui header">
@@ -27,10 +27,10 @@
 	<div class="s-ui divider"></div>
 	<div class="ui grid">
 		<div class="column" style="width: 56%;">
-			<h2 class="ui header"><%- __('view.view.ban.targetuser') %>: <a class="<% if (req.user && req.user.group >= ugroup.helper) { %> pinfopopup" style="cursor:pointer;border-bottom: 1px dotted;" data-position="bottom center" data-html="<%- partial('../partials/pinfo', {pinfo:ticket.targetUser.pinfo}) %>" data-variation="small" title="<%- __('view.view.pinfohint') %>"<% } else { %>" href="/users/<%= ticket.targetUser.login %>"<% } %>><%= ticket.targetUser.login %></a></h2>
+			<h2 class="ui header"><%- __('view.view.unban.targetuser') %>: <a class="<% if (req.user && req.user.group >= ugroup.helper) { %> pinfopopup" style="cursor:pointer;border-bottom: 1px dotted;" data-position="bottom center" data-html="<%- partial('../partials/pinfo', {pinfo:ticket.targetUser.pinfo}) %>" data-variation="small" title="<%- __('view.view.pinfohint') %>"<% } else { %>" href="/users/<%= ticket.targetUser.login %>"<% } %>><%= ticket.targetUser.login %></a></h2>
 			<p class="s-targetuser"></p>
 
-			<h2 class="ui header"><%- __('view.view.ban.reason') %></h2>
+			<h2 class="ui header"><%- __('view.view.unban.reason') %></h2>
 			<p class="s-description"><%- ticket.reason.view %></p>
 
 			<% if (ticket.logs) {%>

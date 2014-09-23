@@ -41,7 +41,7 @@ module.exports = user = {
 				return sails.__('global.ugroup.moderator');
 
 			case 3:
-				return sails.__('global.ugroup.staff');
+				return sails.__('global.ugroup.team');
 
 			default:
 				return;
