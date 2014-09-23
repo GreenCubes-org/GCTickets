@@ -65,7 +65,7 @@ module.exports.routes = {
 	'post /comments/new': 'comment.newComment',
 
 	// Новый тикет без типа
-	'/new': 'create.mainTpl',
+	//'/new': 'create.mainTpl',
 
 	// Все тикеты
 	'/all': 'list.listTwenty',
