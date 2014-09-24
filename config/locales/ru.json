@@ -169,6 +169,7 @@
 	"view.partials.userpanel.profile": "Ваш профиль",
 	"view.partials.userpanel.account": "Аккаунт",
 	"view.partials.userpanel.adminpanel": "Панель администратора",
+	"view.partials.userpanel.gameinfopanel": "Панель игровой информации",
 	"view.partials.userpanel.logout": "Выход",
 	"view.partials.userpanel.login": "Вход",
 	"view.home.preview.pagetitle": "Система поддержки GreenCubes",

@@ -10,3 +10,12 @@
 	color: rgb(255, 255, 255);
 	background-color: #cd0000;
 }
+
+.gameinfopanel.header {
+	text-align: center;
+	font-weight: bold;
+	font-size: 40px;
+	text-transform: uppercase;
+	color: rgb(255, 255, 255);
+	background-color: #a07aef;
+}

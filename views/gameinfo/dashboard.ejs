@@ -1,0 +1,98 @@
+<% title = 'Панель игровой информации' + " — " + __('global.pagetitle'),
+	backUrl = '/';  %>
+<%- partial('../partials/header')%>
+
+<div class="gameinfopanel header">Панель игровой информации</div>
+<div class="container">
+	<div class="ui relaxed list">
+		<div class="item">
+			<i class="icon big user" style="margin: 10px 10px 0px 0px;"></i>
+			<div class="content">
+				<h2>Игрок</h2>
+				<div class="ui relaxed list">
+					<div class="item">
+						<a class="gc-nostylelink content"  href="/gameinfo/player/info">
+							<span class="header">Общая информация об игроке</span>
+							<span class="description" style="display:block">Просмотр даты регистрации, префикса, статус онлайна и бана, статистики входов</span>
+						</a>
+					</div>
+					<div class="item">
+						<a class="gc-nostylelink content"  href="/gameinfo/player/inventory">
+							<span class="header">Инвентарь</span>
+							<span class="description" style="display:block">Просмотр списка предметов в инвенторе игрока</span>
+						</a>
+					</div>
+					<div class="item">
+						<a class="gc-nostylelink content"  href="/gameinfo/player/loginlog">
+							<span class="header">Логи входов на сервер</span>
+							<span class="description" style="display:block">Просмотр логов входов на сервер</span>
+						</a>
+					</div>
+					<div class="item">
+						<a class="gc-nostylelink content"  href="/gameinfo/player/moneylog">
+							<span class="header">Логи переводов внутриигровой валюты</span>
+							<span class="description" style="display:block">Просмотр логов переводов зелени и монет</span>
+						</a>
+					</div>
+					<div class="item">
+						<a class="gc-nostylelink content"  href="/gameinfo/player/chestslog">
+							<span class="header">Логи действий с сундуками</span>
+							<span class="description" style="display:block">Просмотр логов всех действий с сундуками определённого игрока</span>
+						</a>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="item">
+			<i class="icon big globe" style="margin: 10px 10px 0px 0px;"></i>
+			<div class="content">
+				<h2>Мир</h2>
+				<div class="ui relaxed list">
+					<div class="item">
+						<a class="gc-nostylelink content"  href="/gameinfo/world/regioninfo">
+							<span class="header">Информация о регионе</span>
+							<span class="description" style="display:block">Просмотр полной информации о регионе</span>
+						</a>
+					</div>
+					<div class="item">
+						<a class="gc-nostylelink content"  href="/gameinfo/world/chestlog">
+							<span class="header">Логи доступа к сундуку</span>
+							<span class="description" style="display:block">Просмотр логов доступа к определённому сундуку</span>
+						</a>
+					</div>
+					<div class="item">
+						<a class="gc-nostylelink content"  href="/gameinfo/world/lavalog">
+							<span class="header">Логи лавы</span>
+							<span class="description" style="display:block">Просмотр логов разлития лавы на координате/регионе</span>
+						</a>
+					</div>
+					<div class="item">
+						<a class="gc-nostylelink content"  href="/gameinfo/world/waterlog">
+							<span class="header">Логи воды</span>
+							<span class="description" style="display:block">Просмотр логов разлития воды на координате/регионе</span>
+						</a>
+					</div>
+					<div class="item">
+						<a class="gc-nostylelink content"  href="/gameinfo/world/firelog">
+							<span class="header">Логи огня</span>
+							<span class="description" style="display:block">Просмотр логов зажиганий огня на координате/регионе</span>
+						</a>
+					</div>
+					<div class="item">
+						<a class="gc-nostylelink content"  href="/gameinfo/world/signlog">
+							<span class="header">Логи табличек</span>
+							<span class="description" style="display:block">Просмотр логов установки табличек на координате/регионе</span>
+						</a>
+					</div>
+					<div class="item">
+						<a class="gc-nostylelink content"  href="/gameinfo/world/spongelog">
+							<span class="header">Логи губки</span>
+							<span class="description" style="display:block">Просмотр логов установки губок на координате/регионе</span>
+						</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
