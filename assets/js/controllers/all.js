@@ -94,6 +94,8 @@ $(document).ready(function () {
 					},
 					success: function (data) {
 						$('#gc-notifmodal .content').html('<div style="padding: 7em 0em;text-align: center;font-size:1.4em" id="nonotifs">Оповещения успешно удалены</div>');
+
+						$('#gc-notifnumber').html(0);
 					}
 				});
 
