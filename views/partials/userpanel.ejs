@@ -1,22 +1,30 @@
 <% if (req.user) { %>
-	<a href="/new" class="item" title="Новый тикет"><i class="add icon"></i></a>
-	<span href="#" class="item" title="Оповещения" id="gc-notifheaderbutton" style="cursor:pointer;"><i class="bell icon"></i><span id="gc-notifnumber"></span></span>
+	<div class="ui simple top right pointing dropdown item" style="float: none;" title="<%- __('view.partials.userpanel.newticket') %>">
+		<i class="add icon"></i> <i class="icon dropdown"></i>
+		<div class="menu">
+			<a href="/new/bugreport" class="item"><i class="bug icon"></i><%- __('global.type.bugreport') %></a>
+			<a href="/new/rempro" class="item"><i class="trash icon"></i><%- __('global.type.rempro') %></a>
+			<a href="/new/ban" class="item"><i class="ban circle icon"></i><%- __('global.type.ban') %></a>
+			<a href="/new/unban" class="item"><i class="circle blank icon"></i><%- __('global.type.unban') %></a>
+		</div>
+	</div>
+	<span href="#" class="item" title="<%- __('view.partials.userpanel.notifications') %>" id="gc-notifheaderbutton" style="cursor:pointer;"><i class="bell icon"></i><span id="gc-notifnumber"></span></span>
 	<div class="ui simple top right pointing dropdown item" style="float: none;">
 		<% if (req.user.prefix) { %><%= req.user.prefix %><% } %>&nbsp;<%= req.user.username %> <i class="icon dropdown"></i>
 		<div class="menu">
-			<a href="/user" class="item"><i class="user icon"></i>Ваш профиль</a>
-			<a href="/settings" class="item"><i class="setting icon"></i>Аккаунт</a>
-		<% if (req.user.group === 3) { %>
-			<a href="/admin" class="item"><i class="dashboard icon"></i>Админпанель</a>
+			<a href="/user" class="item"><i class="user icon"></i><%- __('view.partials.userpanel.profile') %></a>
+			<a href="/settings" class="item"><i class="setting icon"></i><%- __('view.partials.userpanel.account') %></a>
+		<% if (req.user.group === ugroup.staff) { %>
+			<a href="/admin" class="item"><i class="dashboard icon"></i><%- __('view.partials.userpanel.adminpanel') %></a>
 		<% } %>
 		</div>
 	</div>
 	
-	<span class="item" id="gc-logoutbutton" style="cursor:pointer;" title="Выход">
+	<span class="item" id="gc-logoutbutton" style="cursor:pointer;" title="<%- __('view.partials.userpanel.logout') %>">
 		<i class="sign out icon"></i>
 	</span>
 <% } else {%>
 	<a href="/login" class="item">
-		Вход <i class="user icon"></i>
+		<%- __('view.partials.userpanel.login') %> <i class="user icon"></i>
 	</a>
 <% } %>

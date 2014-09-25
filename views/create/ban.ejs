@@ -1,5 +1,5 @@
-<% title = __('view.create.rempro.pagetitle') + " — " + __('global.pagetitle'),
-	backUrl = '/rempros' %>
+<% title = __('view.create.ban.pagetitle') + " — " + __('global.pagetitle'),
+	backUrl = '/bans' %>
 <%- partial( '../partials/header') %>
 <div class="container">
 	<div class="ui two column grid">
@@ -7,34 +7,29 @@
 			<form id="gc-reportform">
 				<input type="hidden" name="_csrf" value="<%= _csrf %>" />
 				<div class="ui fluid form" id="gc-reportformdiv">
-					<h1 class="header" style="margin: 0px; padding: 0.2em 0em 0em;"><%- __('view.create.rempro.pagetitle') %></h1>
+					<h1 class="header" style="margin: 0px; padding: 0.2em 0em 0em;"><%- __('view.create.ban.pagetitle') %></h1>
 					<div class="ui divider" style="margin: 1em 0em !important;"></div>
 					<div class="two fields">
 						<div class="field" style="width: 350px !important;margin-bottom: 0em;">
 							<div class="field">
-								<label><%- __('view.create.rempro.form.createdfor.title') %> <i class="help icon gc-helppopup" data-content="<%- __('view.create.rempro.form.createdfor.helphint') %>" data-variation="inverted"></i></label>
-								<input name="createdfor" type="text" id="createdfor">
+								<label><%- __('view.create.ban.form.targetuser.title') %></label>
+								<input name="targetuser" type="text" id="targetuser">
 							</div>
 						</div>
 					</div>
 					<div class="field">
-						<label><%- __('view.create.rempro.form.title.title') %></label>
-						<input name="title" type="text" id="title" placeholder="<%- __('view.create.rempro.form.title.placeholder', req.user.username) %>">
+						<label><%- __('view.create.ban.form.title.title') %></label>
+						<input name="title" type="text" id="title">
 					</div>
 					<div class="field">
-						<label><%- __('view.create.rempro.form.reason') %></label>
+						<label><%- __('view.create.ban.form.reason') %></label>
 						<textarea id="reason" name="reason"></textarea>
 					</div>
 					<div class="ui divider"></div>
 					<div class="field">
-						<label><%- __('view.create.rempro.form.regions.title') %></label>
-						<textarea id="regions" name="regions" placeholder="<%- __('view.create.rempro.form.regions.placeholder') %>"></textarea>
+						<label><%- __('view.create.ban.form.logs') %></label>
+						<textarea id="logs" style="min-height: 1em; height: 6em;" name="logs"></textarea>
 					</div>
-					<div class="field">
-						<label><%- __('view.create.rempro.form.stuff.title') %></label>
-						<textarea id="stuff" name="stuff" placeholder="<%- __('view.create.rempro.form.stuff.placeholder') %>"></textarea>
-					</div>
-					<div class="gc-help"><i class="help icon"></i><%- __('view.create.rempro.form.helphint') %></div>
 					<div class="ui divider"></div>
 					<div class="field">
 						<label><%- __('view.create.form.upload.title') %></label>
@@ -51,10 +46,8 @@
 			</form>
 		</div>
 		<div class="column" style="width:30%">
-			<h2><%- __('view.create.rempro.panel.title') %></h2>
-			<p><%- __('view.create.rempro.panel.description') %></p>
-			<p><b><%- __('view.create.rempro.panel.guide.title') %></b><br>
-			<span id="venusguidelink" href="https://forum.greencubes.org/viewtopic.php?f=195&t=26550" title="<%- __('view.create.rempro.panel.guide.link.placeholder') %>"><%- __('view.create.rempro.panel.guide.link.text', '</span>') %></p>
+			<h2><%- __('view.create.ban.panel.title') %></h2>
+			<p><%- __('view.create.ban.panel.description') %></p>
 			<div class="gc-help"><%- __('view.create.panel.helptip') %></div>
 			<h2><%- __('view.create.panel.nav.title') %></h2>
 			<div class="ui selection list">
@@ -65,14 +58,14 @@
 						<span><%- __('view.create.panel.nav.bugreport.description') %></span>
 					</a>
 				</div>
-				<div class="active item">
+				<div class="item">
 					<i class="remove big icon" style="margin:0em 0.5em 0em 0em"></i>
 					<a class="gc-nostylelink content" style="display:block" href="/new/rempro">
 						<span class="header" style="display:block"><%- __('view.create.panel.nav.rempro.title') %></span>
 						<span><%- __('view.create.panel.nav.rempro.description') %></span>
 					</a>
 				</div>
-				<div class="item">
+				<div class="active item">
 					<i class="ban circle big icon" style="margin:0em 0.5em 0em 0em"></i>
 					<a class="gc-nostylelink content" style="display:block" href="/new/ban">
 						<span class="header" style="display:block"><%- __('view.create.panel.nav.ban.title') %></span>

@@ -10,38 +10,18 @@
 					<h1 class="header" style="margin: 0px; padding: 0.2em 0em 0em;"><%- __('view.edit.title', '<a href="/id/' + ticket.id + '">', ticket.id, '</a>', ticket.title) %>
 					</h1>
 					<div class="ui divider" style="margin: 1em 0em !important;"></div>
-					<div class="two fields">
-						<div class="field" style="width: 350px !important;margin-bottom: 0em;">
-							<div class="field">
-								<label><%- __('view.edit.rempro.form.createdfor.title') %> <i class="help icon gc-helppopup" data-content="<%- __('view.edit.rempro.form.createdfor.placeholder') %>" data-variation="inverted"></i></label>
-								<input name="createdfor" type="text" id="createdfor" value="<% if (ticket.createdFor.login) { %><%= ticket.createdFor.login %><% } %>">
-							</div>
-						</div>
+					<div class="field">
+						<label><%- __('view.edit.form.title') %></label>
+						<input name="title" type="text" value="<%= ticket.title %>">
 					</div>
 					<div class="field">
-						<label><%- __('view.edit.rempro.form.title') %></label>
-						<input name="title" type="text" id="title" placeholder="<%- __('view.edit.rempro.form.title.placeholder', ticket.owner.login) %>" value="<%= ticket.title %>">
+						<label><%- __('view.edit.unban.form.reason') %></label>
+						<textarea id="reason" name="reason"><%- ticket.reason.edit %></textarea>
 					</div>
 					<div class="field">
-						<label><%- __('view.edit.rempro.form.reason') %></label>
-						<textarea id="reason" name="reason"><%= ticket.reason.edit %></textarea>
+						<label><%- __('view.edit.form.logs') %></label>
+						<textarea id="logs" style="min-height: 1em; height: 6em;" name="logs"><% if (ticket.logs) { %><%= ticket.logs %><% } %></textarea>
 					</div>
-					<div class="ui divider"></div>
-					<div class="ui two column grid">
-						<div class="column" style="padding-left:0em !important;">
-							<div class="field">
-								<label><%- __('view.edit.rempro.form.regions') %></label>
-								<textarea id="regions" name="regions"><% if (ticket.regions) { ticket.regions.forEach(function(element) { %><%= element.name + ' ' + ((element.comment) ? element.comment : '') %><%}) } %></textarea>
-							</div>
-						</div>
-						<div class="column" style="padding-right:0em !important;">
-							<div class="field">
-								<label><%- __('view.edit.rempro.form.stuff.title') %></label>
-								<textarea id="stuff" name="stuff"><% if (ticket.stuff) { ticket.stuff.forEach(function(element) { %><%= element.coord + ' ' + ((element.comment) ? element.comment : '') + '\r' %><% }) } %></textarea>
-							</div>
-						</div>
-					</div>
-					<div class="gc-help"><i class="help icon"></i><%- __('view.edit.rempro.form.stuff.helphint') %></div>
 					<div class="ui divider"></div>
 					<div class="field">
 						<% if (ticket.uploads.length) { %>
@@ -101,15 +81,13 @@
 					<div class="header"><%- __('view.edit.panel.creator') %></div>
 					<%= ticket.owner.login %>
 				</div>
-				<% if (ticket.createdFor.login) { %>
 				<div class="item">
-					<div class="header"><%- __('view.edit.panel.createdfor') %></div>
-					<%= ticket.createdFor.login %>
-				</div>
-				<% } %>
-				<div class="item">
-					<div class="header"><%- __('view.edit.rempro.panel.createdate') %></div>
+					<div class="header"><%- __('view.edit.panel.createdate') %></div>
 					<%= moment(ticket.createdAt).format('D MMM YYYY, H:mm') %>
+				</div>
+				<div class="item">
+					<div class="header"><%- __('view.edit.unban.panel.targetuser') %></div>
+					<%= ticket.targetUser.login %>
 				</div>
 			</div>
 		</div>

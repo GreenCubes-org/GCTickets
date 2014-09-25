@@ -41,7 +41,7 @@ module.exports = {
 		if (!req.param('tid')) {
 			return callback({
 				show: true,
-				msg: 'Некорректный запрос'
+				msg: sails.__('controller.comment.incorrentrequest')
 			});
 		}
 
@@ -58,7 +58,7 @@ module.exports = {
 				if (req.user.group < ugroup.helper && [2,4,5,6,7,10,12].indexOf(ticket.status) !== -1) {
 					return callback({
 						show: true,
-						msg: 'Комментирование закрытых тикетов запрещено'
+						msg: sails.__('controller.comment.newComment.cantcommentclosed')
 					});
 				}
 
@@ -87,7 +87,7 @@ module.exports = {
 					if ((!req.param('message') && !req.param('status')) && !(req.param('status') === ticket.status && !req.param('message'))) {
 						return callback({
 							show: true,
-							msg: 'Комментарий слишком короткий'
+							msg: sails.__('controller.comment.newComment.commenttoosmall')
 						});
 					}
 
@@ -149,7 +149,7 @@ module.exports = {
 					return callback(null, newComment);
 				}
 				
-				gct.processStatus(req, res, ticket.type, canModerate, ticket, newComment.changedTo, function(result) {
+				gct.comment.processStatus(req, res, ticket.type, canModerate, ticket, newComment.changedTo, function(result) {
 					if (!result){
 						delete newComment.changedTo;
 					}
@@ -194,7 +194,7 @@ module.exports = {
 					callback(null, newComment, ticket);
 				})
 			},
-			function sendNotifs(newComment, ticket, callback) {
+			function sendNotifsAboutNewCommentInTicket(newComment, ticket, callback) {
 				if (newComment.ownerId !== ticket.owner) {
 					if (newComment.changedTo) {
 						Notif.add(2, ticket.owner, {
@@ -205,7 +205,7 @@ module.exports = {
 						}, function (err) {
 							if (err) return callback(err);
 
-							callback(null, newComment);
+							callback(null, newComment, ticket);
 						});
 					} else {
 						Notif.add(1, ticket.owner, {
@@ -215,15 +215,58 @@ module.exports = {
 						}, function (err) {
 							if (err) return callback(err);
 
-							callback(null, newComment);
+							callback(null, newComment, ticket);
 						});
 					}
 				} else {
-					callback(null, newComment);
+					callback(null, newComment, ticket);
 				}
+			},
+			function sendNotifsAboutMention(newComment, ticket, callback) {
+				var wasMentioned = newComment.message.match(/(?:\B\@)(([a-zA-Z\-\_])(\w+)?)/g);
+
+				wasMentioned = (function(arr){
+					var m = {}, newarr = []
+					for (var i=0; i<arr.length; i++) {
+						var v = arr[i].replace('@', '');
+						if (!m[v]) {
+							newarr.push(v);
+							m[v]=true;
+						}
+					}
+					return newarr;
+				})(wasMentioned);
+
+				async.each(wasMentioned, function (element, callback) {
+					gcdb.user.getByLogin(element, function (err, uid) {
+						if (err) return callback(err);
+
+						User.findOne({uid: uid}).exec(function (err, user) {
+							if (err) return callback(err);
+
+							if (uid !== req.user.id && ((ticket.visiblity === 2 && user.ugroup >= ugroup.mod) || ticket.visiblity === 1)) {
+								Notif.add(4, uid, {
+									ticket: tid,
+									user: newComment.ownerId,
+									cid: newComment.id
+								}, function (err) {
+									if (err) return callback(err);
+
+									callback(null);
+								});
+							} else {
+								callback(null);
+							}
+						});
+					});
+				}, function (err) {
+					if (err) return callback(err);
+
+					callback(null, newComment);
+				});
 			}
 		],
-		function (err, comment, reload) {
+		function (err, comment) {
 			if (err) {
 				if (!err.show) {
 					throw err;
@@ -394,7 +437,7 @@ module.exports = {
 				if (req.user.group < ugroup.helper && [2,4,5,6,7,10,12].indexOf(ticket.status) !== -1) {
 					return callback({
 						show: true,
-						msg: 'Редактирование в закрытых тикетах запрещено'
+						msg: sails.__('controller.comment.editComment.canteditinclosed')
 					});
 				}
 
@@ -462,14 +505,14 @@ module.exports = {
 					if (req.user.group < ugroup.helper && [2,4,5,6,7,10,12].indexOf(ticket.status) !== -1) {
 						return callback({
 							show: true,
-							msg: 'Удаление в закрытых тикетах запрещено'
+							msg: sails.__('controller.comment.deleteComment.cantdeleteinclosed')
 						});
 					}
 
 					if (comment.changedTo && action === 'remove') {
 						return callback({
 							show: true,
-							msg: 'Нельзя удалить сообщение со статусом'
+							msg: sails.__('controller.comment.deleteComment.cantremovecommentwithstatus')
 						});
 					}
 

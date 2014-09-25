@@ -1,6 +1,6 @@
 <div class="ui modal" id="editcomment">
 	<div class="header">
-	Редактирование комментария #<span id="editcomment-cid"></span> от <span id="editcomment-author"></span>
+	<%- __('view.view.partials.editcomment.title') %>
 	</div>
 	<div class="content">
 	<div class="ui form">
@@ -11,10 +11,10 @@
 	  <div class="two fluid ui buttons">
 		<div class="ui negative labeled icon button">
 		  <i class="remove icon"></i>
-		  Отмена
+		  <%- __('view.view.partials.editcomment.action.cancel') %>
 		</div>
 		<div class="ui positive right labeled icon button">
-		  Сохранить
+		  <%- __('view.view.partials.editcomment.action.save') %>
 		  <i class="checkmark icon"></i>
 		</div>
 	  </div>

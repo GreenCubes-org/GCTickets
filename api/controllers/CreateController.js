@@ -22,18 +22,18 @@ module.exports = {
 		res.view('create/bugreport');
 	},
 	
-	bugreport: function(req, res) {
+	bugreportPost: function(req, res) {
 		async.waterfall([
 			function preCheck(callback) {
 				if (!req.param('title')) {
 					return callback({
-						msg: 'Введите краткое описание'
+						msg: sails.__('controller.create.bugreport.entertitle')
 					});
 				}
 
 				if (!req.param('description')) {
 					return callback({
-						msg: 'Введите подробное описание'
+						msg: sails.__('controller.create.bugreport.enterdescription')
 					});
 				}
 				
@@ -61,25 +61,25 @@ module.exports = {
 			function checkData(obj, callback) {
 				if (!obj.title) {
 					return callback({
-						msg: 'Введите краткое описание'
+						msg: sails.__('controller.create.bugreport.entertitle')
 					});
 				}
 
 				if (!(validator.isLength(obj.title,6,128))) {
 					return callback({
-						msg: 'Краткое описание должно содержать не менее 6 и не более 128 символов'
+						msg: sails.__('controller.create.bugreport.titleshouldcontain')
 					});
 				}
 
 				if (!obj.product) {
 					return callback({
-						msg: 'Выберите местоположение проблемы'
+						msg: sails.__('controller.create.bugreport.enterproduct')
 					});
 				}
 				// Only "Неизвестно", "Сервер Main", "Веб-сервисы"
 				if ([1,2,5].indexOf(obj.product) === -1) {
 					return callback({
-						msg: 'Некорректное местоположение проблемы'
+						msg: sails.__('controller.create.bugreport.incorrectproduct')
 					});
 				}
 				
@@ -125,7 +125,7 @@ module.exports = {
 			if (err) {
 				if (!err.msg) {
 					res.json(500, {
-						 err: 'Внезапная ошибка! Пожалуйста, сообщите о ней разработчику.'
+						 err: sails.__('global.suddenerror')
 					});
 					
 					throw err;
@@ -146,18 +146,18 @@ module.exports = {
 		res.view('create/rempro');
 	},
 
-	rempro: function(req, res) {
+	remproPost: function(req, res) {
 		async.waterfall([
 			function preCheck(callback) {
 				if (!req.param('reason')) {
 					return callback({
-						msg: 'Введите причину распривата'
+						msg: sails.__('controller.create.rempro.enterreason')
 					});
 				}
 
 				if (!(req.param('regions') || req.param('stuff'))) {
 					return callback({
-						msg: 'Введите хотя бы один регион или координату'
+						msg: sails.__('controller.create.rempro.enterstuff')
 					});
 				}
 
@@ -186,7 +186,7 @@ module.exports = {
 			function checkData(obj, callback) {
 				if (isNaN(obj.visiblity)) {
 					return callback({
-						msg: 'Выберите видимость тикета'
+						msg: sails.__('controller.create.rempro.entervisibility')
 					});
 				}
 
@@ -216,7 +216,7 @@ module.exports = {
 
 						if (!uid) {
 							callback({
-								msg: 'Игрока для которого создаётся заявка не существует'
+								msg: sails.__('controller.create.noplayer')
 							})
 						} else {
 							if (!obj.title) {
@@ -289,8 +289,262 @@ module.exports = {
 		res.view('create/ban');
 	},
 
+	banPost: function(req, res) {
+		async.waterfall([
+			function preCheck(callback) {
+				if (!req.param('title')) {
+					return callback({
+						msg: sails.__('controller.create.entertitle')
+					});
+				}
+
+				if (!req.param('reason')) {
+					return callback({
+						msg: sails.__('controller.create.enterreason')
+					});
+				}
+
+				if (!req.param('targetuser')) {
+					return callback({
+						msg: sails.__('controller.create.unban.entertargetuser')
+					});
+				}
+
+				callback(null);
+			},
+			function handleUpload(callback) {
+				gct.handleUpload(req, res, function (err, uploads) {
+					if (err) return callback(null);
+
+					callback(null, uploads);
+				});
+			},
+			function setData(uploads,callback) {
+				callback(null,{
+					title: req.param('title').replace(/^(\s*)$/g, ''),
+					reason: req.param('reason'),
+					status: 1,
+					targetUser: req.param('targetuser').replace(/[^a-zA-Z0-9_-]/g, '') || null,
+					owner: req.user.id,
+					logs: req.param('logs') || '',
+					uploads: uploads || [],
+					visiblity: 2
+				});
+			},
+			function checkData(obj, callback) {
+				if (!obj.title) {
+					return callback({
+						msg: sails.__('controller.create.entertitle')
+					});
+				}
+
+				if (!obj.targetUser) {
+					return callback({
+						msg: sails.__('controller.create.ban.entertargetuser')
+					});
+				}
+
+				callback(null, obj);
+			},
+			function sanitizeData(obj, callback) {
+				obj.reason = req.sanitize('reason').entityEncode();
+				obj.logs = req.sanitize('logs').entityEncode();
+
+				if (obj.logs === '') obj.logs = null;
+
+				/* Set title if no title, set obj.createdFor */
+				gcdb.user.getByLogin(obj.targetUser, function(err, uid) {
+					if (err) return callback(err);
+
+					if (!uid) {
+						callback({
+							msg: sails.__('controller.create.noplayer') //FIXME
+						})
+					} else {
+						obj.targetUser = uid;
+
+						callback(null, obj);
+					}
+				});
+			},
+			function createBugreport(obj, callback) {
+				Ban.create({
+					title: obj.title,
+					reason: obj.reason,
+					targetUser: obj.targetUser,
+					logs: obj.logs,
+					uploads: obj.uploads
+				}).exec(function(err, result) {
+					if (err) return callback(err);
+
+					callback(null, result.id, obj);
+				});
+			},
+			function registerTicket(ticketId, obj, callback) {
+				Ticket.create({
+					tid: ticketId,
+					type: 3,
+					status: obj.status,
+					visiblity: obj.visiblity,
+					comments: [],
+					owner: obj.owner
+				}).exec(function (err, ticket) {
+					if (err) return callback(err);
+
+					callback(null, ticket)
+				});
+			}
+		 ],
+		 function (err, ticket) {
+			if (err) {
+				if (!err.msg) {
+					res.json(500, {
+						 err: sails.__('global.suddenerror')
+					});
+
+					throw err;
+				} else {
+					return res.json({
+						err: err.msg
+					});
+				}
+			} else {
+				res.json({
+					id: ticket.id
+				});
+			}
+		});
+	},
+
 	unbanTpl: function(req,res) {
 		res.view('create/unban');
+	},
+
+	unbanPost: function(req, res) {
+		async.waterfall([
+			function preCheck(callback) {
+				if (!req.param('title')) {
+					return callback({
+						msg: sails.__('controller.create.entertitle')
+					});
+				}
+
+				if (!req.param('reason')) {
+					return callback({
+						msg: sails.__('controller.create.enterreason')
+					});
+				}
+
+				if (!req.param('targetuser')) {
+					return callback({
+						msg: sails.__('controller.create.unban.entertargetuser')
+					});
+				}
+
+				callback(null);
+			},
+			function handleUpload(callback) {
+				gct.handleUpload(req, res, function (err, uploads) {
+					if (err) return callback(null);
+
+					callback(null, uploads);
+				});
+			},
+			function setData(uploads,callback) {
+				callback(null,{
+					title: req.param('title').replace(/^(\s*)$/g, ''),
+					reason: req.param('reason'),
+					status: 1,
+					targetUser: req.param('targetuser').replace(/[^a-zA-Z0-9_-]/g, '') || null,
+					owner: req.user.id,
+					logs: req.param('logs') || '',
+					uploads: uploads || [],
+					visiblity: 2
+				});
+			},
+			function checkData(obj, callback) {
+				if (!obj.title) {
+					return callback({
+						msg: sails.__('controller.create.entertitle')
+					});
+				}
+
+				if (!obj.targetUser) {
+					return callback({
+						msg: sails.__('controller.create.unban.entertargetuser')
+					});
+				}
+
+				callback(null, obj);
+			},
+			function sanitizeData(obj, callback) {
+				obj.reason = req.sanitize('reason').entityEncode();
+				obj.logs = req.sanitize('logs').entityEncode();
+
+				if (obj.logs === '') obj.logs = null;
+
+				/* Set title if no title, set obj.createdFor */
+				gcdb.user.getByLogin(obj.targetUser, function(err, uid) {
+					if (err) return callback(err);
+
+					if (!uid) {
+						callback({
+							msg: sails.__('controller.create.noplayer')
+						})
+					} else {
+						obj.targetUser = uid;
+
+						callback(null, obj);
+					}
+				});
+			},
+			function createBugreport(obj, callback) {
+				Unban.create({
+					title: obj.title,
+					reason: obj.reason,
+					targetUser: obj.targetUser,
+					logs: obj.logs,
+					uploads: obj.uploads
+				}).exec(function(err, result) {
+					if (err) return callback(err);
+
+					callback(null, result.id, obj);
+				});
+			},
+			function registerTicket(ticketId, obj, callback) {
+				Ticket.create({
+					tid: ticketId,
+					type: 4,
+					status: obj.status,
+					visiblity: obj.visiblity,
+					comments: [],
+					owner: obj.owner
+				}).exec(function (err, ticket) {
+					if (err) return callback(err);
+
+					callback(null, ticket)
+				});
+			}
+		 ],
+		 function (err, ticket) {
+			if (err) {
+				if (!err.msg) {
+					res.json(500, {
+						 err: sails.__('global.suddenerror')
+					});
+
+					throw err;
+				} else {
+					return res.json({
+						err: err.msg
+					});
+				}
+			} else {
+				res.json({
+					id: ticket.id
+				});
+			}
+		});
 	},
 
 	regenTpl: function(req,res) {

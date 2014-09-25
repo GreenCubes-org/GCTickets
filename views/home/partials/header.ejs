@@ -1,11 +1,11 @@
 <div class="ui green inverted gc-header menu">
-	<a href="/all" class="item" title="Список всех тикетов"><i class="reorder icon"></i>Все тикеты</a>
+	<a href="/all" class="item" title="<%- __('view.home.partials.header.ticketlist') %>"><i class="reorder icon"></i><%- __('view.home.partials.header.alltickets') %></a>
 	<div class="right menu">
 		<a href="https://greencubes.org/?action=recover#t" class="item">
-			Забыли пароль?
+			<%- __('view.home.partials.header.forgotpassword') %>
 		</a>
 		<a href="//greencubes.org/?action=start" class="item">
-			Регистрация <i class="user icon"></i>
+			<%- __('view.home.partials.header.registration') %> <i class="user icon"></i>
 		</a>
 	</div>
 </div>

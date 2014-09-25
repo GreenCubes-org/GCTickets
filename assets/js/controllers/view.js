@@ -36,7 +36,7 @@ var renderAllComments = function renderAllComments(ticketId) {
 			}
 
 			if (comment.changedTo) {
-				var changedTo = '<div class="ui small divider"></div>' +
+				var changedTo = ((comment.message) ? '<div class="ui small divider"></div>' : '') +
 					'Изменён статус на <div class="ui small label ' + comment.changedTo.class + '">' + comment.changedTo.text + '</div>';
 			} else {
 				var changedTo = '';
@@ -105,7 +105,7 @@ var renderRemovedComments = function renderRemovedComments(ticketId) {
 			}
 
 			if (comment.changedTo) {
-				var changedTo = '<div class="ui small divider"></div>' +
+				var changedTo = ((comment.message) ? '<div class="ui small divider"></div>' : '') +
 					'Изменён статус на <div class="ui small label ' + comment.changedTo.class + '">' + comment.changedTo.text + '</div>';
 			} else {
 				var changedTo = '';

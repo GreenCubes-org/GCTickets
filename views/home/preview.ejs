@@ -1,4 +1,4 @@
-<% title = 'Система поддержки GreenCubes' %>
+<% title = __('view.home.preview.pagetitle') %>
 
 <!DOCTYPE html>
 <html>
@@ -22,8 +22,8 @@
 						<div class="left floated column page" style="width: auto; max-width: 72%; padding-left: 0px; min-width: 60%;margin-top: 40px;">
 							<div class="main header">
 								<img class="ui image gc-logo" src="/images/logo-preview.png">
-								<h1>Система поддержки GreenCubes</h1>
-								<h3>Решаем проблемы, одобряем заявки</h3>
+								<h1><%- __('view.home.preview.title') %></h1>
+								<h3><%- __('view.home.preview.subtitle') %></h3>
 							</div>
 						</div>
 						<div class="right floated two wide column loginform">
@@ -31,17 +31,17 @@
 								<div class="ui form" style="display: inline-block !important">
 									<div class="field">
 										<div class="ui left labeled icon input">
-											<input placeholder="Имя пользователя" type="text" name="username">
+											<input placeholder="<%- __('view.home.preview.login.username') %>" type="text" name="username">
 											<i class="user icon"></i>
 										</div>
 									</div>
 									<div class="field">
 										<div class="ui left labeled icon input">
-											<input placeholder="Пароль" type="password" name="password">
+											<input placeholder="<%- __('view.home.preview.login.password') %>" type="password" name="password">
 											<i class="lock icon"></i>
 										</div>
 									</div>
-									<button type="submit" class="ui blue submit button gc-center">Войти</button>
+									<button type="submit" class="ui blue submit button gc-center"><%- __('view.home.preview.login.enter') %></button>
 								</div>
 								<input type="hidden" name="_csrf" value="<%= _csrf %>" />
 							</form>
@@ -52,33 +52,33 @@
 				<div class="second section">
 					<div class="page">
 						<div class="header">
-							<h1>Для чего нужна система поддержки?</h1>
-							<h3>Система поддержки позволяет создать страницу о разных видах проблем: багах, заявках, просьбах. Такие страницы называются тикетами.</h3>
-							<h3>Те, кто занимается соответствующим видом тикетов, ответит на этот тикет и ваша проблема будет решена. </h3>
+							<h1><%- __('view.home.preview.section.second.forwhatweneedtickets') %></h1>
+							<h3><%- __('view.home.preview.section.second.systemcan') %></h3>
+							<h3><%- __('view.home.preview.section.second.someoneresponse') %></h3>
 						</div>
 					</div>
 				</div>
 				<div class="third section">
 					<div class="page">
 						<div class="faq header">
-							<h1>Как пользоваться системой поддержки?</h1>
-							<h3>Работа с тикет-системой чаще всего сводится к нескольким этапам:</h3>
+							<h1><%- __('view.home.preview.section.third.howtouse') %></h1>
+							<h3><%- __('view.home.preview.section.third.tldraboutwork') %>:</h3>
 							<ol>
-								<li>Войдите под вашим логином GreenCubes</li>
-								<li>Определитесь, какой тип тикета соответствует вашей проблеме</li>
-								<li>Создайте тикет нужного типа, описав проблему и заполнив все необходимые поля</li>
-								<li>Ожидайте ответа или изменения статуса тикета</li>
+								<li><%- __('view.home.preview.section.third.tldraboutwork.first') %></li>
+								<li><%- __('view.home.preview.section.third.tldraboutwork.second') %></li>
+								<li><%- __('view.home.preview.section.third.tldraboutwork.third') %></li>
+								<li><%- __('view.home.preview.section.third.tldraboutwork.fourth') %></li>
 							</ol>
-							<h3 style="margin-top:15px;">Но для начала не забудьте <a href="/login">войти</a> в систему :)</h3>
+							<h3 style="margin-top:15px;"><%- __('view.home.preview.section.third.donotforgetaboutlogin') %></h3>
 						</div>
 					</div>
 				</div>
 				<div class="fourth section">
 					<div class="page">
 						<div class="header">
-							<h1>С чего начать?</h1>
-							<h3>Для начала вам следует <a href="/login">войти в систему</a>, потом вы можете посмотреть <a href="/all">список публичных тикетов</a> или <a href="/new">создать новый тикет</a>.</h3>
-							<h3>Также вы можете почитать о разработке системы поддержки в <a href="#">блоге разработки</a>.</h3>
+							<h1><%- __('view.home.preview.section.fourth.wheretostart') %></h1>
+							<h3><%- __('view.home.preview.section.fourth.frombeginning','<a href="/login">','</a>','<a href="/all">','</a>','<a href="/new">','</a>') %></h3>
+							<h3><%- __('view.home.preview.section.fourth.alsoyoucan','<a href="#">','</a>') %></h3>
 						</div>
 					</div>
 				</div>

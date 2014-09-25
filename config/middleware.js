@@ -22,36 +22,39 @@ passport.serializeUser(function (user, done) {
 
 passport.deserializeUser(function (id, done) {
 	async.waterfall([
-
 		function getUserCredentials(callback) {
-				gcdbconn.query('SELECT login, password FROM users WHERE id = ?', [id], function (err, result, fields) {
-					if (err) return callback(err);
+			gcdbconn.query('SELECT login, password FROM users WHERE id = ?', [id], function (err, result, fields) {
+				if (err) return callback(err);
 
-					callback(null, {
-						id: id,
-						username: result[0].login,
-						password: result[0].password
-					});
+				callback(null, {
+					id: id,
+					username: result[0].login,
+					password: result[0].password
 				});
+			});
 		},
 		function getUserRights(user, callback) {
-				appdbconn.query('SELECT * FROM user WHERE uid = ?', [id], function (err, result) {
-					if (err) return callback(err);
+			appdbconn.query('SELECT * FROM user WHERE uid = ?', [id], function (err, result) {
+				if (err) return callback(err);
 
-					if (result.length !== 0) {
-						user.group = result[0].ugroup;
-						user.prefix = result[0].prefix;
-						user.colorclass = result[0].colorclass;
-						user.canModerate = result[0].canModerate;
-						user.startPage = (result[0].startPage) ? result[0].startPage : '/all';
-					} else {
-						user.group = 0; // User have group 0 by default
-						user.canModerate = [];
-						user.startPage = '/all';
-					}
+				if (result.length !== 0) {
+					user.group = result[0].ugroup;
+					user.prefix = result[0].prefix;
+					user.colorclass = result[0].colorclass;
+					user.canModerate = result[0].canModerate;
+					user.startPage = (result[0].startPage) ? result[0].startPage : '/all';
+					user.locale = (result[0].locale) ? result[0].locale : 'ru';
+				} else {
+					user.group = 0; // User have group 0 by default
+					user.canModerate = [];
+					user.startPage = '/all';
+					user.locale = 'ru';
+				}
 
-					callback(null, user);
-				});
+				sails.userLocale = user.locale;
+
+				callback(null, user);
+			});
 		}
 	],
 		function (err, user) {

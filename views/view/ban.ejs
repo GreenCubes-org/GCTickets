@@ -4,7 +4,7 @@
 <div class="container">
 	<div class="ui grid">
 		<div class="left floated column" style="width: auto; max-width: 20%; padding-right: 0px;">
-			<i class="bug icon" style="font-size: 2em; margin-top: 15px;"></i>
+			<i class="ban circle icon" style="font-size: 2em; margin-top: 15px;"></i>
 		</div>
 		<div class="left floated column" style="width: auto; max-width: 72%; padding-left: 0px; min-width: 60%;">
 			<h2 class="ui header">
@@ -16,7 +16,6 @@
 &nbsp;<a class="gc-nostylelink" href="/id/<%= globalid %>">#<%= globalid %></a>
 &raquo;&nbsp;<a class="gc-nostylelink<% if (req.user && req.user.group >= ugroup.helper) { %> pinfopopup"style="cursor:pointer;border-bottom: 1px dotted;" data-position="bottom center" data-html="<%- partial('../partials/pinfo', {pinfo:ticket.owner.pinfo}) %>" data-variation="small" title="<%- __('view.view.pinfohint') %>"<% } else { %>" href="/users/<%= ticket.owner.login %>"<% } %>><%= ticket.owner.login %></a>
 &raquo;&nbsp;<%= moment(ticket.createdAt).format('D MMM YYYY, H:mm') %>
-<% if (ticket.product && ticket.product.ticketText.length && ticket.product !== 42) { %>&raquo;&nbsp;<a class="gc-nostylelink" href="/bugreports/<%= ticket.product.techText %>"><%= ticket.product.ticketText %></a><% } %>
 				</div>
 			</h2>
 		</div>
@@ -28,8 +27,11 @@
 	<div class="s-ui divider"></div>
 	<div class="ui grid">
 		<div class="column" style="width: 56%;">
-			<h2 class="ui header"><%- __('view.view.bugreport.description') %></h2>
-			<p class="s-description"><%- ticket.description.view %></p>
+			<h2 class="ui header"><%- __('view.view.ban.targetuser') %>: <a class="<% if (req.user && req.user.group >= ugroup.helper) { %> pinfopopup" style="cursor:pointer;border-bottom: 1px dotted;" data-position="bottom center" data-html="<%- partial('../partials/pinfo', {pinfo:ticket.targetUser.pinfo}) %>" data-variation="small" title="<%- __('view.view.pinfohint') %>"<% } else { %>" href="/users/<%= ticket.targetUser.login %>"<% } %>><%= ticket.targetUser.login %></a></h2>
+			<p class="s-targetuser"></p>
+
+			<h2 class="ui header"><%- __('view.view.ban.reason') %></h2>
+			<p class="s-description"><%- ticket.reason.view %></p>
 
 			<% if (ticket.logs) {%>
 			<h2 class="ui header"><%- __('view.view.logs') %></h2>
@@ -82,7 +84,7 @@
 				<div style="padding: 2em 0em;text-align: center;font-size:1.4em"><%- __('view.view.comment.cantcommentclosed') %></div>
 			<% } else { %>
 			<form class="ui reply form container" id="commentpost">
-				<% if ([1,3,11].indexOf(ticket.status.id) !== -1 && req.user && ((ticket.owner.id === req.user.id || ((req.user.group || 0) >= ugroup.helper)) && ticket.status.id === 1 || canModerate)) { %>
+				<% if ([1,3,8,9].indexOf(ticket.status.id) !== -1 && req.user && ((ticket.owner.id === req.user.id || ((req.user.group || 0) >= ugroup.helper)) && ticket.status.id === 1 || canModerate)) { %>
 				<div class="field">
 					<label><%- __('view.view.comment.status.title') %> <a class="gc-nostylelink" href="https://wiki.greencubes.org/Система_поддержки/Статусы" target="_blank"><i class="help icon gc-helppopup" data-content="<%- __('view.view.comment.status.helphint') %>" data-variation="inverted"></i></a></label>
 					<div class="ui selection dropdown" id="s-setstatus">
@@ -93,13 +95,11 @@
 						<div class="menu">
 							<% if (ticket.status.id === 1) { %>
 								<div class="active item" data-value="1"><%- __('global.status.new') %></div>
-								<% if ((req.user.group || 0) >= ugroup.mod || canModerate) { %>
-								<div class="item" data-value="11"><%- __('global.status.accepted') %></div>
-								<% } %>
-								<% if ((req.user.group || 0) >= ugroup.helper || canModerate) { %>
+								<% if ((req.user.group || 0) >= ugroup.helper) { %>
 								<div class="item" data-value="3"><%- __('global.status.specify') %></div>
 								<% } %>
-								<% if ((req.user.group || 0) >= ugroup.mod || canModerate) { %>
+								<% if ((req.user.group || 0) >= ugroup.mod) { %>
+								<div class="item" data-value="10"><%- __('global.status.done') %></div>
 								<div class="item" data-value="4"><%- __('global.status.declined') %></div>
 								<% } %>
 								<% if (ticket.owner.id === req.user.id) { %>
@@ -108,12 +108,7 @@
 							<% } %>
 							<% if (ticket.status.id === 3) { %>
 								<div class="active item" data-value="3"><%- __('global.status.specify') %></div>
-								<div class="item" data-value="11"><%- __('global.status.accepted') %></div>
-								<div class="item" data-value="4"><%- __('global.status.declined') %></div>
-							<% } %>
-							<% if (ticket.status.id === 11) { %>
-								<div class="active item" data-value="11"><%- __('global.status.accepted') %></div>
-								<div class="item" data-value="12"><%- __('global.status.fixed') %></div>
+								<div class="item" data-value="10"><%- __('global.status.done') %></div>
 								<div class="item" data-value="4"><%- __('global.status.declined') %></div>
 							<% } %>
 						</div>
@@ -124,7 +119,7 @@
 					<label><%- __('view.view.comment.message') %></label>
 					<textarea id="commentform" name="message"></textarea>
 				</div>
-				<div class="gc-help"><i class="help icon"></i><% if ([1,3,11].indexOf(ticket.status.text) !== -1 && req.user && (ticket.owner.id == req.user.id || ((req.user.group || 0) >= ugroup.helper && ticket.status.id === 1))) { %><%- __('view.view.comment.helphint.status') %><% } %><%- __('view.view.comment.helphint.bbcode') %></div>
+				<div class="gc-help"><i class="help icon"></i><% if ([1,3,1].indexOf(ticket.status.id) !== -1 && req.user && (ticket.owner.id === req.user.id || ((req.user.group || 0) >= ugroup.helper && ticket.status.id === 1))) { %><%- __('view.view.comment.helphint.status') %><% } %><%- __('view.view.comment.helphint.bbcode') %></div>
 				<div class="ui divider"></div>
 				<div class="ui teal submit fluid small button" type="submit" id="commentsubmit"><%- __('view.view.comment.send') %></div>
 				<input type="hidden" name="_csrf" value="<%= _csrf %>" />

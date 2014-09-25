@@ -1,9 +1,8 @@
-<% title='Система поддержки GreenCubes' %>
 <!DOCTYPE html>
 <html>
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-		<title><%- title %></title>
+		<title><%- __('view.user.login.pagetitle') + " — " + __('global.pagetitle') %></title>
 		<link rel="icon" type="image/x-icon" href="/favicon.ico" />
 		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
 		<link rel="icon" type="image/png" href="//greencubes.org/favicon.png" />
@@ -19,28 +18,28 @@
 				<a href="/">
 					<img class="ui image gc-logo gc-center" src="/images/logo-preview.png">
 				</a>
-				<h1>Система поддержки GreenCubes
+				<h1><%- __('view.user.login.title') %>
 					<br>
-					<span class="hidden-xs">Откройся!</span>
+					<span class="hidden-xs"><%- __('view.user.login.subtitle') %></span>
 				</h1>
 				<form id="loginform">
 					<div class="ui form" style="display: inline-block !important">
 						<div class="field">
 							<div class="ui left labeled icon input">
-								<input placeholder="Имя пользователя" type="text" name="username">
+								<input placeholder="<%- __('view.user.login.username') %>" type="text" name="username">
 								<i class="user icon"></i>
 							</div>
 						</div>
 						<div class="field">
 							<div class="ui left labeled icon input">
-								<input placeholder="Пароль" type="password" name="password">
+								<input placeholder="<%- __('view.user.login.password') %>" type="password" name="password">
 								<i class="lock icon"></i>
 							</div>
 						</div>
-						<button type="submit" class="ui blue submit button">Войти</button>
+						<button type="submit" class="ui blue submit button"><%- __('view.user.login.enter') %></button>
 					</div>
 					<input type="hidden" name="_csrf" value="<%= _csrf %>" />
-					<input type="hidden" name="redirectto" value="<%= redirectto %>" />
+					<% if (redirectto) { %><input type="hidden" name="redirectto" value="<%= redirectto %>" /><% } %>
 				</form>
 				<div id="loginerr"><% if (typeof message !== 'undefined') { %>
 						<div class="ui error message">

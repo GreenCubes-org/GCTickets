@@ -68,6 +68,32 @@ module.exports = {
 											callback(null, element);
 										});
 										break;
+
+									case 3:
+										Ban.findOne(ticket.tid).exec(function (err, rempro) {
+											if (err) return callback(err);
+
+											element.ticket = {
+												id: ticket.id,
+												title: rempro.title
+											};
+
+											callback(null, element);
+										});
+										break;
+
+									case 4:
+										Unban.findOne(ticket.tid).exec(function (err, rempro) {
+											if (err) return callback(err);
+
+											element.ticket = {
+												id: ticket.id,
+												title: rempro.title
+											};
+
+											callback(null, element);
+										});
+										break;
 								}
 							});
 						} else {

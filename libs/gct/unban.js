@@ -5,7 +5,7 @@ var gcdb = require('../gcdb'),
 
 var moment = require('moment');
 
-module.exports = bugreport = {
+module.exports = unban = {
 	serializeList: function serializeList(obj, cb) {
 		async.waterfall([
 			function getUserByID(callback) {
@@ -23,7 +23,6 @@ module.exports = bugreport = {
 							pinfo: null
 						},
 						type: obj.type,
-						product: obj.product,
 						visiblity: obj.visiblity,
 						createdAt: obj.createdAt
 					});
@@ -89,38 +88,61 @@ module.exports = bugreport = {
 				visiblity: getVisiblityByID(obj.visiblity),
 				createdAt: obj.createdAt,
 				type: {
-					descr: sails.__('global.type.bugreport'),
-					iconclass: 'bug',
+					descr: sails.__('global.type.unban'),
+					iconclass: 'circle blank',
 					id: obj.type
 				},
-				product: gct.getProductByID(obj.product),
 				comments: obj.comments
 			});
 		});
 	},
 
+	/*
+
+	title: {
+		type: 'string',
+		maxLength: 120
+	},
+	// 'imma idiot, plz tp meh to spawn!1!!'
+	reason: 'text',
+	// uid
+	targetUser: 'integer',
+	// 'longtext'
+	logs: 'text',
+	// '42' (id of upload)
+	uploads: 'array'
+
+	*/
 	serializeView: function serializeView(req, res, obj, config, cb) {
 		async.waterfall([
 			function getUserByID(callback) {
-				gcdb.user.getByID(obj.owner, function (err, result) {
+				gcdb.user.getByID(obj.owner, function (err, ownerLogin) {
 					if (err) return callback(err);
 
-					callback(null, {
-						id: obj.id,
-						title: obj.title,
-						description: obj.description,
-						status: getStatusByID(obj.status),
-						owner: {
-							id: obj.owner,
-							login: result,
-							pinfo: null
-						},
-						type: obj.type,
-						logs: obj.logs,
-						uploads: obj.uploads,
-						product: getProductByID(obj.product),
-						visiblity: null,
-						createdAt: obj.createdAt
+					gcdb.user.getByID(obj.targetUser, function (err, targetUserLogin) {
+						if (err) return callback(err);
+
+						callback(null, {
+							id: obj.id,
+							title: obj.title,
+							reason: obj.reason,
+							status: getStatusByID(obj.status),
+							owner: {
+								id: obj.owner,
+								login: ownerLogin,
+								pinfo: null
+							},
+							targetUser: {
+								id: obj.targetUser,
+								login: targetUserLogin,
+								pinfo: null
+							},
+							type: obj.type,
+							logs: obj.logs,
+							uploads: obj.uploads,
+							visiblity: null,
+							createdAt: obj.createdAt
+						});
 					});
 				});
 			},
@@ -128,8 +150,8 @@ module.exports = bugreport = {
 				if (config && config.isEdit) {
 					callback(null, obj);
 				} else {
-					bbcode.parse(obj.description, function(result) {
-						obj.description = result;
+					bbcode.parse(obj.reason, function(result) {
+						obj.reason = result;
 
 						// IM SO SORRY.
 						bbcode.parse(obj.logs, function(result) {
@@ -141,9 +163,9 @@ module.exports = bugreport = {
 				}
 			},
 			function fixNewlines(obj, callback) {
-				obj.description = {
-					view: obj.description.replace("\r\n","\n").replace("\r","\n").replace("\n","<br>"),
-					edit: obj.description
+				obj.reason = {
+					view: obj.reason.replace("\r\n","\n").replace("\r","\n").replace("\n","<br>"),
+					edit: obj.reason
 				};
 
 				callback(null, obj);
@@ -151,7 +173,7 @@ module.exports = bugreport = {
 			function getTicket(obj, callback) {
 				Ticket.find({
 					tid: obj.id,
-					type: 1
+					type: 3
 				}).exec(function (err, ticket) {
 					if (err) return cb(err);
 
@@ -219,6 +241,19 @@ module.exports = bugreport = {
 				} else {
 					callback(null, obj, ticket);
 				}
+			},
+			function getPInfo4TargetUser(obj, ticket, callback) {
+				if (req.user && req.user.group >= ugroup.helper) {
+					gct.user.getPInfo(obj.targetUser.login, function(err, pinfo) {
+						if (err) return callback(err);
+
+						obj.targetUser.pinfo = pinfo;
+
+						callback(null, obj, ticket);
+					});
+				} else {
+					callback(null, obj, ticket);
+				}
 			}
 		], function (err, obj, ticket) {
 			if (err) return cb(err);
@@ -227,20 +262,20 @@ module.exports = bugreport = {
 				cb(null, {
 					id: ticket[0].id,
 					title: obj.title,
-					description: obj.description,
+					reason: obj.reason,
 					status: obj.status,
 					owner: obj.owner,
+					targetUser: obj.targetUser,
 					logs: obj.logs,
 					uploads: obj.uploads,
-					product: obj.product,
 					visiblity: {
 						id: ticket[0].visiblity,
 						text: getVisiblityByID(ticket[0].visiblity)
 					},
 					createdAt: obj.createdAt,
 					type: {
-						descr: sails.__('global.type.bugreport'),
-						iconclass: 'bug',
+						descr: sails.__('global.type.unban'),
+						iconclass: 'circle blank',
 						id: obj.type
 					},
 					comments: obj.comments
@@ -249,17 +284,17 @@ module.exports = bugreport = {
 				cb(null, {
 					id: ticket[0].id,
 					title: obj.title,
-					description: obj.description,
+					reason: obj.reason,
 					status: obj.status,
 					owner: obj.owner,
+					targetUser: obj.targetUser,
 					logs: obj.logs,
 					uploads: obj.uploads,
-					product: obj.product,
 					visiblity: getVisiblityByID(ticket[0].visiblity),
 					createdAt: obj.createdAt,
 					type: {
-						descr: sails.__('global.type.bugreport'),
-						iconclass: 'bug',
+						descr: sails.__('global.type.unban'),
+						iconclass: 'circle blank',
 						id: obj.type
 					},
 					comments: obj.comments
@@ -268,61 +303,31 @@ module.exports = bugreport = {
 		});
 	},
 
-	tplView: function viewBugreport(req, res, ticket) {
+	tplView: function viewUnban(req, res, ticket) {
 		async.waterfall([
-			function findBugreport(callback) {
-				Bugreport.findOne(ticket.tid).exec(function (err, bugreport) {
+			function findUnban(callback) {
+				Unban.findOne(ticket.tid).exec(function (err, unban) {
 					if (err) return callback(err);
 
-					bugreport.owner = ticket.owner;
-					bugreport.type = ticket.type;
-					bugreport.status = ticket.status;
-					callback(null, bugreport);
+					unban.owner = ticket.owner;
+					unban.type = ticket.type;
+					unban.status = ticket.status;
+
+					callback(null, unban);
 				});
 			},
-			function serializeView(bugreport, callback) {
-				gct.bugreport.serializeView(req, res, bugreport, null, function(err, result) {
+			function serializeView(unban, callback) {
+				gct.unban.serializeView(req, res, unban, null, function(err, result) {
 					if (err) return callback(err);
 
-					callback(null, result, bugreport);
+					callback(null, result, unban);
 				});
 			},
-			// Adding var for checking local moderators
-			function canModerate(bugreport, origTicket, callback) {
+			function checkRights(rempro, origTicket, callback) {
 				if (req.user && req.user.group >= ugroup.mod) {
-					callback({show: true}, bugreport, true);
+					callback(null, rempro, true);
 				} else {
-					callback(null, bugreport, origTicket);
-				}
-			},
-			function getRights(bugreport, origTicket, callback) {
-				if (req.user) {
-					User.find({
-						uid: req.user.id
-					}).exec(function (err, rights) {
-						if (err) return callback(err);
-
-						if (rights.length !== 0) callback(null, bugreport, rights[0].canModerate, origTicket);
-							else callback({show: true}, bugreport, null, origTicket);
-					});
-				} else {
-					callback(null, bugreport, null, origTicket);
-				}
-			},
-			function checkRights(bugreport, canModerate, origTicket, callback) {
-				if (canModerate instanceof Array) {
-					async.each(canModerate, function (element, callback) {
-						if (element === origTicket.product)
-							return callback(true);
-
-						callback(null);
-					}, function (canMod) {
-						if (canMod) return callback(null, bugreport, true);
-
-						callback(null, bugreport, false);
-					});
-				} else {
-					callback(null, bugreport, false);
+					callback(null, rempro, false);
 				}
 			}
 		], function (err, result, canModerate) {
@@ -330,7 +335,7 @@ module.exports = bugreport = {
 				if (!err.show) throw err;
 
 
-			res.view('view/bugreport', {
+			res.view('view/unban', {
 				moment: moment,
 				ticket: result,
 				globalid: ticket.id,
@@ -339,16 +344,16 @@ module.exports = bugreport = {
 		});
 	},
 
-	tplEdit: function editBugreportTpl(req, res, ticket) {
-		Bugreport.findOne(ticket.tid).exec(function (err, bugreport) {
+	tplEdit: function editUnbanTpl(req, res, ticket) {
+		Unban.findOne(ticket.tid).exec(function (err, unban) {
 			if (err) throw err;
 
-			bugreport.owner = ticket.owner;
+			unban.owner = ticket.owner;
 
-			gct.bugreport.serializeView(req, res, bugreport, {isEdit: true}, function(err, result) {
+			gct.unban.serializeView(req, res, unban, {isEdit: true}, function(err, result) {
 				if (err) throw err;
 
-				res.view('edit/bugreport', {
+				res.view('edit/unban', {
 					ticket: result,
 					globalid: ticket.id
 				});
@@ -356,60 +361,53 @@ module.exports = bugreport = {
 		});
 	},
 
-	postEdit: function editBugreport(req, res, ticket) {
-		Bugreport.findOne(ticket.tid).exec(function (err, bugreport) {
+	postEdit: function editUnban(req, res, ticket) {
+		Unban.findOne(ticket.tid).exec(function (err, unban) {
 			if (err) throw err;
 
-			bugreport.owner = ticket.owner;
+			unban.owner = ticket.owner;
 
 			async.waterfall([
 				function preCheck(callback) {
 					if (!req.param('title')) {
 						return callback({
-							msg: sails.__('gct.postEdit.entertitle')
+							msg: sails.__('gct.unban.postEdit.entertitle')
 						});
 					}
 
-					if (!req.param('description')) {
+					if (!req.param('reason')) {
 						return callback({
-							msg: sails.__('gct.bugreport.postEdit.enterdescription')
-						});
-					}
-
-					if (req.param('product') && req.user.group < ugroup.mod) {
-						return callback({
-							msg: sails.__('gct.bugreport.postEdit.productcanmodifyonlymods')
+							msg: sails.__('gct.unban.postEdit.enterreason')
 						});
 					}
 
 					callback(null);
 				},
 				function handleUpload(callback) {
-					gct.handleUpload(req, res, bugreport, function (err, uploads) {
+					gct.handleUpload(req, res, unban, function (err, uploads) {
 						if (err) return callback(err);
 
 						callback(null, uploads);
 					});
 				},
 				function setData(uploads, callback) {
-					gct.bugreport.serializeView(req, res, bugreport, {isEdit: true}, function(err, result) {
+					gct.unban.serializeView(req, res, unban, {isEdit: true}, function(err, result) {
 						if (err) return callback(err);
 
 						if (!uploads) {
-							uploads = bugreport.uploads;
+							uploads = unban.uploads;
 						} else if (uploads instanceof Array) {
-							uploads = bugreport.uploads.concat(uploads);
+							uploads = unban.uploads.concat(uploads);
 						}
 
 						callback(null, {
 							title: req.param('title'),
-							description: req.param('description'),
-							status: bugreport.status,
-							owner: bugreport.owner,
+							reason: req.param('reason'),
+							status: unban.status,
+							owner: unban.owner,
 							logs: req.param('logs'),
-							product: (req.param('product') && req.user.group >= ugroup.mod) ? req.param('product') : bugreport.product,
 							uploads: uploads,
-							visiblity: bugreport.visiblity
+							visiblity: unban.visiblity
 						});
 					});
 				},
@@ -423,22 +421,21 @@ module.exports = bugreport = {
 					callback(null, obj);
 				},
 				function sanitizeData(obj, callback) {
-					obj.description = req.sanitize('description').entityEncode();
+					obj.reason = req.sanitize('reason').entityEncode();
 					obj.logs = req.sanitize('logs').entityEncode();
 
 					if (obj.logs === '') obj.logs = null;
 
 					callback(null, obj);
 				},
-				function editBugreport(obj, callback) {
-					Bugreport.findOne(ticket.tid).exec(function(err, result) {
+				function editUnban(obj, callback) {
+					Unban.findOne(ticket.tid).exec(function(err, result) {
 						if (err) return callback(err);
 
 						result.title = obj.title;
-						result.description = obj.description;
+						result.reason = obj.reason;
 						result.logs = obj.logs;
 						result.uploads = obj.uploads;
-						result.product = obj.product;
 
 						result.save(function(err) {
 							if (err) return callback(err);

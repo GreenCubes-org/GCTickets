@@ -284,6 +284,13 @@ exports.parse = function (post, cb) {
 			});
 		})(post);
 
+		// Replace #123 with links to tickets.
+		post = (function (_post) {
+			return _post.replace(/(?:\B\@)(([a-zA-Z\-\_])(\w+)?)/g, function (m0, m1, m2, offset, mstr) {
+				return '<a href="/users/' + m1 + '">@' + m1 + '</a>';
+			});
+		})(post);
+
 		// replace non bbcode urls
 		post = (function (_post) {
 			return _post.replace(/(\[url\=)?(http|https|ftp|ftps)\:\/\/[a-zA-Z0-9\-\.]+\.[a-zA-Z]{2,3}([\w.,@?^=%&amp;:/~+#-]*[\w@?^=%&amp;/~+#-])?/g, function (m0, m1, m2, offset, mstr) {
