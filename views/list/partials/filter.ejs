@@ -105,17 +105,6 @@
 				<a href="<%= listUrl + kfNoStatus %>&status=done"><%- __('global.status.done') %></a>
 			</div>
 			<% } %>
-			<% if (['all', 'bans'].indexOf(type.url) !== -1) { %>
-		</div>
-	</div>
-	<div class="item">
-		<%- __('view.list.partials.filter.by.status.remprotitle') %>
-		<div class="menu">
-			<div class="item l-menu banned <% if (status === 'banned' || nostatus === 'banned') { %> active<% } %>">
-				<a class="left floated tiny gc-nostylelink" href="<%= listUrl + kfNoNoStatus %>&nostatus=banned"><i class="icon disabled remove"></i></a>
-				<a href="<%= listUrl + kfNoStatus %>&status=banned"><%- __('global.status.banned') %></a>
-			</div>
-			<% } %>
 		</div>
 	</div>
 	<% if (['all', 'bugreports'].indexOf(type.url) !== -1) { %>

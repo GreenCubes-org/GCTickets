@@ -28,24 +28,7 @@
 						</div>
 						<small><%- __('view.user.settings.role.description') %></small>
 					</div>
-					<div class="field">
-						<label><%- __('view.user.settings.language.title') %></label>
-						<div class="ui icon input">
-							<div class="ui dropdown" id="gc-languagedropdown">
-								<div class="text"><%= settings.language %></div>
-								<i class="dropdown icon"></i>
-								<input name="language" type="hidden">
-								<div class="menu">
-									<div class="item" data-value="ru"><%- __('global.language.ru') %></div>
-									<div class="item" data-value="en"><%- __('global.language.en') %></div>
-								</div>
-							</div>
-						</div>
-						<small><%- __('view.user.settings.language.description') %></small>
-					</div>
 				</div>
-				<input type="hidden" name="_csrf" value="<%= _csrf %>" />
-				<button class="ui submit blue button" type="submit"><%- sails.__('view.user.settings.send') %></button>
 			</form>
 		</div>
 	</div>

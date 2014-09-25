@@ -2,7 +2,7 @@ var app = app || {};
 
 app.settings = function () {
 
-	$('#gc-reportform').submit(function () {
+	/*$('#gc-reportform').submit(function () {
 		$.ajax({
 			type: "POST",
 			url: '/settings',
@@ -14,6 +14,6 @@ app.settings = function () {
 		return false;
 	});
 
-	$('#gc-languagedropdown').dropdown();
+	$('#gc-languagedropdown').dropdown();*/
 
 };

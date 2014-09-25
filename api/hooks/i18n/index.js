@@ -19,7 +19,7 @@ module.exports = function(sails) {
 		defaults: {
 			// i18n
 			i18n: {
-				locales: ['ru', 'en'],
+				locales: ['ru'],
 				defaultLocale: 'ru',
 				localesDirectory: '/config/locales'
 			}
