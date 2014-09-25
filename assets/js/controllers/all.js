@@ -32,22 +32,27 @@ var renderNotifs = function renderNotifs() {
 		'</table>');
 
 		notifs = notifs.map(function (el) {
+
 			switch (el.type.id) {
-			case 1:
-				el.html = '<a href="/users/' + el.user + '">' + el.user + '</a> ответил(а) в <a href="/id/' + el.ticket.id + '">#' + el.ticket.id + ': &laquo;' + el.ticket.title + '&raquo;</a>';
-				break;
+				case 1:
+					el.html = '<a href="/users/' + el.user + '">' + el.user + '</a> ответил(а) в <a href="/id/' + el.ticket.id + '#comment' + el.cid + '">#' + el.ticket.id + ': &laquo;' + el.ticket.title + '&raquo;</a>';
+					break;
 
-			case 2:
-				el.html = '<a href="/users/' + el.user + '">' + el.user + '</a> ответил(а) и сменил(а) статус на <div class="ui small label ' + el.changedTo.class + '">' + el.changedTo.text + '</div> в <a href="/id/' + el.ticket.id + '">#' + el.ticket.id + ': &laquo;' + el.ticket.title + '&raquo;</a>';
-				break;
+				case 2:
+					el.html = '<a href="/users/' + el.user + '">' + el.user + '</a> ответил(а) и сменил(а) статус на <div class="ui small label ' + el.changedTo.class + '">' + el.changedTo.text + '</div> в <a href="/id/' + el.ticket.id + '#comment' + el.cid + '">#' + el.ticket.id + ': &laquo;' + el.ticket.title + '&raquo;</a>';
+					break;
 
-			case 3:
-				el.html = 'Ваше сообщение в <a href="/id/' + el.ticket.id + '">#' + el.ticket.id + ': &laquo;' + el.ticket.title + '&raquo;</a> было удалено администрацией';
-				break;
+				case 3:
+					el.html = 'Ваше сообщение в <a href="/id/' + el.ticket.id + '">#' + el.ticket.id + ': &laquo;' + el.ticket.title + '&raquo;</a> было удалено администрацией';
+					break;
 
-			default:
-				el.html = '&mdash;';
-				break;
+				case 4:
+					el.html = 'Вас упомянул(а) <a href="/users/' + el.user + '">' + el.user + '</a> в обсуждении к  <a href="/id/' + el.ticket.id + '#comment' + el.cid + '">#' + el.ticket.id + ': &laquo;' + el.ticket.title + '&raquo;</a>'
+					break;
+
+				default:
+					el.html = '&mdash;';
+					break;
 			}
 
 			return el;

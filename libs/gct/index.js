@@ -456,6 +456,13 @@ module.exports.serializeNotifType = serializeNotifType = function (id) {
 				text: sails.__('gct.serializeNotifType.removedcomment'),
 				iconclass: 'trash'
 			};
+
+		case 4:
+			return {
+				id: 4,
+				text: sails.__('gct.serializeNotifType.mentioned'),
+				iconclass: 'bell outline'
+			};
 	}
 };
 

@@ -341,6 +341,7 @@
 	"gct.serializeNotifType.comment": "Комментарий",
 	"gct.serializeNotifType.commentwithstatus": "Комментарий со статусом",
 	"gct.serializeNotifType.removedcomment": "Удалённый комментарий",
+	"gct.serializeNotifType.mentioned": "Упомянут в обсуждении",
 	"gct.handleUpload.youcannotremovemorepics": "Нельзя удалить больше картинок, чем есть на самом деле",
 	"gct.handleUpload.youcannotremoveunkownpic": "Невозможно удалить изображение, которого нет",
 	"gct.handleUpload.youcannotuploadmorethan10mb": "Файлы больше 10 мегабайт загружать запрещено",

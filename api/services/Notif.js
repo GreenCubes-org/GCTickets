@@ -4,6 +4,7 @@ module.exports = {
 		var obj;
 
 		switch (type) {
+			// New comment
 			case 1:
 				obj = {
 					type: 1,
@@ -13,6 +14,7 @@ module.exports = {
 				};
 				break;
 
+			// New comment with status
 			case 2:
 				obj = {
 					type: 2,
@@ -23,10 +25,21 @@ module.exports = {
 				};
 				break;
 
+			// Comment removed by someone (administration, by example)
 			case 3:
 				obj = {
 					type: 3,
 					ticket: options.ticket,
+				};
+				break;
+
+			// User was summoned you to discussion :)
+			case 4:
+				obj = {
+					type: 4,
+					user: options.user,
+					ticket: options.ticket,
+					cid: options.cid
 				};
 				break;
 		}
