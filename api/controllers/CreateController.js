@@ -124,6 +124,7 @@ module.exports = {
 		 function (err, ticket) {
 			if (err) {
 				if (!err.msg) {
+					sails.log.error(err);
 					res.json(500, {
 						 err: sails.__('global.suddenerror')
 					});
@@ -269,8 +270,8 @@ module.exports = {
 		 function (err, ticket) {
 			if (err) {
 				if (!err.msg) {
+					sails.log.error(err);
 					res.serverError();
-					console.log(err);
 					throw err;
 				} else {
 					return res.json({
@@ -398,6 +399,7 @@ module.exports = {
 		 function (err, ticket) {
 			if (err) {
 				if (!err.msg) {
+					sails.log.error(err);
 					res.json(500, {
 						 err: sails.__('global.suddenerror')
 					});
@@ -529,6 +531,7 @@ module.exports = {
 		 function (err, ticket) {
 			if (err) {
 				if (!err.msg) {
+					sails.log.error(err);
 					res.json(500, {
 						 err: sails.__('global.suddenerror')
 					});
