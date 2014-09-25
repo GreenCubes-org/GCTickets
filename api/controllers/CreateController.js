@@ -320,7 +320,7 @@ module.exports = {
 					callback(null, uploads);
 				});
 			},
-			function setData(uploads,callback) {
+			function setData(uploads, callback) {
 				callback(null,{
 					title: req.param('title').replace(/^(\s*)$/g, ''),
 					reason: req.param('reason'),

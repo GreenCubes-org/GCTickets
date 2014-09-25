@@ -19,7 +19,7 @@ module.exports = function(sails) {
 		defaults: {
 			// i18n
 			i18n: {
-				locales: ['ru'],
+				locales: ['ru', 'en'],
 				defaultLocale: 'ru',
 				localesDirectory: '/config/locales'
 			}
@@ -39,7 +39,8 @@ module.exports = function(sails) {
 						// Set locale from ?lang= or from userconfig
 						res.setLocale(language);
 
-						req.language = (language);
+						req.language = language;
+						sails.language = language;
 
 						next();
 					});

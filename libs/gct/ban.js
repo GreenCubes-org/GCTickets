@@ -88,7 +88,7 @@ module.exports = ban = {
 				visiblity: getVisiblityByID(obj.visiblity),
 				createdAt: obj.createdAt,
 				type: {
-					descr: sails.__('global.type.ban'),
+					descr: sails.__({phrase:'global.type.ban',locale: sails.language}),
 					iconclass: 'ban circle',
 					id: obj.type
 				},
@@ -274,7 +274,7 @@ module.exports = ban = {
 					},
 					createdAt: obj.createdAt,
 					type: {
-						descr: sails.__('global.type.ban'),
+						descr: sails.__({phrase:'global.type.ban',locale: sails.language}),
 						iconclass: 'ban circle',
 						id: obj.type
 					},
@@ -293,7 +293,7 @@ module.exports = ban = {
 					visiblity: getVisiblityByID(ticket[0].visiblity),
 					createdAt: obj.createdAt,
 					type: {
-						descr: sails.__('global.type.ban'),
+						descr: sails.__({phrase:'global.type.ban',locale: sails.language}),
 						iconclass: 'ban circle',
 						id: obj.type
 					},
@@ -371,13 +371,13 @@ module.exports = ban = {
 				function preCheck(callback) {
 					if (!req.param('title')) {
 						return callback({
-							msg: sails.__('gct.ban.postEdit.entertitle')
+							msg: sails.__({phrase:'gct.ban.postEdit.entertitle',locale: sails.language})
 						});
 					}
 
 					if (!req.param('reason')) {
 						return callback({
-							msg: sails.__('gct.ban.postEdit.enterreason')
+							msg: sails.__({phrase:'gct.ban.postEdit.enterreason',locale: sails.language})
 						});
 					}
 
@@ -414,7 +414,7 @@ module.exports = ban = {
 				function checkData(obj, callback) {
 					if (!(validator.isLength(obj.title,6,128))) {
 						return callback({
-							msg: sails.__('gct.postEdit.titleshouldhave')
+							msg: sails.__({phrase:'gct.postEdit.titleshouldhave',locale: sails.language})
 						});
 					}
 
@@ -448,7 +448,7 @@ module.exports = ban = {
 				if (err) {
 					if (!err.msg) {
 						res.json({
-							err: sails.__('global.suddenerror')
+							err: sails.__({phrase:'global.suddenerror',locale: sails.language})
 						});
 
 						throw err;

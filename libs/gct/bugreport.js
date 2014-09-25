@@ -89,7 +89,7 @@ module.exports = bugreport = {
 				visiblity: getVisiblityByID(obj.visiblity),
 				createdAt: obj.createdAt,
 				type: {
-					descr: sails.__('global.type.bugreport'),
+					descr: sails.__({phrase:'global.type.bugreport',locale: sails.language}),
 					iconclass: 'bug',
 					id: obj.type
 				},
@@ -239,7 +239,7 @@ module.exports = bugreport = {
 					},
 					createdAt: obj.createdAt,
 					type: {
-						descr: sails.__('global.type.bugreport'),
+						descr: sails.__({phrase:'global.type.bugreport',locale: sails.language}),
 						iconclass: 'bug',
 						id: obj.type
 					},
@@ -258,7 +258,7 @@ module.exports = bugreport = {
 					visiblity: getVisiblityByID(ticket[0].visiblity),
 					createdAt: obj.createdAt,
 					type: {
-						descr: sails.__('global.type.bugreport'),
+						descr: sails.__({phrase:'global.type.bugreport',locale: sails.language}),
 						iconclass: 'bug',
 						id: obj.type
 					},
@@ -366,19 +366,19 @@ module.exports = bugreport = {
 				function preCheck(callback) {
 					if (!req.param('title')) {
 						return callback({
-							msg: sails.__('gct.postEdit.entertitle')
+							msg: sails.__({phrase:'gct.postEdit.entertitle',locale: sails.language})
 						});
 					}
 
 					if (!req.param('description')) {
 						return callback({
-							msg: sails.__('gct.bugreport.postEdit.enterdescription')
+							msg: sails.__({phrase:'gct.bugreport.postEdit.enterdescription',locale: sails.language})
 						});
 					}
 
 					if (req.param('product') && req.user.group < ugroup.mod) {
 						return callback({
-							msg: sails.__('gct.bugreport.postEdit.productcanmodifyonlymods')
+							msg: sails.__({phrase:'gct.bugreport.postEdit.productcanmodifyonlymods',locale: sails.language})
 						});
 					}
 
@@ -416,7 +416,7 @@ module.exports = bugreport = {
 				function checkData(obj, callback) {
 					if (!(validator.isLength(obj.title,6,128))) {
 						return callback({
-							msg: sails.__('gct.postEdit.titleshouldhave')
+							msg: sails.__({phrase:'gct.postEdit.titleshouldhave',locale: sails.language})
 						});
 					}
 
@@ -451,7 +451,7 @@ module.exports = bugreport = {
 				if (err) {
 					if (!err.msg) {
 						res.json({
-							err: sails.__('global.suddenerror')
+							err: sails.__({phrase:'global.suddenerror',locale: sails.language})
 						});
 
 						throw err;

@@ -219,7 +219,7 @@ module.exports = {
 					startPage: (user.startPage) ? user.startPage : '',
 					prefix: (user.prefix) ? user.prefix : '—',
 					role: (user.ugroup !== undefined) ? gct.user.getGroupString(user.ugroup) : '—',
-					language: (req.language) ? sails.__('global.language.' + req.language) : '—',
+					language: (req.language) ? sails.__({phrase: 'global.language.' + req.language,locale: req.language}) : '—',
 				}
 			});
 		});

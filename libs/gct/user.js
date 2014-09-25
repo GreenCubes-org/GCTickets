@@ -32,16 +32,16 @@ module.exports = user = {
 	getGroupString: function getGroupString(ugroup) {
 		switch (ugroup) {
 			case 0:
-				return sails.__('global.ugroup.user');
+				return sails.__({phrase:'global.ugroup.user',locale: sails.language});
 
 			case 1:
-				return sails.__('global.ugroup.helper');
+				return sails.__({phrase:'global.ugroup.helper',locale: sails.language});
 
 			case 2:
-				return sails.__('global.ugroup.moderator');
+				return sails.__({phrase:'global.ugroup.moderator',locale: sails.language});
 
 			case 3:
-				return sails.__('global.ugroup.team');
+				return sails.__({phrase:'global.ugroup.team',locale: sails.language});
 
 			default:
 				return;
