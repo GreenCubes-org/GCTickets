@@ -13,7 +13,7 @@
 	"global.status.accepted": "Accepted",
 	"global.status.fixed": "Done",
 	"global.status.helpfixed": "Edited",
-	"global.status.inreview": "In progress",
+	"global.status.inreview": "In&nbsp;progress",
 	"global.status.delayed": "Delayed",
 	"global.status.done": "Done",
 	"global.product.unknown": "Unknown",

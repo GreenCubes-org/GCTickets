@@ -13,7 +13,7 @@
 	"global.status.accepted": "Принят",
 	"global.status.fixed": "Исправлен",
 	"global.status.helpfixed": "Исправлен",
-	"global.status.inreview": "На рассмотрении",
+	"global.status.inreview": "На&nbsp;рассмотрении",
 	"global.status.delayed": "Отложен",
 	"global.status.done": "Выполнен",
 	"global.product.unknown": "Неизвестно",
