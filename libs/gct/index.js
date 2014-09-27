@@ -323,7 +323,7 @@ module.exports.serializeList = serializeList = function (type) {
 				url: 'all',
 				text: sails.__({phrase:'global.list.alltickets',locale: sails.language}),
 				iconclass: 'reorder',
-				title: sails.__({phrase:'gct.index.serializeList.all',locale: sails.language})
+				title: sails.__({phrase:'gct.serializeList.all',locale: sails.language})
 			};
 
 		case 'my':
@@ -331,7 +331,7 @@ module.exports.serializeList = serializeList = function (type) {
 				url: 'my',
 				text: sails.__({phrase:'global.list.yourtickets',locale: sails.language}),
 				iconclass: 'user',
-				title: sails.__({phrase:'gct.index.serializeList.my',locale: sails.language})
+				title: sails.__({phrase:'gct.serializeList.my',locale: sails.language})
 			};
 
 		case 'bugreports':
@@ -339,7 +339,7 @@ module.exports.serializeList = serializeList = function (type) {
 				url: 'bugreports',
 				text: sails.__({phrase:'global.list.bugreports',locale: sails.language}),
 				iconclass: 'bug',
-				title: sails.__({phrase:'gct.index.serializeList.bugreports',locale: sails.language})
+				title: sails.__({phrase:'gct.serializeList.bugreports',locale: sails.language})
 			};
 
 		case 'rempros':
@@ -347,7 +347,7 @@ module.exports.serializeList = serializeList = function (type) {
 				url: 'rempros',
 				text: sails.__({phrase:'global.list.rempros',locale: sails.language}),
 				iconclass: 'trash',
-				title: sails.__({phrase:'gct.index.serializeList.rempros',locale: sails.language})
+				title: sails.__({phrase:'gct.serializeList.rempros',locale: sails.language})
 			};
 
 		case 'bans':
@@ -355,7 +355,7 @@ module.exports.serializeList = serializeList = function (type) {
 				url: 'bans',
 				text: sails.__({phrase:'global.list.bans',locale: sails.language}),
 				iconclass: 'ban circle',
-				title: sails.__({phrase:'gct.index.serializeList.bans',locale: sails.language})
+				title: sails.__({phrase:'gct.serializeList.bans',locale: sails.language})
 			};
 
 		case 'unbans':
@@ -363,7 +363,7 @@ module.exports.serializeList = serializeList = function (type) {
 				url: 'unbans',
 				text: sails.__({phrase:'global.list.unbans',locale: sails.language}),
 				iconclass: 'circle blank',
-				title: sails.__({phrase:'gct.index.serializeList.unbans',locale: sails.language})
+				title: sails.__({phrase:'gct.serializeList.unbans',locale: sails.language})
 			};
 
 		case 'regen':
@@ -371,7 +371,7 @@ module.exports.serializeList = serializeList = function (type) {
 				url: 'regens',
 				text: sails.__({phrase:'global.list.regens',locale: sails.language}),
 				iconclass: 'leaf',
-				title: sails.__({phrase:'gct.index.serializeList.regens',locale: sails.language})
+				title: sails.__({phrase:'gct.serializeList.regens',locale: sails.language})
 			}
 
 		case 'admreq':
@@ -379,7 +379,7 @@ module.exports.serializeList = serializeList = function (type) {
 				url: 'admreq',
 				text: sails.__({phrase:'global.list.admreq',locale: sails.language}),
 				iconclass: 'briefcase',
-				title: sails.__({phrase:'gct.index.serializeList.admreq',locale: sails.language})
+				title: sails.__({phrase:'gct.serializeList.admreq',locale: sails.language})
 			}
 
 		default:
