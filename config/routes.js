@@ -50,6 +50,12 @@ module.exports.routes = {
 	'/hiddenfeature': 'dev.hideFeature',
 	'/check': 'dev.check',
 
+	'put /clientupload': {
+		controller: 'home',
+		action: 'hiddenupload',
+		cors: false
+	},
+
 	// Работа с тикетами
 	// Вывод и действия с тикетом
 	'/id/:tid': 'view.routeView',
