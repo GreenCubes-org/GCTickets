@@ -54,9 +54,7 @@ module.exports.routes = {
 	'/gameinfo/player/moneylog': {
 		view: 'gameinfo/player/moneylog'
 	},
-	'/gameinfo/player/invlog': {
-		view: 'gameinfo/player/invlog'
-	},
+	'/gameinfo/player/inventory': 'gameinfo.playerInventory',
 	'/gameinfo/player/chestslog': {
 		view: 'gameinfo/player/chestslog'
 	},

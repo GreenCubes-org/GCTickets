@@ -10,7 +10,7 @@
 		<div class="column">
 			<label>Ник игрока</label>
 			<div class="ui action fluid input">
-				<input placeholder="nzh" type="text" name="nickname" id="gc-forminput">
+				<input placeholder="nzh" type="text" name="nickname" id="gc-forminput" value="<%= (req.query.nickname) ? req.query.nickname : '' %>">
 				<div class="ui icon black button" type="submit" id="gc-formsubmit"><i class="search icon"></i></div>
 			</div>
 		</div>

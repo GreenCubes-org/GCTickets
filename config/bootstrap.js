@@ -67,5 +67,12 @@ module.exports.bootstrap = function (cb) {
 
 	global.redis = redis;
 
-	cb();
+	// Get GC Items
+	maindbconn.query('SELECT `id`, `data`, `name`, `image` FROM `items`', function (err, result) {
+		if (err) throw err;
+
+		global.gcitems = result;
+
+		cb();
+	});
 };

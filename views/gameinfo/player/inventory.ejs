@@ -1,0 +1,37 @@
+<% title = 'Инвентарь / Панель игровой информации' + " — " + __('global.pagetitle'),
+	backUrl = '/gameinfo';  %>
+<%- partial('../partials/header')%>
+
+
+<%- partial('../partials/subheader', { subheader: 'Игрок / Инвентарь' }) %>
+<div class="container" style="margin-top: 20px">
+	<form method="GET">
+	<div class="ui two column grid">
+		<div class="column">
+			<label>Ник игрока</label>
+			<div class="ui action fluid input">
+				<input placeholder="nzh" type="text" name="nickname" id="gc-forminput" value="<%= (req.query.nickname) ? req.query.nickname : '' %>">
+				<div class="ui icon black button" type="submit" id="gc-formsubmit"><i class="search icon"></i></div>
+			</div>
+		</div>
+	</div>
+	</form>
+	<div class="ui divider"></div>
+	<% if (inventory && inventory.length) { %>
+	<div class="ui list">
+		<% inventory.forEach(function (element) { %>
+		<div class="item">
+			<img class="ui avatar image" src="<%- element.image %>">
+			<div class="content">
+				<div class="header"><%- element.name %> (<%= element.itemId %>,<%= element.itemDamage %>)</div>
+				слот: <%= element.slot %>; количество: <%= element.count %>;
+			</div>
+		</div>
+		<% }) %>
+	</div>
+	<% } else if (inventory && !inventory.length) { %>
+	<div style="padding: 5em 0em;text-align: center;font-size:1.4em">Похоже, что инвентарь пуст</div>
+	<% } else { %>
+	<div style="padding: 5em 0em;text-align: center;font-size:1.4em">Введите ник игрока</div>
+	<% } %>
+</div>
