@@ -21,84 +21,84 @@ module.exports.getStatusByID = getStatusByID = function (id) {
 	switch (id) {
 		case 1:
 			return {
-				text: sails.__('global.status.new'),
+				text: sails.__({phrase:'global.status.new',locale: sails.language}),
 				class: 'new',
 				id: 1
 			};
 
 		case 2:
 			return {
-				text: sails.__('global.status.rejected'),
+				text: sails.__({phrase:'global.status.rejected',locale: sails.language}),
 				class: 'rejected',
 				id: 2
 			};
 
 		case 3:
 			return {
-				text: sails.__('global.status.specify'),
+				text: sails.__({phrase:'global.status.specify',locale: sails.language}),
 				class: 'specify',
 				id: 3
 			};
 
 		case 4:
 			return {
-				text: sails.__('global.status.declined'),
+				text: sails.__({phrase:'global.status.declined',locale: sails.language}),
 				class: 'declined',
 				id: 4
 			};
 
 		case 5:
 			return {
-				text: sails.__('global.status.hidden'),
+				text: sails.__({phrase:'global.status.hidden',locale: sails.language}),
 				class: 'hidden',
 				id: 5
 			};
 
 		case 6:
 			return {
-				text: sails.__('global.status.removed'),
+				text: sails.__({phrase:'global.status.removed',locale: sails.language}),
 				class: 'removed',
 				id: 6
 			};
 
 		case 7:
 			return {
-				text: sails.__('global.status.helpfixed'),
+				text: sails.__({phrase:'global.status.helpfixed',locale: sails.language}),
 				class: 'helpfixed',
 				id: 7
 			};
 
 		case 8:
 			return {
-				text: sails.__('global.status.inreview'),
+				text: sails.__({phrase:'global.status.inreview',locale: sails.language}),
 				class: 'inreview',
 				id: 8
 			};
 
 		case 9:
 			return {
-				text: sails.__('global.status.delayed'),
+				text: sails.__({phrase:'global.status.delayed',locale: sails.language}),
 				class: 'delayed',
 				id: 9
 			};
 
 		case 10:
 			return {
-				text: sails.__('global.status.done'),
+				text: sails.__({phrase:'global.status.done',locale: sails.language}),
 				class: 'done',
 				id: 10
 			};
 
 		case 11:
 			return {
-				text: sails.__('global.status.accepted'),
+				text: sails.__({phrase:'global.status.accepted',locale: sails.language}),
 				class: 'accepted',
 				id: 11
 			};
 
 		case 12:
 			return {
-				text: sails.__('global.status.fixed'),
+				text: sails.__({phrase:'global.status.fixed',locale: sails.language}),
 				class: 'fixed',
 				id: 12
 			};
@@ -155,35 +155,35 @@ module.exports.getProductByID = getProductByID = function (id) {
 	switch (id) {
 		case 1:
 			return {
-				ticketText: sails.__('global.product.unknown'),
+				ticketText: sails.__({phrase:'global.product.unknown',locale: sails.language}),
 				techText: 'unknown',
 				id: 1
 			};
 
 		case 2:
 			return {
-				ticketText: sails.__('global.product.main'),
+				ticketText: sails.__({phrase:'global.product.main',locale: sails.language}),
 				techText: 'main',
 				id: 2
 			};
 
 		case 3:
 			return {
-				ticketText: sails.__('global.product.rpg'),
+				ticketText: sails.__({phrase:'global.product.rpg',locale: sails.language}),
 				techText: 'rpg',
 				id: 3
 			};
 
 		case 4:
 			return {
-				ticketText: sails.__('global.product.apocalyptic'),
+				ticketText: sails.__({phrase:'global.product.apocalyptic',locale: sails.language}),
 				techText: 'apocalyptic',
 				id: 4
 			};
 
 		case 5:
 			return {
-				ticketText: sails.__('global.product.websites'),
+				ticketText: sails.__({phrase:'global.product.websites',locale: sails.language}),
 				techText: 'websites',
 				id: 5
 			};
@@ -201,31 +201,31 @@ module.exports.getProductByTechText = getProductByTechText = function (id) {
 	switch (id) {
 		case 'unknown':
 			return {
-				ticketText: sails.__('global.product.unknown'),
+				ticketText: sails.__({phrase:'global.product.unknown',locale: sails.language}),
 				id: 1
 			}
 
 		case 'main':
 			return {
-				ticketText: sails.__('global.product.main'),
+				ticketText: sails.__({phrase:'global.product.main',locale: sails.language}),
 				id: 2
 			};
 
 		case 'rpg':
 			return {
-				ticketText: sails.__('global.product.rpg'),
+				ticketText: sails.__({phrase:'global.product.rpg',locale: sails.language}),
 				id: 3
 			};
 
 		case 'apocalyptic':
 			return {
-				ticketText: sails.__('global.product.apocalyptic'),
+				ticketText: sails.__({phrase:'global.product.apocalyptic',locale: sails.language}),
 				id: 4
 			};
 
 		case 'websites':
 			return {
-				ticketText: sails.__('global.product.websites'),
+				ticketText: sails.__({phrase:'global.product.websites',locale: sails.language}),
 				id: 5
 			};
 
@@ -237,10 +237,10 @@ module.exports.getProductByTechText = getProductByTechText = function (id) {
 module.exports.getVisiblityByID = getVisiblityByID = function (id) {
 	switch (id) {
 		case 1:
-			return sails.__('global.visibility.public');
+			return sails.__({phrase:'global.visibility.public',locale: sails.language});
 
 		case 2:
-			return sails.__('global.visibility.private');
+			return sails.__({phrase:'global.visibility.private',locale: sails.language});
 
 		default:
 			return;
@@ -321,65 +321,65 @@ module.exports.serializeList = serializeList = function (type) {
 		case 'all':
 			return {
 				url: 'all',
-				text: sails.__('global.list.alltickets'),
+				text: sails.__({phrase:'global.list.alltickets',locale: sails.language}),
 				iconclass: 'reorder',
-				title: sails.__('gct.index.serializeList.all')
+				title: sails.__({phrase:'gct.serializeList.all',locale: sails.language})
 			};
 
 		case 'my':
 			return {
 				url: 'my',
-				text: sails.__('global.list.yourtickets'),
+				text: sails.__({phrase:'global.list.yourtickets',locale: sails.language}),
 				iconclass: 'user',
-				title: sails.__('gct.index.serializeList.my')
+				title: sails.__({phrase:'gct.serializeList.my',locale: sails.language})
 			};
 
 		case 'bugreports':
 			return {
 				url: 'bugreports',
-				text: sails.__('global.list.bugreports'),
+				text: sails.__({phrase:'global.list.bugreports',locale: sails.language}),
 				iconclass: 'bug',
-				title: sails.__('gct.index.serializeList.bugreports')
+				title: sails.__({phrase:'gct.serializeList.bugreports',locale: sails.language})
 			};
 
 		case 'rempros':
 			return {
 				url: 'rempros',
-				text: sails.__('global.list.rempros'),
+				text: sails.__({phrase:'global.list.rempros',locale: sails.language}),
 				iconclass: 'trash',
-				title: sails.__('gct.index.serializeList.rempros')
+				title: sails.__({phrase:'gct.serializeList.rempros',locale: sails.language})
 			};
 
 		case 'bans':
 			return {
 				url: 'bans',
-				text: sails.__('global.list.bans'),
+				text: sails.__({phrase:'global.list.bans',locale: sails.language}),
 				iconclass: 'ban circle',
-				title: sails.__('gct.index.serializeList.bans')
+				title: sails.__({phrase:'gct.serializeList.bans',locale: sails.language})
 			};
 
 		case 'unbans':
 			return {
 				url: 'unbans',
-				text: sails.__('global.list.unbans'),
+				text: sails.__({phrase:'global.list.unbans',locale: sails.language}),
 				iconclass: 'circle blank',
-				title: sails.__('gct.index.serializeList.unbans')
+				title: sails.__({phrase:'gct.serializeList.unbans',locale: sails.language})
 			};
 
 		case 'regen':
 			return {
 				url: 'regens',
-				text: sails.__('global.list.regens'),
+				text: sails.__({phrase:'global.list.regens',locale: sails.language}),
 				iconclass: 'leaf',
-				title: sails.__('gct.index.serializeList.regens')
+				title: sails.__({phrase:'gct.serializeList.regens',locale: sails.language})
 			}
 
 		case 'admreq':
 			return {
 				url: 'admreq',
-				text: sails.__('global.list.admreq'),
+				text: sails.__({phrase:'global.list.admreq',locale: sails.language}),
 				iconclass: 'briefcase',
-				title: sails.__('gct.index.serializeList.admreq')
+				title: sails.__({phrase:'gct.serializeList.admreq',locale: sails.language})
 			}
 
 		default:
@@ -393,43 +393,43 @@ module.exports.serializeRegionActivity = serializeRegionActivity = function (sta
 		case 'activeOwners':
 			return {
 				className: 'activeowners',
-				text: sails.__('gct.serializeRegionActivity.activeowners')
+				text: sails.__({phrase:'gct.serializeRegionActivity.activeowners',locale: sails.language})
 			};
 
 		case 'containsOrgs':
 			return {
 				className: 'containsorgs',
-				text: sails.__('gct.serializeRegionActivity.containsorgs')
+				text: sails.__({phrase:'gct.serializeRegionActivity.containsorgs',locale: sails.language})
 			};
 
 		case 'activeBuilders':
 			return {
 				className: 'activebuilders',
-				text: sails.__('gct.serializeRegionActivity.activebuilders')
+				text: sails.__({phrase:'gct.serializeRegionActivity.activebuilders',locale: sails.language})
 			};
 
 		case 'inactiveWithTempBans':
 			return {
 				className: 'inactivewithtempbans',
-				text: sails.__('gct.serializeRegionActivity.inactivewithtempbans')
+				text: sails.__({phrase:'gct.serializeRegionActivity.inactivewithtempbans',locale: sails.language})
 			};
 
 		case 'inactive':
 			return {
 				className: 'inactive',
-				text: sails.__('gct.serializeRegionActivity.inactive')
+				text: sails.__({phrase:'gct.serializeRegionActivity.inactive',locale: sails.language})
 			};
 
 		case 'noRegion':
 			return {
 				className: 'noregion',
-				text: sails.__('gct.serializeRegionActivity.noregion')
+				text: sails.__({phrase:'gct.serializeRegionActivity.noregion',locale: sails.language})
 			};
 
 		default:
 			return {
 				className: 'noregion',
-				text: sails.__('gct.serializeRegionActivity.noregion')
+				text: sails.__({phrase:'gct.serializeRegionActivity.noregion',locale: sails.language})
 			};
 	}
 };
@@ -439,22 +439,29 @@ module.exports.serializeNotifType = serializeNotifType = function (id) {
 		case 1:
 			return {
 				id: 1,
-				text: sails.__('gct.serializeNotifType.comment'),
+				text: sails.__({phrase:'gct.serializeNotifType.comment',locale: sails.language}),
 				iconclass: 'comment'
 			};
 
 		case 2:
 			return {
 				id: 2,
-				name: sails.__('gct.serializeNotifType.commentwithstatus'),
+				name: sails.__({phrase:'gct.serializeNotifType.commentwithstatus',locale: sails.language}),
 				iconclass: 'comment'
 			};
 
 		case 3:
 			return {
 				id: 3,
-				text: sails.__('gct.serializeNotifType.removedcomment'),
+				text: sails.__({phrase:'gct.serializeNotifType.removedcomment',locale: sails.language}),
 				iconclass: 'trash'
+			};
+
+		case 4:
+			return {
+				id: 4,
+				text: sails.__({phrase:'gct.serializeNotifType.mentioned',locale: sails.language}),
+				iconclass: 'bell outline'
 			};
 	}
 };
@@ -471,7 +478,7 @@ module.exports.handleUpload = handleUpload = function (req, res, ticket, cb) {
 
 			if (removeImage instanceof Array) {
 				if (removeImage.length > ticket.uploads.length) {
-					return callback({show: true, msg: sails.__('gct.handleUpload.youcannotremovemorepics')});
+					return callback({show: true, msg: sails.__({phrase:'gct.handleUpload.youcannotremovemorepics',locale: sails.language})});
 				}
 				async.each(removeImage, function (item, callback) {
 					if (ticket.uploads[parseInt(item, 10)]) {
@@ -485,7 +492,7 @@ module.exports.handleUpload = handleUpload = function (req, res, ticket, cb) {
 					} else {
 						callback({
 							show: true,
-							msg: sails.__('gct.handleUpload.youcannotremoveunkownpic')
+							msg: sails.__({phrase:'gct.handleUpload.youcannotremoveunkownpic',locale: sails.language})
 						 });
 					}
 				}, function (err) {
@@ -520,7 +527,7 @@ module.exports.handleUpload = handleUpload = function (req, res, ticket, cb) {
 				} else {
 					callback({
 						show: true,
-						msg: sails.__('gct.handleUpload.youcannotremoveunkownpic')
+						msg: sails.__({phrase:'gct.handleUpload.youcannotremoveunkownpic',locale: sails.language})
 					});
 				}
 			}  else {
@@ -548,7 +555,7 @@ module.exports.handleUpload = handleUpload = function (req, res, ticket, cb) {
 
 									callback({
 										show: true,
-										msg: sails.__('gct.handleUpload.youcannotuploadmorethan10mb')
+										msg: sails.__({phrase:'gct.handleUpload.youcannotuploadmorethan10mb',locale: sails.language})
 									});
 								});
 							} else {
@@ -586,7 +593,7 @@ module.exports.handleUpload = handleUpload = function (req, res, ticket, cb) {
 								fs.unlink(files.path, function (err) {
 									if (err) return callback(err);
 
-									callback({show: true, msg: sails.__('gct.handleUpload.incorrecttypeoffile')}, null);
+									callback({show: true, msg: sails.__({phrase:'gct.handleUpload.incorrecttypeoffile',locale: sails.language})}, null);
 								});
 							}
 						}
@@ -621,7 +628,7 @@ module.exports.handleUpload = handleUpload = function (req, res, ticket, cb) {
 
 								callback({
 									show: true,
-									msg: sails.__('gct.handleUpload.youcannotuploadmorethan10mb')
+									msg: sails.__({phrase:'gct.handleUpload.youcannotuploadmorethan10mb',locale: sails.language})
 								});
 							});
 						} else {
@@ -659,7 +666,7 @@ module.exports.handleUpload = handleUpload = function (req, res, ticket, cb) {
 							fs.unlink(files.path, function (err) {
 								if (err) return callback(err);
 
-								callback({show: true, msg: sails.__('gct.handleUpload.incorrecttypeoffile')}, null);
+								callback({show: true, msg: sails.__({phrase:'gct.handleUpload.incorrecttypeoffile',locale: sails.language})}, null);
 							});
 						}
 					}

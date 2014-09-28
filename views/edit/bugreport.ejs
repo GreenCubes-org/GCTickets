@@ -20,7 +20,7 @@
 								<div class="menu">
 									<div class="<% if (ticket.product.id == 1) { %>active <% } %>item" data-value="1"><%- __('global.product.unknown') %></div>
 									<div class="<% if (ticket.product.id == 2) { %>active <% } %>item" data-value="2"><%- __('global.product.main') %></div>
-									<div class="<% if (ticket.product.id == 5) { %>active <% } %>item" data-value="5"><%- __('global.product.webservices') %></div>
+									<div class="<% if (ticket.product.id == 5) { %>active <% } %>item" data-value="5"><%- __('global.product.websites') %></div>
 								</div>
 								<i class="dropdown icon"></i>
 							</div>
@@ -28,7 +28,7 @@
 					</div>
 					<% } %>
 					<div class="field">
-						<label><%- __('view.edit.bugreport.form.title') %></label>
+						<label><%- __('view.edit.form.title') %></label>
 						<input name="title" type="text" value="<%= ticket.title %>">
 					</div>
 					<div class="field">
@@ -36,7 +36,7 @@
 						<textarea id="description" name="description"><%- ticket.description.edit %></textarea>
 					</div>
 					<div class="field">
-						<label><%- __('view.edit.bugreport.form.logs') %></label>
+						<label><%- __('view.edit.form.logs') %></label>
 						<textarea id="logs" style="min-height: 1em; height: 6em;" name="logs"><% if (ticket.logs) { %><%= ticket.logs %><% } %></textarea>
 					</div>
 					<div class="ui divider"></div>

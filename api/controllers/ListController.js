@@ -82,6 +82,7 @@ module.exports = {
 
 			case 'unbans':
 				findBy.type = 4;
+				break;
 
 			default:
 				return res.notFound();

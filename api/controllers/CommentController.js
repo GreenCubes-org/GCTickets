@@ -194,7 +194,7 @@ module.exports = {
 					callback(null, newComment, ticket);
 				})
 			},
-			function sendNotifs(newComment, ticket, callback) {
+			function sendNotifsAboutNewCommentInTicket(newComment, ticket, callback) {
 				if (newComment.ownerId !== ticket.owner) {
 					if (newComment.changedTo) {
 						Notif.add(2, ticket.owner, {
@@ -205,7 +205,7 @@ module.exports = {
 						}, function (err) {
 							if (err) return callback(err);
 
-							callback(null, newComment);
+							callback(null, newComment, ticket);
 						});
 					} else {
 						Notif.add(1, ticket.owner, {
@@ -215,15 +215,60 @@ module.exports = {
 						}, function (err) {
 							if (err) return callback(err);
 
-							callback(null, newComment);
+							callback(null, newComment, ticket);
 						});
 					}
 				} else {
-					callback(null, newComment);
+					callback(null, newComment, ticket);
 				}
+			},
+			function sendNotifsAboutMention(newComment, ticket, callback) {
+				var wasMentioned = newComment.message.match(/(?:\B\@)(([a-zA-Z\-\_])(\w+)?)/g);
+
+				wasMentioned = (function(arr){
+					var m = {}, newarr = []
+					if (arr) {
+						for (var i=0; i<arr.length; i++) {
+							var v = arr[i].replace('@', '');
+							if (!m[v]) {
+								newarr.push(v);
+								m[v]=true;
+							}
+						}
+					}
+					return newarr;
+				})(wasMentioned);
+
+				async.each(wasMentioned, function (element, callback) {
+					gcdb.user.getByLogin(element, function (err, uid) {
+						if (err) return callback(err);
+
+						User.findOne({uid: uid}).exec(function (err, user) {
+							if (err) return callback(err);
+
+							if (uid !== req.user.id && ((ticket.visiblity === 2 && user.ugroup >= ugroup.mod) || ticket.visiblity === 1)) {
+								Notif.add(4, uid, {
+									ticket: tid,
+									user: newComment.ownerId,
+									cid: newComment.id
+								}, function (err) {
+									if (err) return callback(err);
+
+									callback(null);
+								});
+							} else {
+								callback(null);
+							}
+						});
+					});
+				}, function (err) {
+					if (err) return callback(err);
+
+					callback(null, newComment);
+				});
 			}
 		],
-		function (err, comment, reload) {
+		function (err, comment) {
 			if (err) {
 				if (!err.show) {
 					throw err;

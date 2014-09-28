@@ -113,11 +113,11 @@ module.exports = {
 								owner: ticket.owner,
 								createdAt: ticket.createdAt,
 								visibility: {
-									class: (ticket.visiblity === sails.__('global.visibility.public')) ? 'unlock' : 'lock',
+									class: (ticket.visiblity === sails.__({phrase:'global.visibility.public',locale: sails.language})) ? 'unlock' : 'lock',
 									text: ticket.visiblity
 								},
 								type: {
-									descr: sails.__('global.type.ban'),
+									descr: sails.__({phrase:'global.type.ban',locale: sails.language}),
 									iconclass: 'ban circle'
 								},
 								comments: ticket.comments
@@ -157,11 +157,11 @@ module.exports = {
 								owner: ticket.owner,
 								createdAt: ticket.createdAt,
 								visibility: {
-									class: (ticket.visiblity === sails.__('global.visibility.public')) ? 'unlock' : 'lock',
+									class: (ticket.visiblity === sails.__({phrase:'global.visibility.public',locale: sails.language})) ? 'unlock' : 'lock',
 									text: ticket.visiblity
 								},
 								type: {
-									descr: sails.__('global.type.unban'),
+									descr: sails.__({phrase:'global.type.unban',locale: sails.language}),
 									iconclass: 'circle blank'
 								},
 								comments: ticket.comments

@@ -97,7 +97,7 @@ module.exports = rempro = {
 				visiblity: getVisiblityByID(ticket[0].visiblity),
 				createdAt: obj.createdAt,
 				type: {
-					descr: sails.__('global.type.rempro'),
+					descr: sails.__({phrase:'global.type.rempro',locale: sails.language}),
 					iconclass: 'remove',
 					id: obj.type
 				},
@@ -385,7 +385,7 @@ module.exports = rempro = {
 					},
 					createdAt: obj.createdAt,
 					type: {
-						descr: sails.__('global.type.rempro'),
+						descr: sails.__({phrase:'global.type.rempro',locale: sails.language}),
 						iconclass: 'remove',
 						id: obj.type
 					},
@@ -405,7 +405,7 @@ module.exports = rempro = {
 					visiblity: getVisiblityByID(ticket[0].visiblity),
 					createdAt: obj.createdAt,
 					type: {
-						descr: sails.__('global.type.rempro'),
+						descr: sails.__({phrase:'global.type.rempro',locale: sails.language}),
 						iconclass: 'remove',
 						id: obj.type
 					},
@@ -481,19 +481,19 @@ module.exports = rempro = {
 				function preCheck(callback) {
 					if (!req.param('title')) {
 						return callback({
-							msg: sails.__('gct.postEdit.entertitle')
+							msg: sails.__({phrase:'gct.postEdit.entertitle',locale: sails.language})
 						});
 					}
 
 					if (!req.param('reason')) {
 						return callback({
-							msg: sails.__('gct.rempro.postEdit.enterreason')
+							msg: sails.__({phrase:'gct.rempro.postEdit.enterreason',locale: sails.language})
 						});
 					}
 
 					if (!req.param('regions') && !req.param('stuff')) {
 						return callback({
-							msg: sails.__('gct.rempro.postEdit.enterstuff')
+							msg: sails.__({phrase:'gct.rempro.postEdit.enterstuff',locale: sails.language})
 						});
 					}
 
@@ -552,7 +552,7 @@ module.exports = rempro = {
 
 							if (!uid) {
 								callback({
-									msg: sails.__('gct.rempro.postEdit.noplayerfound')
+									msg: sails.__({phrase:'gct.rempro.postEdit.noplayerfound',locale: sails.language})
 								})
 							} else {
 								obj.createdFor = uid;
@@ -583,7 +583,7 @@ module.exports = rempro = {
 				if (err) {
 					if (!err.msg) {
 						res.json({
-							err: sails.__('global.suddenerror')
+							err: sails.__({phrase:'global.suddenerror',locale: sails.language})
 						});
 
 						throw err;
