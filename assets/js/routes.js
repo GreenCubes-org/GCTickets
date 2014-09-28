@@ -36,5 +36,8 @@ crossroads.addRoute('/id/{id}/edit', app.view.edit);
 crossroads.addRoute('/admin/users/roles', app.admin.roles);
 crossroads.addRoute('/admin/users/bans', app.admin.bans);
 
+/* Game information panel pages */
+crossroads.addRoute('/gameinfo/player/info', app.gameinfo.playerInfo);
+
 /* Settings pages */
 crossroads.addRoute('/settings', app.settings);

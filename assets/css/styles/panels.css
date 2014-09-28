@@ -14,8 +14,12 @@
 .gameinfopanel.header {
 	text-align: center;
 	font-weight: bold;
-	font-size: 40px;
+	font-size: 38px;
 	text-transform: uppercase;
 	color: rgb(255, 255, 255);
 	background-color: #a07aef;
+}
+
+.gameinfopanel.sub.header {
+	font-size: 30px;
 }

@@ -47,19 +47,41 @@ module.exports.routes = {
 	// Панель игровой информации
 	'/gameinfo': 'gameinfo.main',
 
-	'/gameinfo/player/info': 'dev.hideFeature',
-	'/gameinfo/player/loginlog': 'dev.hideFeature',
-	'/gameinfo/player/moneylog': 'dev.hideFeature',
-	'/gameinfo/player/invlog': 'dev.hideFeature',
-	'/gameinfo/player/chestslog': 'dev.hideFeature',
+	'/gameinfo/player/info': 'gameinfo.playerInfo',
+	'/gameinfo/player/loginlog': {
+		view: 'gameinfo/player/loginlog'
+	},
+	'/gameinfo/player/moneylog': {
+		view: 'gameinfo/player/moneylog'
+	},
+	'/gameinfo/player/invlog': {
+		view: 'gameinfo/player/invlog'
+	},
+	'/gameinfo/player/chestslog': {
+		view: 'gameinfo/player/chestslog'
+	},
 
-	'/gameinfo/world/regioninfo': 'dev.hideFeature',
-	'/gameinfo/world/chestlog': 'dev.hideFeature',
-	'/gameinfo/world/lavalog': 'dev.hideFeature',
-	'/gameinfo/world/waterlog': 'dev.hideFeature',
-	'/gameinfo/world/firelog': 'dev.hideFeature',
-	'/gameinfo/world/signlog': 'dev.hideFeature',
-	'/gameinfo/world/spongelog': 'dev.hideFeature',
+	'/gameinfo/world/regioninfo': {
+		view: 'gameinfo/player/regioninfo'
+	},
+	'/gameinfo/world/chestlog': {
+		view: 'gameinfo/player/chestlog'
+	},
+	'/gameinfo/world/lavalog': {
+		view: 'gameinfo/player/lavalog'
+	},
+	'/gameinfo/world/waterlog': {
+		view: 'gameinfo/player/waterlog'
+	},
+	'/gameinfo/world/firelog': {
+		view: 'gameinfo/player/firelog'
+	},
+	'/gameinfo/world/signlog': {
+		view: 'gameinfo/player/signlog'
+	},
+	'/gameinfo/world/spongelog': {
+		view: 'gameinfo/player/spongelog'
+	},
 
 	// Контроллер сервисных функций.
 	'/500': 'dev.serverError',

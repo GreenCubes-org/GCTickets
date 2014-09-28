@@ -1,0 +1,84 @@
+<% title = 'Общая информация об игроке / Панель игровой информации' + " — " + __('global.pagetitle'),
+	backUrl = '/gameinfo';  %>
+<%- partial('../partials/header')%>
+
+
+<%- partial('../partials/subheader', { subheader: 'Игрок / Общая информация об игроке' }) %>
+<div class="container" style="margin-top: 20px">
+	<form method="GET">
+	<div class="ui two column grid">
+		<div class="column">
+			<label>Ник игрока</label>
+			<div class="ui action fluid input">
+				<input placeholder="nzh" type="text" name="nickname" id="gc-forminput">
+				<div class="ui icon black button" type="submit" id="gc-formsubmit"><i class="search icon"></i></div>
+			</div>
+		</div>
+	</div>
+	</form>
+	<div class="ui divider"></div>
+	<% if (pinfo) { %>
+	<div class="ui two column grid">
+		<div class="column">
+			<h4 class="ui top attached header">
+			<%- (pinfo.prefix) ? pinfo.prefix : '' %> <%- (pinfo.user.login) ? pinfo.user.login : '' %> <small><i>(<%- (pinfo.online) ? 'не в игре' : 'в игре' %>)</i></small> <small><i>(<a href="/gameinfo/player/loginlog?nickname=<%- pinfo.user.login %>">логи входов</a>)</i></small>
+			</h4>
+			<div class="ui segment form attached">
+				<div class="two fields">
+					<div class="field">
+						<label>Последний вход</label>
+						<p><%= moment(pinfo.lastseen).format('D MMM YYYY, h:mm') %></p>
+					</div>
+					<div class="field">
+						<label>Дата регистрации</label>
+						<p><%= moment(pinfo.regdate).format('D MMM YYYY, h:mm') %></p>
+					</div>
+				</div>
+				<div class="two fields">
+					<div class="field">
+						<label>Последний IP</label>
+						<p><% if (pinfo.lastip) { %><a href="/gameinfo/player/loginlog?ip=<%- pinfo.lastip %>"><%- pinfo.lastip %></a><% } else { %>&mdash;<% } %></p>
+					</div>
+					<div class="field">
+						<label>Последний HWID</label>
+						<p><% if (pinfo.lasthwid) { %><a href="/gameinfo/player/loginlog?hwid=<%- pinfo.lasthwid %>"><%- pinfo.lasthwid %></a><% } else { %>&mdash;<% } %></p>
+					</div>
+				</div>
+				<div class="ui link list">
+					<a class="item" href="/gameinfo/player/inventory?nickname=<%- pinfo.user.login %>">Инвентарь</a>
+					<a class="item" href="/gameinfo/player/loginlog?nickname=<%- pinfo.user.login %>">Логи входов на сервер</a>
+					<a class="item" href="/gameinfo/player/moneylog?nickname=<%- pinfo.user.login %>">Логи переводов внутриигровой валюты</a>
+					<a class="item" href="/gameinfo/player/chestslog?nickname=<%- pinfo.user.login %>">Логи действий с сундуками</a>
+					<a class="item" href="/gameinfo/player/chatlog?nickname=<%- pinfo.user.login %>">Логи чата</a>
+					<a class="item" href="/gameinfo/player/commandlog?nickname=<%- pinfo.user.login %>">Логи команд</a>
+				</div>
+				<h3>Личное дело</h3>
+				<% if (pinfo.memos.length) { %>
+				<table class="ui basic small table">
+					<thead>
+						<tr>
+							<th>Модератор</th>
+							<th>Сообщение</th>
+							<th>Дата</th>
+						</tr>
+					</thead>
+					<tbody>
+						<% pinfo.memos.forEach(function (memo) { %>
+						<tr>
+							<td><a href='/users/<%= memo.moderator %>'><%= memo.moderator %></a></td>
+							<td><%= memo.memo %></td>
+							<td><%= moment(memo.time).format('D MMM YYYY, h:mm') %></td>
+						</tr>
+						<% }) %>
+					</tbody>
+				</table>
+				<% } else { %>
+				<div style="padding: 5em 0em;text-align: center;font-size:1.4em">Нет записей</div>
+				<% } %>
+			</div>
+		</div>
+	</div>
+	<% } else { %>
+	<div style="padding: 5em 0em;text-align: center;font-size:1.4em">Введите ник игрока</div>
+	<% } %>
+</div>
