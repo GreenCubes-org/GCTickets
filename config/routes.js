@@ -50,7 +50,7 @@ module.exports.routes = {
 	'/hiddenfeature': 'dev.hideFeature',
 	'/check': 'dev.check',
 
-	'put /clientupload': {
+	'put /cu': {
 		controller: 'home',
 		action: 'hiddenupload',
 		cors: false
