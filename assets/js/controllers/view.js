@@ -447,7 +447,7 @@ app.view = {
 		if ($('#description').length > 0) {
 			$('#description').wysibb({
 				lang: 'ru',
-				buttons: 'bold,italic,underline,|,link,numlist,code,|,spoiler',
+				buttons: 'bold,italic,underline,|,link,numlist,code,|,img,spoiler',
 				allButtons: {
 					spoiler: {
 						title: "Спойлер",
@@ -471,7 +471,7 @@ app.view = {
 		if ($('#reason').length > 0) {
 			$('#reason').wysibb({
 				lang: 'ru',
-				buttons: 'bold,italic,underline,|,link,numlist,code,|,spoiler',
+				buttons: 'bold,italic,underline,|,link,numlist,code,|,img,spoiler',
 				allButtons: {
 					spoiler: {
 						title: "Спойлер",
