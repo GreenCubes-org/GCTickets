@@ -12,7 +12,7 @@ module.exports = function (req, res, ok) {
 						callback(null, comment.tid);
 					});
 			} else {
-				if (!req.param('tid')) {
+				if (isNaN(req.param('tid'))) {
 					return res.badRequest();
 				}
 
