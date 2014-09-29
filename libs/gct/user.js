@@ -223,6 +223,8 @@ module.exports = user = {
 				gcdb.user.getCapitalizedLogin(obj.user.login, function (err, login) {
 					if (err) return callback(err);
 
+					if (!login) return callback({nouser: true});
+
 					obj.user.login = login;
 
 					callback(null, obj);
@@ -336,7 +338,12 @@ module.exports = user = {
 			}
 		],
 		function (err, obj) {
-			if (err) return cb(err);
+			if (err) {
+				if (err.nouser) {
+					return cb(null, null);
+				}
+				return cb(err);
+			}
 
 			cb(null, obj);
 		});

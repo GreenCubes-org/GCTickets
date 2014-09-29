@@ -24,7 +24,7 @@
 			<img class="ui avatar image" src="<%- element.image %>">
 			<div class="content">
 				<div class="header"><%- element.name %> (<%= element.itemId %>,<%= element.itemDamage %>)</div>
-				слот: <%= element.slot %>; количество: <%= element.count %>;
+				слот: <%= element.slot %>; количество: <%= element.count %>; <% if (element.slot >= 36 && element.slot <= 39) { %> Слот брони;<% } %>
 			</div>
 		</div>
 		<% }) %>

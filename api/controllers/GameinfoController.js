@@ -25,6 +25,12 @@ module.exports = {
 				throw err;
 			}
 
+			if (!pinfo) {
+				return res.view('gameinfo/player/info', {
+					pinfo: {nouser:true}
+				});
+			}
+
 			res.view('gameinfo/player/info', {
 				pinfo: pinfo
 			});
@@ -88,6 +94,100 @@ module.exports = {
 			});
 		});
 
+	},
+
+	worldRegioninfo: function (req, res) {
+		if (!req.param('regionname')) {
+			res.view('gameinfo/world/regioninfo', {
+				rinfo: null
+			});
+			return;
+		}
+
+		gct.getRegionsInfo([{name:req.param('regionname')}], req.user.group, function (err, rinfo) {
+			if (err) {
+				res.serverError();
+				sails.log.error(err);
+				throw err;
+			}
+			rinfo = rinfo[0];
+
+			async.waterfall([
+				function serializeCreator(callback) {
+					gcdb.user.getByID(rinfo.creator, 'maindb', function (err, login) {
+						if (err) return callback(err);
+
+						rinfo.creator = login;
+
+						callback(null);
+					});
+				},
+				function serializeFull_accessPlayers(callback) {
+					async.map(rinfo.full_access.players, function (element, callback) {
+						gcdb.user.getByID(element.uid, 'maindb', function (err, login) {
+							if (err) return callback(err);
+
+							callback(null, {
+								name: login,
+								lastseen: moment(element.lastseenLocale).format('D MMM YYYY, H:mm')
+							});
+						});
+					}, function (err, array) {
+						if (err) return callback(err);
+
+						rinfo.full_access.players = array;
+
+						callback(null);
+					});
+				},
+				function serializeBuild_accessPlayers(callback) {
+					async.map(rinfo.build_access.players, function (element, callback) {
+						gcdb.user.getByID(element.uid, 'maindb', function (err, login) {
+							if (err) return callback(err);
+
+							callback(null, {
+								name: login,
+								lastseen: moment(element.lastseenLocale).format('D MMM YYYY, H:mm')
+							});
+						});
+					}, function (err, array) {
+						if (err) return callback(err);
+
+						rinfo.build_access.players = array;
+
+						callback(null);
+					});
+				},
+				function serializeFull_accessOrgs(callback) {
+					async.map(rinfo.full_access.orgs, function (element, callback) {
+						callback(null, 'Организация #' + element);
+					}, function (err, array) {
+						if (err) return callback(err);
+
+						rinfo.full_access.orgs = array;
+
+						callback(null);
+					});
+				},
+				function serializeBuild_accessOrgs(callback) {
+					async.map(rinfo.build_access.orgs, function (element, callback) {
+						callback(null, 'Организация #' + element);
+					}, function (err, array) {
+						if (err) return callback(err);
+
+						rinfo.build_access.orgs = array;
+
+						callback(null);
+					});
+				}
+			], function (err) {
+				if (err) callback(err);
+
+				res.view('gameinfo/world/regioninfo', {
+					rinfo: rinfo
+				});
+			});
+		});
 	}
 
 };

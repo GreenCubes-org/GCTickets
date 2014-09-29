@@ -59,9 +59,7 @@ module.exports.routes = {
 		view: 'gameinfo/player/chestslog'
 	},
 
-	'/gameinfo/world/regioninfo': {
-		view: 'gameinfo/player/regioninfo'
-	},
+	'/gameinfo/world/regioninfo': 'gameinfo.worldRegioninfo',
 	'/gameinfo/world/chestlog': {
 		view: 'gameinfo/player/chestlog'
 	},
