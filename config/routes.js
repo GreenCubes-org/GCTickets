@@ -47,23 +47,15 @@ module.exports.routes = {
 	// Панель игровой информации
 	'/gameinfo': 'gameinfo.main',
 
-	'/gameinfo/player/info': 'gameinfo.playerInfo',
-	'/gameinfo/player/loginlog': {
-		view: 'gameinfo/player/loginlog'
-	},
-	'/gameinfo/player/moneylog': {
-		view: 'gameinfo/player/moneylog'
-	},
-	'/gameinfo/player/inventory': 'gameinfo.playerInventory',
-	'/gameinfo/player/chestslog': {
-		view: 'gameinfo/player/chestslog'
-	},
+	'/gameinfo/player/info': 'gameinfo.playerInfo', // DONE?
+	'/gameinfo/player/loginlog': 'gameinfo.playerLoginlog',
+	'/gameinfo/player/moneylog': 'gameinfo.playerMoneylog',
+	'/gameinfo/player/inventory': 'gameinfo.playerInventory', // DONE?
+	'/gameinfo/player/chestslog': 'gameinfo.playerChestslog',
 
-	'/gameinfo/world/regioninfo': 'gameinfo.worldRegioninfo',
-	'/gameinfo/world/chestlog': {
-		view: 'gameinfo/player/chestlog'
-	},
-	'/gameinfo/world/blockslog': 'gameinfo.worldBlockslog',
+	'/gameinfo/world/regioninfo': 'gameinfo.worldRegioninfo', // DONE?
+	'/gameinfo/world/chestlog': 'gameinfo.worldChestlog',
+	'/gameinfo/world/blockslog': 'gameinfo.worldBlockslog', // DONE?
 
 	// Контроллер сервисных функций.
 	'/500': 'dev.serverError',

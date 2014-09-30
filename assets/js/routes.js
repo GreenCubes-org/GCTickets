@@ -38,6 +38,7 @@ crossroads.addRoute('/admin/users/bans', app.admin.bans);
 
 /* Game information panel pages */
 crossroads.addRoute('/gameinfo/player/info', app.gameinfo.player);
+crossroads.addRoute('/gameinfo/player/loginlog', app.gameinfo.player);
 crossroads.addRoute('/gameinfo/player/inventory', app.gameinfo.player);
 
 crossroads.addRoute('/gameinfo/world/regioninfo', app.gameinfo.worldRegioninfo);

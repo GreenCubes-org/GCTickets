@@ -466,6 +466,39 @@ module.exports.serializeNotifType = serializeNotifType = function (id) {
 	}
 };
 
+/*
+ * 0 — STARTED
+ * 1 — ACCEPTED
+ * 2 — WRONGPASSWORD
+ * 3 — BAN
+ * 4 — IPBAN
+ * 5 — HWBAN
+*/
+module.exports.serializeLoginLogStatus = serializeLoginLogStatus = function (status) {
+	switch (status) {
+		case 0:
+			return sails.__('gct.serializeLoginLogStatus.started');
+
+		case 1:
+			return sails.__('gct.serializeLoginLogStatus.accepted');
+
+		case 2:
+			return sails.__('gct.serializeLoginLogStatus.wrongpassword');
+
+		case 3:
+			return sails.__('gct.serializeLoginLogStatus.ban');
+
+		case 4:
+			return sails.__('gct.serializeLoginLogStatus.ipban');
+
+		case 5:
+			return sails.__('gct.serializeLoginLogStatus.hwban');
+
+		default:
+			return sails.__('gct.serializeLoginLogStatus.default');
+	}
+};
+
 
 module.exports.handleUpload = handleUpload = function (req, res, ticket, cb) {
 	if (typeof(ticket) === 'function') cb = ticket;

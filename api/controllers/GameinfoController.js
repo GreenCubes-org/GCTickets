@@ -96,6 +96,75 @@ module.exports = {
 
 	},
 
+	playerLoginlog: function (req, res) {
+		if (!req.param('nickname') && !req.param('ip') && !req.param('hwid')) {
+			res.view('gameinfo/player/loginlog', {
+				log: null
+			});
+			return;
+		}
+
+		var query = 'SELECT * FROM `login_log` WHERE ',
+			nickname = (req.param('nickname')) ? req.param('nickname').replace(/[^a-zA-Z0-9_-]/g, '') : null,
+			ip = (req.param('ip')) ? req.param('ip').replace(/[^0-9\.]/g, '') : null,
+			hwid = (req.param('hwid')) ? req.param('hwid').replace(/[^a-zA-Z0-9]/g, '') : null;
+
+		if (nickname) {
+			query += '`login` = "' + nickname + '"';
+		}
+
+		if (ip) {
+			query += ((nickname) ? 'AND ' : '') + '`ip` = "' + ip + '"';
+		}
+
+		if (req.param('hwid')) {
+			query += ((nickname || ip) ? 'AND ' : '') + '`hardware` = "' + hwid + '"';
+		}
+
+		async.waterfall([
+			function getLog(callback) {
+				gcmainconn.query(query, function (err, result) {
+					if (err) return callback(err);
+
+					callback(null, result);
+				});
+			},
+			function serializeStatus(log, callback) {
+				async.map(log, function (element, callback) {
+					element.status = gct.serializeLoginLogStatus(element.status);
+
+					callback(null, element);
+				}, function (err, log) {
+					if (err) return callback(err);
+
+					callback(null, log);
+				});
+			}
+		], function (err, log) {
+			if (err) throw err;
+
+			res.view('gameinfo/player/loginlog', {
+				log: log
+			});
+		});
+	},
+
+	playerMoneylog: function (req, res) {
+
+	},
+
+	playerChestslog: function (req, res) {
+
+	},
+
+	playerChatlog: function (req, res) {
+
+	},
+
+	playerCommandslog: function (req, res) {
+
+	},
+
 	worldRegioninfo: function (req, res) {
 		if (!req.param('regionname')) {
 			res.view('gameinfo/world/regioninfo', {
@@ -188,6 +257,10 @@ module.exports = {
 				});
 			});
 		});
+	},
+
+	worldChestlog: function (req, res) {
+
 	},
 
 	worldBlockslog: function (req, res) {
