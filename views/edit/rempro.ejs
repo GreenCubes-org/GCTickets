@@ -45,7 +45,7 @@
 					<div class="ui divider"></div>
 					<div class="field">
 						<% if (ticket.uploads.length) { %>
-						<label><%- __('view.edit.upload.title') %></label>
+						<label><%- __('view.edit.form.upload.title') %></label>
 						<div class="ui stackable items">
 							<div class="row">
 							<% 	ticket.uploads.forEach(function(item, index) { %>
@@ -57,7 +57,7 @@
 										<div class="extra">
 											<div class="ui checkbox">
 											  <input name="removeimage" type="checkbox" value="<%= index %>">
-											  <label><%- __('view.edit.upload.remove') %></label>
+											  <label><%- __('view.edit.form.upload.remove') %></label>
 											</div>
 										</div>
 									</div>
