@@ -41,6 +41,7 @@ crossroads.addRoute('/gameinfo/player/info', app.gameinfo.player);
 crossroads.addRoute('/gameinfo/player/inventory', app.gameinfo.player);
 
 crossroads.addRoute('/gameinfo/world/regioninfo', app.gameinfo.worldRegioninfo);
+crossroads.addRoute('/gameinfo/world/blockslog', app.gameinfo.worldBlockslog);
 
 /* Settings pages */
 crossroads.addRoute('/settings', app.settings);

@@ -188,6 +188,100 @@ module.exports = {
 				});
 			});
 		});
+	},
+
+	worldBlockslog: function (req, res) {
+		if (!req.param('xyz') && !req.param('firstxyz') && !req.param('secondxyz') && !req.param('firsttime') && !req.param('secondtime')) {
+			res.view('gameinfo/world/blockslog', {
+				logs: null
+			});
+			return;
+		}
+
+		if (isNaN(req.param('block')) || [10, 8, 51, 63, 19].indexOf(parseInt(req.param('block'), 10)) === -1) {
+			res.view('gameinfo/world/blockslog', {
+				logs: {code:'wrongblock'}
+			});
+			return;
+		}
+
+		async.waterfall([
+			function getLogs(callback) {
+				if (req.param('xyz')) {
+					// ['-1337','42','420']
+					var xyzMatch = req.param('xyz').match(/^(-?[0-9]*) (\-?[0-9]*) (\-?[0-9]*)/g),
+						xyzSplited = req.param('xyz').split(' ');
+
+					if (!xyzMatch){
+						res.view('gameinfo/world/blockslog', {
+							logs: {code: 'wrongxyz'}
+						});
+						return;
+					}
+
+					gcmainconn.query('SELECT * FROM `blocks_log` WHERE `x` = ? AND `y` = ? AND `z` = ? AND `block` = ?', [xyzSplited[0], xyzSplited[1], xyzSplited[2], req.param('block')], function (err, result) {
+						if (err) return callback(err);
+
+						callback(null, result);
+					});
+				} else if (req.param('firstxyz') && req.param('secondxyz') && req.param('firsttime') && req.param('secondtime')) {
+					//TODO: Сделать как в админке, если нет коорд, но есть время, то фигачить по времени. Ну и вот.
+					// ['-1337','42','420']
+					var firstxyzMatch = req.param('firstxyz').match(/^(-?[0-9]*) (\-?[0-9]*) (\-?[0-9]*)/g),
+						firstxyzSplited = req.param('firstxyz').split(' '),
+						secondxyzMatch = req.param('secondxyz').match(/^(-?[0-9]*) (\-?[0-9]*) (\-?[0-9]*)/g),
+						secondxyzSplited = req.param('secondxyz').split(' ');
+
+					var firsttime = Date.parse(req.param('firsttime')) / 1000,
+						secondtime = Date.parse(req.param('secondtime')) / 1000;
+
+					if (!firstxyzMatch || !secondxyzMatch) {
+						res.view('gameinfo/world/blockslog', {
+							logs: {code: 'wrongxyz'}
+						});
+						return;
+					}
+
+					if (firsttime && isNaN(firsttime) || secondtime && isNaN(secondtime)) {
+						res.view('gameinfo/world/blockslog', {
+							logs: {code: 'wrongtime'}
+						});
+						return;
+					}
+
+					gcmainconn.query('SELECT * FROM `blocks_log` WHERE `x` >= ? AND `x` <= ? AND `y` >= ? AND `y` <= ? AND `z` >= ? AND `z` <= ? AND UNIX_TIMESTAMP(`time`) >= ? AND UNIX_TIMESTAMP(`time`) <= ? AND `block` = ?', [firstxyzSplited[0], secondxyzSplited[0], firstxyzSplited[1], secondxyzSplited[1], firstxyzSplited[2], secondxyzSplited[2], firsttime, secondtime, req.param('block')], function (err, result) {
+						if (err) return callback(err);
+
+						callback(null, result);
+					});
+				} else {
+					res.view('gameinfo/world/blockslog', {
+						logs: null
+					});
+				}
+			},
+			function serializeUsers(logs, callback) {
+				async.map(logs, function (element, callback) {
+					gcdb.user.getByID(element.user, 'maindb', function (err, login) {
+						if (err) return callback(err);
+
+						element.user = login;
+
+						callback(null, element);
+					});
+				}, function (err, logs) {
+					if (err) return callback(err);
+
+					callback(null, logs);
+				});
+			}
+		], function (err, logs) {
+			if (err) throw err;
+
+			res.view('gameinfo/world/blockslog', {
+				logs: logs
+			});
+		});
 	}
 
 };

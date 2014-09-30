@@ -63,21 +63,7 @@ module.exports.routes = {
 	'/gameinfo/world/chestlog': {
 		view: 'gameinfo/player/chestlog'
 	},
-	'/gameinfo/world/lavalog': {
-		view: 'gameinfo/player/lavalog'
-	},
-	'/gameinfo/world/waterlog': {
-		view: 'gameinfo/player/waterlog'
-	},
-	'/gameinfo/world/firelog': {
-		view: 'gameinfo/player/firelog'
-	},
-	'/gameinfo/world/signlog': {
-		view: 'gameinfo/player/signlog'
-	},
-	'/gameinfo/world/spongelog': {
-		view: 'gameinfo/player/spongelog'
-	},
+	'/gameinfo/world/blockslog': 'gameinfo.worldBlockslog',
 
 	// Контроллер сервисных функций.
 	'/500': 'dev.serverError',

@@ -1,0 +1,119 @@
+<% title = 'Логи блоков / Мир / Панель игровой информации' + " — " + __('global.pagetitle'),
+	backUrl = '/gameinfo';  %>
+<%- partial('../partials/header')%>
+
+<%- partial('../partials/subheader', { subheader: 'Логи блоков / Информация о регионе' }) %>
+
+<div class="container" style="margin-top: 20px">
+	<form method="GET">
+	<div class="ui two column grid">
+		<div class="column">
+			<div class="ui small form">
+				<div class="two fields">
+					<div class="field">
+						<label>Координата блока</label>
+						<div class="ui fluid input">
+							<input placeholder="-1337 62 1333" type="text" name="xyz" id="gc-formxyzinput" value="<%= (req.query.xyz) ? req.query.xyz : '' %>">
+						</div>
+					</div>
+					<div class="field">
+						<label>Блок</label>
+						<div class="ui fluid selection dropdown gc-formdropdown">
+							<div class="text">Выбери</div>
+							<i class="dropdown icon"></i>
+							<input name="block" id="gc-formfirstblockinput" type="hidden" value="<%= (req.query.block) ? req.query.block : '' %>">
+							<div class="menu">
+								<div class="item" data-value="10">Лава</div>
+								<div class="item" data-value="8">Вода</div>
+								<div class="item" data-value="51">Огонь</div>
+								<div class="item" data-value="63">Табличка</div>
+								<div class="item" data-value="19">Губка</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="ui blue submit button" id="gc-formfirstsubmit">Submit</div>
+			</div>
+		</div>
+	</div>
+	</form>
+	<div class="ui divider"></div>
+	<form method="GET">
+	<div class="ui two column grid">
+		<div class="column">
+			<div class="ui small form">
+				<div class="two fields">
+					<div class="field">
+						<label>Первая координата</label>
+						<input placeholder="-1337 62 1333" type="text" name="firstxyz" id="gc-formfirstxyzinput" value="<%= (req.query.firstxyz) ? req.query.firstxyz : '' %>">
+					</div>
+					<div class="field">
+						<label>Вторая координата</label>
+						<input placeholder="-1339 65 1342" type="text" name="secondxyz" id="gc-formsecondxyzinput" value="<%= (req.query.secondxyz) ? req.query.secondxyz : '' %>">
+					</div>
+				</div>
+				<h3>Время</h3>
+				<div class="three fields">
+					<div class="field">
+						<label>От</label>
+						<input placeholder="<%= moment().subtract(3, 'days').format('YYYY-MM-DD h:mm:ss') %>" value="<%= (req.query.firsttime) ? req.query.firsttime : moment().format('YYYY-MM-DD h:mm:ss') %>"  type="text" name="firsttime" id="gc-formfirsttimeinput">
+					</div>
+					<div class="field">
+						<label>До</label>
+						<input placeholder="<%= moment().format('YYYY-MM-DD h:mm:ss') %>" value="<%= (req.query.secondtime) ? req.query.secondtime : moment().format('YYYY-MM-DD h:mm:ss') %>"  type="text" name="secondtime" id="gc-formsecondtimeinput">
+					</div>
+					<div class="field">
+						<label>Блок</label>
+						<div class="ui fluid selection dropdown gc-formdropdown">
+							<div class="text">Выбери</div>
+							<i class="dropdown icon"></i>
+							<input name="block" id="gc-formsecondblockinput" type="hidden" value="<%= (req.query.block) ? req.query.block : '' %>">
+							<div class="menu">
+								<div class="item" data-value="10">Лава</div>
+								<div class="item" data-value="8">Вода</div>
+								<div class="item" data-value="51">Огонь</div>
+								<div class="item" data-value="63">Табличка</div>
+								<div class="item" data-value="19">Губка</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="ui blue submit button" id="gc-formsecondsubmit">Submit</div>
+			</div>
+		</div>
+	</div>
+	</form>
+	<div class="ui divider"></div>
+	<% if (logs && logs.length) { %>
+	<div class="ui two column grid">
+		<div class="column">
+			<table class="ui basic small table">
+				<thead>
+					<tr>
+						<th>Игрок</th>
+						<th>Время</th>
+						<th>Координата</th>
+					</tr>
+				</thead>
+				<tbody>
+					<% logs.forEach(function (log) { %>
+					<tr>
+						<td><a href='/gameinfo/player/info?nickname=<%= log.user %>'><%= log.user %></a></td>
+						<td><%= moment(log.time).format('D MMM YYYY, h:mm') %></td>
+						<td><%= log.x %> <%= log.y %> <%= log.z %></td>
+					</tr>
+					<% }) %>
+				</tbody>
+			</table>
+		</div>
+	</div>
+	<% } else if (logs && logs.code === 'wrongxyz') { %>
+	<div style="padding: 5em 0em;text-align: center;font-size:1.4em">Неверный формат координат</div>
+	<% } else if (logs && logs.code === 'wrongblock') { %>
+	<div style="padding: 5em 0em;text-align: center;font-size:1.4em">Выбран (или вообще не выбран) неправильный блок</div>
+	<% } else if (logs && !logs.length) { %>
+	<div style="padding: 5em 0em;text-align: center;font-size:1.4em">Ничего не найдено</div>
+	<% } else { %>
+	<div style="padding: 5em 0em;text-align: center;font-size:1.4em">Введите координаты</div>
+	<% } %>
+</div>
