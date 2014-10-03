@@ -13,7 +13,7 @@
 					<div class="field">
 						<label>Координата блока</label>
 						<div class="ui fluid input">
-							<input placeholder="-1337 62 1333" type="text" name="xyz" id="gc-formxyzinput" value="<%= (req.query.xyz) ? req.query.xyz : '' %>">
+							<input placeholder="-1337 62 1333" type="text" name="xyz" value="<%= (req.query.xyz) ? req.query.xyz : '' %>">
 						</div>
 					</div>
 					<div class="field">
@@ -45,22 +45,21 @@
 				<div class="two fields">
 					<div class="field">
 						<label>Первая координата</label>
-						<input placeholder="-1337 62 1333" type="text" name="firstxyz" id="gc-formfirstxyzinput" value="<%= (req.query.firstxyz) ? req.query.firstxyz : '' %>">
+						<input placeholder="-1337 62 1333" type="text" name="firstxyz" value="<%= (req.query.firstxyz) ? req.query.firstxyz : '' %>">
 					</div>
 					<div class="field">
 						<label>Вторая координата</label>
-						<input placeholder="-1339 65 1342" type="text" name="secondxyz" id="gc-formsecondxyzinput" value="<%= (req.query.secondxyz) ? req.query.secondxyz : '' %>">
+						<input placeholder="-1339 65 1342" type="text" name="secondxyz" value="<%= (req.query.secondxyz) ? req.query.secondxyz : '' %>">
 					</div>
 				</div>
-				<h3>Время</h3>
 				<div class="three fields">
 					<div class="field">
 						<label>От</label>
-						<input placeholder="<%= moment().subtract(3, 'days').format('YYYY-MM-DD h:mm:ss') %>" value="<%= (req.query.firsttime) ? req.query.firsttime : moment().format('YYYY-MM-DD h:mm:ss') %>"  type="text" name="firsttime" id="gc-formfirsttimeinput">
+						<input placeholder="<%= moment().subtract(3, 'days').format('YYYY-MM-DD h:mm:ss') %>" value="<%= (req.query.firsttime) ? req.query.firsttime : moment().format('YYYY-MM-DD h:mm:ss') %>"  type="text" name="firsttime">
 					</div>
 					<div class="field">
 						<label>До</label>
-						<input placeholder="<%= moment().format('YYYY-MM-DD h:mm:ss') %>" value="<%= (req.query.secondtime) ? req.query.secondtime : moment().format('YYYY-MM-DD h:mm:ss') %>"  type="text" name="secondtime" id="gc-formsecondtimeinput">
+						<input placeholder="<%= moment().format('YYYY-MM-DD h:mm:ss') %>" value="<%= (req.query.secondtime) ? req.query.secondtime : moment().format('YYYY-MM-DD h:mm:ss') %>"  type="text" name="secondtime">
 					</div>
 					<div class="field">
 						<label>Блок</label>

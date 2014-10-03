@@ -121,6 +121,8 @@ module.exports = {
 			query += ((nickname || ip) ? 'AND ' : '') + '`hardware` = "' + hwid + '"';
 		}
 
+		query += ' ORDER BY `id` DESC';
+
 		async.waterfall([
 			function getLog(callback) {
 				gcmainconn.query(query, function (err, result) {
@@ -147,10 +149,6 @@ module.exports = {
 				log: log
 			});
 		});
-	},
-
-	playerMoneylog: function (req, res) {
-
 	},
 
 	playerChestslog: function (req, res) {
@@ -229,7 +227,7 @@ module.exports = {
 				},
 				function serializeFull_accessOrgs(callback) {
 					async.map(rinfo.full_access.orgs, function (element, callback) {
-						callback(null, 'Организация #' + element);
+						callback(null, sails.__('global.organizationid', element));
 					}, function (err, array) {
 						if (err) return callback(err);
 
@@ -240,7 +238,7 @@ module.exports = {
 				},
 				function serializeBuild_accessOrgs(callback) {
 					async.map(rinfo.build_access.orgs, function (element, callback) {
-						callback(null, 'Организация #' + element);
+						callback(null, sails.__('global.organizationid', element));
 					}, function (err, array) {
 						if (err) return callback(err);
 
@@ -322,7 +320,7 @@ module.exports = {
 						return;
 					}
 
-					gcmainconn.query('SELECT * FROM `blocks_log` WHERE `x` >= ? AND `x` <= ? AND `y` >= ? AND `y` <= ? AND `z` >= ? AND `z` <= ? AND UNIX_TIMESTAMP(`time`) >= ? AND UNIX_TIMESTAMP(`time`) <= ? AND `block` = ?', [firstxyzSplited[0], secondxyzSplited[0], firstxyzSplited[1], secondxyzSplited[1], firstxyzSplited[2], secondxyzSplited[2], firsttime, secondtime, req.param('block')], function (err, result) {
+					gcmainconn.query('SELECT * FROM `blocks_log` WHERE `x` >= ? AND `x` <= ? AND `y` >= ? AND `y` <= ? AND `z` >= ? AND `z` <= ? AND UNIX_TIMESTAMP(`time`) >= ? AND UNIX_TIMESTAMP(`time`) <= ? AND `block` = ? ORDER BY `id` DESC', [firstxyzSplited[0], secondxyzSplited[0], firstxyzSplited[1], secondxyzSplited[1], firstxyzSplited[2], secondxyzSplited[2], firsttime, secondtime, req.param('block')], function (err, result) {
 						if (err) return callback(err);
 
 						callback(null, result);
@@ -353,6 +351,135 @@ module.exports = {
 
 			res.view('gameinfo/world/blockslog', {
 				logs: logs
+			});
+		});
+	},
+
+	worldMoneylog: function (req, res) {
+		if (!req.param('sender')) {
+			res.view('gameinfo/world/moneylog', {
+				log: null
+			});
+			return;
+		}
+
+		var sender = req.param('sender'),
+			firstTime = Date.parse(req.param('firsttime')) / 1000,
+			secondTime = Date.parse(req.param('secondtime')) / 1000;
+
+		async.waterfall([
+			function getType(callback) {
+				// If org: 'o:'
+				if (sender[0] === 'o' && sender[1] === ':') {
+					callback(null, 2);
+				} else {
+					callback(null, 1);
+				}
+			},
+			function setUID(type, callback) {
+				if (type === 1) {
+					gcdb.user.getByLogin(sender, 'maindb', function (err, uid) {
+						if (err) return callback(err);
+
+						sender = uid;
+
+						callback(null, uid, type);
+					});
+				} else {
+					sender = parseInt(sender.split(':')[1], 10);
+
+					if (isNaN(sender)) {
+						res.view('gameinfo/player/moneylog', {
+							log: {code: 'wrongorg'}
+						});
+					} else {
+						callback(null, sender, type);
+					}
+				}
+			},
+			function getLog(uid, type, callback) {
+				gcmainconn.query('SELECT * FROM `money_log` WHERE ((`sender` = ? AND `senderType` = ?) OR (`reciever` = ? AND `recieverType` = ?)) AND UNIX_TIMESTAMP(`time`) >= ? AND UNIX_TIMESTAMP(`time`) <= ? ORDER BY `id` DESC', [uid, type, uid, type, firstTime, secondTime], function (err, result) {
+					if (err) return callback(err);
+
+					callback(null, result);
+				});
+			},
+			function serializeLog(log, callback) {
+				async.map(log, function (element, callback) {
+					async.waterfall([
+						function getUID4Sender(callback) {
+							if (element.senderType === 1) {
+								gcdb.user.getByID(element.sender, 'maindb', function (err, login) {
+									if (err) return callback(err);
+
+									element.sender = login;
+
+									callback(null, element);
+								});
+							} else if (element.senderType === 2) {
+								element.sender = sails.__('global.organizationid', element.sender);
+
+								callback(null, element);
+							} else {
+								callback(null, element);
+							}
+						},
+						function getUID4Reciever(element, callback) {
+							if (element.recieverType === 1) {
+								gcdb.user.getByID(element.reciever, 'maindb', function (err, login) {
+									if (err) return callback(err);
+
+									element.reciever = login;
+
+									callback(null, element);
+								});
+							} else if (element.recieverType === 2) {
+								element.reciever = sails.__('global.organizationid', element.reciever);
+
+								callback(null, element);
+							} else {
+								callback(null, element);
+							}
+						},
+						function serializeData(element, callback) {
+							if (element.recieverType === 3) {
+								element.data = JSON.parse(element.data);
+
+								switch (element.data.type) {
+									case 0:
+										element.data = sails.__('view.gameinfo.player.moneylog.boughtchannel', element.data.name);
+										break;
+
+									case 1:
+										element.data = sails.__('view.gameinfo.player.moneylog.boughtregion', element.data.name);
+										break;
+								}
+
+								callback(null, element);
+							} else {
+								callback(null, element);
+							}
+						}
+					], function (err, log) {
+						if (err) return callback(err);
+
+						callback(null, log);
+					});
+				}, function (err, logs) {
+					if (err) return callback(err);
+
+					callback(null, logs);
+				});
+			}
+		], function (err, log) {
+			if (err) {
+				res.serverError();
+				sails.log.error(err);
+				throw err;
+			}
+
+			res.view('gameinfo/world/moneylog', {
+				log: log
 			});
 		});
 	}

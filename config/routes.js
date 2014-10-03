@@ -48,14 +48,14 @@ module.exports.routes = {
 	'/gameinfo': 'gameinfo.main',
 
 	'/gameinfo/player/info': 'gameinfo.playerInfo', // DONE?
-	'/gameinfo/player/loginlog': 'gameinfo.playerLoginlog',
-	'/gameinfo/player/moneylog': 'gameinfo.playerMoneylog',
+	'/gameinfo/player/loginlog': 'gameinfo.playerLoginlog', // DONE? Add pagination
 	'/gameinfo/player/inventory': 'gameinfo.playerInventory', // DONE?
 	'/gameinfo/player/chestslog': 'gameinfo.playerChestslog',
 
 	'/gameinfo/world/regioninfo': 'gameinfo.worldRegioninfo', // DONE?
 	'/gameinfo/world/chestlog': 'gameinfo.worldChestlog',
-	'/gameinfo/world/blockslog': 'gameinfo.worldBlockslog', // DONE?
+	'/gameinfo/world/blockslog': 'gameinfo.worldBlockslog', // DONE? Add pagination
+	'/gameinfo/world/moneylog': 'gameinfo.worldMoneylog',
 
 	// Контроллер сервисных функций.
 	'/500': 'dev.serverError',
