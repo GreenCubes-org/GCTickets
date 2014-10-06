@@ -19,6 +19,12 @@ app.gameinfo = {
 		});
 	},
 
+	playerCommandslog: function () {
+		$('#gc-formsubmit').click(function () {
+			window.location.search = '?nickname=' + $('input[name=nickname]').val() + '&firsttime=' + $('input[name=firsttime]').val() + '&secondtime=' + $('input[name=secondtime]').val();
+		});
+	},
+
 	worldMoneylog: function () {
 		$('#gc-formsubmit').click(function () {
 			window.location.search = '?sender=' + $('input[name=sender]').val() + '&senderType=' + $('input[name=senderType]').val() + '&firsttime=' + $('input[name=firsttime]').val() + '&secondtime=' + $('input[name=secondtime]').val() + '&block=' + $('input[name=block]').val();

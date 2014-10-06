@@ -202,7 +202,7 @@ module.exports = {
 				gcdb.user.getByLogin(req.param('nickname').replace(/[^a-zA-Z0-9_-]/g, ''), 'maindb', function (err, uid) {
 					if (err) return callback(err);
 
-					query = 'SELECT * FROM `chat_log` WHERE (`player` = "' + uid +  '" OR `targetPlayer` = "' + uid +  '") AND UNIX_TIMESTAMP(`time`) >= "' + firsttime + '" AND UNIX_TIMESTAMP(`time`) <= "' + secondtime + '"';
+					query = 'SELECT * FROM `chat_log` WHERE (`player` = "' + uid +  '" OR `targetPlayer` = "' + uid +  '") AND UNIX_TIMESTAMP(`time`) >= "' + firsttime + '" AND UNIX_TIMESTAMP(`time`) <= "' + secondtime + '" ORDER BY `id` DESC';
 
 					if (req.param('channelid') && !isNaN(req.param('channelid'))) {
 						query += ' AND `channel` = "' + req.param('channelid') + '"';
@@ -269,7 +269,80 @@ module.exports = {
 	},
 
 	playerCommandslog: function (req, res) {
+		if (!req.param('nickname')) {
+			res.view('gameinfo/player/commandslog', {
+				log: null
+			});
+			return;
+		}
 
+		var firsttime = Date.parse(req.param('firsttime')) / 1000,
+			secondtime = Date.parse(req.param('secondtime')) / 1000,
+			query,
+			page = (parseInt(req.param('page'), 10)) ? parseInt(req.param('page'), 10) : 1,
+			userId;
+
+		if (firsttime && isNaN(firsttime) || secondtime && isNaN(secondtime)) {
+			res.view('gameinfo/player/commandslog', {
+				logs: {code: 'wrongtime'}
+			});
+			return;
+		}
+
+		async.waterfall([
+			function getUIDNBuildQuery(callback) {
+				gcdb.user.getByLogin(req.param('nickname').replace(/[^a-zA-Z0-9_-]/g, ''), 'maindb', function (err, uid) {
+					if (err) return callback(err);
+
+					query = 'SELECT * FROM `commands_log` WHERE `player` = "' + uid +  '" AND UNIX_TIMESTAMP(`time`) >= "' + firsttime + '" AND UNIX_TIMESTAMP(`time`) <= "' + secondtime + '" LIMIT ' + (page - 1) + ',' + page * 100;
+
+					userId = uid;
+
+					callback(null);
+				});
+			},
+			function getLog(callback) {
+				gcmainconn.query(query, function (err, result) {
+					if (err) return callback(err);
+
+					callback(null, result);
+				});
+			},
+			function serializeChat(log, callback) {
+				async.map(log, function (element, callback) {
+					if (req.user.group === ugroup.mod && (element.command[1] === 'm' && element.command[2] === ' ')) {
+						element.command = null;
+					}
+
+					gcdb.user.getByID(element.player, 'maindb', function (err, login) {
+						if (err) return callback(err);
+
+						element.player = login;
+
+						callback(null, element);
+					});
+				}, function (err, log) {
+					if (err) return callback(err);
+
+					callback(null, log);
+				});
+			},
+			function getPageCount(log, callback) {
+				gcmainconn.query('SELECT count(*) AS count FROM `commands_log` WHERE `player` = "' + userId +  '" AND UNIX_TIMESTAMP(`time`) >= "' + firsttime + '" AND UNIX_TIMESTAMP(`time`) <= "' + secondtime + '" ORDER BY `id` DESC', function (err, result) {
+					if (err) return callback(err);
+
+					callback(null, log, Math.ceil(result[0].count / 100));
+				});
+			}
+		], function (err, log, lastPage) {
+			if (err) throw err;
+
+			res.view('gameinfo/player/commandslog', {
+				log: log,
+				lastPage: lastPage,
+				currentPage: page
+			});
+		});
 	},
 
 	worldRegioninfo: function (req, res) {
