@@ -816,7 +816,7 @@ module.exports.getRegionsInfo = getRegionsInfo = function getRegionsInfo(regions
 
 								callback(null, {
 									uid: element,
-									lastseen: result[0].time,
+									lastseen: (result[0]) ? result[0].time : 1405009242,
 									lastseenLocale: time.toLocaleString()
 								});
 						});
@@ -849,7 +849,7 @@ module.exports.getRegionsInfo = getRegionsInfo = function getRegionsInfo(regions
 
 							callback(null, {
 								uid: element,
-								lastseen: result[0].time,
+								lastseen: (result[0]) ? result[0].time : 1405009242,
 								lastseenLocale: time.toLocaleString()
 							});
 						});
