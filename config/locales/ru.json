@@ -238,7 +238,7 @@
 	"view.edit.rempro.form.regions": "Регионы",
 	"view.edit.rempro.form.stuff.title": "Сундуки/предметы",
 	"view.edit.rempro.form.stuff.helphint": "Каждая координата/регион записываются по одному на строчку. Комментарии разделяются от координаты/региона пробелом. Одно из этих двух полей должно быть заполнено",
-	"view.edit.rempro.panel.createdfor": "Создан для",
+	"view.edit.panel.createdfor": "Создан для",
 	"view.edit.ban.panel.targetuser": "Игрок",
 	"view.edit.ban.form.reason": "Причина бана",
 	"view.edit.unban.panel.targetuser": "Игрок",
