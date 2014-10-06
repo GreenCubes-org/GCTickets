@@ -105,23 +105,28 @@ module.exports = {
 		}
 
 		var query = 'SELECT * FROM `login_log` WHERE ',
+			whereQuery = '';
 			nickname = (req.param('nickname')) ? req.param('nickname').replace(/[^a-zA-Z0-9_-]/g, '') : null,
 			ip = (req.param('ip')) ? req.param('ip').replace(/[^0-9\.]/g, '') : null,
-			hwid = (req.param('hwid')) ? req.param('hwid').replace(/[^a-zA-Z0-9]/g, '') : null;
+			hwid = (req.param('hwid')) ? req.param('hwid').replace(/[^a-zA-Z0-9]/g, '') : null,
+			page = (parseInt(req.param('page'), 10)) ? parseInt(req.param('page'), 10) : 1;
 
 		if (nickname) {
 			query += '`login` = "' + nickname + '"';
+			whereQuery += '`login` = "' + nickname + '"';
 		}
 
 		if (ip) {
 			query += ((nickname) ? 'AND ' : '') + '`ip` = "' + ip + '"';
+			whereQuery += ((nickname) ? 'AND ' : '') + '`ip` = "' + ip + '"';
 		}
 
 		if (req.param('hwid')) {
 			query += ((nickname || ip) ? 'AND ' : '') + '`hardware` = "' + hwid + '"';
+			whereQuery += ((nickname || ip) ? 'AND ' : '') + '`hardware` = "' + hwid + '"';
 		}
 
-		query += ' ORDER BY `id` DESC';
+		query += ' ORDER BY `id` DESC LIMIT ' + (page - 1) + ',' + page * 100;
 
 		async.waterfall([
 			function getLog(callback) {
@@ -141,12 +146,21 @@ module.exports = {
 
 					callback(null, log);
 				});
+			},
+			function getPageCount(log, callback) {
+				gcmainconn.query('SELECT count(*) AS count FROM `login_log` WHERE ' + whereQuery, function (err, result) {
+					if (err) return callback(err);
+
+					callback(null, log, Math.ceil(result[0].count / 100));
+				});
 			}
-		], function (err, log) {
+		], function (err, log, lastPage) {
 			if (err) throw err;
 
 			res.view('gameinfo/player/loginlog', {
-				log: log
+				log: log,
+				lastPage: lastPage,
+				currentPage: page
 			});
 		});
 	},
@@ -156,7 +170,102 @@ module.exports = {
 	},
 
 	playerChatlog: function (req, res) {
+		if (!req.param('nickname') && !req.param('channelid')) {
+			res.view('gameinfo/player/chatlog', {
+				log: null
+			});
+			return;
+		}
 
+		var firsttime = Date.parse(req.param('firsttime')) / 1000,
+			secondtime = Date.parse(req.param('secondtime')) / 1000,
+			query,
+			page = (parseInt(req.param('page'), 10)) ? parseInt(req.param('page'), 10) : 1,
+			userId;
+
+		if (firsttime && isNaN(firsttime) || secondtime && isNaN(secondtime)) {
+			res.view('gameinfo/player/chatlog', {
+				logs: {code: 'wrongtime'}
+			});
+			return;
+		}
+
+		if (req.param('channelid') && isNaN(req.param('channelid'))) {
+			res.view('gameinfo/player/chatlog', {
+				logs: {code: 'wrongchannelid'}
+			});
+			return;
+		}
+
+		async.waterfall([
+			function getUIDNBuildQuery(callback) {
+				gcdb.user.getByLogin(req.param('nickname').replace(/[^a-zA-Z0-9_-]/g, ''), 'maindb', function (err, uid) {
+					if (err) return callback(err);
+
+					query = 'SELECT * FROM `chat_log` WHERE (`player` = "' + uid +  '" OR `targetPlayer` = "' + uid +  '") AND UNIX_TIMESTAMP(`time`) >= "' + firsttime + '" AND UNIX_TIMESTAMP(`time`) <= "' + secondtime + '"';
+
+					if (req.param('channelid') && !isNaN(req.param('channelid'))) {
+						query += ' AND `channel` = "' + req.param('channelid') + '"';
+					}
+
+					query += ' LIMIT ' + (page - 1) + ',' + page * 100;
+					userId = uid;
+
+					callback(null);
+				});
+			},
+			function getLog(callback) {
+				gcmainconn.query(query, function (err, result) {
+					if (err) return callback(err);
+
+					callback(null, result);
+				});
+			},
+			function serializeChat(log, callback) {
+				async.map(log, function (element, callback) {
+					if (req.user.group == ugroup.mod && (element.channel === 3 || element.targetPlayer)) {
+						element.message = null;
+					}
+
+					gcdb.user.getByID(element.player, 'maindb', function (err, playerLogin) {
+						if (err) return callback(err);
+
+						element.player = playerLogin;
+
+						if (element.targetPlayer ) {
+							gcdb.user.getByID(element.targetPlayer, 'maindb', function (err, targetPlayerLogin) {
+								if (err) return callback(err);
+
+								element.targetPlayer = targetPlayerLogin;
+
+								callback(null, element);
+							});
+						} else {
+							callback(null, element);
+						}
+					});
+				}, function (err, log) {
+					if (err) return callback(err);
+
+					callback(null, log);
+				});
+			},
+			function getPageCount(log, callback) {
+				gcmainconn.query('SELECT count(*) AS count FROM `chat_log` WHERE (`player` = "' + userId +  '" OR `targetPlayer` = "' + userId +  '") AND UNIX_TIMESTAMP(`time`) >= "' + firsttime + '" AND UNIX_TIMESTAMP(`time`) <= "' + secondtime + '"', function (err, result) {
+					if (err) return callback(err);
+
+					callback(null, log, Math.ceil(result[0].count / 100));
+				});
+			}
+		], function (err, log, lastPage) {
+			if (err) throw err;
+
+			res.view('gameinfo/player/chatlog', {
+				log: log,
+				lastPage: lastPage,
+				currentPage: page
+			});
+		});
 	},
 
 	playerCommandslog: function (req, res) {
@@ -264,17 +373,21 @@ module.exports = {
 	worldBlockslog: function (req, res) {
 		if (!req.param('xyz') && !req.param('firstxyz') && !req.param('secondxyz') && !req.param('firsttime') && !req.param('secondtime')) {
 			res.view('gameinfo/world/blockslog', {
-				logs: null
+				log: null
 			});
 			return;
 		}
 
 		if (isNaN(req.param('block')) || [10, 8, 51, 63, 19].indexOf(parseInt(req.param('block'), 10)) === -1) {
 			res.view('gameinfo/world/blockslog', {
-				logs: {code:'wrongblock'}
+				log: {code:'wrongblock'}
 			});
 			return;
 		}
+
+		var page = (parseInt(req.param('page'), 10)) ? parseInt(req.param('page'), 10) : 1,
+			queryWhere,
+			queryParams;
 
 		async.waterfall([
 			function getLogs(callback) {
@@ -285,19 +398,21 @@ module.exports = {
 
 					if (!xyzMatch){
 						res.view('gameinfo/world/blockslog', {
-							logs: {code: 'wrongxyz'}
+							log: {code: 'wrongxyz'}
 						});
 						return;
 					}
 
-					gcmainconn.query('SELECT * FROM `blocks_log` WHERE `x` = ? AND `y` = ? AND `z` = ? AND `block` = ?', [xyzSplited[0], xyzSplited[1], xyzSplited[2], req.param('block')], function (err, result) {
+					queryWhere = '`x` = ? AND `y` = ? AND `z` = ? AND `block` = ?';
+					queryParams = [xyzSplited[0], xyzSplited[1], xyzSplited[2], req.param('block')];
+
+
+					gcmainconn.query('SELECT * FROM `blocks_log` WHERE ' + queryWhere  + ' ORDER BY `id` DESC LIMIT ' + (page - 1) + ',' + page * 100, queryParams, function (err, result) {
 						if (err) return callback(err);
 
 						callback(null, result);
 					});
 				} else if (req.param('firstxyz') && req.param('secondxyz') && req.param('firsttime') && req.param('secondtime')) {
-					//TODO: Сделать как в админке, если нет коорд, но есть время, то фигачить по времени. Ну и вот.
-					// ['-1337','42','420']
 					var firstxyzMatch = req.param('firstxyz').match(/^(-?[0-9]*) (\-?[0-9]*) (\-?[0-9]*)/g),
 						firstxyzSplited = req.param('firstxyz').split(' '),
 						secondxyzMatch = req.param('secondxyz').match(/^(-?[0-9]*) (\-?[0-9]*) (\-?[0-9]*)/g),
@@ -320,19 +435,22 @@ module.exports = {
 						return;
 					}
 
-					gcmainconn.query('SELECT * FROM `blocks_log` WHERE `x` >= ? AND `x` <= ? AND `y` >= ? AND `y` <= ? AND `z` >= ? AND `z` <= ? AND UNIX_TIMESTAMP(`time`) >= ? AND UNIX_TIMESTAMP(`time`) <= ? AND `block` = ? ORDER BY `id` DESC', [firstxyzSplited[0], secondxyzSplited[0], firstxyzSplited[1], secondxyzSplited[1], firstxyzSplited[2], secondxyzSplited[2], firsttime, secondtime, req.param('block')], function (err, result) {
+					queryWhere = '`x` >= ? AND `x` <= ? AND `y` >= ? AND `y` <= ? AND `z` >= ? AND `z` <= ? AND UNIX_TIMESTAMP(`time`) >= ? AND UNIX_TIMESTAMP(`time`) <= ? AND `block` = ?';
+					queryParams = [firstxyzSplited[0], secondxyzSplited[0], firstxyzSplited[1], secondxyzSplited[1], firstxyzSplited[2], secondxyzSplited[2], firsttime, secondtime, req.param('block')];
+
+					gcmainconn.query('SELECT * FROM `blocks_log` WHERE ' + queryWhere + ' ORDER BY `id` DESC LIMIT ' + (page - 1) + ',' + page * 100, queryParams, function (err, result) {
 						if (err) return callback(err);
 
 						callback(null, result);
 					});
 				} else {
 					res.view('gameinfo/world/blockslog', {
-						logs: null
+						log: null
 					});
 				}
 			},
-			function serializeUsers(logs, callback) {
-				async.map(logs, function (element, callback) {
+			function serializeUsers(log, callback) {
+				async.map(log, function (element, callback) {
 					gcdb.user.getByID(element.user, 'maindb', function (err, login) {
 						if (err) return callback(err);
 
@@ -340,17 +458,26 @@ module.exports = {
 
 						callback(null, element);
 					});
-				}, function (err, logs) {
+				}, function (err, log) {
 					if (err) return callback(err);
 
-					callback(null, logs);
+					callback(null, log);
+				});
+			},
+			function getPageCount(log, callback) {
+				gcmainconn.query('SELECT count(*) AS count FROM `blocks_log` WHERE ' + queryWhere, queryParams, function (err, result) {
+					if (err) return callback(err);
+
+					callback(null, log, Math.ceil(result[0].count / 100));
 				});
 			}
-		], function (err, logs) {
+		], function (err, log, lastPage) {
 			if (err) throw err;
 
 			res.view('gameinfo/world/blockslog', {
-				logs: logs
+				log: log,
+				lastPage: lastPage,
+				currentPage: page
 			});
 		});
 	},
@@ -365,14 +492,20 @@ module.exports = {
 
 		var sender = req.param('sender'),
 			firstTime = Date.parse(req.param('firsttime')) / 1000,
-			secondTime = Date.parse(req.param('secondtime')) / 1000;
+			secondTime = Date.parse(req.param('secondtime')) / 1000,
+			type,
+			page = (parseInt(req.param('page'), 10)) ? parseInt(req.param('page'), 10) : 1;
 
 		async.waterfall([
 			function getType(callback) {
 				// If org: 'o:'
 				if (sender[0] === 'o' && sender[1] === ':') {
+					type = 2;
+
 					callback(null, 2);
 				} else {
+					type = 1;
+
 					callback(null, 1);
 				}
 			},
@@ -398,7 +531,7 @@ module.exports = {
 				}
 			},
 			function getLog(uid, type, callback) {
-				gcmainconn.query('SELECT * FROM `money_log` WHERE ((`sender` = ? AND `senderType` = ?) OR (`reciever` = ? AND `recieverType` = ?)) AND UNIX_TIMESTAMP(`time`) >= ? AND UNIX_TIMESTAMP(`time`) <= ? ORDER BY `id` DESC', [uid, type, uid, type, firstTime, secondTime], function (err, result) {
+				gcmainconn.query('SELECT * FROM `money_log` WHERE ((`sender` = ? AND `senderType` = ?) OR (`reciever` = ? AND `recieverType` = ?)) AND UNIX_TIMESTAMP(`time`) >= ? AND UNIX_TIMESTAMP(`time`) <= ? ORDER BY `id` DESC LIMIT ' + (page - 1) + ',' + page * 100, [uid, type, uid, type, firstTime, secondTime], function (err, result) {
 					if (err) return callback(err);
 
 					callback(null, result);
@@ -470,8 +603,15 @@ module.exports = {
 
 					callback(null, logs);
 				});
+			},
+			function getPageCount(log, callback) {
+				gcmainconn.query('SELECT count(*) AS count FROM `money_log` WHERE ((`sender` = ? AND `senderType` = ?) OR (`reciever` = ? AND `recieverType` = ?)) AND UNIX_TIMESTAMP(`time`) >= ? AND UNIX_TIMESTAMP(`time`) <= ? ORDER BY `id` DESC', [sender, type, sender, type, firstTime, secondTime], function (err, result) {
+					if (err) return callback(err);
+
+					callback(null, log, Math.ceil(result[0].count / 100));
+				});
 			}
-		], function (err, log) {
+		], function (err, log, lastPage) {
 			if (err) {
 				res.serverError();
 				sails.log.error(err);
@@ -479,7 +619,9 @@ module.exports = {
 			}
 
 			res.view('gameinfo/world/moneylog', {
-				log: log
+				log: log,
+				lastPage: lastPage,
+				currentPage: page
 			});
 		});
 	}

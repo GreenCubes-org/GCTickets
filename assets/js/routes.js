@@ -38,12 +38,16 @@ crossroads.addRoute('/admin/users/bans', app.admin.bans);
 
 /* Game information panel pages */
 crossroads.addRoute('/gameinfo/player/info', app.gameinfo.player);
-crossroads.addRoute('/gameinfo/player/loginlog', app.gameinfo.player);
+crossroads.addRoute('/gameinfo/player/loginlog', app.gameinfo.playerLoginlog);
 crossroads.addRoute('/gameinfo/player/inventory', app.gameinfo.player);
+crossroads.addRoute('/gameinfo/player/chatlog', app.gameinfo.playerChatlog);
+crossroads.addRoute('/gameinfo/player/commandslog', app.gameinfo.playerCommandslog);
+crossroads.addRoute('/gameinfo/player/chestslog', app.gameinfo.playerChestslog);
 
 crossroads.addRoute('/gameinfo/world/moneylog', app.gameinfo.worldMoneylog);
 crossroads.addRoute('/gameinfo/world/regioninfo', app.gameinfo.worldRegioninfo);
 crossroads.addRoute('/gameinfo/world/blockslog', app.gameinfo.worldBlockslog);
+crossroads.addRoute('/gameinfo/world/chestlog', app.gameinfo.worldChestlog);
 
 /* Settings pages */
 crossroads.addRoute('/settings', app.settings);

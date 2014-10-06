@@ -1,9 +1,10 @@
 <% title = 'Логи внутриигровой валюты / Панель игровой информации' + " — " + __('global.pagetitle'),
-	backUrl = '/gameinfo';  %>
+	backUrl = '/gameinfo',
+	url = '?sender=' + req.query.sender + '&senderType=' + req.query.senderType + '&firsttime=' + req.query.firsttime + '&secondtime=' + req.query.secondtime + '&block=' + req.query.block + '';  %>
 <%- partial('../partials/header')%>
 
 
-<%- partial('../partials/subheader', { subheader: 'Игрок / Логи внутриигровой валюты ' }) %>
+<%- partial('../partials/subheader', { header: 'Мир', subheader: 'Логи внутриигровой валюты ' }) %>
 <div class="container" style="margin-top: 20px">
 	<form method="GET">
 	<div class="ui small form">
@@ -31,6 +32,9 @@
 	</form>
 	<div class="ui divider"></div>
 	<% if (log && log.length) { %>
+	<% if (log.length >= 15) { %>
+	<%- partial('../partials/pagination', {currentPage: currentPage, lastPage: lastPage, url: url}) %>
+	<% } %>
 	<table class="ui basic small table">
 		<thead>
 			<tr>
@@ -55,6 +59,9 @@
 			<% }) %>
 		</tbody>
 	</table>
+	<div style="margin-top: 3em !important;">
+		<%- partial('../partials/pagination', {currentPage: currentPage, lastPage: lastPage, url: url}) %>
+	</div>
 	<% } else if (log && log.code === 'wrongorg') { %>
 	<div style="padding: 5em 0em;text-align: center;font-size:1.4em">Неправильный формат ввода</div>
 	<% } else if (log && !log.length) { %>

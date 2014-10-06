@@ -1,9 +1,10 @@
 <% title = 'Лог входа / Панель игровой информации' + " — " + __('global.pagetitle'),
-	backUrl = '/gameinfo';  %>
+	backUrl = '/gameinfo',
+	url = '/gameinfo/player/loginlog?nickname=' + req.query.nickname + '&ip=' + req.query.ip + '&hwid=' + req.query.hwid;  %>
 <%- partial('../partials/header')%>
 
 
-<%- partial('../partials/subheader', { subheader: 'Игрок / Лог входа' }) %>
+<%- partial('../partials/subheader', { header: 'Игрок', subheader: 'Лог входа' }) %>
 <div class="container" style="margin-top: 20px">
 	<form method="GET">
 	<div class="ui small form">
@@ -27,11 +28,14 @@
 				</div>
 			</div>
 		</div>
-		<div class="ui blue submit button" id="gc-formfirstsubmit">Submit</div>
+		<div class="ui blue submit button" id="gc-formsubmit">Submit</div>
 	</div>
 	</form>
 	<div class="ui divider"></div>
 	<% if (log && log.length) { %>
+	<% if (log.length >= 15) { %>
+	<%- partial('../partials/pagination', {currentPage: currentPage, lastPage: lastPage, url: url}) %>
+	<% } %>
 	<table class="ui basic small table">
 		<thead>
 			<tr>
@@ -54,6 +58,9 @@
 			<% }) %>
 		</tbody>
 	</table>
+	<div style="margin-top: 3em !important;">
+		<%- partial('../partials/pagination', {currentPage: currentPage, lastPage: lastPage, url: url}) %>
+	</div>
 	<% } else if (log && !log.length) { %>
 	<div style="padding: 5em 0em;text-align: center;font-size:1.4em">Похоже, что игрок никогда не заходил</div>
 	<% } else { %>
