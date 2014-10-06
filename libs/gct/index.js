@@ -808,7 +808,11 @@ module.exports.getRegionsInfo = getRegionsInfo = function getRegionsInfo(regions
 						gcmainconn.query('SELECT `exit`, UNIX_TIMESTAMP(time) AS `time` FROM login_log WHERE login = ? ORDER BY `time` DESC LIMIT 1', [login], function (err, result) {
 							if (err) return callback(err);
 
-								time = new Date(result[0].time * 1000);
+								if (result.length) {
+									time = new Date(result[0].time  * 1000);
+								} else {
+									time = new Date(1405009242000);
+								}
 
 								callback(null, {
 									uid: element,
@@ -837,13 +841,17 @@ module.exports.getRegionsInfo = getRegionsInfo = function getRegionsInfo(regions
 						gcmainconn.query('SELECT `exit`, UNIX_TIMESTAMP(time) AS `time` FROM login_log WHERE login = ? ORDER BY `time` DESC LIMIT 1', [login], function (err, result) {
 							if (err) return callback(err);
 
+							if (result.length) {
 								time = new Date(result[0].time  * 1000);
+							} else {
+								time = new Date(1405009242000);
+							}
 
-								callback(null, {
-									uid: element,
-									lastseen: result[0].time,
-									lastseenLocale: time.toLocaleString()
-								});
+							callback(null, {
+								uid: element,
+								lastseen: result[0].time,
+								lastseenLocale: time.toLocaleString()
+							});
 						});
 					});
 				}, function (err, array) {
