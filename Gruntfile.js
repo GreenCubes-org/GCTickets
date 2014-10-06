@@ -184,7 +184,7 @@ module.exports = function (grunt) {
 			jsApp: {
 				options: {
 					compress: {
-						//drop_console: true
+						drop_console: false
 					},
 					mangle: {
 						except: ['jQuery','moment','crossroads']
