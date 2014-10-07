@@ -732,7 +732,7 @@ module.exports = {
 
 								switch (element.data.type) {
 									case 0:
-										element.data = sails.__('view.gameinfo.player.moneylog.boughtregion', element.data.name);
+										element.data = sails.__('view.gameinfo.player.moneylog.boughtregion', element.data.name, element.data.name);
 										break;
 
 									case 1:
