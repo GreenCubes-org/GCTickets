@@ -266,21 +266,21 @@ module.exports = {
 
 		if (firsttime && isNaN(firsttime) || secondtime && isNaN(secondtime) || firsttime > secondtime) {
 			res.view('gameinfo/player/chatlog', {
-				logs: {code: 'wrongtime'}
+				log: {code: 'wrongtime'}
 			});
 			return;
 		}
 
 		if ((secondtime - firsttime) > 432000) {
 			res.view('gameinfo/player/chatlog', {
-				logs: {code: 'bigtime'}
+				log: {code: 'bigtime'}
 			});
 			return;
 		}
 
 		if (req.param('channelid') && isNaN(req.param('channelid'))) {
 			res.view('gameinfo/player/chatlog', {
-				logs: {code: 'wrongchannelid'}
+				log: {code: 'wrongchannelid'}
 			});
 			return;
 		}
@@ -374,14 +374,14 @@ module.exports = {
 
 		if (firsttime && isNaN(firsttime) || secondtime && isNaN(secondtime) || firsttime > secondtime) {
 			res.view('gameinfo/player/commandslog', {
-				logs: {code: 'wrongtime'}
+				log: {code: 'wrongtime'}
 			});
 			return;
 		}
 
 		if ((secondtime - firsttime) > 432000) {
 			res.view('gameinfo/player/commandslog', {
-				logs: {code: 'bigtime'}
+				log: {code: 'bigtime'}
 			});
 			return;
 		}
