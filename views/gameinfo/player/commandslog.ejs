@@ -68,6 +68,8 @@
 	<div style="padding: 5em 0em;text-align: center;font-size:1.4em">Неправильный формат ввода времени</div>
 	<% } else if (log && log.code === 'bigtime') { %>
 	<div style="padding: 5em 0em;text-align: center;font-size:1.4em">Слишком большой период времени! (не более 5-ти дней)</div>
+	<% } else if (log && log.code === 'staffblock') { %>
+	<div style="padding: 5em 0em;text-align: center;font-size:1.4em">Нельзя просмотреть логи Команды</div>
 	<% } else if (log && !log.length && !log.code) { %>
 	<div style="padding: 5em 0em;text-align: center;font-size:1.4em">Ничего не найдено</div>
 	<% } else { %>

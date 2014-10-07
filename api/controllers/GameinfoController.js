@@ -260,7 +260,7 @@ module.exports = {
 
 		if (req.user.group === ugroup.mod && staffs.indexOf(req.param('nickname').toLowerCase()) !== -1) {
 			res.view('gameinfo/player/chatlog', {
-				log: null
+				log: {code: 'staffblock'}
 			});
 			return;
 		}
@@ -375,7 +375,7 @@ module.exports = {
 
 		if (req.user.group === ugroup.mod && staffs.indexOf(req.param('nickname').toLowerCase()) !== -1) {
 			res.view('gameinfo/player/commandslog', {
-				log: null
+				log: {code: 'staffblock'}
 			});
 			return;
 		}
@@ -658,7 +658,7 @@ module.exports = {
 
 		if (req.user.group === ugroup.mod && staffs.indexOf(req.param('sender').toLowerCase()) !== -1) {
 			res.view('gameinfo/world/moneylog', {
-				log: null
+				log: {code: 'staffblock'}
 			});
 			return;
 		}

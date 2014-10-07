@@ -1,6 +1,6 @@
 <% title = 'Логи внутриигровой валюты / Панель игровой информации' + " — " + __('global.pagetitle'),
 	backUrl = '/gameinfo',
-	url = '?sender=' + req.query.sender + '&senderType=' + req.query.senderType + '&firsttime=' + req.query.firsttime + '&secondtime=' + req.query.secondtime + '&block=' + req.query.block + '';  %>
+	url = '?sender=' + req.query.sender + '&firsttime=' + req.query.firsttime + '&secondtime=' + req.query.secondtime + '&block=' + req.query.block + '';  %>
 <%- partial('../partials/header')%>
 
 
@@ -12,7 +12,7 @@
 			<div class="field">
 				<label>Отправитель</label>
 				<div class="ui fluid input">
-					<input placeholder="ChangedNick / o:1337 (для организаций)" type="text" name="sender" value="<%= (req.query.sender) ? req.query.sender : '' %>">
+					<input placeholder="ChangedNick / o:1337 (для организаций)" type="text" name="sender" value="<%= (req.query.nickname) ? req.query.nickname : '' %>">
 				</div>
 			</div>
 		</div>
@@ -62,6 +62,8 @@
 	<div style="margin-top: 3em !important;">
 		<%- partial('../partials/pagination', {currentPage: currentPage, lastPage: lastPage, url: url}) %>
 	</div>
+	<% } else if (log && log.code === 'staffblock') { %>
+	<div style="padding: 5em 0em;text-align: center;font-size:1.4em">Нельзя просмотреть логи Команды</div>
 	<% } else if (log && log.code === 'wrongorg') { %>
 	<div style="padding: 5em 0em;text-align: center;font-size:1.4em">Неправильный формат ввода</div>
 	<% } else if (log && !log.length) { %>
