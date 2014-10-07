@@ -169,6 +169,7 @@
 	"view.partials.userpanel.profile": "Your profile",
 	"view.partials.userpanel.account": "Account control",
 	"view.partials.userpanel.adminpanel": "Admin panel",
+	"view.partials.userpanel.gameinfopanel": "In-game info panel",
 	"view.partials.userpanel.logout": "Log Off",
 	"view.partials.userpanel.login": "Log In",
 	"view.home.preview.pagetitle": "GreenCubes Support",

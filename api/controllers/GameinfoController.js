@@ -264,9 +264,16 @@ module.exports = {
 			page = (parseInt(req.param('page'), 10)) ? parseInt(req.param('page'), 10) : 1,
 			userId;
 
-		if (firsttime && isNaN(firsttime) || secondtime && isNaN(secondtime)) {
+		if (firsttime && isNaN(firsttime) || secondtime && isNaN(secondtime) || firsttime > secondtime) {
 			res.view('gameinfo/player/chatlog', {
 				logs: {code: 'wrongtime'}
+			});
+			return;
+		}
+
+		if ((secondtime - firsttime) > 432000) {
+			res.view('gameinfo/player/chatlog', {
+				logs: {code: 'bigtime'}
 			});
 			return;
 		}
@@ -365,9 +372,16 @@ module.exports = {
 			page = (parseInt(req.param('page'), 10)) ? parseInt(req.param('page'), 10) : 1,
 			userId;
 
-		if (firsttime && isNaN(firsttime) || secondtime && isNaN(secondtime)) {
+		if (firsttime && isNaN(firsttime) || secondtime && isNaN(secondtime) || firsttime > secondtime) {
 			res.view('gameinfo/player/commandslog', {
 				logs: {code: 'wrongtime'}
+			});
+			return;
+		}
+
+		if ((secondtime - firsttime) > 432000) {
+			res.view('gameinfo/player/commandslog', {
+				logs: {code: 'bigtime'}
 			});
 			return;
 		}
