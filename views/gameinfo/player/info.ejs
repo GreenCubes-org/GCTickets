@@ -22,7 +22,7 @@
 	<div class="ui two column grid">
 		<div class="column">
 			<h4 class="ui top attached header">
-			<%- (pinfo.prefix) ? pinfo.prefix : '' %> <%- (pinfo.user.login) ? pinfo.user.login : '' %> <small><i>(<%- (pinfo.online) ? 'не в игре' : 'в игре' %>)</i></small> <small><i>(<a href="/gameinfo/player/loginlog?nickname=<%- pinfo.user.login %>">логи входов</a>)</i></small>
+			<%- (pinfo.prefix) ? pinfo.prefix : '' %> <%- (pinfo.user.login) ? pinfo.user.login : '' %> <small><i>(<%- (pinfo.online) ? 'в игре' : 'не в игре' %>)</i></small> <small><i>(<a href="/gameinfo/player/loginlog?nickname=<%- pinfo.user.login %>">логи входов</a>)</i></small>
 			</h4>
 			<div class="ui segment form attached">
 				<div class="two fields">

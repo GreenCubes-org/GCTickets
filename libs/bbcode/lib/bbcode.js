@@ -183,10 +183,10 @@ exports.parse = function (post, cb) {
 
 				if (m3 && uri_re.test(m3)) {
 					urlstart = -1;
-					return "<" + m2l + " src=\"" + m3 + "";
+					return "<" + m2l + " src=\"" + m3 + " style=\"max-width: 100%;\"";
 				}
 
-				return "<" + m2l + " src=\"";
+				return "<" + m2l + " src=\" style=\"max-width: 100%;\"";
 
 			case "q":
 			case "quote":

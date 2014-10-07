@@ -84,9 +84,10 @@ module.exports = {
 			}
 		], function (err, inventory) {
 			if (err) {
-				res.serverError();
+				//res.serverError();
+				res.json(err);
 				sails.log.error(err);
-				throw err;
+				//throw err;
 			}
 
 			res.view('gameinfo/player/inventory', {
@@ -108,7 +109,7 @@ module.exports = {
 			whereQuery = '';
 			nickname = (req.param('nickname')) ? req.param('nickname').replace(/[^a-zA-Z0-9_-]/g, '') : null,
 			ip = (req.param('ip')) ? req.param('ip').replace(/[^0-9\.]/g, '') : null,
-			hwid = (req.param('hwid')) ? req.param('hwid').replace(/[^a-zA-Z0-9]/g, '') : null,
+			hwid = (req.param('hwid')) ? req.param('hwid').replace(/[^a-zA-Z0-9\:]/g, '') : null,
 			page = (parseInt(req.param('page'), 10)) ? parseInt(req.param('page'), 10) : 1;
 
 		if (nickname) {
@@ -166,14 +167,14 @@ module.exports = {
 	},
 
 	playerChestslog: function (req, res) {
+		req.status(403).view('403-hf');
+
 		if (!req.param('nickname')) {
 			res.view('gameinfo/player/chestslog', {
 				log: null
 			});
 			return;
 		}
-
-		req.status(403).view('403-hf');
 
 		var firsttime = Date.parse(req.param('firsttime')) / 1000,
 			secondtime = Date.parse(req.param('secondtime')) / 1000,
@@ -488,28 +489,6 @@ module.exports = {
 
 						callback(null);
 					});
-				},
-				function serializeFull_accessOrgs(callback) {
-					async.map(rinfo.full_access.orgs, function (element, callback) {
-						callback(null, sails.__('global.organizationid', element));
-					}, function (err, array) {
-						if (err) return callback(err);
-
-						rinfo.full_access.orgs = array;
-
-						callback(null);
-					});
-				},
-				function serializeBuild_accessOrgs(callback) {
-					async.map(rinfo.build_access.orgs, function (element, callback) {
-						callback(null, sails.__('global.organizationid', element));
-					}, function (err, array) {
-						if (err) return callback(err);
-
-						rinfo.build_access.orgs = array;
-
-						callback(null);
-					});
 				}
 			], function (err) {
 				if (err) callback(err);
@@ -522,7 +501,7 @@ module.exports = {
 	},
 
 	worldChestlog: function (req, res) {
-
+		req.status(403).view('403-hf');
 	},
 
 	worldBlockslog: function (req, res) {
@@ -735,11 +714,11 @@ module.exports = {
 
 								switch (element.data.type) {
 									case 0:
-										element.data = sails.__('view.gameinfo.player.moneylog.boughtchannel', element.data.name);
+										element.data = sails.__('view.gameinfo.player.moneylog.boughtregion', element.data.name);
 										break;
 
 									case 1:
-										element.data = sails.__('view.gameinfo.player.moneylog.boughtregion', element.data.name);
+										element.data = sails.__('view.gameinfo.player.moneylog.boughtchannel', element.data.name);
 										break;
 								}
 

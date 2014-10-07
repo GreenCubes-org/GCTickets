@@ -31,7 +31,7 @@
 					<li title='<%- __('view.partials.regioninfo.lastseen') %>: <%= el.lastseen %>'><a href="/gameinfo/player/info?nickname=<%= el.name %>"><%= el.name %></a></li>
 					<% }) } %>
 					<% if (rinfo.full_access.orgs.length) { %>
-					<% rinfo.full_access.orgs.forEach(function (el, idx) { %><li><%= el %></li><% }) } %>
+					<% rinfo.full_access.orgs.forEach(function (el, idx) { %><li><a href="https://greencubes.org/?action=org&do=i&id=<%= el %>"><%= __('global.organizationid', el) %></a></li><% }) } %>
 					<% if (rinfo.full_access.all) { %><li><b>Все</b></li><% } %>
 				</ul>
 				<div class="ui divider"></div>
@@ -42,7 +42,7 @@
 					<li title='<%- __('view.partials.regioninfo.lastseen') %>: <%= el.lastseen %>'><a href="/gameinfo/player/info?nickname=<%= el.name %>"><%= el.name %></a></li>
 					<% }) } %>
 					<% if (rinfo.build_access.orgs.length) { %>
-					<% rinfo.build_access.orgs.forEach(function (el, idx) { %><li><%= el %></li><% }) } %>
+					<% rinfo.build_access.orgs.forEach(function (el, idx) { %><li><a href="https://greencubes.org/?action=org&do=i&id=<%= el %>"><%= __('global.organizationid', el) %></a></li><% }) } %>
 					<% if (rinfo.build_access.all) { %><li><b>Все</b></li><% } %>
 				</ul>
 				<div class="ui divider"></div>
