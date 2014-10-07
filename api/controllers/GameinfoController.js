@@ -732,7 +732,7 @@ module.exports = {
 										break;
 
 									case 1:
-										element.data = sails.__('view.gameinfo.player.moneylog.boughtchannel', element.data.name);
+										element.data = sails.__('view.gameinfo.player.moneylog.boughtchannel', element.data.name, element.data.name);
 										break;
 								}
 

@@ -54,7 +54,7 @@
 				<td><% if (element.recieverType === 3) { %>&mdash;<% } else if (element.recieverType === 1) { %><a href="/gameinfo/player/info?nickname=<%= element.reciever %>"><%= element.reciever %></a><% } else { %><%= element.reciever %><% } %></td>
 				<td><%= element.money %></td>
 				<td><%= __('view.gameinfo.player.moneylog.moneytype.' + element.moneyType) %></td>
-				<td><%= (element.data) ? element.data : __('view.gameinfo.player.moneylog.sendmoney') %></td>
+				<td><%- (element.data) ? element.data : __('view.gameinfo.player.moneylog.sendmoney') %></td>
 			</tr>
 			<% }) %>
 		</tbody>
