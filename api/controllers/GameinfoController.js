@@ -391,7 +391,7 @@ module.exports = {
 				gcdb.user.getByLogin(req.param('nickname').replace(/[^a-zA-Z0-9_-]/g, ''), 'maindb', function (err, uid) {
 					if (err) return callback(err);
 
-					query = 'SELECT * FROM `commands_log` WHERE `player` = "' + uid +  '" AND UNIX_TIMESTAMP(`time`) >= "' + firsttime + '" AND UNIX_TIMESTAMP(`time`) <= "' + secondtime + '" LIMIT ' + (page - 1) + ',' + page * 100;
+					query = 'SELECT * FROM `commands_log` WHERE `player` = "' + uid +  '" AND UNIX_TIMESTAMP(`time`) >= "' + firsttime + '" AND UNIX_TIMESTAMP(`time`) <= "' + secondtime + '" ORDER BY `id` DESC LIMIT ' + (page - 1) + ',' + page * 100;
 
 					userId = uid;
 
@@ -408,6 +408,10 @@ module.exports = {
 			function serializeChat(log, callback) {
 				async.map(log, function (element, callback) {
 					if (req.user.group === ugroup.mod && (element.command[1] === 'm' && element.command[2] === ' ')) {
+						element.command = '/m &mdash;';
+					}
+
+					if (element.command.substr(1,5) === 'login') {
 						element.command = null;
 					}
 
@@ -425,7 +429,7 @@ module.exports = {
 				});
 			},
 			function getPageCount(log, callback) {
-				gcmainconn.query('SELECT count(*) AS count FROM `commands_log` WHERE `player` = "' + userId +  '" AND UNIX_TIMESTAMP(`time`) >= "' + firsttime + '" AND UNIX_TIMESTAMP(`time`) <= "' + secondtime + '" ORDER BY `id` DESC', function (err, result) {
+				gcmainconn.query('SELECT count(*) AS count FROM `commands_log` WHERE `player` = "' + userId +  '" AND UNIX_TIMESTAMP(`time`) >= "' + firsttime + '" AND UNIX_TIMESTAMP(`time`) <= "' + secondtime + '"', function (err, result) {
 					if (err) return callback(err);
 
 					callback(null, log, Math.ceil(result[0].count / 100));
