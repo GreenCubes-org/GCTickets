@@ -1,6 +1,6 @@
 <% title = 'Лог команд / Панель игровой информации' + " — " + __('global.pagetitle'),
 	backUrl = '/gameinfo',
-	url = '/gameinfo/player/commandslog?nickname=' + req.query.nickname + req.query.channelid + '&firsttime='  + req.query.firsttime + '&secondtime=' + req.query.secondtime;  %>
+	url = '/gameinfo/player/commandslog?nickname=' + req.query.nickname + '&firsttime='  + req.query.firsttime + '&secondtime=' + req.query.secondtime;  %>
 
 <%- partial('../partials/header')%>
 <%- partial('../partials/subheader', { header: 'Игрок', subheader: 'Лог команд' }) %>
