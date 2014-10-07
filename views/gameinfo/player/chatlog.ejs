@@ -26,11 +26,11 @@
 		<div class="two fields">
 			<div class="field">
 				<label>От</label>
-				<input placeholder="<%= moment().subtract(3, 'days').format('YYYY-MM-DD h:mm:ss') %>" value="<%= (req.query.firsttime) ? req.query.firsttime : moment().subtract(3, 'days').format('YYYY-MM-DD h:mm:ss') %>"  type="text" name="firsttime">
+				<input placeholder="<%= moment().subtract(3, 'days').format('YYYY-MM-DD H:mm:ss') %>" value="<%= (req.query.firsttime) ? req.query.firsttime : moment().subtract(3, 'days').format('YYYY-MM-DD H:mm:ss') %>"  type="text" name="firsttime">
 			</div>
 			<div class="field">
 				<label>До</label>
-				<input placeholder="<%= moment().format('YYYY-MM-DD h:mm:ss') %>" value="<%= (req.query.secondtime) ? req.query.secondtime : moment().format('YYYY-MM-DD h:mm:ss') %>"  type="text" name="secondtime">
+				<input placeholder="<%= moment().format('YYYY-MM-DD H:mm:ss') %>" value="<%= (req.query.secondtime) ? req.query.secondtime : moment().format('YYYY-MM-DD H:mm:ss') %>"  type="text" name="secondtime">
 			</div>
 		</div>
 		<div class="ui blue submit button" id="gc-formsubmit">Submit</div>
@@ -57,7 +57,7 @@
 				<td><a href='/gameinfo/player/info?nickname=<%= element.player %>'><%= element.player %></a>&nbsp;<% if (element.targetPlayer) { %><i class="angle right icon"></i>&nbsp;&nbsp;<a href='/gameinfo/player/info?nickname=<%= element.targetPlayer %>'><%= element.targetPlayer %></a><% } %></td>
 				<td><%= element.channel %></td>
 				<td><%- (element.message) ? element.message : '&mdash;' %></td>
-				<td><%= moment(element.time).format('YYYY-MM-DD h:mm:ss') %></td>
+				<td><%= moment(element.time).format('YYYY-MM-DD H:mm:ss') %></td>
 				<td><%= element.playerX %> <%= element.playerY %> <%= element.playerZ %></td>
 			</tr>
 			<% }) %>

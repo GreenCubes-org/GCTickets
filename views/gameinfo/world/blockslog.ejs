@@ -50,11 +50,11 @@
 		<div class="three fields">
 			<div class="field">
 				<label>От</label>
-				<input placeholder="<%= moment().subtract(3, 'days').format('YYYY-MM-DD h:mm:ss') %>" value="<%= (req.query.firsttime) ? req.query.firsttime : moment().subtract(3, 'days').format('YYYY-MM-DD h:mm:ss') %>"  type="text" name="firsttime">
+				<input placeholder="<%= moment().subtract(3, 'days').format('YYYY-MM-DD H:mm:ss') %>" value="<%= (req.query.firsttime) ? req.query.firsttime : moment().subtract(3, 'days').format('YYYY-MM-DD H:mm:ss') %>"  type="text" name="firsttime">
 			</div>
 			<div class="field">
 				<label>До</label>
-				<input placeholder="<%= moment().format('YYYY-MM-DD h:mm:ss') %>" value="<%= (req.query.secondtime) ? req.query.secondtime : moment().format('YYYY-MM-DD h:mm:ss') %>"  type="text" name="secondtime">
+				<input placeholder="<%= moment().format('YYYY-MM-DD H:mm:ss') %>" value="<%= (req.query.secondtime) ? req.query.secondtime : moment().format('YYYY-MM-DD H:mm:ss') %>"  type="text" name="secondtime">
 			</div>
 			<div class="field">
 				<label>Блок</label>
