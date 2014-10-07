@@ -20,11 +20,11 @@
 		<div class="two fields">
 			<div class="field">
 				<label>От</label>
-				<input placeholder="<%= moment().subtract(3, 'days').format('YYYY-MM-DD H:mm:ss') %>" value="<%= (req.query.firsttime) ? req.query.firsttime : moment().subtract(3, 'days').format('YYYY-MM-DD H:mm:ss') %>"  type="text" name="firsttime">
+				<input placeholder="<%= moment().subtract(3, 'days').format('YYYY-MM-DD HH:mm:ss') %>" value="<%= (req.query.firsttime) ? req.query.firsttime : moment().subtract(3, 'days').format('YYYY-MM-DD HH:mm:ss') %>"  type="text" name="firsttime">
 			</div>
 			<div class="field">
 				<label>До</label>
-				<input placeholder="<%= moment().format('YYYY-MM-DD H:mm:ss') %>" value="<%= (req.query.secondtime) ? req.query.secondtime : moment().format('YYYY-MM-DD H:mm:ss') %>"  type="text" name="secondtime">
+				<input placeholder="<%= moment().format('YYYY-MM-DD HH:mm:ss') %>" value="<%= (req.query.secondtime) ? req.query.secondtime : moment().format('YYYY-MM-DD HH:mm:ss') %>"  type="text" name="secondtime">
 			</div>
 		</div>
 		<div class="ui blue submit button" id="gc-formsubmit">Submit</div>
@@ -49,7 +49,7 @@
 		<tbody>
 			<% log.forEach(function (element) { %>
 			<tr>
-				<td><%= moment(element.time).format('YYYY-MM-DD H:mm:ss') %></td>
+				<td><%= moment(element.time).format('YYYY-MM-DD HH:mm:ss') %></td>
 				<td><% if (element.senderType === 1) { %><a href="/gameinfo/player/info?nickname=<%= element.sender %>"><%= element.sender %></a><% } else { %><%= element.sender %><% } %></td>
 				<td><% if (element.recieverType === 3) { %>&mdash;<% } else if (element.recieverType === 1) { %><a href="/gameinfo/player/info?nickname=<%= element.reciever %>"><%= element.reciever %></a><% } else { %><%= element.reciever %><% } %></td>
 				<td><%= element.money %></td>
