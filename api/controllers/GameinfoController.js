@@ -258,7 +258,7 @@ module.exports = {
 			return;
 		}
 
-		if (req.user.group === ugroup.mod && staffs.indexOf(req.param('nickname').toLowerCase())) {
+		if (req.user.group === ugroup.mod && staffs.indexOf(req.param('nickname').toLowerCase()) !== -1) {
 			res.view('gameinfo/player/chatlog', {
 				log: null
 			});
@@ -373,7 +373,7 @@ module.exports = {
 			return;
 		}
 
-		if (req.user.group === ugroup.mod && staffs.indexOf(req.param('nickname').toLowerCase())) {
+		if (req.user.group === ugroup.mod && staffs.indexOf(req.param('nickname').toLowerCase()) !== -1) {
 			res.view('gameinfo/player/commandslog', {
 				log: null
 			});
@@ -656,7 +656,7 @@ module.exports = {
 			return;
 		}
 
-		if (req.user.group === ugroup.mod && staffs.indexOf(req.param('sender').toLowerCase())) {
+		if (req.user.group === ugroup.mod && staffs.indexOf(req.param('sender').toLowerCase()) !== -1) {
 			res.view('gameinfo/world/moneylog', {
 				log: null
 			});
