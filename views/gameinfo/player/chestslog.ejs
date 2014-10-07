@@ -1,0 +1,81 @@
+<% title = 'Лог действий с сундуками / Панель игровой информации' + " — " + __('global.pagetitle'),
+	backUrl = '/gameinfo';  %>
+<%- partial('../partials/header')%>
+
+<%- partial('../partials/subheader', { header: 'Игрок', subheader: 'Лог действий с сундуками' }) %>
+<div class="container" style="margin-top: 20px">
+	<form method="GET">
+	<div class="ui small form">
+		<div class="two fields">
+			<div class="field">
+				<label>Ник игрока</label>
+				<div class="ui fluid input">
+					<input placeholder="ChangedNick" type="text" name="nickname" id="gc-formnicknameinput" value="<%= (req.query.nickname) ? req.query.nickname : '' %>">
+				</div>
+			</div>
+		</div>
+		<div class="ui divider"></div>
+		<div class="two fields">
+			<div class="field">
+				<label>От</label>
+				<input placeholder="<%= moment().subtract(3, 'days').format('YYYY-MM-DD h:mm:ss') %>" value="<%= (req.query.firsttime) ? req.query.firsttime : moment().subtract(3, 'days').format('YYYY-MM-DD h:mm:ss') %>"  type="text" name="firsttime">
+			</div>
+			<div class="field">
+				<label>До</label>
+				<input placeholder="<%= moment().format('YYYY-MM-DD h:mm:ss') %>" value="<%= (req.query.secondtime) ? req.query.secondtime : moment().format('YYYY-MM-DD h:mm:ss') %>"  type="text" name="secondtime">
+			</div>
+		</div>
+		<div class="ui blue submit button" id="gc-formsubmit">Submit</div>
+	</div>
+	</form>
+	<div class="ui divider"></div>
+	<% if (log && log.length) { %>
+	<% if (log.length >= 15) { %>
+	<%- partial('../partials/pagination', {currentPage: currentPage, lastPage: lastPage, url: url}) %>
+	<% } %>
+	<div class="ui two column grid">
+		<div class="column">
+			<table class="ui basic small table">
+				<thead>
+					<tr>
+						<th>
+							Игрок
+							<br>
+							Владелец
+						</th>
+						<th>
+							Предмет
+							<br>
+							Операция
+						</th>
+						<th>Время</th>
+						<th>Координата</th>
+					</tr>
+				</thead>
+				<tbody>
+					<% log.forEach(function (element) { %>
+					<tr>
+						<td>
+							<a href='/gameinfo/player/info?nickname=<%= element.user %>'><%= element.user %></a>
+							<% if (element.user !== element.chest_owner) { %>
+							<br>
+							<a href='/gameinfo/player/info?nickname=<%= element.chest_owner %>'><%= element.chest_owner %></a>
+							<% } %>
+						</td>
+						<td><%= moment(element.time).format('D MMM YYYY, h:mm') %></td>
+						<td><%= element.x %> <%= element.y %> <%= element.z %></td>
+					</tr>
+					<% }) %>
+				</tbody>
+			</table>
+		</div>
+	</div>
+	<div style="margin-top: 3em !important;">
+		<%- partial('../partials/pagination', {currentPage: currentPage, lastPage: lastPage, url: url}) %>
+	</div>
+	<% } else if (log && !log.length) { %>
+	<div style="padding: 5em 0em;text-align: center;font-size:1.4em">Ничего не найдено</div>
+	<% } else { %>
+	<div style="padding: 5em 0em;text-align: center;font-size:1.4em">Введите никнейм игрока</div>
+	<% } %>
+</div>

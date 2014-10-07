@@ -124,20 +124,32 @@ module.exports = user = {
 				}
 			},
 			function findLastseenMain(username, callback) {
-				gcmainconn.query('SELECT `exit`, `time` FROM login_log WHERE login = ? ORDER BY `time` DESC LIMIT 1', [username], function (err, result) {
+				gcmainconn.query('SELECT * FROM login_log WHERE `login` = ? AND `status` = 1 ORDER BY `time` DESC LIMIT 1', [username], function (err, result) {
 					if (err) return callback(err);
 
 					if (result.length === 0) {
-						callback(null, null);
+						callback(null, {
+							login: null,
+							time: null,
+							exit: null,
+							ip: null,
+							hardware: null
+						});
 					} else {
-						callback(null, result[0].time);
+						callback(null, {
+							login: result[0].login,
+							time: result[0].time,
+							exit: result[0].exit,
+							ip: result[0].ip,
+							hardware: result[0].hardware
+						});
 					}
 				});
 			}
-		], function (err, lastseen) {
+		], function (err, result) {
 			if (err) return cb(err);
 
-			cb(null, lastseen);
+			cb(null, result);
 		});
 	},
 
@@ -191,10 +203,13 @@ module.exports = user = {
 			user: {
 				id: null,
 				gameId: null,
-				login: credential
+				login: credential.replace(/[^a-zA-Z0-9_-]/g, '')
 			},
 			prefix: null,
+			regdate: null,
 			lastseen: null,
+			lastip: null,
+			lasthwid: null,
 			ban: {
 				status: null, // 0 - no ban, 1 - tempban, 2 - permban
 				till: null
@@ -204,7 +219,18 @@ module.exports = user = {
 		};
 
 		async.waterfall([
-			function getUId(callback) {
+			function getCapitalizedLogin(callback) {
+				gcdb.user.getCapitalizedLogin(obj.user.login, function (err, login) {
+					if (err) return callback(err);
+
+					if (!login) return callback({nouser: true});
+
+					obj.user.login = login;
+
+					callback(null, obj);
+				});
+			},
+			function getUId(obj, callback) {
 				gcdb.user.getByLogin(obj.user.login, function (err, uid) {
 					if (err) return callback(err);
 
@@ -222,11 +248,24 @@ module.exports = user = {
 					callback(null, obj);
 				});
 			},
-			function getLastseen(obj, callback) {
-				user.getLastseen(obj.user.login, function (err, lastseen) {
+			function getRegDate(obj, callback) {
+				gcdb.user.getRegDate(obj.user.login, function (err, regDate) {
 					if (err) return callback(err);
 
-					obj.lastseen = lastseen;
+					obj.regdate = regDate;
+
+					callback(null, obj);
+				});
+			},
+			function getLastseenNOnlineStatus(obj, callback) {
+				user.getLastseen(obj.user.login, function (err, result) {
+					if (err) return callback(err);
+
+					obj.online = (result.exit) ? false : true; // Offline if exit time is here. Online if no.
+
+					obj.lastseen = result.time;
+					obj.lastip = result.ip;
+					obj.lasthwid = result.hardware;
 
 					callback(null, obj);
 				});
@@ -299,7 +338,12 @@ module.exports = user = {
 			}
 		],
 		function (err, obj) {
-			if (err) return cb(err);
+			if (err) {
+				if (err.nouser) {
+					return cb(null, null);
+				}
+				return cb(err);
+			}
 
 			cb(null, obj);
 		});

@@ -1,0 +1,85 @@
+<% title = 'Информация о регионе / Мир / Панель игровой информации' + " — " + __('global.pagetitle'),
+	backUrl = '/gameinfo';  %>
+<%- partial('../partials/header')%>
+
+<%- partial('../partials/subheader', { header: 'Мир', subheader: 'Информация о регионе' }) %>
+
+<div class="container" style="margin-top: 20px">
+	<form method="GET">
+	<div class="ui two column grid">
+		<div class="column">
+			<label>Название региона</label>
+			<div class="ui action fluid input">
+				<input placeholder="spawn" type="text" name="regionname" id="gc-forminput" value="<%= (req.query.regionname) ? req.query.regionname : '' %>">
+				<div class="ui icon black button" type="submit" id="gc-formsubmit"><i class="search icon"></i></div>
+			</div>
+		</div>
+	</div>
+	</form>
+	<div class="ui divider"></div>
+	<% if (rinfo && rinfo.creator) { %>
+	<div class="ui two column grid">
+		<div class="column" style="position: relative; padding-right: 0">
+			<h4 class="ui top attached header">
+			<%= rinfo.name %> <small><i>(создан <%= (rinfo.creator) ? rinfo.creator : '' %>)</i></small> <% if (rinfo.status.className !== 'noregion') { %><div class="ui label <%= rinfo.status.className %> top right attached" style="font-size:1.1rem;border-radius:0px 4px 0px 0px;padding:0.5em 1rem;"><%= rinfo.status.text %></div><% } %>
+			</h4>
+			<div class="ui segment form attached">
+				<h3>Владельцы</h3>
+				<ul class="ui list">
+					<% if (rinfo.full_access.players.length) {
+	rinfo.full_access.players.forEach(function (el, idx) { %>
+					<li title='<%- __('view.partials.regioninfo.lastseen') %>: <%= el.lastseen %>'><a href="/gameinfo/player/info?nickname=<%= el.name %>"><%= el.name %></a></li>
+					<% }) } %>
+					<% if (rinfo.full_access.orgs.length) { %>
+					<% rinfo.full_access.orgs.forEach(function (el, idx) { %><li><%= el %></li><% }) } %>
+					<% if (rinfo.full_access.all) { %><li><b>Все</b></li><% } %>
+				</ul>
+				<div class="ui divider"></div>
+				<h3>Могут строить</h3>
+				<ul class="ui list">
+					<% if (rinfo.build_access.players.length) {
+	rinfo.build_access.players.forEach(function (el, idx) { %>
+					<li title='<%- __('view.partials.regioninfo.lastseen') %>: <%= el.lastseen %>'><a href="/gameinfo/player/info?nickname=<%= el.name %>"><%= el.name %></a></li>
+					<% }) } %>
+					<% if (rinfo.build_access.orgs.length) { %>
+					<% rinfo.build_access.orgs.forEach(function (el, idx) { %><li><%= el %></li><% }) } %>
+					<% if (rinfo.build_access.all) { %><li><b>Все</b></li><% } %>
+				</ul>
+				<div class="ui divider"></div>
+				<% if (rinfo.memos) { %>
+					<h3>Личные дела владельцев</h3>
+					<% rinfo.memos.forEach(function (el, idx) { %>
+						<h4><%= el.player %></h4>
+						<% if (el.memos.length) { %>
+						<table class="ui basic small table">
+							<thead>
+								<tr>
+									<th style="width:10%">Модератор</th>
+									<th>Сообщение</th>
+									<th>Дата</th>
+								</tr>
+							</thead>
+							<tbody>
+								<% el.memos.forEach(function(memo,idx) { %>
+								<tr>
+									<td><a href="/gameinfo/player/info?nickname=<%= memo.moderator %>"><%= memo.moderator %></a></td>
+									<td><%= memo.memo %></td>
+									<td><%= moment(memo.time).format('D MMM YYYY, h:mm') %></td>
+								</tr>
+								<% }) %>
+							</tbody>
+						</table>
+						<% } else { %>
+						<div style="padding: 3em 0em;text-align: center;font-size:1.4em">Личное дело пустое</div>
+						<% } %>
+					<% }) %>
+				<% } %>
+			</div>
+		</div>
+	</div>
+	<% } else if (rinfo && !rinfo.creator) { %>
+	<div style="padding: 5em 0em;text-align: center;font-size:1.4em">Такого региона нет</div>
+	<% } else { %>
+	<div style="padding: 5em 0em;text-align: center;font-size:1.4em">Введите название региона</div>
+	<% } %>
+</div>

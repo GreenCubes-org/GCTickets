@@ -49,6 +49,11 @@ module.exports.policies = {
 
 	NotifController: {
 		'*': 'authenticated'
+	},
+
+	GameinfoController: {
+		'*': 'modAbove'
 	}
+
 
 };

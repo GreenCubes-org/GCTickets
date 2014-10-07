@@ -44,6 +44,21 @@ module.exports.routes = {
 	'post /admin/users/bans/new': 'admin.setBan',
 	'/admin/users/bans/remove/:id': 'admin.removeBan',
 
+	// Панель игровой информации
+	'/gameinfo': 'gameinfo.main',
+
+	'/gameinfo/player/info': 'gameinfo.playerInfo', // DONE
+	'/gameinfo/player/loginlog': 'gameinfo.playerLoginlog', // DONE
+	'/gameinfo/player/inventory': 'gameinfo.playerInventory', // DONE
+	'/gameinfo/player/chestslog': 'gameinfo.playerChestslog',
+	'/gameinfo/player/chatlog': 'gameinfo.playerChatlog', // DONE
+	'/gameinfo/player/commandslog': 'gameinfo.playerCommandslog',
+
+	'/gameinfo/world/regioninfo': 'gameinfo.worldRegioninfo', // DONE
+	'/gameinfo/world/chestlog': 'gameinfo.worldChestlog',
+	'/gameinfo/world/blockslog': 'gameinfo.worldBlockslog', // DONE
+	'/gameinfo/world/moneylog': 'gameinfo.worldMoneylog', // DOME
+
 	// Контроллер сервисных функций.
 	'/500': 'dev.serverError',
 	'/404': 'dev.notFound',

@@ -1,0 +1,74 @@
+<% title = 'Лог команд / Панель игровой информации' + " — " + __('global.pagetitle'),
+	backUrl = '/gameinfo',
+	url = '/gameinfo/player/commandslog?nickname=' + req.query.nickname + req.query.channelid + '&firsttime='  + req.query.firsttime + '&secondtime=' + req.query.secondtime;  %>
+
+<%- partial('../partials/header')%>
+<%- partial('../partials/subheader', { header: 'Игрок', subheader: 'Лог команд' }) %>
+
+<div class="container" style="margin-top: 20px">
+	<form method="GET">
+	<div class="ui small form">
+		<div class="two fields">
+			<div class="field">
+				<label>Ник игрока</label>
+				<div class="ui fluid input">
+					<input placeholder="ChangedNick" type="text" name="nickname" id="gc-formnicknameinput" value="<%= (req.query.nickname) ? req.query.nickname : '' %>">
+				</div>
+			</div>
+		</div>
+		<div class="ui divider"></div>
+		<div class="two fields">
+			<div class="field">
+				<label>От</label>
+				<input placeholder="<%= moment().subtract(3, 'days').format('YYYY-MM-DD h:mm:ss') %>" value="<%= (req.query.firsttime) ? req.query.firsttime : moment().subtract(3, 'days').format('YYYY-MM-DD h:mm:ss') %>"  type="text" name="firsttime">
+			</div>
+			<div class="field">
+				<label>До</label>
+				<input placeholder="<%= moment().format('YYYY-MM-DD h:mm:ss') %>" value="<%= (req.query.secondtime) ? req.query.secondtime : moment().format('YYYY-MM-DD h:mm:ss') %>"  type="text" name="secondtime">
+			</div>
+		</div>
+		<div class="ui blue submit button" id="gc-formsubmit">Submit</div>
+	</div>
+	</form>
+	<div class="ui divider"></div>
+	<% if (log && log.length) { %>
+	<% if (log.length >= 15) { %>
+	<%- partial('../partials/pagination', {currentPage: currentPage, lastPage: lastPage, url: url}) %>
+	<% } %>
+	<table class="ui basic small table">
+		<thead>
+			<tr>
+				<th width="14%">Отправитель</th>
+				<th width="40%">Команда</th>
+				<th width="20%">Время</th>
+				<th>Координаты игрока</th>
+				<th>Координаты блока</th>
+				<th>Статус</th>
+			</tr>
+		</thead>
+		<tbody>
+			<% log.forEach(function (element) { %>
+			<tr>
+				<td><a href='/gameinfo/player/info?nickname=<%= element.player %>'><%= element.player %></a></td>
+				<td><%- (element.command) ? element.command : '&mdash;' %></td>
+				<td><%= moment(element.time).format('YYYY-MM-DD h:mm:ss') %></td>
+				<td><%= element.playerX %> <%= element.playerY %> <%= element.playerZ %></td>
+				<td><%= element.blockX %> <%= element.blockY %> <%= element.blockZ %></td>
+				<td><%= element.status %></td>
+			</tr>
+			<% }) %>
+		</tbody>
+	</table>
+	<div style="margin-top: 3em !important;">
+		<%- partial('../partials/pagination', {currentPage: currentPage, lastPage: lastPage, url: url}) %>
+	</div>
+	<% } else if (log && !log.length) { %>
+	<div style="padding: 5em 0em;text-align: center;font-size:1.4em">Ничего не найдено</div>
+	<% } else if (log && log.code === 'wrongchannelid') { %>
+	<div style="padding: 5em 0em;text-align: center;font-size:1.4em">Неправильный формат ввода ID канала чата</div>
+	<% } else if (log && log.code === 'wrongtime') { %>
+	<div style="padding: 5em 0em;text-align: center;font-size:1.4em">Неправильный формат ввода времени</div>
+	<% } else { %>
+	<div style="padding: 5em 0em;text-align: center;font-size:1.4em">Введите ник игрока и/или ID канала чата</div>
+	<% } %>
+</div>

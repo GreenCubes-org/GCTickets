@@ -17,6 +17,9 @@
 		<% if (req.user.group === ugroup.staff) { %>
 			<a href="/admin" class="item"><i class="dashboard icon"></i><%- __('view.partials.userpanel.adminpanel') %></a>
 		<% } %>
+		<% if (req.user.group >= ugroup.mod) { %>
+			<a href="/gameinfo" class="item"><i class="terminal icon"></i><%- __('view.partials.userpanel.gameinfopanel') %></a>
+		<% } %>
 		</div>
 	</div>
 	
