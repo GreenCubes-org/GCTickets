@@ -50,7 +50,7 @@
 			<% log.forEach(function (element) { %>
 			<tr>
 				<td><a href='/gameinfo/player/info?nickname=<%= element.player %>'><%= element.player %></a></td>
-				<td><%- (element.command) ? element.command : '&mdash;' %></td>
+				<td><% if (element.command) { %><%= element.command %><% } else { %>&mdash;<% } %></td>
 				<td><%= moment(element.time).format('YYYY-MM-DD H:mm:ss') %></td>
 				<td><%= element.playerX %> <%= element.playerY %> <%= element.playerZ %></td>
 				<td><%= element.blockX %> <%= element.blockY %> <%= element.blockZ %></td>

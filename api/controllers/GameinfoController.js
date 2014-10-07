@@ -408,7 +408,7 @@ module.exports = {
 			function serializeChat(log, callback) {
 				async.map(log, function (element, callback) {
 					if (req.user.group === ugroup.mod && (element.command[1] === 'm' && element.command[2] === ' ')) {
-						element.command = '/m &mdash;';
+						element.command = '/m ';
 					}
 
 					if (element.command.substr(1,5) === 'login') {
