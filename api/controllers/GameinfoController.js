@@ -258,6 +258,13 @@ module.exports = {
 			return;
 		}
 
+		if (req.user.group === ugroup.mod && staffs.indexOf(req.param('nickname').toLowerCase())) {
+			res.view('gameinfo/player/chatlog', {
+				log: null
+			});
+			return;
+		}
+
 		var firsttime = Date.parse(req.param('firsttime')) / 1000,
 			secondtime = Date.parse(req.param('secondtime')) / 1000,
 			query,
@@ -360,6 +367,13 @@ module.exports = {
 
 	playerCommandslog: function (req, res) {
 		if (!req.param('nickname')) {
+			res.view('gameinfo/player/commandslog', {
+				log: null
+			});
+			return;
+		}
+
+		if (req.user.group === ugroup.mod && staffs.indexOf(req.param('nickname').toLowerCase())) {
 			res.view('gameinfo/player/commandslog', {
 				log: null
 			});
@@ -636,6 +650,13 @@ module.exports = {
 
 	worldMoneylog: function (req, res) {
 		if (!req.param('sender')) {
+			res.view('gameinfo/world/moneylog', {
+				log: null
+			});
+			return;
+		}
+
+		if (req.user.group === ugroup.mod && staffs.indexOf(req.param('sender').toLowerCase())) {
 			res.view('gameinfo/world/moneylog', {
 				log: null
 			});

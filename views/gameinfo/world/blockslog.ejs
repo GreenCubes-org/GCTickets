@@ -95,7 +95,7 @@
 					<tr>
 						<td><a href='/gameinfo/player/info?nickname=<%= element.user %>'><%= element.user %></a></td>
 						<td><%= moment(element.time).format('D MMM YYYY, h:mm') %></td>
-						<td><%= element.x %> <%= element.y %> <%= element.z %></td>
+						<td><%= Math.floor(element.x) %> <%= Math.floor(element.y) %> <%= Math.floor(element.z) %></td>
 					</tr>
 					<% }) %>
 				</tbody>

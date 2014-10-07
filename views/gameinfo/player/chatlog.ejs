@@ -58,7 +58,7 @@
 				<td><%= element.channel %></td>
 				<td><% if (element.message) { %><%= element.message %><% } else { %>&mdash;<% } %></td>
 				<td><%= moment(element.time).format('YYYY-MM-DD H:mm:ss') %></td>
-				<td><%= element.playerX %> <%= element.playerY %> <%= element.playerZ %></td>
+				<td><%= Math.floor(element.playerX) %> <%= Math.floor(element.playerY) %> <%= Math.floor(element.playerZ) %></td>
 			</tr>
 			<% }) %>
 		</tbody>

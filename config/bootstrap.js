@@ -26,6 +26,17 @@ module.exports.bootstrap = function (cb) {
 		staff: 3
 	};
 
+	global.staffs = [
+		'rena4ka',
+		'feyola',
+		'kernel',
+		'mushroomkiller',
+		'mushro_om',
+		'fluffy',
+		'tort32',
+		'destr'
+	];
+
 	global.gcdbconn = mysql.createPool({
 		host: cfg.gcdb.host,
 		database: cfg.gcdb.database,

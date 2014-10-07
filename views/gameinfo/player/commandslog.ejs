@@ -52,8 +52,8 @@
 				<td><a href='/gameinfo/player/info?nickname=<%= element.player %>'><%= element.player %></a></td>
 				<td><% if (element.command) { %><%= element.command %><% } else { %>&mdash;<% } %></td>
 				<td><%= moment(element.time).format('YYYY-MM-DD H:mm:ss') %></td>
-				<td><%= element.playerX %> <%= element.playerY %> <%= element.playerZ %></td>
-				<td><%= element.blockX %> <%= element.blockY %> <%= element.blockZ %></td>
+				<td><%= Math.floor(element.playerX) %> <%= Math.floor(element.playerY) %> <%= Math.floor(element.playerZ) %></td>
+				<td><%= Math.floor(element.blockX) %> <%= Math.floor(element.blockY) %> <%= Math.floor(element.blockZ) %></td>
 				<td><%= element.status %></td>
 			</tr>
 			<% }) %>
