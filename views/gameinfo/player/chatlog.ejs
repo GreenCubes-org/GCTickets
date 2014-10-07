@@ -66,14 +66,14 @@
 	<div style="margin-top: 3em !important;">
 		<%- partial('../partials/pagination', {currentPage: currentPage, lastPage: lastPage, url: url}) %>
 	</div>
-	<% } else if (log && !log.length) { %>
-	<div style="padding: 5em 0em;text-align: center;font-size:1.4em">Ничего не найдено</div>
 	<% } else if (log && log.code === 'wrongchannelid') { %>
 	<div style="padding: 5em 0em;text-align: center;font-size:1.4em">Неправильный формат ввода ID канала чата</div>
 	<% } else if (log && log.code === 'wrongtime') { %>
 	<div style="padding: 5em 0em;text-align: center;font-size:1.4em">Неправильный формат ввода времени</div>
 	<% } else if (log && log.code === 'bigtime') { %>
 	<div style="padding: 5em 0em;text-align: center;font-size:1.4em">Слишком большой период времени! (не более 5-ти дней)</div>
+	<% } else if (log && !log.length) { %>
+	<div style="padding: 5em 0em;text-align: center;font-size:1.4em">Ничего не найдено</div>
 	<% } else { %>
 	<div style="padding: 5em 0em;text-align: center;font-size:1.4em">Введите ник игрока и/или ID канала чата</div>
 	<% } %>
