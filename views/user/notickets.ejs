@@ -1,4 +1,4 @@
-<% title = type.title + " — " + __('global.pagetitle') %>
+<% title = __('view.user.profile.pagetitle', user.login) + " — " + __('global.pagetitle') %>
 <%- partial('partials/header')%>
 <div class="container" style="position:relative">
 	<div class="ui grid">
@@ -17,7 +17,7 @@
 			</div>
 			<% } %>
 			<input type="hidden" name="_csrf" id="_csrf" value="<%= _csrf %>" />
-			<%- partial('partials/filter')%>
+			<%- partial('../list/partials/filter')%>
 		</div>
 		<div id="l-content" class="column l-rightcolumn" style="display: inline-block;">
 			<div style="padding: 12em 0em;text-align: center;font-size:1.4em">
