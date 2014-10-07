@@ -166,6 +166,86 @@ module.exports = {
 	},
 
 	playerChestslog: function (req, res) {
+		if (!req.param('nickname')) {
+			res.view('gameinfo/player/chestslog', {
+				log: null
+			});
+			return;
+		}
+
+		req.status(403).view('403-hf');
+
+		var firsttime = Date.parse(req.param('firsttime')) / 1000,
+			secondtime = Date.parse(req.param('secondtime')) / 1000,
+			page = (parseInt(req.param('page'), 10)) ? parseInt(req.param('page'), 10) : 1,
+			userId;
+
+		if (firsttime && isNaN(firsttime) || secondtime && isNaN(secondtime)) {
+			res.view('gameinfo/player/chatlog', {
+				logs: {code: 'wrongtime'}
+			});
+			return;
+		}
+
+
+		async.waterfall([
+			function getUID(callback) {
+				gcdb.user.getByLogin(req.param('nickname').replace(/[^a-zA-Z0-9_-]/g, ''), 'maindb', function (err, uid) {
+					if (err) return callback(err);
+
+					userId = uid;
+
+					callback(null);
+				});
+			},
+			function getLog(callback) {
+				gcmainconn.query('SELECT * FROM `chest_log` WHERE `user` = "' + uid +  '" AND UNIX_TIMESTAMP(`time`) >= "' + firsttime + '" AND UNIX_TIMESTAMP(`time`) <= "' + secondtime + '" ORDER BY `id` DESC LIMIT ' + (page - 1) + ',' + page * 100, function (err, result) {
+					if (err) return callback(err);
+
+					callback(null, result);
+				});
+			},
+			function serializeSession(log, callback) {
+				async.map(log, function (element, callback) {
+					async.map(element.session.split(';'), function (element, callback) {
+						var session = element.substr(0, 1),
+							i = 1;
+
+						if (session === '-') {
+							session = element.substr(0, 2);
+							i = 2;
+						}
+
+						if (session === '<') {
+							var tempSession = element.substr(0, 2);
+
+							if (tempSession === '<-') {
+								session = tempSession;
+								i = 2;
+							}
+						}
+
+						if (session === 'C' || session === 'I') {
+							session = element.substr(0, 2);
+							i = 2;
+						}
+					}, function (err, session) {
+
+					});
+
+				}, function (err, log) {
+					if (err) return callback(err);
+
+					callback(null, log);
+				});
+			}
+		], function (err, log) {
+			if (err) throw err;
+
+			res.view('gameinfo/player/chestslog', {
+				log: log
+			});
+		});
 
 	},
 
@@ -202,13 +282,14 @@ module.exports = {
 				gcdb.user.getByLogin(req.param('nickname').replace(/[^a-zA-Z0-9_-]/g, ''), 'maindb', function (err, uid) {
 					if (err) return callback(err);
 
-					query = 'SELECT * FROM `chat_log` WHERE (`player` = "' + uid +  '" OR `targetPlayer` = "' + uid +  '") AND UNIX_TIMESTAMP(`time`) >= "' + firsttime + '" AND UNIX_TIMESTAMP(`time`) <= "' + secondtime + '" ORDER BY `id` DESC';
+					query = 'SELECT * FROM `chat_log` WHERE (`player` = "' + uid +  '" OR `targetPlayer` = "' + uid +  '") AND UNIX_TIMESTAMP(`time`) >= "' + firsttime + '" AND UNIX_TIMESTAMP(`time`) <= "' + secondtime + '"';
 
 					if (req.param('channelid') && !isNaN(req.param('channelid'))) {
 						query += ' AND `channel` = "' + req.param('channelid') + '"';
 					}
 
-					query += ' LIMIT ' + (page - 1) + ',' + page * 100;
+					query += ' ORDER BY `id` DESC LIMIT ' + (page - 1) + ',' + page * 100;
+
 					userId = uid;
 
 					callback(null);
@@ -223,7 +304,8 @@ module.exports = {
 			},
 			function serializeChat(log, callback) {
 				async.map(log, function (element, callback) {
-					if (req.user.group == ugroup.mod && (element.channel === 3 || element.targetPlayer)) {
+					// MOD can see only local, world, trade chats;
+					if (req.user.group == ugroup.mod && ([1, 2, 4].indexOf(element.channel) === -1 || element.targetPlayer)) {
 						element.message = null;
 					}
 
