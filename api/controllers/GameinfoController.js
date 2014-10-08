@@ -256,7 +256,7 @@ module.exports = {
 			query,
 			page = (parseInt(req.param('page'), 10)) ? parseInt(req.param('page'), 10) : 1,
 			userId,
-			nickname = req.param('nickname').replace(/[^a-zA-Z0-9_-]/g, '');
+			nickname = (req.param('nickname')) ? req.param('nickname').replace(/[^a-zA-Z0-9_-]/g, '') : null;
 
 		if (!nickname && !req.param('channelid')) {
 			res.view('gameinfo/player/chatlog', {
