@@ -359,7 +359,25 @@ module.exports = {
 				});
 			},
 			function getPageCount(log, callback) {
-				gcmainconn.query('SELECT count(*) AS count FROM `chat_log` WHERE (`player` = "' + userId +  '" OR `targetPlayer` = "' + userId +  '") AND UNIX_TIMESTAMP(`time`) >= "' + firsttime + '" AND UNIX_TIMESTAMP(`time`) <= "' + secondtime + '"', function (err, result) {
+				if (nickname) {
+					query = 'SELECT count(*) FROM `chat_log` WHERE UNIX_TIMESTAMP(`time`) >= "' + firsttime + '" AND UNIX_TIMESTAMP(`time`) <= "' + secondtime + '" AND (`player` = "' + userId +  '" OR `targetPlayer` = "' + userId +  '")';
+
+					if (req.param('channelid') && !isNaN(req.param('channelid'))) {
+						query += ' AND `channel` = "' + req.param('channelid') + '"';
+					}
+
+					query += ' ORDER BY `id` DESC LIMIT ' + (page - 1) + ',' + page * 100;
+				} else {
+					query = 'SELECT count(*) FROM `chat_log` WHERE UNIX_TIMESTAMP(`time`) >= "' + firsttime + '" AND UNIX_TIMESTAMP(`time`) <= "' + secondtime + '"';
+
+					if (req.param('channelid') && !isNaN(req.param('channelid'))) {
+						query += ' AND `channel` = "' + req.param('channelid') + '"';
+					}
+
+					query += ' ORDER BY `id` DESC LIMIT ' + (page - 1) + ',' + page * 100;
+				}
+
+				gcmainconn.query(query, function (err, result) {
 					if (err) return callback(err);
 
 					callback(null, log, Math.ceil(result[0].count / 100));
