@@ -251,25 +251,26 @@ module.exports = {
 	},
 
 	playerChatlog: function (req, res) {
-		if (!req.param('nickname') && !req.param('channelid')) {
+		var firsttime = Date.parse(req.param('firsttime')) / 1000,
+			secondtime = Date.parse(req.param('secondtime')) / 1000,
+			query,
+			page = (parseInt(req.param('page'), 10)) ? parseInt(req.param('page'), 10) : 1,
+			userId,
+			nickname = req.param('nickname').replace(/[^a-zA-Z0-9_-]/g, '');
+
+		if (!nickname && !req.param('channelid')) {
 			res.view('gameinfo/player/chatlog', {
 				log: null
 			});
 			return;
 		}
 
-		if (req.user.group === ugroup.mod && staffs.indexOf(req.param('nickname').toLowerCase()) !== -1) {
+		if (req.user.group === ugroup.mod && staffs.indexOf(nickname.toLowerCase()) !== -1) {
 			res.view('gameinfo/player/chatlog', {
 				log: {code: 'staffblock'}
 			});
 			return;
 		}
-
-		var firsttime = Date.parse(req.param('firsttime')) / 1000,
-			secondtime = Date.parse(req.param('secondtime')) / 1000,
-			query,
-			page = (parseInt(req.param('page'), 10)) ? parseInt(req.param('page'), 10) : 1,
-			userId;
 
 		if (firsttime && isNaN(firsttime) || secondtime && isNaN(secondtime) || firsttime > secondtime) {
 			res.view('gameinfo/player/chatlog', {
@@ -294,21 +295,31 @@ module.exports = {
 
 		async.waterfall([
 			function getUIDNBuildQuery(callback) {
-				gcdb.user.getByLogin(req.param('nickname').replace(/[^a-zA-Z0-9_-]/g, ''), 'maindb', function (err, uid) {
-					if (err) return callback(err);
+				if (nickname) {
+					gcdb.user.getByLogin(nickname, 'maindb', function (err, uid) {
+						if (err) return callback(err);
 
-					query = 'SELECT * FROM `chat_log` WHERE (`player` = "' + uid +  '" OR `targetPlayer` = "' + uid +  '") AND UNIX_TIMESTAMP(`time`) >= "' + firsttime + '" AND UNIX_TIMESTAMP(`time`) <= "' + secondtime + '"';
+						query = 'SELECT * FROM `chat_log` WHERE UNIX_TIMESTAMP(`time`) >= "' + firsttime + '" AND UNIX_TIMESTAMP(`time`) <= "' + secondtime + '" AND (`player` = "' + uid +  '" OR `targetPlayer` = "' + uid +  '")';
+
+						if (req.param('channelid') && !isNaN(req.param('channelid'))) {
+							query += ' AND `channel` = "' + req.param('channelid') + '"';
+						}
+
+						query += ' ORDER BY `id` DESC LIMIT ' + (page - 1) + ',' + page * 100;
+
+						userId = uid;
+
+						callback(null);
+					});
+				} else {
+					query = 'SELECT * FROM `chat_log` WHERE UNIX_TIMESTAMP(`time`) >= "' + firsttime + '" AND UNIX_TIMESTAMP(`time`) <= "' + secondtime + '"';
 
 					if (req.param('channelid') && !isNaN(req.param('channelid'))) {
 						query += ' AND `channel` = "' + req.param('channelid') + '"';
 					}
 
 					query += ' ORDER BY `id` DESC LIMIT ' + (page - 1) + ',' + page * 100;
-
-					userId = uid;
-
-					callback(null);
-				});
+				}
 			},
 			function getLog(callback) {
 				gcmainconn.query(query, function (err, result) {
