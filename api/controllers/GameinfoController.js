@@ -279,7 +279,7 @@ module.exports = {
 			return;
 		}
 
-		if ((secondtime - firsttime) > 432000) {
+		if ((secondtime - firsttime) > 1209600) {
 			res.view('gameinfo/player/chatlog', {
 				log: {code: 'bigtime'}
 			});
@@ -424,7 +424,7 @@ module.exports = {
 			return;
 		}
 
-		if ((secondtime - firsttime) > 432000) {
+		if ((secondtime - firsttime) > 1209600) {
 			res.view('gameinfo/player/commandslog', {
 				log: {code: 'bigtime'}
 			});
