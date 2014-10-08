@@ -362,13 +362,13 @@ module.exports = {
 			},
 			function getPageCount(log, callback) {
 				if (nickname) {
-					query = 'SELECT count(*) FROM `chat_log` WHERE UNIX_TIMESTAMP(`time`) >= "' + firsttime + '" AND UNIX_TIMESTAMP(`time`) <= "' + secondtime + '" AND (`player` = "' + userId +  '" OR `targetPlayer` = "' + userId +  '")';
+					query = 'SELECT count(*) as count FROM `chat_log` WHERE UNIX_TIMESTAMP(`time`) >= "' + firsttime + '" AND UNIX_TIMESTAMP(`time`) <= "' + secondtime + '" AND (`player` = "' + userId +  '" OR `targetPlayer` = "' + userId +  '")';
 
 					if (req.param('channelid') && !isNaN(req.param('channelid'))) {
 						query += ' AND `channel` = "' + req.param('channelid') + '"';
 					}
 				} else {
-					query = 'SELECT count(*) FROM `chat_log` WHERE UNIX_TIMESTAMP(`time`) >= "' + firsttime + '" AND UNIX_TIMESTAMP(`time`) <= "' + secondtime + '"';
+					query = 'SELECT count(*) as count FROM `chat_log` WHERE UNIX_TIMESTAMP(`time`) >= "' + firsttime + '" AND UNIX_TIMESTAMP(`time`) <= "' + secondtime + '"';
 
 					if (req.param('channelid') && !isNaN(req.param('channelid'))) {
 						query += ' AND `channel` = "' + req.param('channelid') + '"';
