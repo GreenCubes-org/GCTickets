@@ -367,16 +367,12 @@ module.exports = {
 					if (req.param('channelid') && !isNaN(req.param('channelid'))) {
 						query += ' AND `channel` = "' + req.param('channelid') + '"';
 					}
-
-					query += ' ORDER BY `id` DESC LIMIT ' + (page - 1) + ',' + page * 100;
 				} else {
 					query = 'SELECT count(*) FROM `chat_log` WHERE UNIX_TIMESTAMP(`time`) >= "' + firsttime + '" AND UNIX_TIMESTAMP(`time`) <= "' + secondtime + '"';
 
 					if (req.param('channelid') && !isNaN(req.param('channelid'))) {
 						query += ' AND `channel` = "' + req.param('channelid') + '"';
 					}
-
-					query += ' ORDER BY `id` DESC LIMIT ' + (page - 1) + ',' + page * 100;
 				}
 
 				gcmainconn.query(query, function (err, result) {
