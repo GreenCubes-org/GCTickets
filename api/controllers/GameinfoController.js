@@ -319,6 +319,8 @@ module.exports = {
 					}
 
 					query += ' ORDER BY `id` DESC LIMIT ' + (page - 1) + ',' + page * 100;
+
+					callback(null);
 				}
 			},
 			function getLog(callback) {
