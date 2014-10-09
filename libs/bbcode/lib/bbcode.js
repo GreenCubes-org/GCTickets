@@ -124,7 +124,7 @@ exports.parse = function (post, cb) {
 			case "code":
 				opentags.push(new taginfo_t(m2l, "</code></pre>"));
 				crlf2br = false;
-				return "<pre><code>";
+				return "<pre style=\"overflow: scroll\"><code>";
 
 			case "pre":
 				opentags.push(new taginfo_t(m2l, "</pre>"));
