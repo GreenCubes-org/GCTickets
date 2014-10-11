@@ -55,5 +55,11 @@ app.gameinfo = {
 		});
 
 		$('.gc-formdropdown').dropdown();
-	}
+	},
+
+	worldChestlog: function () {
+		$('#gc-formsubmit').click(function () {
+			window.location.search = '?xyz=' + $('input[name=xyz]').val() + '&firsttime=' + $('input[name=firsttime]').val() + '&secondtime=' + $('input[name=secondtime]').val();
+		});
+	},
 };

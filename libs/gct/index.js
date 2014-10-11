@@ -1026,3 +1026,183 @@ module.exports.getRegionsInfo = getRegionsInfo = function getRegionsInfo(regions
 	});
 
 };
+
+module.exports.updateItemCache = updateItemCache = function () {
+	maindbconn.query('SELECT `id`, `data`, `name`, `image` FROM `items`', function (err, result) {
+		if (err) throw err;
+
+		global.gcitems = result;
+
+		return;
+	});
+	return;
+};
+
+module.exports.serializeChestLog = serializeChestLog = function (log, cb) {
+	async.map(log, function (element, callback) {
+		async.map(element.session.split(';'), function (element, callback) {
+			var session = element.substr(0, 1),
+				i = 1,
+				obj = {
+					action: null,
+					id: null,
+					data: null,
+					count: null,
+					name: null,
+					prefix: null,
+					title: null
+				};
+
+			if (session === '-') {
+				session = element.substr(0, 2);
+				i = 2;
+			}
+
+			if (session === '<') {
+				var tempSession = element.substr(0, 2);
+
+				if (tempSession === '<-') {
+					session = tempSession;
+					i = 2;
+				}
+			}
+
+			if (session === 'C' || session === 'I') {
+				session = element.substr(0, 2);
+				i = 2;
+			}
+
+
+			var itemOp = (element.substr(i)).split(','),
+				item = _.find(gcitems, function (obj) {
+					return (obj.id == itemOp[0]) && (obj.data == itemOp[2]);
+				});
+
+			obj.id = itemOp[0];
+			obj.data = itemOp[2];
+			obj.count = itemOp[1];
+
+			if (!item) {
+				gct.updateItemCache();
+
+				item = _.find(gcitems, function (obj) {
+					return (obj.id == itemOp[0]) && (obj.data == itemOp[2]);
+				});
+			}
+
+			if (!item) {
+				item = _.find(gcitems, function (obj) {
+					return (obj.id == itemOp[0]) && (obj.data == 0);
+				});
+			}
+
+			obj.name = (item) ? item.name : '';
+			obj.image = (item) ? item.image : '';
+
+			if (itemOp.length > 3) {
+				var json = JSON.parse(itemOp[3] + ',' + itemOp[4] + ',' + itemOp[5]);
+
+				if (json) {
+					if (json.NamePrefix) {
+						if (json.NamePrefix instanceof Array) {
+							obj.name = json.NamePrefix[0] + ' ';
+						} else {
+							obj.name = json.NamePrefix + ' ';
+						}
+					}
+
+					if (json.Name) {
+						if (json.Name instanceof Array) {
+							obj.name += json.Name[0] + ' ';
+						} else {
+							obj.name += json.Name + ' ';
+						}
+					} else {
+						obj.name += item.name + ' ';
+					}
+
+					if (json.NameSuffix) {
+						if (json.NameSuffix instanceof Array) {
+							obj.name += json.NameSuffix[0] + ' ';
+						} else {
+							obj.name += json.NameSuffix + ' ';
+						}
+					}
+
+					if (json.title) {
+						if (json.title instanceof Array) {
+							obj.name += '<i>' + json.title[0] + '</i> ';
+						} else {
+							obj.name += '<i>' + json.title + '</i> ';
+						}
+					}
+
+					if (json.Name) {
+						obj.name += ' (' + item.name + ')';
+					}
+				}
+			}
+
+			switch (session) {
+				case 'X':
+					obj.action = 'выброшен';
+					break;
+
+				case '<-':
+					obj.action = 'взят из сундука';
+					break;
+
+				case '->':
+					obj.action = 'положен в сундук';
+					break;
+
+				case '<':
+					obj.action = 'взят из инвентаря';
+					break;
+
+				case '>':
+					obj.action = 'положен в инвентарь';
+					break;
+
+				case 'CI':
+					obj.action = 'из сундука в инвентарь';
+					break;
+
+				case 'IC':
+					obj.action = 'из инвентаря в сундук';
+					break;
+
+				case 'IX':
+					obj.action = 'выброшен из инвентаря';
+					break;
+
+				case 'CX':
+					obj.action = 'выброшен из сундука';
+					break;
+			}
+
+			callback(null, obj);
+
+		}, function (err, session) {
+			if (err) return callback(err);
+
+			gcdb.user.getByID(element.user, 'maindb', function (err, userUId) {
+				if (err) return callback(err);
+
+				gcdb.user.getByID(element.chest_owner, 'maindb', function (err, chestownerUId) {
+					if (err) return callback(err);
+
+					element.session = session;
+					element.user = userUId;
+					element.chest_owner = chestownerUId;
+
+					callback(null, element);
+				});
+			});
+		});
+	}, function (err, log) {
+		if (err) return cb(err);
+
+		cb(null, log);
+	});
+};

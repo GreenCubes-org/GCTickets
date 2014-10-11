@@ -64,7 +64,6 @@ module.exports = {
 			function serializeInventory(inventory, callback) {
 				async.map(inventory, function (element, callback) {
 					var obj = _.find(gcitems, function (obj) {
-
 						return ((obj.id === element.itemId) && (obj.data === element.itemDamage));
 					});
 
@@ -166,9 +165,12 @@ module.exports = {
 		});
 	},
 
-	playerChestslog: function (req, res) {
-		req.status(403).view('403-hf');
 
+	/*
+	IC3096,1,0;IC278,1,1180,{"UID":63,"title":"Сувенир с дня рождения GreenCubes 2012","NamePrefix":"Праздничная"}
+	CI14,45,0;CI265,30,0;CI265,64,0;CI265,64,0;CI265,64,0;CI266,17,0;CI264,24,0;CI351,42,4
+	*/
+	playerChestslog: function (req, res) {
 		if (!req.param('nickname')) {
 			res.view('gameinfo/player/chestslog', {
 				log: null
@@ -200,54 +202,37 @@ module.exports = {
 				});
 			},
 			function getLog(callback) {
-				gcmainconn.query('SELECT * FROM `chest_log` WHERE `user` = "' + uid +  '" AND UNIX_TIMESTAMP(`time`) >= "' + firsttime + '" AND UNIX_TIMESTAMP(`time`) <= "' + secondtime + '" ORDER BY `id` DESC LIMIT ' + (page - 1) + ',' + page * 100, function (err, result) {
+				var query = 'SELECT * FROM `chest_logs` WHERE `user` = "' + userId +  '" AND UNIX_TIMESTAMP(`time`) >= "' + firsttime + '" AND UNIX_TIMESTAMP(`time`) <= "' + secondtime + '" ORDER BY `id` DESC LIMIT ' + (page - 1) + ',' + page * 100;
+
+				gcmainconn.query(query, function (err, result) {
 					if (err) return callback(err);
 
 					callback(null, result);
 				});
 			},
-			function serializeSession(log, callback) {
-				async.map(log, function (element, callback) {
-					async.map(element.session.split(';'), function (element, callback) {
-						var session = element.substr(0, 1),
-							i = 1;
-
-						if (session === '-') {
-							session = element.substr(0, 2);
-							i = 2;
-						}
-
-						if (session === '<') {
-							var tempSession = element.substr(0, 2);
-
-							if (tempSession === '<-') {
-								session = tempSession;
-								i = 2;
-							}
-						}
-
-						if (session === 'C' || session === 'I') {
-							session = element.substr(0, 2);
-							i = 2;
-						}
-					}, function (err, session) {
-
-					});
-
-				}, function (err, log) {
+			function serializeLog(log, callback) {
+				gct.serializeChestLog(log, function (err, log) {
 					if (err) return callback(err);
 
 					callback(null, log);
 				});
+			},
+			function getPageCount(log, callback) {
+				gcmainconn.query('SELECT * FROM `chest_logs` WHERE `user` = "' + userId +  '" AND UNIX_TIMESTAMP(`time`) >= "' + firsttime + '" AND UNIX_TIMESTAMP(`time`) <= "' + secondtime + '"', function (err, result) {
+					if (err) return callback(err);
+
+					callback(null, log, Math.ceil(result[0].count / 100));
+				});
 			}
-		], function (err, log) {
+		], function (err, log, lastPage) {
 			if (err) throw err;
 
 			res.view('gameinfo/player/chestslog', {
-				log: log
+				log: log,
+				lastPage: lastPage,
+				currentPage: page
 			});
 		});
-
 	},
 
 	playerChatlog: function (req, res) {
@@ -560,7 +545,68 @@ module.exports = {
 	},
 
 	worldChestlog: function (req, res) {
-		req.status(403).view('403-hf');
+		if (!req.param('xyz')) {
+			res.view('gameinfo/world/chestlog', {
+				log: null
+			});
+			return;
+		}
+
+		var firsttime = Date.parse(req.param('firsttime')) / 1000,
+			secondtime = Date.parse(req.param('secondtime')) / 1000,
+			page = (parseInt(req.param('page'), 10)) ? parseInt(req.param('page'), 10) : 1;
+
+		if (firsttime && isNaN(firsttime) || secondtime && isNaN(secondtime)) {
+			res.view('gameinfo/player/chatlog', {
+				logs: {code: 'wrongtime'}
+			});
+			return;
+		}
+
+		// ['-1337','42','420']
+		var xyzMatch = req.param('xyz').match(/^(-?[0-9]*) (\-?[0-9]*) (\-?[0-9]*)/g),
+			xyzSplited = req.param('xyz').split(' ');
+
+		if (!xyzMatch){
+			res.view('gameinfo/world/blockslog', {
+				log: {code: 'wrongxyz'}
+			});
+			return;
+		}
+
+		async.waterfall([
+			function getLog(callback) {
+				var query = 'SELECT * FROM `chest_logs` WHERE `x` = ' + xyzSplited[0] + ' AND `y` = ' + xyzSplited[1] + ' AND `z` = ' + xyzSplited[2] + ' AND UNIX_TIMESTAMP(`time`) >= "' + firsttime + '" AND UNIX_TIMESTAMP(`time`) <= "' + secondtime + '" ORDER BY `id` DESC LIMIT ' + (page - 1) + ',' + page * 100;
+
+				gcmainconn.query(query, function (err, result) {
+					if (err) return callback(err);
+
+					callback(null, result);
+				});
+			},
+			function serializeLog(log, callback) {
+				gct.serializeChestLog(log, function (err, log) {
+					if (err) return callback(err);
+
+					callback(null, log);
+				});
+			},
+			function getPageCount(log, callback) {
+				gcmainconn.query('SELECT * FROM `chest_logs` WHERE `x` = "' + xyzSplited[0] + '" AND `y` = "' + xyzSplited[1] + '" AND `z` = "' + xyzSplited[2] + '" AND UNIX_TIMESTAMP(`time`) >= "' + firsttime + '" AND UNIX_TIMESTAMP(`time`) <= "' + secondtime + '"', function (err, result) {
+					if (err) return callback(err);
+
+					callback(null, log, Math.ceil(result[0].count / 100));
+				});
+			}
+		], function (err, log, lastPage) {
+			if (err) throw err;
+
+			res.view('gameinfo/world/chestlog', {
+				log: log,
+				lastPage: lastPage,
+				currentPage: page
+			});
+		});
 	},
 
 	worldBlockslog: function (req, res) {
