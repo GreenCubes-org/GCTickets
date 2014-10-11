@@ -218,7 +218,7 @@ module.exports = {
 				});
 			},
 			function getPageCount(log, callback) {
-				gcmainconn.query('SELECT * FROM `chest_logs` WHERE `user` = "' + userId +  '" AND UNIX_TIMESTAMP(`time`) >= "' + firsttime + '" AND UNIX_TIMESTAMP(`time`) <= "' + secondtime + '"', function (err, result) {
+				gcmainconn.query('SELECT count(*) as count FROM `chest_logs` WHERE `user` = "' + userId +  '" AND UNIX_TIMESTAMP(`time`) >= "' + firsttime + '" AND UNIX_TIMESTAMP(`time`) <= "' + secondtime + '"', function (err, result) {
 					if (err) return callback(err);
 
 					callback(null, log, Math.ceil(result[0].count / 100));
@@ -592,7 +592,7 @@ module.exports = {
 				});
 			},
 			function getPageCount(log, callback) {
-				gcmainconn.query('SELECT * FROM `chest_logs` WHERE `x` = "' + xyzSplited[0] + '" AND `y` = "' + xyzSplited[1] + '" AND `z` = "' + xyzSplited[2] + '" AND UNIX_TIMESTAMP(`time`) >= "' + firsttime + '" AND UNIX_TIMESTAMP(`time`) <= "' + secondtime + '"', function (err, result) {
+				gcmainconn.query('SELECT count(*) as count FROM `chest_logs` WHERE `x` = "' + xyzSplited[0] + '" AND `y` = "' + xyzSplited[1] + '" AND `z` = "' + xyzSplited[2] + '" AND UNIX_TIMESTAMP(`time`) >= "' + firsttime + '" AND UNIX_TIMESTAMP(`time`) <= "' + secondtime + '"', function (err, result) {
 					if (err) return callback(err);
 
 					callback(null, log, Math.ceil(result[0].count / 100));
