@@ -1103,6 +1103,8 @@ module.exports.serializeChestLog = serializeChestLog = function (log, cb) {
 				var json = JSON.parse(itemOp[3] + ',' + itemOp[4] + ',' + itemOp[5]);
 
 				if (json) {
+					obj.name = '';
+
 					if (json.NamePrefix) {
 						if (json.NamePrefix instanceof Array) {
 							obj.name = json.NamePrefix[0] + ' ';

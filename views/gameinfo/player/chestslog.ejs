@@ -69,7 +69,7 @@
 							<% }) %>
 						</td>
 						<td><%= moment(element.time).format('D MMM YYYY, h:mm') %></td>
-						<td><%= element.x %> <%= element.y %> <%= element.z %></td>
+						<td><a href="/gameinfo/world/chestlog?xyz=<%= element.x %> <%= element.y %> <%= element.z %>"><%= element.x %> <%= element.y %> <%= element.z %</a></td>
 					</tr>
 					<% }) %>
 				</tbody>
