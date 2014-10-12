@@ -58,7 +58,7 @@
 					<tr>
 						<td>
 							<a href='/gameinfo/player/info?nickname=<%= element.user %>'><%= element.user %></a>
-							<% if (element.user !== element.chest_owner) { %>
+							<% if (element.user !== element.chest_owner || element.chest_owner) { %>
 							<br>
 							<small><a href='/gameinfo/player/info?nickname=<%= element.chest_owner %>'><%= element.chest_owner %></a></small>
 							<% } %>
