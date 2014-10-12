@@ -1100,7 +1100,8 @@ module.exports.serializeChestLog = serializeChestLog = function (log, cb) {
 			obj.image = (item) ? item.image : '';
 
 			if (itemOp.length > 3) {
-				var json = JSON.parse(itemOp[3] + ',' + itemOp[4] + ',' + itemOp[5]);
+				var jsonPart = (element.substr(i)).substr(itemOp[0].length + itemOp[1].length + itemOp[2].length + 3),
+					json = JSON.parse(jsonPart);
 
 				if (json) {
 					obj.name = '';
