@@ -183,7 +183,7 @@ module.exports = {
 			page = (parseInt(req.param('page'), 10)) ? parseInt(req.param('page'), 10) : 1,
 			userId;
 
-		if (firsttime && isNaN(firsttime) || secondtime && isNaN(secondtime)) {
+		if (firsttime && isNaN(firsttime) || secondtime && isNaN(secondtime) || firsttime > secondtime) {
 			res.view('gameinfo/player/chatlog', {
 				logs: {code: 'wrongtime'}
 			});
@@ -556,7 +556,7 @@ module.exports = {
 			secondtime = Date.parse(req.param('secondtime')) / 1000,
 			page = (parseInt(req.param('page'), 10)) ? parseInt(req.param('page'), 10) : 1;
 
-		if (firsttime && isNaN(firsttime) || secondtime && isNaN(secondtime)) {
+		if (firsttime && isNaN(firsttime) || secondtime && isNaN(secondtime) || firsttime > secondtime) {
 			res.view('gameinfo/player/chatlog', {
 				logs: {code: 'wrongtime'}
 			});
