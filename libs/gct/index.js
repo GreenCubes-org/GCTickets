@@ -1112,8 +1112,8 @@ module.exports.serializeChestLog = serializeChestLog = function (log, cb) {
 
 					if (json.Name) {
 						obj.name += json.Name + ' ';
-					} else {
-						obj.name += item.name + ' ';
+					} else if (!json.UserName) {
+						obj.name += json.Name + ' ';
 					}
 
 					if (json.UserName) {
