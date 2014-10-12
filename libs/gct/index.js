@@ -1107,29 +1107,25 @@ module.exports.serializeChestLog = serializeChestLog = function (log, cb) {
 					obj.name = '';
 
 					if (json.NamePrefix) {
-						if (json.NamePrefix instanceof Array) {
-							obj.name = json.NamePrefix[0] + ' ';
-						} else {
-							obj.name = json.NamePrefix + ' ';
-						}
+						obj.name = json.NamePrefix + ' ';
 					}
 
 					if (json.Name) {
-						if (json.Name instanceof Array) {
-							obj.name += json.Name[0] + ' ';
-						} else {
-							obj.name += json.Name + ' ';
-						}
+						obj.name += json.Name + ' ';
 					} else {
 						obj.name += item.name + ' ';
 					}
 
+					if (json.UserName) {
+						obj.name += json.UserName + ' ';
+					}
+
 					if (json.NameSuffix) {
-						if (json.NameSuffix instanceof Array) {
-							obj.name += json.NameSuffix[0] + ' ';
-						} else {
-							obj.name += json.NameSuffix + ' ';
-						}
+						obj.name += json.NameSuffix + ' ';
+					}
+
+					if (json.UID) {
+						obj.name += '#' + json.UID + ' ';
 					}
 
 					if (json.title) {
@@ -1140,7 +1136,7 @@ module.exports.serializeChestLog = serializeChestLog = function (log, cb) {
 						}
 					}
 
-					if (json.Name) {
+					if (json.Name || json.UserName) {
 						obj.name += ' (' + item.name + ')';
 					}
 				}
