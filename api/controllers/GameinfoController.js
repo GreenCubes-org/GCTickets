@@ -181,13 +181,21 @@ module.exports = {
 		var firsttime = Date.parse(req.param('firsttime')) / 1000,
 			secondtime = Date.parse(req.param('secondtime')) / 1000,
 			page = (parseInt(req.param('page'), 10)) ? parseInt(req.param('page'), 10) : 1,
-			userId;
+			userId,
+			queryTime;
+
 
 		if (firsttime && isNaN(firsttime) || secondtime && isNaN(secondtime) || firsttime > secondtime) {
 			res.view('gameinfo/player/chatlog', {
 				logs: {code: 'wrongtime'}
 			});
 			return;
+		}
+
+		if (firsttime && secondtime) {
+			queryTime = '" AND UNIX_TIMESTAMP(`time`) >= "' + firsttime + '" AND UNIX_TIMESTAMP(`time`) <= "' + secondtime + '"';
+		} else {
+			queryTime = '';
 		}
 
 
@@ -202,7 +210,7 @@ module.exports = {
 				});
 			},
 			function getLog(callback) {
-				var query = 'SELECT * FROM `chest_logs` WHERE `user` = "' + userId +  '" AND UNIX_TIMESTAMP(`time`) >= "' + firsttime + '" AND UNIX_TIMESTAMP(`time`) <= "' + secondtime + '" ORDER BY `id` DESC LIMIT ' + (page - 1) + ',' + page * 100;
+				var query = 'SELECT * FROM `chest_logs` WHERE `user` = "' + userId + queryTime + ' ORDER BY `id` DESC LIMIT ' + (page - 1) + ',' + page * 100;
 
 				gcmainconn.query(query, function (err, result) {
 					if (err) return callback(err);

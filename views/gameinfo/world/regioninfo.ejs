@@ -1,14 +1,14 @@
-<% title = 'Информация о регионе / Мир / Панель игровой информации' + " — " + __('global.pagetitle'),
+<% title = __('view.gameinfo.world.regioninfo.title') + ' / ' + __('view.gameinfo.world.title') + ' / ' + __('view.gameinfo.title') + " — " + __('global.pagetitle'),
 	backUrl = '/gameinfo';  %>
 <%- partial('../partials/header')%>
 
-<%- partial('../partials/subheader', { header: 'Мир', subheader: 'Информация о регионе' }) %>
+<%- partial('../partials/subheader', { header: __('view.gameinfo.world.title'), subheader: __('view.gameinfo.world.regioninfo.title') }) %>
 
 <div class="container" style="margin-top: 20px">
 	<form method="GET">
 	<div class="ui two column grid">
 		<div class="column">
-			<label>Название региона</label>
+			<label><%= __('view.gameinfo.world.regioninfo.form.regionname') %></label>
 			<div class="ui action fluid input">
 				<input placeholder="spawn" type="text" name="regionname" id="gc-forminput" value="<%= (req.query.regionname) ? req.query.regionname : '' %>">
 				<div class="ui icon black button" type="submit" id="gc-formsubmit"><i class="search icon"></i></div>
@@ -21,10 +21,10 @@
 	<div class="ui two column grid">
 		<div class="column" style="position: relative; padding-right: 0">
 			<h4 class="ui top attached header">
-			<%= rinfo.name %> <small><i>(создан <%= (rinfo.creator) ? rinfo.creator : '' %>)</i></small> <% if (rinfo.status.className !== 'noregion') { %><div class="ui label <%= rinfo.status.className %> top right attached" style="font-size:1.1rem;border-radius:0px 4px 0px 0px;padding:0.5em 1rem;"><%= rinfo.status.text %></div><% } %>
+			<%= rinfo.name %> <small><i>(<%= __('view.gameinfo.world.regioninfo.data.createdby', ((rinfo.creator) ? rinfo.creator : '')) %>)</i></small> <% if (rinfo.status.className !== 'noregion') { %><div class="ui label <%= rinfo.status.className %> top right attached" style="font-size:1.1rem;border-radius:0px 4px 0px 0px;padding:0.5em 1rem;"><%= rinfo.status.text %></div><% } %>
 			</h4>
 			<div class="ui segment form attached">
-				<h3>Владельцы</h3>
+				<h3><%= __('view.gameinfo.world.regioninfo.data.owners') %></h3>
 				<ul class="ui list">
 					<% if (rinfo.full_access.players.length) {
 	rinfo.full_access.players.forEach(function (el, idx) { %>
@@ -35,7 +35,7 @@
 					<% if (rinfo.full_access.all) { %><li><b>Все</b></li><% } %>
 				</ul>
 				<div class="ui divider"></div>
-				<h3>Могут строить</h3>
+				<h3><%= __('view.gameinfo.world.regioninfo.data.builders') %></h3>
 				<ul class="ui list">
 					<% if (rinfo.build_access.players.length) {
 	rinfo.build_access.players.forEach(function (el, idx) { %>
@@ -47,16 +47,16 @@
 				</ul>
 				<div class="ui divider"></div>
 				<% if (rinfo.memos) { %>
-					<h3>Личные дела владельцев</h3>
+					<h3><%= __('view.gameinfo.world.regioninfo.data.memos.header') %></h3>
 					<% rinfo.memos.forEach(function (el, idx) { %>
 						<h4><%= el.player %></h4>
 						<% if (el.memos.length) { %>
 						<table class="ui basic small table">
 							<thead>
 								<tr>
-									<th style="width:10%">Модератор</th>
-									<th>Сообщение</th>
-									<th>Дата</th>
+									<th style="width:10%"><%= __('view.gameinfo.world.regioninfo.data.memos.moderator') %></th>
+									<th><%= __('view.gameinfo.world.regioninfo.data.memos.message') %></th>
+									<th><%= __('view.gameinfo.world.regioninfo.data.memos.date') %></th>
 								</tr>
 							</thead>
 							<tbody>
@@ -70,7 +70,7 @@
 							</tbody>
 						</table>
 						<% } else { %>
-						<div style="padding: 3em 0em;text-align: center;font-size:1.4em">Личное дело пустое</div>
+						<div style="padding: 3em 0em;text-align: center;font-size:1.4em"><%= __('view.gameinfo.world.regioninfo.data.memos.error.empty') %></div>
 						<% } %>
 					<% }) %>
 				<% } %>
@@ -78,8 +78,8 @@
 		</div>
 	</div>
 	<% } else if (rinfo && !rinfo.creator) { %>
-	<div style="padding: 5em 0em;text-align: center;font-size:1.4em">Такого региона нет</div>
+	<div style="padding: 5em 0em;text-align: center;font-size:1.4em"><%= __('view.gameinfo.world.regioninfo.error.noregion') %></div>
 	<% } else { %>
-	<div style="padding: 5em 0em;text-align: center;font-size:1.4em">Введите название региона</div>
+	<div style="padding: 5em 0em;text-align: center;font-size:1.4em"><%= __('view.gameinfo.world.regioninfo.error.enterregion') %></div>
 	<% } %>
 </div>

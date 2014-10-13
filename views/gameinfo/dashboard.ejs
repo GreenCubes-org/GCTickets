@@ -1,50 +1,49 @@
-<% title = 'Панель игровой информации' + " — " + __('global.pagetitle'),
+<% title = __('view.gameinfo.title') + " — " + __('global.pagetitle'),
 	backUrl = '/';  %>
 <%- partial('../partials/header')%>
 
-<div class="gameinfopanel header">Панель игровой информации</div>
-<div class="gameinfopanel sub header"><small>[0.1 beta alpha indev early access edition]</small></div>
+<div class="gameinfopanel header"><%= __('view.gameinfo.title') %></div>
 <div class="container">
 	<div class="ui relaxed list">
 		<div class="item">
 			<i class="icon big user" style="margin: 10px 10px 0px 0px;"></i>
 			<div class="content">
-				<h2>Игрок</h2>
+				<h2><%= __('view.gameinfo.dashboard.player') %></h2>
 				<div class="ui relaxed list">
 					<div class="item">
 						<a class="gc-nostylelink content"  href="/gameinfo/player/info">
-							<span class="header">Общая информация об игроке</span>
-							<span class="description" style="display:block">Просмотр даты регистрации, префикса, статус онлайна и бана, статистики входов</span>
+							<span class="header"><%= __('view.gameinfo.dashboard.player.info.header') %></span>
+							<span class="description" style="display:block"><%= __('view.gameinfo.dashboard.player.info.description') %></span>
 						</a>
 					</div>
 					<div class="item">
 						<a class="gc-nostylelink content"  href="/gameinfo/player/inventory">
-							<span class="header">Инвентарь</span>
-							<span class="description" style="display:block">Просмотр списка предметов в инвентаре игрока</span>
+							<span class="header"><%= __('view.gameinfo.dashboard.player.inventory.header') %></span>
+							<span class="description" style="display:block"><%= __('view.gameinfo.dashboard.player.inventory.description') %></span>
 						</a>
 					</div>
 					<div class="item">
 						<a class="gc-nostylelink content"  href="/gameinfo/player/loginlog">
-							<span class="header">Логи входов на сервер</span>
-							<span class="description" style="display:block">Просмотр логов входов на сервер</span>
+							<span class="header"><%= __('view.gameinfo.dashboard.player.loginlog.header') %></span>
+							<span class="description" style="display:block"><%= __('view.gameinfo.dashboard.player.loginlog.description') %></span>
 						</a>
 					</div>
 					<div class="item">
 						<a class="gc-nostylelink content"  href="/gameinfo/player/chestslog">
-							<span class="header">Логи действий с сундуками</span>
-							<span class="description" style="display:block">Просмотр логов всех действий с сундуками определённого игрока</span>
+							<span class="header"><%= __('view.gameinfo.dashboard.player.chestslog.header') %></span>
+							<span class="description" style="display:block"><%= __('view.gameinfo.dashboard.player.chestslog.description') %></span>
 						</a>
 					</div>
 					<div class="item">
 						<a class="gc-nostylelink content"  href="/gameinfo/player/chatlog">
-							<span class="header">Логи чата</span>
-							<span class="description" style="display:block">Просмотр сообщений в чат определённого игрока</span>
+							<span class="header"><%= __('view.gameinfo.dashboard.player.chatlog.header') %></span>
+							<span class="description" style="display:block"><%= __('view.gameinfo.dashboard.player.chatlog.description') %></span>
 						</a>
 					</div>
 					<div class="item">
 						<a class="gc-nostylelink content"  href="/gameinfo/player/commandslog">
-							<span class="header">Логи команд</span>
-							<span class="description" style="display:block">Просмотр логов команд определённого игрока</span>
+							<span class="header"><%= __('view.gameinfo.dashboard.player.commandslog.header') %></span>
+							<span class="description" style="display:block"><%= __('view.gameinfo.dashboard.player.commandslog.description') %></span>
 						</a>
 					</div>
 				</div>
@@ -53,30 +52,30 @@
 		<div class="item">
 			<i class="icon big globe" style="margin: 10px 10px 0px 0px;"></i>
 			<div class="content">
-				<h2>Мир</h2>
+				<h2><%= __('view.gameinfo.dashboard.world') %></h2>
 				<div class="ui relaxed list">
 					<div class="item">
 						<a class="gc-nostylelink content"  href="/gameinfo/world/regioninfo">
-							<span class="header">Информация о регионе</span>
-							<span class="description" style="display:block">Просмотр полной информации о регионе</span>
+							<span class="header"><%= __('view.gameinfo.dashboard.world.regioninfo.header') %></span>
+							<span class="description" style="display:block"><%= __('view.gameinfo.dashboard.world.regioninfo.description') %></span>
 						</a>
 					</div>
 					<div class="item">
 						<a class="gc-nostylelink content"  href="/gameinfo/world/chestlog">
-							<span class="header">Лог действий с сундуком</span>
-							<span class="description" style="display:block">Просмотр лога действий с сундуком</span>
+							<span class="header"><%= __('view.gameinfo.dashboard.world.chestlog.header') %></span>
+							<span class="description" style="display:block"><%= __('view.gameinfo.dashboard.world.chestlog.description') %></span>
 						</a>
 					</div>
 					<div class="item">
 						<a class="gc-nostylelink content"  href="/gameinfo/world/blockslog">
-							<span class="header">Логи блоков</span>
-							<span class="description" style="display:block">Просмотр логов блоков</span>
+							<span class="header"><%= __('view.gameinfo.dashboard.world.blockslog.header') %></span>
+							<span class="description" style="display:block"><%= __('view.gameinfo.dashboard.world.blockslog.description') %></span>
 						</a>
 					</div>
 					<div class="item">
 						<a class="gc-nostylelink content"  href="/gameinfo/world/moneylog">
-							<span class="header">Логи переводов внутриигровой валюты</span>
-							<span class="description" style="display:block">Просмотр логов переводов зелени и монет</span>
+							<span class="header"><%= __('view.gameinfo.dashboard.world.moneylog.header') %></span>
+							<span class="description" style="display:block"><%= __('view.gameinfo.dashboard.world.moneylog.description') %></span>
 						</a>
 					</div>
 				</div>
