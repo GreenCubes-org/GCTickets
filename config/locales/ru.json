@@ -441,7 +441,7 @@
 	"view.gameinfo.player.inventory.table.armorslot": "Слот брони",
 	"view.gameinfo.world.regioninfo.title": "Информация о регионе",
 	"view.gameinfo.world.regioninfo.form.regionname": "Название региона",
-	"view.gameinfo.world.regioninfo.data.createdby": "Создан",
+	"view.gameinfo.world.regioninfo.data.createdby": "Создан %s",
 	"view.gameinfo.world.regioninfo.data.owners": "Владельцы",
 	"view.gameinfo.world.regioninfo.data.builders": "Могут строить",
 	"view.gameinfo.world.regioninfo.data.memos.header": "Личные дела владельцев",

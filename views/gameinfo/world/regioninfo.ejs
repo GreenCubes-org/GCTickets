@@ -21,7 +21,7 @@
 	<div class="ui two column grid">
 		<div class="column" style="position: relative; padding-right: 0">
 			<h4 class="ui top attached header">
-			<%= rinfo.name %> <small><i>(<%= __('view.gameinfo.world.regioninfo.data.createdby') %><%= (rinfo.creator) ? rinfo.creator : '' %>)</i></small> <% if (rinfo.status.className !== 'noregion') { %><div class="ui label <%= rinfo.status.className %> top right attached" style="font-size:1.1rem;border-radius:0px 4px 0px 0px;padding:0.5em 1rem;"><%= rinfo.status.text %></div><% } %>
+			<%= rinfo.name %> <small><i>(<%= __('view.gameinfo.world.regioninfo.data.createdby', ((rinfo.creator) ? rinfo.creator : '')) %>)</i></small> <% if (rinfo.status.className !== 'noregion') { %><div class="ui label <%= rinfo.status.className %> top right attached" style="font-size:1.1rem;border-radius:0px 4px 0px 0px;padding:0.5em 1rem;"><%= rinfo.status.text %></div><% } %>
 			</h4>
 			<div class="ui segment form attached">
 				<h3><%= __('view.gameinfo.world.regioninfo.data.owners') %></h3>
