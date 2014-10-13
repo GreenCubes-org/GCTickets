@@ -45,9 +45,9 @@
 			</div>
 			<% } %>
 
-			<div class="ui grid">
+			<div class="ui <% if (ticket.regions.length && !ticket.stuff.length || !ticket.regions.length && ticket.stuff.length) { %>one<% } else { %>two<% } %> column grid">
 			<% if (ticket.regions.length) { %>
-			<div class="column" style="width:50%;padding-left:0%;margin-bottom:0em;">
+			<div class="column" style="padding-left:0%;margin-bottom:0em;">
 				<h2 class="ui header"><%- __('view.view.rempro.regions.title') %></h2>
 				<ul>
 				<% 	ticket.regions.forEach(function(item, index) { %>
@@ -69,7 +69,7 @@
 
 
 			<% if (ticket.stuff.length) { %>
-			<div class="column" style="width:50%;padding-left:0%;margin-bottom:0em;">
+			<div class="column" style="padding-left:0%;margin-bottom:0em;">
 				<h2 class="ui header"><%- __('view.view.rempro.stuff.title') %></h2>
 				<ul>
 				<% 	ticket.stuff.forEach(function(item, index) { %>
