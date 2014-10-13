@@ -71,13 +71,13 @@ module.exports = {
 						gct.updateItemCache();
 
 						item = _.find(gcitems, function (obj) {
-							return (obj.id == itemOp[0]) && (obj.data == itemOp[2]);
+							return (obj.id == element.itemId) && (obj.data == element.itemDamage);
 						});
 					}
 
 					if (!item) {
 						item = _.find(gcitems, function (obj) {
-							return (obj.id == itemOp[0]) && (obj.data == 0);
+							return (obj.id == element.itemId) && (obj.data == 0);
 						});
 					}
 
