@@ -10,8 +10,7 @@ app.gameinfo = {
 			if (e.which == 13) {
 				window.location.search = '?nickname=' + $('input[name=nickname]').val();
 			}
-			e.preventDefault();
-			return false;
+			e.stopPropagation();
 		});
 	},
 
@@ -24,8 +23,8 @@ app.gameinfo = {
 			if (e.which == 13) {
 				window.location.search = '?nickname=' + $('input[name=nickname]').val() + '&ip=' + $('input[name=ip]').val() + '&hwid=' + $('input[name=hwid]').val();
 			}
-			e.preventDefault();
-			return false;
+
+			e.stopPropagation();
 		});
 	},
 
@@ -38,8 +37,8 @@ app.gameinfo = {
 			if (e.which == 13) {
 				window.location.search = '?nickname=' + $('input[name=nickname]').val() + '&channelid=' + $('input[name=channelid]').val() + '&firsttime=' + $('input[name=firsttime]').val() + '&secondtime=' + $('input[name=secondtime]').val();
 			}
-			e.preventDefault();
-			return false;
+
+			e.stopPropagation();
 		});
 	},
 
@@ -52,8 +51,8 @@ app.gameinfo = {
 			if (e.which == 13) {
 				window.location.search = '?nickname=' + $('input[name=nickname]').val() + '&firsttime=' + $('input[name=firsttime]').val() + '&secondtime=' + $('input[name=secondtime]').val();
 			}
-			e.preventDefault();
-			return false;
+
+			e.stopPropagation();
 		});
 	},
 
@@ -66,8 +65,8 @@ app.gameinfo = {
 			if (e.which == 13) {
 				window.location.search = '?nickname=' + $('input[name=nickname]').val() + '&firsttime=' + $('input[name=firsttime]').val() + '&secondtime=' + $('input[name=secondtime]').val();
 			}
-			e.preventDefault();
-			return false;
+
+			e.stopPropagation();
 		});
 	},
 
@@ -80,8 +79,8 @@ app.gameinfo = {
 			if (e.which == 13) {
 				window.location.search = '?sender=' + $('input[name=sender]').val() + '&firsttime=' + $('input[name=firsttime]').val() + '&secondtime=' + $('input[name=secondtime]').val() + '&block=' + $('input[name=block]').val();
 			}
-			e.preventDefault();
-			return false;
+
+			e.stopPropagation();
 		});
 	},
 
@@ -94,8 +93,8 @@ app.gameinfo = {
 			if (e.which == 13) {
 				window.location.search = '?regionname=' + $('input[name=regionname]').val();
 			}
-			e.preventDefault();
-			return false;
+
+			e.stopPropagation();
 		});
 	},
 
@@ -108,8 +107,8 @@ app.gameinfo = {
 			if (e.which == 13) {
 				window.location.search = '?xyz=' + $('input[name=xyz]').val() + '&block=' + $('input#gc-formfirstblockinput').val();
 			}
-			e.preventDefault();
-			return false;
+
+			e.stopPropagation();
 		});
 
 		$('#gc-formsecondsubmit').click(function () {
@@ -128,8 +127,8 @@ app.gameinfo = {
 			if (e.which == 13) {
 				window.location.search = '?xyz=' + $('input[name=xyz]').val() + '&firsttime=' + $('input[name=firsttime]').val() + '&secondtime=' + $('input[name=secondtime]').val();
 			}
-			e.preventDefault();
-			return false;
+
+			e.stopPropagation();
 		});
 	},
 };
