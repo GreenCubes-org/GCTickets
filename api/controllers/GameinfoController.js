@@ -63,17 +63,31 @@ module.exports = {
 			},
 			function serializeInventory(inventory, callback) {
 				async.map(inventory, function (element, callback) {
-					var obj = _.find(gcitems, function (obj) {
+					var item = _.find(gcitems, function (obj) {
 						return ((obj.id === element.itemId) && (obj.data === element.itemDamage));
 					});
+
+					if (!item) {
+						gct.updateItemCache();
+
+						item = _.find(gcitems, function (obj) {
+							return (obj.id == itemOp[0]) && (obj.data == itemOp[2]);
+						});
+					}
+
+					if (!item) {
+						item = _.find(gcitems, function (obj) {
+							return (obj.id == itemOp[0]) && (obj.data == 0);
+						});
+					}
 
 					callback(null, {
 						count: element.count,
 						itemDamage: element.itemDamage,
 						itemId: element.itemId,
 						slot: element.slot,
-						image: 'https://greencubes.org/img/items/' + ((obj) ? obj.image : ''),
-						name: ((obj) ? obj.name : '&mdash;')
+						image: 'https://greencubes.org/img/items/' + ((item) ? item.image : ''),
+						name: ((item) ? item.name : '&mdash;')
 					});
 				}, function (err, inventory) {
 					if (err) return callback(err);
