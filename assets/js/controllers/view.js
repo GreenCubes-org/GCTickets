@@ -76,6 +76,8 @@ var renderAllComments = function renderAllComments(ticketId) {
 			$('#comments').html('<div style="padding: 5em 0em;text-align: center;">Нет комментариев</div>');
 		}
 
+		$('.ui.accordion').accordion();
+
 		$('#commentoptions').dropdown();
 		$('#commentpost').fadeIn(500);
 		$('#commentdivider').show();
@@ -139,6 +141,8 @@ var renderRemovedComments = function renderRemovedComments(ticketId) {
 			$('#comments').html('<div style="padding: 5em 0em;text-align: center;">Нет комментариев</div>');
 			return;
 		}
+
+		$('.ui.accordion').accordion();
 
 		$('#commentoptions').dropdown();
 	});
