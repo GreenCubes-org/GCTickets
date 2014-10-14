@@ -331,7 +331,7 @@ module.exports = ban = {
 				}
 			}
 		], function (err, result, canModerate) {
-			if (err) return res.serverError(err);
+			if (err && !err.show) return res.serverError(err);
 
 
 			res.view('view/ban', {
