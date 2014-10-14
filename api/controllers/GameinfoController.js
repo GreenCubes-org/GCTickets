@@ -267,7 +267,7 @@ module.exports = {
 			return;
 		}
 
-		if (req.user.group === ugroup.mod && staffs.indexOf(nickname.toLowerCase()) !== -1) {
+		if (req.user.group === ugroup.mod && nickname && staffs.indexOf(nickname.toLowerCase()) !== -1) {
 			res.view('gameinfo/player/chatlog', {
 				log: {code: 'staffblock'}
 			});
