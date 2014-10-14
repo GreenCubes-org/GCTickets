@@ -29,9 +29,5 @@ module.exports = {
 
 	check: function (req, res) {
 		res.status(204).send('42');
-	},
-
-	test: function (req, res) {
-		Notif.add(2, req.user.id, { user: 2, ticket: 166, cid: 1, changedTo: 1 });
 	}
 };

@@ -19,17 +19,17 @@ module.exports = {
 		Comments.find({
 			tid: tid
 		}).exec(function(err, comments) {
-				if (err) throw err;
+				if (err) return res.serverError(err);
 				
 				if (req.user) {
 					gct.comment.serializeComments(comments, req.user.group, req.user.id, function(err, result) {
-						if (err) throw err;
+						if (err) return res.serverError(err);
 
 						res.json(result);
 					});
 				} else {
 					gct.comment.serializeComments(comments, 0, 0, function(err, result) {
-						if (err) throw err;
+						if (err) return res.serverError(err);
 
 						res.json(result);
 					});
@@ -271,7 +271,7 @@ module.exports = {
 		function (err, comment) {
 			if (err) {
 				if (!err.show) {
-					throw err;
+					return res.serverError(err);
 				} else {
 					return res.json({
 						error: err.msg
@@ -394,7 +394,7 @@ module.exports = {
 		], function (err, comment) {
 			if (err) {
 				res.serverError();
-				throw err;
+				return res.serverError(err);
 			}
 
 			res.json(comment);
@@ -468,7 +468,7 @@ module.exports = {
 					});
 			}
 		], function (err) {
-			if (err) throw err;
+			if (err) return res.serverError(err);
 
 			res.json({
 				status: 'OK'
@@ -533,7 +533,7 @@ module.exports = {
 					if (!canModerate) return res.forbidden();
 
 					Bugreport.findOne(comment.tid).exec(function (err, bugreport) {
-						if (err) throw err;
+						if (err) return res.serverError(err);
 
 						if (!bugreport) return res.forbidden();
 
@@ -611,7 +611,7 @@ module.exports = {
 						});
 					}
 
-					throw err;
+					return res.serverError(err);
 				}
 
 				res.json({

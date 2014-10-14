@@ -12,7 +12,7 @@ module.exports = function (req, res, ok) {
 		},
 		function checkUGroup(userGroup, ticketCreator, canModerate, callback) {
 			Ticket.findOne(req.param('tid')).exec(function (err, ticket) {
-				if (err) throw err;
+				if (err) return res.serverError(err);
 
 				if (userGroup >= ugroup.mod || ticket.owner === ticketCreator) {
 					ok();
@@ -26,7 +26,7 @@ module.exports = function (req, res, ok) {
 			if (!canModerate) return res.forbidden();
 			
 			Bugreport.findOne(tid).exec(function (err, bugreport) {
-				if (err) throw err;
+				if (err) return res.serverError(err);
 				
 				async.each(canModerate, function (element, callback) {
 					if (element === bugreport.product) 

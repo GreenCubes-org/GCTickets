@@ -205,14 +205,14 @@ module.exports = {
 						err: err.msg
 					});
 				}
-				throw err;
+				return res.serverError(err);
 			}
 		});
 	},
 
 	settingsTpl: function (req, res) {
 		User.findOne({uid: req.user.id}).exec(function(err, user) {
-			if (err) throw err;
+			if (err) return res.serverError(err);
 
 			res.view('user/settings', {
 				settings: {
@@ -228,12 +228,12 @@ module.exports = {
 	settings: function (req, res) {
 		if (req.param('startPage') && req.param('startPage').split('.').length === 1) {
 			User.findOne({uid: req.user.id}).exec(function(err, user) {
-				if (err) throw err;
+				if (err) return res.serverError(err);
 
 				user.startPage = req.param('startPage');
 
 				user.save(function (err) {
-					if (err) throw err;
+					if (err) return res.serverError(err);
 
 					res.json({
 						code: 'OK'
@@ -242,12 +242,12 @@ module.exports = {
 			});
 		} else if (sails.config.i18n.locales.indexOf(req.param('language')) !== -1) {
 			User.findOne({uid: req.user.id}).exec(function(err, user) {
-				if (err) throw err;
+				if (err) return res.serverError(err);
 
 				user.locale = req.param('language');
 
 				user.save(function (err) {
-					if (err) throw err;
+					if (err) return res.serverError(err);
 
 					res.json({
 						code: 'OK'
@@ -314,7 +314,7 @@ module.exports = {
 				});
 			}
 		], function (err) {
-			if (err) throw err;
+			if (err) return res.serverError(err);
 
 			if (req.body.redirectto) {
 				return res.json({

@@ -8,7 +8,7 @@ module.exports = function (req, res, ok) {
 	Banlist.find({
 		ip: ip
 	}).exec(function (err, ban) {
-		if (err) throw err;
+		if (err) return res.serverError(err);
 
 		if (ban.length) {
 			return res.status(403).view('403-ban', {
@@ -19,7 +19,7 @@ module.exports = function (req, res, ok) {
 				Banlist.find({
 					uid: req.user.id
 				}).exec(function (err, ban) {
-					if (err) throw err;
+					if (err) return res.serverError(err);
 
 					if (ban.length) {
 						return res.status(403).view('403-ban', {

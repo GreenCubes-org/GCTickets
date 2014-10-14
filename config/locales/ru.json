@@ -209,6 +209,7 @@
 	"view.500.pagetitle": "У сервера появились проблемы",
 	"view.500.description": "Сообщите об ошибке либо через тикет-систему, либо на форуме",
 	"view.500.techinfo": "Техническая информация",
+	"view.500.errorlog": "Лог ошибки",
 	"view.list.newticket": "Новый тикет",
 	"view.list.yourstartpage": "Это ваша стартовая страница",
 	"view.list.setstartpage": "Установить как стартовую",

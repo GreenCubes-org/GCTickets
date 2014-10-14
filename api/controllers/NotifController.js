@@ -11,7 +11,7 @@ module.exports = {
 
 	listNotifications: function (req, res) {
 		redis.sort('notif:' + req.user.id, function (err, result) {
-			if (err) throw err;
+			if (err) return res.serverError(err);
 
 			if (!result.length) { return res.json([]); }
 
@@ -115,7 +115,7 @@ module.exports = {
 					callback(null, element);
 				});
 			}, function (err, result) {
-				if (err) throw err;
+				if (err) return res.serverError(err);
 
 				res.json(result);
 			});
@@ -124,7 +124,7 @@ module.exports = {
 
 	removeNotifications: function (req, res) {
 		redis.del('notif:' + req.user.id, function (err) {
-			if (err) throw err;
+			if (err) return res.serverError(err);
 
 			res.json({
 				message: 'OK'

@@ -326,8 +326,7 @@ module.exports = bugreport = {
 				}
 			}
 		], function (err, result, canModerate) {
-			if (err)
-				if (!err.show) throw err;
+			if (err) return res.serverError(err);
 
 
 			res.view('view/bugreport', {
@@ -341,12 +340,12 @@ module.exports = bugreport = {
 
 	tplEdit: function editBugreportTpl(req, res, ticket) {
 		Bugreport.findOne(ticket.tid).exec(function (err, bugreport) {
-			if (err) throw err;
+			if (err) return res.serverError(err);
 
 			bugreport.owner = ticket.owner;
 
 			gct.bugreport.serializeView(req, res, bugreport, {isEdit: true}, function(err, result) {
-				if (err) throw err;
+				if (err) return res.serverError(err);
 
 				res.view('edit/bugreport', {
 					ticket: result,
@@ -358,7 +357,7 @@ module.exports = bugreport = {
 
 	postEdit: function editBugreport(req, res, ticket) {
 		Bugreport.findOne(ticket.tid).exec(function (err, bugreport) {
-			if (err) throw err;
+			if (err) return res.serverError(err);
 
 			bugreport.owner = ticket.owner;
 
@@ -454,7 +453,7 @@ module.exports = bugreport = {
 							err: sails.__({phrase:'global.suddenerror',locale: sails.language})
 						});
 
-						throw err;
+						return res.serverError(err);
 					} else {
 						return res.json({
 							err: err.msg

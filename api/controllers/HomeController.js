@@ -168,7 +168,7 @@ module.exports = {
 				}
 			}
 		], function (err, uploads) {
-			if (err) throw err;
+			if (err) return res.serverError(err);
 
 			res.json({
 				status: 'OK',

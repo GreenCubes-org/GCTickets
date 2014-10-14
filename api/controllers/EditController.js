@@ -8,7 +8,7 @@
 module.exports = {
 	routeView: function(req, res) {
 		Ticket.findOne(req.param('tid')).exec(function (err, result) {
-			if (err) throw err;
+			if (err) return res.serverError(err);
 
 			if (result) {
 				switch (result.type) {
@@ -35,7 +35,7 @@ module.exports = {
 
 	routeViewTpl: function(req, res) {
 		Ticket.findOne(req.param('tid')).exec(function (err, result) {
-			if (err) throw err;
+			if (err) return res.serverError(err);
 
 			if (result) {
 				switch (result.type) {
@@ -62,7 +62,7 @@ module.exports = {
 
 	deleteTpl: function (req, res) {
 		Ticket.findOne(req.param('tid')).exec(function (err, result) {
-			if (err) throw err;
+			if (err) return res.serverError(err);
 
 			res.view('delete', {
 				ticket: result
@@ -84,7 +84,7 @@ module.exports = {
 				res.json({
 					status: 'err'
 				});
-				throw err;
+				return res.serverError(err);
 			}
 
 			result.status = 6;
@@ -117,7 +117,7 @@ module.exports = {
 				res.json({
 					status: 'err'
 				});
-				throw err;
+				return res.serverError(err);
 			}
 
 			if ((result.type === 1 && req.user.group < ugroup.mod) || (result.type === 2 && req.user.group < ugroup.helper)) {

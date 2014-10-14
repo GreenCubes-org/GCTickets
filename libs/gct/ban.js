@@ -331,8 +331,7 @@ module.exports = ban = {
 				}
 			}
 		], function (err, result, canModerate) {
-			if (err)
-				if (!err.show) throw err;
+			if (err) return res.serverError(err);
 
 
 			res.view('view/ban', {
@@ -346,12 +345,12 @@ module.exports = ban = {
 
 	tplEdit: function editBanTpl(req, res, ticket) {
 		Ban.findOne(ticket.tid).exec(function (err, ban) {
-			if (err) throw err;
+			if (err) return res.serverError(err);
 
 			ban.owner = ticket.owner;
 
 			gct.ban.serializeView(req, res, ban, {isEdit: true}, function(err, result) {
-				if (err) throw err;
+				if (err) return res.serverError(err);
 
 				res.view('edit/ban', {
 					ticket: result,
@@ -363,7 +362,7 @@ module.exports = ban = {
 
 	postEdit: function editBan(req, res, ticket) {
 		Ban.findOne(ticket.tid).exec(function (err, ban) {
-			if (err) throw err;
+			if (err) return res.serverError(err);
 
 			ban.owner = ticket.owner;
 
@@ -451,7 +450,7 @@ module.exports = ban = {
 							err: sails.__({phrase:'global.suddenerror',locale: sails.language})
 						});
 
-						throw err;
+						return res.serverError(err);
 					} else {
 						return res.json({
 							err: err.msg

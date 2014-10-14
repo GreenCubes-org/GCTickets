@@ -1,4 +1,4 @@
-<% var datetime = Date(); if (typeof test === 'undefined') {console.log('[ERROR] at ', datetime)} if (typeof errors !== 'undefined') var havelog = true; else var havelog = false %>
+<% if (typeof data !== 'undefined') var havelog = true; else var havelog = false; %>
 <!DOCTYPE html>
 <html>
   <head>
@@ -21,6 +21,11 @@
       <div class="ui divider"></div>
       <h3><%- __('view.500.techinfo') %>:</h3>
       <h4><i><%= datetime %> <%= req.originalUrl %> <%= havelog %></i></h4>
+	  <% if (req.user && req.user.group >= ugroup.mod) { %>
+      <div class="ui divider"></div>
+	  <h3><%- __('view.500.errorlog') %>:</h3>
+	  <pre style="text-align:left !important;overflow-x:scroll;"><% if (data.stack) { %><%- data.stack %><% } else { %><%- data %><% } %></pre>
+	  <% } %>
       <div class="ui divider"></div>
       <div class="ui buttons tiny">
         <a href="/" class="ui button"><%- __('view.footer.supportsystem') %></a>

@@ -209,6 +209,7 @@
 	"view.500.pagetitle": "Server error",
 	"view.500.description": "Send report to the support system or post it on forum",
 	"view.500.techinfo": "Technical information",
+	"view.500.errorlog": "Error log",
 	"view.list.newticket": "New ticket",
 	"view.list.yourstartpage": "It is your start page",
 	"view.list.setstartpage": "Set as home page",
