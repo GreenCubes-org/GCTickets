@@ -81,7 +81,7 @@ module.exports = function (req, res, ok) {
 			});
 		}
 	], function (err) {
-		if (err) throw err;
+		if (err) return res.serverError(err);
 	});
 	
 };

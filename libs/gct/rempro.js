@@ -443,7 +443,7 @@ module.exports = rempro = {
 				}
 			}
 		], function (err, result, canModerate) {
-			if (err) throw err;
+			if (err) return res.serverError(err);
 
 			res.view('view/rempro', {
 				moment: moment,
@@ -456,12 +456,12 @@ module.exports = rempro = {
 
 	tplEdit: function editRemproTpl(req, res, ticket) {
 		Rempro.findOne(ticket.tid).exec(function (err, rempro) {
-			if (err) throw err;
+			if (err) return res.serverError(err);
 
 			rempro.owner = ticket.owner;
 
 			gct.rempro.serializeView(req, res, rempro, {isEdit: true}, function(err, result) {
-				if (err) throw err;
+				if (err) return res.serverError(err);
 
 				res.view('edit/rempro', {
 					ticket: result,
@@ -473,7 +473,7 @@ module.exports = rempro = {
 
 	postEdit: function editRempro(req, res, ticket) {
 		Rempro.findOne(ticket.tid).exec(function (err, rempro) {
-			if (err) throw err;
+			if (err) return res.serverError(err);
 
 			rempro.owner = ticket.owner;
 
@@ -586,7 +586,7 @@ module.exports = rempro = {
 							err: sails.__({phrase:'global.suddenerror',locale: sails.language})
 						});
 
-						throw err;
+						return res.serverError(err);
 					} else {
 						return res.json({
 							err: err.msg

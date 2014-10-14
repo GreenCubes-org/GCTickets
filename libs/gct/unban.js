@@ -331,8 +331,7 @@ module.exports = unban = {
 				}
 			}
 		], function (err, result, canModerate) {
-			if (err)
-				if (!err.show) throw err;
+			if (err) return res.serverError(err);
 
 
 			res.view('view/unban', {
@@ -346,12 +345,12 @@ module.exports = unban = {
 
 	tplEdit: function editUnbanTpl(req, res, ticket) {
 		Unban.findOne(ticket.tid).exec(function (err, unban) {
-			if (err) throw err;
+			if (err) return res.serverError(err);
 
 			unban.owner = ticket.owner;
 
 			gct.unban.serializeView(req, res, unban, {isEdit: true}, function(err, result) {
-				if (err) throw err;
+				if (err) return res.serverError(err);
 
 				res.view('edit/unban', {
 					ticket: result,
@@ -363,7 +362,7 @@ module.exports = unban = {
 
 	postEdit: function editUnban(req, res, ticket) {
 		Unban.findOne(ticket.tid).exec(function (err, unban) {
-			if (err) throw err;
+			if (err) return res.serverError(err);
 
 			unban.owner = ticket.owner;
 
@@ -451,7 +450,7 @@ module.exports = unban = {
 							err: sails.__({phrase:'global.suddenerror',locale: sails.language})
 						});
 
-						throw err;
+						return res.serverError(err);
 					} else {
 						return res.json({
 							err: err.msg

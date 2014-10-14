@@ -10,7 +10,7 @@ module.exports = {
 
 	routeView: function(req, res) {
 		Ticket.findOne(req.param('tid')).exec(function (err, result) {
-			if (err) throw err;
+			if (err) return res.serverError(err);
 
 			if (result) {
 				switch (result.type) {

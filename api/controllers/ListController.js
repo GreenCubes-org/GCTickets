@@ -244,7 +244,7 @@ module.exports = {
 						err: err.msg
 					});
 				}
-				throw err;
+				return res.serverError(err);
 			}
 		});
 	}

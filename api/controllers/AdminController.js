@@ -52,13 +52,13 @@ module.exports = {
 						callback(null, right);
 					});
 				}, function (err, results) {
-					if (err) throw err;
+					if (err) return res.serverError(err);
 
 					cb(null, results);
 				});
 			}
 		], function (err, rights) {
-			if (err) throw err;
+			if (err) return res.serverError(err);
 
 			res.view('admin/users/roles', {
 				rights: rights
@@ -154,7 +154,7 @@ module.exports = {
 						 err: sails.__('global.suddenerror')
 					});
 					
-					throw err;
+					return res.serverError(err);
 				} else {
 					return res.json({
 						err: err.msg
@@ -178,13 +178,13 @@ module.exports = {
 		User.findOne({
 			uid: uid
 		}).exec(function (err, rights) {
-			if (err) throw err;
+			if (err) return res.serverError(err);
 			
 			if (rights.length === 0) {
 				res.redirect('/admin/users/roles');
 			} else {
 				rights.destroy(function(err) {
-					if (err) throw err;
+					if (err) return res.serverError(err);
 
 					res.redirect('/admin/users/roles');
 				});
@@ -215,13 +215,13 @@ module.exports = {
 						});
 					});
 				}, function (err, results) {
-					if (err) throw err;
+					if (err) return res.serverError(err);
 
 					cb(null, results);
 				});
 			}
 		], function (err, banlist) {
-			if (err) throw err;
+			if (err) return res.serverError(err);
 
 			res.view('admin/users/bans', {
 				banlist: banlist
@@ -300,7 +300,7 @@ module.exports = {
 						 err: sails.__('global.suddenerror')
 					});
 
-					throw err;
+					return res.serverError(err);
 				} else {
 					return res.json({
 						err: err.msg
@@ -324,13 +324,13 @@ module.exports = {
 		Banlist.findOne({
 			id: id
 		}).exec(function (err, ban) {
-			if (err) throw err;
+			if (err) return res.serverError(err);
 
 			if (ban.length === 0) {
 				res.redirect('/admin/users/bans');
 			} else {
 				ban.destroy(function(err) {
-					if (err) throw err;
+					if (err) return res.serverError(err);
 
 					res.redirect('/admin/users/bans');
 				});

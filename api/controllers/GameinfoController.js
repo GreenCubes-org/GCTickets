@@ -20,9 +20,7 @@ module.exports = {
 
 		gct.user.getPInfo(req.param('nickname'), function (err, pinfo) {
 			if (err) {
-				res.serverError();
-				sails.log.error(err);
-				throw err;
+				return res.serverError(err);
 			}
 
 			if (!pinfo) {
@@ -97,10 +95,7 @@ module.exports = {
 			}
 		], function (err, inventory) {
 			if (err) {
-				//res.serverError();
-				res.json(err);
-				sails.log.error(err);
-				//throw err;
+				return res.serverError(err);
 			}
 
 			res.view('gameinfo/player/inventory', {
@@ -169,7 +164,7 @@ module.exports = {
 				});
 			}
 		], function (err, log, lastPage) {
-			if (err) throw err;
+			if (err) return res.serverError(err);
 
 			res.view('gameinfo/player/loginlog', {
 				log: log,
@@ -247,7 +242,7 @@ module.exports = {
 				});
 			}
 		], function (err, log, lastPage) {
-			if (err) throw err;
+			if (err) return res.serverError(err);
 
 			res.view('gameinfo/player/chestslog', {
 				log: log,
@@ -389,7 +384,7 @@ module.exports = {
 				});
 			}
 		], function (err, log, lastPage) {
-			if (err) throw err;
+			if (err) return res.serverError(err);
 
 			res.view('gameinfo/player/chatlog', {
 				log: log,
@@ -484,7 +479,7 @@ module.exports = {
 				});
 			}
 		], function (err, log, lastPage) {
-			if (err) throw err;
+			if (err) return res.serverError(err);
 
 			res.view('gameinfo/player/commandslog', {
 				log: log,
@@ -504,9 +499,7 @@ module.exports = {
 
 		gct.getRegionsInfo([{name:req.param('regionname')}], req.user.group, function (err, rinfo) {
 			if (err) {
-				res.serverError();
-				sails.log.error(err);
-				throw err;
+				return res.serverError(err);
 			}
 			rinfo = rinfo[0];
 
@@ -621,7 +614,7 @@ module.exports = {
 				});
 			}
 		], function (err, log, lastPage) {
-			if (err) throw err;
+			if (err) return res.serverError(err);
 
 			res.view('gameinfo/world/chestlog', {
 				log: log,
@@ -733,7 +726,7 @@ module.exports = {
 				});
 			}
 		], function (err, log, lastPage) {
-			if (err) throw err;
+			if (err) return res.serverError(err);
 
 			res.view('gameinfo/world/blockslog', {
 				log: log,
@@ -881,9 +874,7 @@ module.exports = {
 			}
 		], function (err, log, lastPage) {
 			if (err) {
-				res.serverError();
-				sails.log.error(err);
-				throw err;
+				return res.serverError(err);
 			}
 
 			res.view('gameinfo/world/moneylog', {

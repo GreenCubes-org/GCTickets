@@ -7,7 +7,7 @@ module.exports = function (req, res, ok) {
 		User.find({
 			uid: req.user.id
 		}).exec(function (err, rights) {
-			if (err) throw err;
+			if (err) return res.serverError(err);
 
 			if (rights.length !== 0 && rights[0].ugroup >= ugroup.mod) {
 				ok();
