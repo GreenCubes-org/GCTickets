@@ -93,7 +93,7 @@ module.exports = {
 					res.json({
 						status: 'err'
 					});
-					throw err
+					return res.serverError(err);
 				};
 
 				res.json({
@@ -137,7 +137,7 @@ module.exports = {
 					res.json({
 						status: 'err'
 					});
-					throw err
+					return res.serverError(err);
 				};
 
 				res.json({

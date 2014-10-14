@@ -189,7 +189,7 @@ module.exports = {
 				break;
 			}
 		}, function (err, array) {
-			if (err) throw err;
+			if (err) cb(err);
 
 			cb(null, array);
 		});
