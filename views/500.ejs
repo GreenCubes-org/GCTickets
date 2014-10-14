@@ -24,7 +24,7 @@
 	  <% if (req.user && req.user.group >= ugroup.mod) { %>
       <div class="ui divider"></div>
 	  <h3><%- __('view.500.errorlog') %>:</h3>
-	  <pre style="text-align:left !important;overflow-x:scroll;"><% if (data.stack) { %><%- data.stack %><% } else { %><%- data %><% } %></pre>
+	  <pre style="text-align:left !important;overflow-x:scroll;"><% if (data.stack) { %><%- data.stack %><div class="ui divider"></div><%- data %><% } else { %><%- data %><% } %></pre>
 	  <% } %>
       <div class="ui divider"></div>
       <div class="ui buttons tiny">
