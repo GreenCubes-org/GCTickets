@@ -326,7 +326,7 @@ module.exports = bugreport = {
 				}
 			}
 		], function (err, result, canModerate) {
-			if (err && !err.show) if (!err.showreturn res.serverError(err);
+			if (err && !err.show) return res.serverError(err);
 
 
 			res.view('view/bugreport', {
