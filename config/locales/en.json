@@ -333,7 +333,7 @@
 	"view.gameinfo.player.moneylog.boughtchannel": "Purchase of the channel %s",
 	"view.gameinfo.player.moneylog.boughtregion": "Purchase of the region <a href=\"/gameinfo/world/regioninfo?regionname=%s\">%s</a>",
 	"view.gameinfo.world.chestlog.title": "Chest's log",
-	"view.gameinfo.title": "Gameinfo panel",
+	"view.gameinfo.title": "In-game info panel",
 	"view.gameinfo.world.title": "World",
 	"view.gameinfo.world.chestlog.form.coordinates": "Coordinates",
 	"view.gameinfo.form.firsttime": "From",
