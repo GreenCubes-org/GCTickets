@@ -413,6 +413,7 @@
 	"view.gameinfo.world.moneylog.form.sender": "Отправитель",
 	"view.gameinfo.world.moneylog.form.sender.placeholder": "ChangedNick / o:1337 (для организаций)",
 	"view.gameinfo.world.moneylog.table.time": "Время",
+	"view.gameinfo.world.moneylog.table.sender": "Отправитель",
 	"view.gameinfo.world.moneylog.table.receiver": "Получатель",
 	"view.gameinfo.world.moneylog.table.amount": "Количество",
 	"view.gameinfo.world.moneylog.table.type": "Тип",
