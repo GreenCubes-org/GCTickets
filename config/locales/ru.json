@@ -336,6 +336,7 @@
 	"view.gameinfo.title": "Панель игровой информации",
 	"view.gameinfo.world.title": "Мир",
 	"view.gameinfo.world.chestlog.form.coordinates": "Координаты",
+	"view.gameinfo.form.timecheckbox": "Включить фильтрацию по времени",
 	"view.gameinfo.form.firsttime": "От",
 	"view.gameinfo.form.secondtime": "До",
 	"view.gameinfo.form.send": "Отправить",
