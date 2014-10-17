@@ -1,6 +1,6 @@
 <% title =  __('view.gameinfo.world.moneylog.title') + ' / ' + __('view.gameinfo.world.title') + ' / ' + __('view.gameinfo.title') + " — " + __('global.pagetitle'),
     backUrl = '/gameinfo',
-    url = '?sender=' + req.query.sender + '&firsttime=' + req.query.firsttime + '&secondtime=' + req.query.secondtime + '&block=' + req.query.block + '';  %>
+    url = '/gameinfo/world/moneylog?cake=isalie' + ((req.query.sender) ? '&sender='  + req.query.sender : '' ) + ((req.query.firsttime) ? '&firsttime='  + req.query.firsttime : '' ) + ((req.query.secondtime) ? '&secondtime='  + req.query.secondtime : '' ) + ((req.query.block) ? '&block='  + req.query.block : '' );  %>
 <%- partial('../partials/header')%>
 
 

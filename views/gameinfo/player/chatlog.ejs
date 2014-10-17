@@ -1,6 +1,6 @@
 <% title = __('view.gameinfo.player.chatlog.title') + ' / ' + __('view.gameinfo.player.title') +' / ' + __('view.gameinfo.title') + ' — ' + __('global.pagetitle'),
     backUrl = '/gameinfo',
-    url = '/gameinfo/player/chatlog?nickname=' + req.query.nickname + '&channelid=' + req.query.channelid + '&firsttime='  + req.query.firsttime + '&secondtime=' + req.query.secondtime;  %>
+    url = '/gameinfo/player/chatlog?cake=isalie' + ((req.query.nickname) ? '&nickname=' + req.query.nickname : '' ) + ((req.query.channelid) ? '&channelid=' + req.query.channelid : '' ) + ((req.query.firsttime) ? '&firsttime='  + req.query.firsttime : '' )+ ((req.query.secondtime) ? '&secondtime='  + req.query.secondtime : '' );  %>
 
 <%- partial('../partials/header')%>
 <%- partial('../partials/subheader', { header: __('view.gameinfo.player.title') , subheader: __('view.gameinfo.player.chatlog.title') }) %>
