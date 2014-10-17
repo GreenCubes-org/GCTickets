@@ -58,30 +58,34 @@ app.gameinfo = {
 
 	playerChestslog: function () {
 		$('#gc-formsubmit').click(function () {
-			window.location.search = '?nickname=' + $('input[name=nickname]').val() + '&firsttime=' + $('input[name=firsttime]').val() + '&secondtime=' + $('input[name=secondtime]').val();
+			window.location.search = '?nickname=' + $('input[name=nickname]').val() + '&time=' + $('input[name=time]').prop('checked') + '&firsttime=' + $('input[name=firsttime]').val() + '&secondtime=' + $('input[name=secondtime]').val();
 		});
 		
 		$('input[name=nickname]').keypress(function (e) {
 			if (e.which == 13) {
-				window.location.search = '?nickname=' + $('input[name=nickname]').val() + '&firsttime=' + $('input[name=firsttime]').val() + '&secondtime=' + $('input[name=secondtime]').val();
+				window.location.search = '?nickname=' + $('input[name=nickname]').val() + '&time=' + $('input[name=time]').prop('checked') + '&firsttime=' + $('input[name=firsttime]').val() + '&secondtime=' + $('input[name=secondtime]').val();
 			}
 
 			e.stopPropagation();
 		});
+
+		$('.ui.checkbox').checkbox();
 	},
 
 	worldMoneylog: function () {
 		$('#gc-formsubmit').click(function () {
-			window.location.search = '?sender=' + $('input[name=sender]').val() + '&firsttime=' + $('input[name=firsttime]').val() + '&secondtime=' + $('input[name=secondtime]').val() + '&block=' + $('input[name=block]').val();
+			window.location.search = '?sender=' + $('input[name=sender]').val() + '&time=' + $('input[name=time]').prop('checked') + '&firsttime=' + $('input[name=firsttime]').val() + '&secondtime=' + $('input[name=secondtime]').val() + '&block=' + $('input[name=block]').val();
 		});
 		
 		$('input[name=sender]').keypress(function (e) {
 			if (e.which == 13) {
-				window.location.search = '?sender=' + $('input[name=sender]').val() + '&firsttime=' + $('input[name=firsttime]').val() + '&secondtime=' + $('input[name=secondtime]').val() + '&block=' + $('input[name=block]').val();
+				window.location.search = '?sender=' + $('input[name=sender]').val() + '&time=' + $('input[name=time]').prop('checked') + '&firsttime=' + $('input[name=firsttime]').val() + '&secondtime=' + $('input[name=secondtime]').val() + '&block=' + $('input[name=block]').val();
 			}
 
 			e.stopPropagation();
 		});
+
+		$('.ui.checkbox').checkbox();
 	},
 
 	worldRegioninfo: function () {
@@ -120,15 +124,17 @@ app.gameinfo = {
 
 	worldChestlog: function () {
 		$('#gc-formsubmit').click(function () {
-			window.location.search = '?xyz=' + $('input[name=xyz]').val() + '&firsttime=' + $('input[name=firsttime]').val() + '&secondtime=' + $('input[name=secondtime]').val();
+			window.location.search = '?xyz=' + $('input[name=xyz]').val() + '&time=' + $('input[name=time]').prop('checked') + '&firsttime=' + $('input[name=firsttime]').val() + '&secondtime=' + $('input[name=secondtime]').val();
 		});
 		
 		$('input[name=xyz]').keypress(function (e) {
 			if (e.which == 13) {
-				window.location.search = '?xyz=' + $('input[name=xyz]').val() + '&firsttime=' + $('input[name=firsttime]').val() + '&secondtime=' + $('input[name=secondtime]').val();
+				window.location.search = '?xyz=' + $('input[name=xyz]').val() + '&time=' + $('input[name=time]').prop('checked') + '&firsttime=' + $('input[name=firsttime]').val() + '&secondtime=' + $('input[name=secondtime]').val();
 			}
 
 			e.stopPropagation();
 		});
+
+		$('.ui.checkbox').checkbox();
 	},
 };

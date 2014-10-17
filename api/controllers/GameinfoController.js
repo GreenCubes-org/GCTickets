@@ -187,22 +187,23 @@ module.exports = {
 			return;
 		}
 
-		var firsttime = Date.parse(req.param('firsttime')) / 1000,
+		var time = (req.param('time') === 'true') ? true : false,
+			firsttime = Date.parse(req.param('firsttime')) / 1000,
 			secondtime = Date.parse(req.param('secondtime')) / 1000,
 			page = (parseInt(req.param('page'), 10)) ? parseInt(req.param('page'), 10) : 1,
 			userId,
 			queryTime;
 
 
-		if (firsttime && isNaN(firsttime) || secondtime && isNaN(secondtime) || firsttime > secondtime) {
+		if (time && firsttime && isNaN(firsttime) || secondtime && isNaN(secondtime) || firsttime > secondtime) {
 			res.view('gameinfo/player/chatlog', {
 				logs: {code: 'wrongtime'}
 			});
 			return;
 		}
 
-		if (firsttime && secondtime) {
-			queryTime = '" AND UNIX_TIMESTAMP(`time`) >= "' + firsttime + '" AND UNIX_TIMESTAMP(`time`) <= "' + secondtime + '"';
+		if (time && firsttime && secondtime) {
+			queryTime = ' AND UNIX_TIMESTAMP(`time`) >= "' + firsttime + '" AND UNIX_TIMESTAMP(`time`) <= "' + secondtime + '"';
 		} else {
 			queryTime = '';
 		}
@@ -219,7 +220,7 @@ module.exports = {
 				});
 			},
 			function getLog(callback) {
-				var query = 'SELECT * FROM `chest_logs` WHERE `user` = "' + userId + queryTime + ' ORDER BY `id` DESC LIMIT ' + (page - 1) + ',' + page * 100;
+				var query = 'SELECT * FROM `chest_logs` WHERE `user` = "' + userId + '"' + queryTime + ' ORDER BY `id` DESC LIMIT ' + (page - 1) + ',' + page * 100;
 
 				gcmainconn.query(query, function (err, result) {
 					if (err) return callback(err);
@@ -567,11 +568,12 @@ module.exports = {
 			return;
 		}
 
-		var firsttime = Date.parse(req.param('firsttime')) / 1000,
+		var time = (req.param('time') === 'true') ? true : false,
+			firsttime = Date.parse(req.param('firsttime')) / 1000,
 			secondtime = Date.parse(req.param('secondtime')) / 1000,
 			page = (parseInt(req.param('page'), 10)) ? parseInt(req.param('page'), 10) : 1;
 
-		if (firsttime && isNaN(firsttime) || secondtime && isNaN(secondtime) || firsttime > secondtime) {
+		if (time && firsttime && isNaN(firsttime) || secondtime && isNaN(secondtime) || firsttime > secondtime) {
 			res.view('gameinfo/player/chatlog', {
 				logs: {code: 'wrongtime'}
 			});
@@ -752,10 +754,18 @@ module.exports = {
 		}
 
 		var sender = req.param('sender'),
+			time = (req.param('time') === 'true') ? true : false,
 			firstTime = Date.parse(req.param('firsttime')) / 1000,
 			secondTime = Date.parse(req.param('secondtime')) / 1000,
+			queryTime,
 			type,
 			page = (parseInt(req.param('page'), 10)) ? parseInt(req.param('page'), 10) : 1;
+
+		if (time && firsttime && secondtime) {
+			queryTime = ' AND UNIX_TIMESTAMP(`time`) >= "' + firsttime + '" AND UNIX_TIMESTAMP(`time`) <= "' + secondtime + '"';
+		} else {
+			queryTime = '';
+		}
 
 		async.waterfall([
 			function getType(callback) {
@@ -792,7 +802,7 @@ module.exports = {
 				}
 			},
 			function getLog(uid, type, callback) {
-				gcmainconn.query('SELECT * FROM `money_log` WHERE ((`sender` = ? AND `senderType` = ?) OR (`reciever` = ? AND `recieverType` = ?)) AND UNIX_TIMESTAMP(`time`) >= ? AND UNIX_TIMESTAMP(`time`) <= ? ORDER BY `id` DESC LIMIT ' + (page - 1) + ',' + page * 100, [uid, type, uid, type, firstTime, secondTime], function (err, result) {
+				gcmainconn.query('SELECT * FROM `money_log` WHERE ((`sender` = ? AND `senderType` = ?) OR (`reciever` = ? AND `recieverType` = ?))' + queryTime + ' ORDER BY `id` DESC LIMIT ' + (page - 1) + ',' + page * 100, [uid, type, uid, type, firstTime, secondTime], function (err, result) {
 					if (err) return callback(err);
 
 					callback(null, result);
@@ -866,7 +876,7 @@ module.exports = {
 				});
 			},
 			function getPageCount(log, callback) {
-				gcmainconn.query('SELECT count(*) AS count FROM `money_log` WHERE ((`sender` = ? AND `senderType` = ?) OR (`reciever` = ? AND `recieverType` = ?)) AND UNIX_TIMESTAMP(`time`) >= ? AND UNIX_TIMESTAMP(`time`) <= ? ORDER BY `id` DESC', [sender, type, sender, type, firstTime, secondTime], function (err, result) {
+				gcmainconn.query('SELECT count(*) AS count FROM `money_log` WHERE ((`sender` = ? AND `senderType` = ?) OR (`reciever` = ? AND `recieverType` = ?))' + queryTime + ' ORDER BY `id` DESC', [sender, type, sender, type, firstTime, secondTime], function (err, result) {
 					if (err) return callback(err);
 
 					callback(null, log, Math.ceil(result[0].count / 100));

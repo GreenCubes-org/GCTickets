@@ -336,6 +336,7 @@
 	"view.gameinfo.title": "In-game info panel",
 	"view.gameinfo.world.title": "World",
 	"view.gameinfo.world.chestlog.form.coordinates": "Coordinates",
+	"view.gameinfo.form.timecheckbox": "Enable filtration by time",
 	"view.gameinfo.form.firsttime": "From",
 	"view.gameinfo.form.secondtime": "To",
 	"view.gameinfo.form.send": "Submit",

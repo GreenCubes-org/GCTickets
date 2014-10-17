@@ -1,6 +1,6 @@
 <% title = __('view.gameinfo.player.commandslog.title') + ' / ' + __('view.gameinfo.player.title') + ' / ' + __('view.gameinfo.title') + " — " + __('global.pagetitle'),
     backUrl = '/gameinfo',
-    url = '/gameinfo/player/commandslog?nickname=' + req.query.nickname + '&firsttime='  + req.query.firsttime + '&secondtime=' + req.query.secondtime;  %>
+    url = '/gameinfo/player/commandslog?cake=isalie' + ((req.query.nickname) ? '&nickname='  + req.query.nickname : '' ) + ((req.query.firsttime) ? '&firsttime='  + req.query.firsttime : '' ) + ((req.query.secondtime) ? '&secondtime='  + req.query.secondtime : '' );  %>
 
 <%- partial('../partials/header')%>
 <%- partial('../partials/subheader', { header: __('view.gameinfo.player.title'), subheader: __('view.gameinfo.player.commandslog.title') }) %>

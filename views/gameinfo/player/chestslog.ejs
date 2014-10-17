@@ -1,6 +1,6 @@
 <% title = __('view.gameinfo.player.chestslog.title') + ' / ' + __('view.gameinfo.player.title') + ' / ' + __('view.gameinfo.title') + ' — ' + __('global.pagetitle'),
     backUrl = '/gameinfo',
-    url = '/gameinfo/player/chestslog?nickname' + req.query.nickname + '&firsttime='  + req.query.firsttime + '&secondtime=' + req.query.secondtime;  %>
+    url = '/gameinfo/player/chestslog?cake=isalie' + ((req.query.nickname) ? '&nickname='  + req.query.nickname : '' ) + ((req.query.firsttime) ? '&firsttime='  + req.query.firsttime : '' ) + ((req.query.secondtime) ? '&secondtime='  + req.query.secondtime : '' );  %>
 <%- partial('../partials/header')%>
 
 <%- partial('../partials/subheader', { header: __('view.gameinfo.player.title'), subheader: __('view.gameinfo.player.chestslog.title') }) %>
@@ -16,6 +16,12 @@
             </div>
         </div>
         <div class="ui divider"></div>
+		<div class="inline field">
+			<div class="ui checkbox">
+				<input type="checkbox" name="time" <%= (req.query.time === 'true') ? 'checked="checked"' : '' %>>
+				<label><%= __('view.gameinfo.form.timecheckbox') %></label>
+			</div>
+		</div>
         <div class="two fields">
             <div class="field">
                 <label><%= __('view.gameinfo.form.firsttime') %></label>
