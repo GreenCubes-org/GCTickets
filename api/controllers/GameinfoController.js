@@ -571,13 +571,20 @@ module.exports = {
 		var time = (req.param('time') === 'true') ? true : false,
 			firsttime = Date.parse(req.param('firsttime')) / 1000,
 			secondtime = Date.parse(req.param('secondtime')) / 1000,
-			page = (parseInt(req.param('page'), 10)) ? parseInt(req.param('page'), 10) : 1;
+			page = (parseInt(req.param('page'), 10)) ? parseInt(req.param('page'), 10) : 1,
+			queryTime;
 
 		if (time && firsttime && isNaN(firsttime) || secondtime && isNaN(secondtime) || firsttime > secondtime) {
 			res.view('gameinfo/player/chatlog', {
 				logs: {code: 'wrongtime'}
 			});
 			return;
+		}
+
+		if (time && firsttime && secondtime) {
+			queryTime = ' AND UNIX_TIMESTAMP(`time`) >= "' + firsttime + '" AND UNIX_TIMESTAMP(`time`) <= "' + secondtime + '"';
+		} else {
+			queryTime = '';
 		}
 
 		// ['-1337','42','420']
@@ -593,7 +600,7 @@ module.exports = {
 
 		async.waterfall([
 			function getLog(callback) {
-				var query = 'SELECT * FROM `chest_logs` WHERE `x` = ' + xyzSplited[0] + ' AND `y` = ' + xyzSplited[1] + ' AND `z` = ' + xyzSplited[2] + ' AND UNIX_TIMESTAMP(`time`) >= "' + firsttime + '" AND UNIX_TIMESTAMP(`time`) <= "' + secondtime + '" ORDER BY `id` DESC LIMIT ' + (page - 1) + ',' + page * 100;
+				var query = 'SELECT * FROM `chest_logs` WHERE `x` = ' + xyzSplited[0] + ' AND `y` = ' + xyzSplited[1] + ' AND `z` = ' + xyzSplited[2] + queryTime + ' ORDER BY `id` DESC LIMIT ' + (page - 1) + ',' + page * 100;
 
 				gcmainconn.query(query, function (err, result) {
 					if (err) return callback(err);
