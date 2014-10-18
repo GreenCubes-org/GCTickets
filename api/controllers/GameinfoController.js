@@ -118,7 +118,7 @@ module.exports = {
 			nickname = (req.param('nickname')) ? req.param('nickname').replace(/[^a-zA-Z0-9_-]/g, '') : null,
 			ip = (req.param('ip')) ? req.param('ip').replace(/[^0-9\.]/g, '') : null,
 			hwid = (req.param('hwid')) ? req.param('hwid').replace(/[^a-zA-Z0-9\:]/g, '') : null,
-			page = (parseInt(req.param('page'), 10)) ? parseInt(req.param('page'), 10) : 1;
+			 page = (parseInt(req.param('page'), 10) >= 1) ? parseInt(req.param('page'), 10) : 1;
 
 		if (nickname) {
 			query += '`login` = "' + nickname + '"';
@@ -135,7 +135,7 @@ module.exports = {
 			whereQuery += ((nickname || ip) ? 'AND ' : '') + '`hardware` = "' + hwid + '"';
 		}
 
-		query += ' ORDER BY `id` DESC LIMIT ' + (page - 1) + ',' + page * 100;
+		query += ' ORDER BY `id` DESC LIMIT ' + (page - 1) * 100 + ',' + page * 100;
 
 		async.waterfall([
 			function getLog(callback) {
@@ -190,7 +190,7 @@ module.exports = {
 		var time = (req.param('time') === 'true') ? true : false,
 			firsttime = Date.parse(req.param('firsttime')) / 1000,
 			secondtime = Date.parse(req.param('secondtime')) / 1000,
-			page = (parseInt(req.param('page'), 10)) ? parseInt(req.param('page'), 10) : 1,
+			 page = (parseInt(req.param('page'), 10) >= 1) ? parseInt(req.param('page'), 10) : 1,
 			userId,
 			queryTime;
 
@@ -220,7 +220,7 @@ module.exports = {
 				});
 			},
 			function getLog(callback) {
-				var query = 'SELECT * FROM `chest_logs` WHERE `user` = "' + userId + '"' + queryTime + ' ORDER BY `id` DESC LIMIT ' + (page - 1) + ',' + page * 100;
+				var query = 'SELECT * FROM `chest_logs` WHERE `user` = "' + userId + '"' + queryTime + ' ORDER BY `id` DESC LIMIT ' + (page - 1) * 100 + ',' + page * 100;
 
 				gcmainconn.query(query, function (err, result) {
 					if (err) return callback(err);
@@ -257,7 +257,7 @@ module.exports = {
 		var firsttime = Date.parse(req.param('firsttime')) / 1000,
 			secondtime = Date.parse(req.param('secondtime')) / 1000,
 			query,
-			page = (parseInt(req.param('page'), 10)) ? parseInt(req.param('page'), 10) : 1,
+			 page = (parseInt(req.param('page'), 10) >= 1) ? parseInt(req.param('page'), 10) : 1,
 			userId,
 			nickname = (req.param('nickname')) ? req.param('nickname').replace(/[^a-zA-Z0-9_-]/g, '') : null;
 
@@ -308,7 +308,7 @@ module.exports = {
 							query += ' AND `channel` = "' + req.param('channelid') + '"';
 						}
 
-						query += ' ORDER BY `id` DESC LIMIT ' + (page - 1) + ',' + page * 100;
+						query += ' ORDER BY `id` DESC LIMIT ' + (page - 1) * 100 + ',' + page * 100;
 
 						userId = uid;
 
@@ -321,7 +321,7 @@ module.exports = {
 						query += ' AND `channel` = "' + req.param('channelid') + '"';
 					}
 
-					query += ' ORDER BY `id` DESC LIMIT ' + (page - 1) + ',' + page * 100;
+					query += ' ORDER BY `id` DESC LIMIT ' + (page - 1) * 100 + ',' + page * 100;
 
 					callback(null);
 				}
@@ -413,7 +413,7 @@ module.exports = {
 		var firsttime = Date.parse(req.param('firsttime')) / 1000,
 			secondtime = Date.parse(req.param('secondtime')) / 1000,
 			query,
-			page = (parseInt(req.param('page'), 10)) ? parseInt(req.param('page'), 10) : 1,
+			 page = (parseInt(req.param('page'), 10) >= 1) ? parseInt(req.param('page'), 10) : 1,
 			userId;
 
 		if (firsttime && isNaN(firsttime) || secondtime && isNaN(secondtime) || firsttime > secondtime) {
@@ -435,7 +435,7 @@ module.exports = {
 				gcdb.user.getByLogin(req.param('nickname').replace(/[^a-zA-Z0-9_-]/g, ''), 'maindb', function (err, uid) {
 					if (err) return callback(err);
 
-					query = 'SELECT * FROM `commands_log` WHERE `player` = "' + uid +  '" AND UNIX_TIMESTAMP(`time`) >= "' + firsttime + '" AND UNIX_TIMESTAMP(`time`) <= "' + secondtime + '" ORDER BY `id` DESC LIMIT ' + (page - 1) + ',' + page * 100;
+					query = 'SELECT * FROM `commands_log` WHERE `player` = "' + uid +  '" AND UNIX_TIMESTAMP(`time`) >= "' + firsttime + '" AND UNIX_TIMESTAMP(`time`) <= "' + secondtime + '" ORDER BY `id` DESC LIMIT ' + (page - 1) * 100 + ',' + page * 100;
 
 					userId = uid;
 
@@ -571,7 +571,7 @@ module.exports = {
 		var time = (req.param('time') === 'true') ? true : false,
 			firsttime = Date.parse(req.param('firsttime')) / 1000,
 			secondtime = Date.parse(req.param('secondtime')) / 1000,
-			page = (parseInt(req.param('page'), 10)) ? parseInt(req.param('page'), 10) : 1,
+			 page = (parseInt(req.param('page'), 10) >= 1) ? parseInt(req.param('page'), 10) : 1,
 			queryTime;
 
 		if (time && firsttime && isNaN(firsttime) || secondtime && isNaN(secondtime) || firsttime > secondtime) {
@@ -600,7 +600,7 @@ module.exports = {
 
 		async.waterfall([
 			function getLog(callback) {
-				var query = 'SELECT * FROM `chest_logs` WHERE `x` = ' + xyzSplited[0] + ' AND `y` = ' + xyzSplited[1] + ' AND `z` = ' + xyzSplited[2] + queryTime + ' ORDER BY `id` DESC LIMIT ' + (page - 1) + ',' + page * 100;
+				var query = 'SELECT * FROM `chest_logs` WHERE `x` = ' + xyzSplited[0] + ' AND `y` = ' + xyzSplited[1] + ' AND `z` = ' + xyzSplited[2] + queryTime + ' ORDER BY `id` DESC LIMIT ' + (page - 1) * 100 + ',' + page * 100;
 
 				gcmainconn.query(query, function (err, result) {
 					if (err) return callback(err);
@@ -648,7 +648,7 @@ module.exports = {
 			return;
 		}
 
-		var page = (parseInt(req.param('page'), 10)) ? parseInt(req.param('page'), 10) : 1,
+		var  page = (parseInt(req.param('page'), 10) >= 1) ? parseInt(req.param('page'), 10) : 1,
 			queryWhere,
 			queryParams;
 
@@ -670,7 +670,7 @@ module.exports = {
 					queryParams = [xyzSplited[0], xyzSplited[1], xyzSplited[2], req.param('block')];
 
 
-					gcmainconn.query('SELECT * FROM `blocks_log` WHERE ' + queryWhere  + ' ORDER BY `id` DESC LIMIT ' + (page - 1) + ',' + page * 100, queryParams, function (err, result) {
+					gcmainconn.query('SELECT * FROM `blocks_log` WHERE ' + queryWhere  + ' ORDER BY `id` DESC LIMIT ' + (page - 1) * 100 + ',' + page * 100, queryParams, function (err, result) {
 						if (err) return callback(err);
 
 						callback(null, result);
@@ -701,7 +701,7 @@ module.exports = {
 					queryWhere = '`x` >= ? AND `x` <= ? AND `y` >= ? AND `y` <= ? AND `z` >= ? AND `z` <= ? AND UNIX_TIMESTAMP(`time`) >= ? AND UNIX_TIMESTAMP(`time`) <= ? AND `block` = ?';
 					queryParams = [firstxyzSplited[0], secondxyzSplited[0], firstxyzSplited[1], secondxyzSplited[1], firstxyzSplited[2], secondxyzSplited[2], firsttime, secondtime, req.param('block')];
 
-					gcmainconn.query('SELECT * FROM `blocks_log` WHERE ' + queryWhere + ' ORDER BY `id` DESC LIMIT ' + (page - 1) + ',' + page * 100, queryParams, function (err, result) {
+					gcmainconn.query('SELECT * FROM `blocks_log` WHERE ' + queryWhere + ' ORDER BY `id` DESC LIMIT ' + (page - 1) * 100 + ',' + page * 100, queryParams, function (err, result) {
 						if (err) return callback(err);
 
 						callback(null, result);
@@ -766,7 +766,7 @@ module.exports = {
 			secondTime = Date.parse(req.param('secondtime')) / 1000,
 			queryTime,
 			type,
-			page = (parseInt(req.param('page'), 10)) ? parseInt(req.param('page'), 10) : 1;
+			 page = (parseInt(req.param('page'), 10) >= 1) ? parseInt(req.param('page'), 10) : 1;
 
 		if (time && firsttime && secondtime) {
 			queryTime = ' AND UNIX_TIMESTAMP(`time`) >= "' + firsttime + '" AND UNIX_TIMESTAMP(`time`) <= "' + secondtime + '"';
@@ -809,7 +809,7 @@ module.exports = {
 				}
 			},
 			function getLog(uid, type, callback) {
-				gcmainconn.query('SELECT * FROM `money_log` WHERE ((`sender` = ? AND `senderType` = ?) OR (`reciever` = ? AND `recieverType` = ?))' + queryTime + ' ORDER BY `id` DESC LIMIT ' + (page - 1) + ',' + page * 100, [uid, type, uid, type, firstTime, secondTime], function (err, result) {
+				gcmainconn.query('SELECT * FROM `money_log` WHERE ((`sender` = ? AND `senderType` = ?) OR (`reciever` = ? AND `recieverType` = ?))' + queryTime + ' ORDER BY `id` DESC LIMIT ' + (page - 1) * 100 + ',' + page * 100, [uid, type, uid, type, firstTime, secondTime], function (err, result) {
 					if (err) return callback(err);
 
 					callback(null, result);
