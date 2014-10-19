@@ -239,7 +239,7 @@ app.view = {
 				.modal('show');
 		});
 
-		$(document).on('click', '#commentsubmit', function (e) {
+		var submitForm = function () {
 			$.ajax({
 				type: "POST",
 				url: '/comments/new',
@@ -287,6 +287,20 @@ app.view = {
 					return true;
 				}
 			});
+		};
+
+		// Submit comment form on Ctrl+Enter
+		$(document).on('keypress', '#commentform', function (event) {
+			if ((event.keyCode === 10 || event.keyCode == 13) && event.ctrlKey) {
+				submitForm();
+
+				return false;
+			}
+			event.stopPropagation();
+		});
+
+		$(document).on('click', '#commentsubmit', function (e) {
+			submitForm();
 			return false;
 		});
 

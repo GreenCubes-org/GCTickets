@@ -555,7 +555,7 @@ module.exports = {
 							comment.destroy(function(err) {
 								if (err) return callback(err);
 
-								callback(null, comment.tid, comment);
+								callback(null, comment);
 							});
 						} else {
 							comment.status = 3;

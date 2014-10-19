@@ -303,6 +303,7 @@
 	"view.view.comment.message": "Message",
 	"view.view.comment.helphint.status": "You don't need to comment if you just want to change status.",
 	"view.view.comment.helphint.bbcode": "You can use BB-code.",
+	"view.view.comment.helphint.ctrlenter": "Press Ctrl-Enter to send a comment.",
 	"view.view.comment.send": "Send",
 	"view.view.rempro.reason": "Reason",
 	"view.view.rempro.regions.title": "Regions",

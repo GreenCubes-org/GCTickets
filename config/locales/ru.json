@@ -303,6 +303,7 @@
 	"view.view.comment.message": "Текст сообщения",
 	"view.view.comment.helphint.status": "При смене статуса можно не писать комментарий.",
 	"view.view.comment.helphint.bbcode": "Можно использовать BB-код.",
+	"view.view.comment.helphint.ctrlenter": "Если нажать Ctrl-Enter, то комментарий отправится.",
 	"view.view.comment.send": "Отправить",
 	"view.view.rempro.reason": "Причина удаления защиты",
 	"view.view.rempro.regions.title": "Регионы",

@@ -119,7 +119,7 @@
 					<label><%- __('view.view.comment.message') %></label>
 					<textarea id="commentform" name="message"></textarea>
 				</div>
-				<div class="gc-help"><i class="help icon"></i><% if ([1,3,1].indexOf(ticket.status.id) !== -1 && req.user && (ticket.owner.id === req.user.id || ((req.user.group || 0) >= ugroup.helper && ticket.status.id === 1))) { %><%- __('view.view.comment.helphint.status') %><% } %><%- __('view.view.comment.helphint.bbcode') %></div>
+				<div class="gc-help"><i class="help icon"></i><% if ([1,3,1].indexOf(ticket.status.id) !== -1 && req.user && (ticket.owner.id === req.user.id || ((req.user.group || 0) >= ugroup.helper && ticket.status.id === 1))) { %><%- __('view.view.comment.helphint.status') %><% } %><%- __('view.view.comment.helphint.bbcode') %> <%- __('view.view.comment.helphint.ctrlenter') %></div>
 				<div class="ui divider"></div>
 				<div class="ui teal submit fluid small button" type="submit" id="commentsubmit"><%- __('view.view.comment.send') %></div>
 				<input type="hidden" name="_csrf" value="<%= _csrf %>" />
