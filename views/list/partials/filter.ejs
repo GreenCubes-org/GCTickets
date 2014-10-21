@@ -135,6 +135,7 @@
 							</div>
 						</div>
 					</div>
+					<% if (req.user && req.user.group >= ugroup.helper) { %>
 					<div class="ui basic accordion">
 						<div class="title">
 							<i class="dropdown icon"></i>
@@ -155,6 +156,7 @@
 							</div>
 						</div>
 					</div>
+					<% } %>
 					<h3 class="ui header"><%- __('view.list.partials.filter.visibility.title') %></h3>
 					<div class="grouped inline fields">
 						<div class="field">
