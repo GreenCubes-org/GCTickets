@@ -1,0 +1,31 @@
+#gc-filter-form .ui.checkbox {
+	font-size: 0.9em;
+}
+
+#gc-filter-form .inline.field {
+	margin: 0em 0em 1.1em;
+}
+
+#gc-filter-form-submit {
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+	width: 220px;
+}
+
+
+#gc-filter-info .ui.checkbox {
+	font-size: 0.85em;
+}
+
+#gc-filter-info .inline.field {
+	margin: 0px 0px 0.7em;
+}
+
+#gc-filter-info .ui.label {
+	border-radius: 0;
+}
+
+#gc-filter-info .ui.hidden.label {
+	display: inline-block !important;
+}

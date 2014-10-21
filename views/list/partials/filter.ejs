@@ -1,126 +1,207 @@
-<% var splitedPath = req.path.split('/'),
-	kfNoByCreation = '?' + 'cake=isalie' + ((req.param('status')) ? '&status=' + req.param('status') : '') + ((req.param('nostatus')) ? '&nostatus=' + req.param('nostatus') : '') + ((req.param('visibility')) ? '&visibility=' + req.param('visibility') : ''),
-	kfNoVisibility = '?' + 'cake=isalie' + ((req.param('status')) ? '&status=' + req.param('status') : '') + ((req.param('nostatus')) ? '&nostatus=' + req.param('nostatus') : '') + ((req.param('byCreation')) ? '&byCreation=' + req.param('byCreation') : ''),
-	kfNoStatus = '?' + 'cake=isalie' + ((req.param('nostatus')) ? '&nostatus=' + req.param('nostatus') : '') + ((req.param('visibility')) ? '&visibility=' + req.param('visibility') : '') + ((req.param('byCreation')) ? '&byCreation=' + req.param('byCreation') : ''),
-	kfNoNoStatus = '?' + 'cake=isalie' + ((req.param('status')) ? '&status=' + req.param('status') : '') + ((req.param('visibility')) ? '&visibility=' + req.param('visibility') : '') + ((req.param('byCreation')) ? '&byCreation=' + req.param('byCreation') : ''),
-	listUrl = '/' + splitedPath[1] + ((['main','rpg','apocalyptic','websites','unknown'].indexOf(splitedPath[2]) !== -1) ? '/' + splitedPath[2] : ''),
-	listUrlNoProduct = '/' + splitedPath[1],
-	status = req.param('status'),
-	nostatus = req.param('nostatus'),
-	visibility = req.param('visibility') %>
-<div class="ui vertical fluid menu">
-	<a class="item" href="<%= '/' + splitedPath[1] %>"><%- __('view.list.partials.filter.reset') %></a>
-	<div class="header item"><%- __('view.list.partials.filter.sort.title') %></div>
-	<div class="item">
-		<div class="menu">
-			<a class="item l-menu <% if (!(req.param('byCreation') === 'true')) { %> active<% } %>" href="<%= listUrl + kfNoByCreation %>">
-				<%- __('view.list.partials.filter.sort.byactivity') %>
-			</a>
-			<a class="item l-menu <% if (req.param('byCreation') === 'true') { %> active<% } %>" href="<%= listUrl + kfNoByCreation %>&byCreation=true">
-				<%- __('view.list.partials.filter.sort.bycreation') %>
-			</a>
-		</div>
-	</div>
-	<% if (req.user && req.user.group >= ugroup.helper) { %>
-	<div class="header item"><%- __('view.list.partials.filter.by.visibility.title') %></div>
-	<a class="item" href="<%= listUrl + kfNoVisibility %>">
-		<%- __('view.list.partials.filter.reset') %>
-	</a>
-	<div class="item">
-		<div class="menu">
-			<a class="item l-menu <% if (visibility === 'public') { %> active<% } %>" href="<%= listUrl + kfNoVisibility %>&visibility=public">
-				<%- __('global.visibility.public') %>
-			</a>
-			<a class="item l-menu <% if (visibility === 'private') { %> active<% } %>" href="<%= listUrl + kfNoVisibility %>&visibility=private">
-				<%- __('global.visibility.private') %>
-			</a>
-		</div>
-	</div>
-	<% } %>
-	<div class="header item"><%- __('view.list.partials.filter.by.status.title') %></div>
-	<div class="item">
-		<%- __('view.list.partials.filter.by.status.generaltitle') %>
-		<div class="menu">
-			<div class="item l-menu new <% if (status === 'new' || nostatus === 'new') { %> active<% } %>">
-				<a class="left floated tiny gc-nostylelink" href="<%= listUrl + kfNoNoStatus %>&nostatus=new"><i class="icon disabled remove"></i></a>
-				<a href="<%= listUrl + kfNoStatus %>&status=new"><%- __('global.status.new') %></a>
-			</div>
-			<div class="item l-menu rejected <% if (status === 'rejected' || nostatus === 'rejected') { %> active<% } %>">
-				<a class="left floated tiny gc-nostylelink" href="<%= listUrl + kfNoNoStatus %>&nostatus=rejected"><i class="icon disabled remove"></i></a>
-				<a href="<%= listUrl + kfNoStatus %>&status=rejected"><%- __('global.status.rejected') %></a>
-			</div>
-			<div class="item l-menu specify <% if (status === 'specify' || nostatus === 'specify') { %> active<% } %>">
-				<a class="left floated tiny gc-nostylelink" href="<%= listUrl + kfNoNoStatus %>&nostatus=specify"><i class="icon disabled remove"></i></a>
-				<a href="<%= listUrl + kfNoStatus %>&status=specify"><%- __('global.status.specify') %></a>
-			</div>
-			<div class="item l-menu declined <% if (status === 'declined' || nostatus === 'declined') { %> active<% } %>">
-				<a class="left floated tiny gc-nostylelink" href="<%= listUrl + kfNoNoStatus %>&nostatus=declined"><i class="icon disabled remove"></i></a>
-				<a href="<%= listUrl + kfNoStatus %>&status=declined"><%- __('global.status.declined') %></a>
-			</div>
-			<% if (req.user && req.user.group >= ugroup.helper) { %>
-			<div class="item l-menu hidden <% if (status === 'hidden' || nostatus === 'hidden') { %> active<% } %>">
-				<a class="left floated tiny gc-nostylelink" href="<%= listUrl + kfNoNoStatus %>&nostatus=hidden"><i class="icon disabled remove"></i></a>
-				<a href="<%= listUrl + kfNoStatus %>&status=hidden"><%- __('global.status.hidden') %></a>
-			</div>
-			<div class="item l-menu removed <% if (status === 'removed' || nostatus === 'removed') { %> active<% } %>">
-				<a class="left floated tiny gc-nostylelink" href="<%= listUrl + kfNoNoStatus %>&nostatus=removed"><i class="icon disabled remove"></i></a>
-				<a href="<%= listUrl + kfNoStatus %>&status=removed"><%- __('global.status.removed') %></a>
-			</div>
-			<% } %>
-			<% if (['all', 'bugreports'].indexOf(type.url) !== -1) { %>
-		</div>
-	</div>
-	<div class="item">
-		<%- __('view.list.partials.filter.by.status.bugreporttitle') %>
-		<div class="menu">
-			<div class="item l-menu accepted <% if (status === 'accepted' || nostatus === 'accepted') { %> active<% } %>">
-				<a class="left floated tiny gc-nostylelink" href="<%= listUrl + kfNoNoStatus %>&nostatus=accepted"><i class="icon disabled remove"></i></a>
-				<a href="<%= listUrl + kfNoStatus %>&status=accepted"><%- __('global.status.accepted') %></a>
-			</div>
-			<div class="item l-menu fixed <% if (status === 'fixed' || nostatus === 'fixed') { %> active<% } %>">
-				<a class="left floated tiny gc-nostylelink" href="<%= listUrl + kfNoNoStatus %>&nostatus=fixed"><i class="icon disabled remove"></i></a>
-				<a href="<%= listUrl + kfNoStatus %>&status=fixed"><%- __('global.status.fixed') %></a>
-			</div>
-			<% } %>
-			<% if (['all', 'rempros'].indexOf(type.url) !== -1) { %>
-		</div>
-	</div>
-	<div class="item">
-		<%- __('view.list.partials.filter.by.status.remprotitle') %>
-		<div class="menu">
-			<div class="item l-menu helpfixed <% if (status === 'helpfixed' || nostatus === 'helpfixed') { %> active<% } %>">
-				<a class="left floated tiny gc-nostylelink" href="<%= listUrl + kfNoNoStatus %>&nostatus=helpfixed"><i class="icon disabled remove"></i></a>
-				<a href="<%= listUrl + kfNoStatus %>&status=helpfixed"><%- __('global.status.helpfixed') %></a>
-			</div>
-			<div class="item l-menu inreview <% if (status === 'inreview' || nostatus === 'inreview') { %> active<% } %>">
-				<a class="left floated tiny gc-nostylelink" href="<%= listUrl + kfNoNoStatus %>&nostatus=inreview"><i class="icon disabled remove"></i></a>
-				<a href="<%= listUrl + kfNoStatus %>&status=inreview"><%- __('global.status.inreview') %></a>
-			</div>
-			<div class="item l-menu delayed <% if (status === 'delayed' || nostatus === 'delayed') { %> active<% } %>">
-				<a class="left floated tiny gc-nostylelink" href="<%= listUrl + kfNoNoStatus %>&nostatus=delayed"><i class="icon disabled remove"></i></a>
-				<a href="<%= listUrl + kfNoStatus %>&status=delayed"><%- __('global.status.delayed') %></a>
-			</div>
-			<div class="item l-menu done <% if (status === 'done' || nostatus === 'done') { %> active<% } %>">
-				<a class="left floated tiny gc-nostylelink" href="<%= listUrl + kfNoNoStatus %>&nostatus=done"><i class="icon disabled remove"></i></a>
-				<a href="<%= listUrl + kfNoStatus %>&status=done"><%- __('global.status.done') %></a>
-			</div>
-			<% } %>
-		</div>
-	</div>
-	<% if (['bugreports'].indexOf(type.url) !== -1) { %>
-	<div class="header item"><%- __('view.list.partials.filter.by.product.title') %></div>
-	<div class="item">
-		<div class="menu">
-			<div class="item l-menu main <% if (splitedPath[2] === 'main') { %> active<% } %>">
-				<a href="<%= listUrlNoProduct %>/main"><%- __('view.list.partials.filter.by.product.main') %></a>
-			</div>
-			<div class="item l-menu websites <% if (splitedPath[2] === 'websites') { %> active<% } %>">
-				<a href="<%= listUrlNoProduct  %>/websites"><%- __('view.list.partials.filter.by.product.webservices') %></a>
-			</div>
-			<div class="item l-menu unknown <% if (splitedPath[2] === 'unknown') { %> active<% } %>">
-				<a href="<%= listUrlNoProduct  %>/unknown"><%- __('view.list.partials.filter.by.product.unknown') %></a>
-			</div>
-		</div>
-	</div>
-	<% } %>
-</div>
+<form id="gc-filter-form">
+				<div class="ui form" style="font-size: 0.9em;">
+					<h3 class="ui header">
+						Сортировка
+					</h3>
+					<div class="inline field">
+						<div class="ui radio checkbox">
+							<input id="sort-bycreation" name="sort:number" value="1" type="radio" <%= (sort == 2 || !req.query.sort) ? 'checked' : '' %>>
+							<label for="sort-bycreation">По дате создания</label>
+						</div>
+					</div>
+					<div class="inline field">
+						<div class="ui radio checkbox">
+							<input id="sort-byactivity" name="sort:number" value="2" type="radio" <%= (sort == 1) ? 'checked' : '' %>>
+							<label for="sort-byactivity">По активности</label>
+						</div>
+					</div>
+					<h3 class="ui header">
+						Типы тикета
+					</h3>
+					<div class="inline field">
+						<div class="ui checkbox">
+							<input class="filter-type-bugreport" name="type[1]:number" value="1" type="checkbox" <%= (type.indexOf(1) !== -1) ? 'checked' : '' %>>
+							<label for="filter-type-bugreport">Баг-репорт</label>
+						</div>
+					</div>
+					<div class="inline field">
+						<div class="ui checkbox">
+							<input class="filter-type-rempro" name="type[2]:number" value="2" type="checkbox" <%= (type.indexOf(2) !== -1) ? 'checked' : '' %>>
+							<label for="filter-type-rempro">Заявка на удаление защит</label>
+						</div>
+					</div>
+					<div class="inline field">
+						<div class="ui checkbox">
+							<input class="filter-type-ban" name="type[3]:number" value="3" type="checkbox" <%= (type.indexOf(3) !== -1) ? 'checked' : '' %>>
+							<label for="filter-type-ban">Заявка на бан</label>
+						</div>
+					</div>
+					<div class="inline field">
+						<div class="ui checkbox">
+							<input class="filter-type-unban" name="type[4]:number" value="4" type="checkbox" <%= (type.indexOf(4) !== -1) ? 'checked' : '' %>>
+							<label for="filter-type-unban">Заявка на разбан</label>
+						</div>
+					</div>
+					<h3 class="ui header">Статусы</h3>
+					<div class="ui basic accordion">
+						<div class="title">
+							<i class="dropdown icon"></i>
+							<label style="cursor:pointer;">Общие статусы</label>
+						</div>
+						<div class="content">
+							<div class="inline field">
+								<div class="ui checkbox">
+									<input class="filter-status-new" name="status[1]:number" value="1" type="checkbox" <%= (status.indexOf(1) !== -1) ? 'checked' : '' %>>
+									<label for="filter-status-new">Новый</label>
+								</div>
+							</div>
+							<div class="inline field">
+								<div class="ui checkbox">
+									<input class="filter-status-specify" name="status[3]:number" value="3" type="checkbox" <%= (status.indexOf(3) !== -1) ? 'checked' : '' %>>
+									<label for="filter-status-specify">Уточнить</label>
+								</div>
+							</div>
+							<div class="inline field">
+								<div class="ui checkbox">
+									<input class="filter-status-rejected" name="status[2]:number" value="2" type="checkbox" <%= (status.indexOf(2) !== -1) ? 'checked' : '' %>>
+									<label for="filter-status-rejected">Отклонён</label>
+								</div>
+							</div>
+							<div class="inline field">
+								<div class="ui checkbox">
+									<input class="filter-status-declined" name="status[4]:number" value="4" type="checkbox" <%= (status.indexOf(4) !== -1) ? 'checked' : '' %>>
+									<label for="filter-status-declined">Отменён</label>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="ui basic accordion">
+						<div class="title">
+							<i class="dropdown icon"></i>
+							<label style="cursor:pointer;">Баг-репорты</label>
+						</div>
+						<div class="content">
+							<div class="inline field">
+								<div class="ui checkbox">
+									<input class="filter-status-accepted" name="status[11]:number" value="11" type="checkbox" <%= (status.indexOf(11) !== -1) ? 'checked' : '' %>>
+									<label for="filter-status-accepted">Принят</label>
+								</div>
+							</div>
+							<div class="inline field">
+								<div class="ui checkbox">
+									<input class="filter-status-fixed" name="status[12]:number" value="12" type="checkbox" <%= (status.indexOf(12) !== -1) ? 'checked' : '' %>>
+									<label for="filter-status-fixed">Исправлен</label>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="ui basic accordion">
+						<div class="title">
+							<i class="dropdown icon"></i>
+							<label style="cursor:pointer;">Заявки на удаление защит</label>
+						</div>
+						<div class="content">
+							<div class="inline field">
+								<div class="ui checkbox">
+									<input class="filter-status-inreview" name="status[8]:number" value="8" type="checkbox" <%= (status.indexOf(8) !== -1) ? 'checked' : '' %>>
+									<label for="filter-status-inreview">На рассмотрении</label>
+								</div>
+							</div>
+							<div class="inline field">
+								<div class="ui checkbox">
+									<input class="filter-status-delayed" name="status[9]:number" value="9" type="checkbox" <%= (status.indexOf(9) !== -1) ? 'checked' : '' %>>
+									<label for="filter-status-delayed">Отложен</label>
+								</div>
+							</div>
+							<div class="inline field">
+								<div class="ui checkbox">
+									<input class="filter-status-done" name="status[10]:number" value="10" type="checkbox" <%= (status.indexOf(10) !== -1) ? 'checked' : '' %>>
+									<label for="filter-status-done">Выполнен</label>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="ui basic accordion">
+						<div class="title">
+							<i class="dropdown icon"></i>
+							<label style="cursor:pointer;">Заявки на баны/разбаны</label>
+						</div>
+						<div class="content">
+							<div class="inline field">
+								<div class="ui checkbox">
+									<input class="filter-status-done" name="status[10]:number" value="10" type="checkbox" <%= (status.indexOf(10) !== -1) ? 'checked' : '' %>>
+									<label for="filter-status-done">Выполнен</label>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="ui basic accordion">
+						<div class="title">
+							<i class="dropdown icon"></i>
+							<label style="cursor:pointer;">Скрытые статусы</label>
+						</div>
+						<div class="content">
+							<div class="inline field">
+								<div class="ui checkbox">
+									<input class="filter-status-hidden" name="status[5]:number" value="5" type="checkbox" <%= (status.indexOf(5) !== -1) ? 'checked' : '' %>>
+									<label for="filter-status-hidden">Скрыт</label>
+								</div>
+							</div>
+							<div class="inline field">
+								<div class="ui checkbox">
+									<input class="filter-status-removed" name="status[6]:number" value="6" type="checkbox" <%= (status.indexOf(6) !== -1) ? 'checked' : '' %>>
+									<label for="filter-status-removed">Удалён</label>
+								</div>
+							</div>
+						</div>
+					</div>
+					<h3 class="ui header">Поле видимости</h3>
+					<div class="grouped inline fields">
+						<div class="field">
+							<div class="ui radio checkbox">
+								<input class="filter-visibility-all" name="visibility:number" value="3" type="radio" <%= (visibility === 3 || !req.query.visibility) ? 'checked' : '' %>>
+								<label for="filter-visibility-all">Любое</label>
+							</div>
+						</div>
+						<div class="field">
+							<div class="ui radio checkbox">
+								<input class="filter-visibility-public" name="visibility:number" value="1" type="radio" <%= (visibility === 1) ? 'checked' : '' %>>
+								<label for="filter-visibility-public">Публичный</label>
+							</div>
+						</div>
+						<div class="field">
+							<div class="ui radio checkbox">
+								<input class="filter-visibility-private" name="visibility:number" value="2" type="radio" <%= (visibility === 2) ? 'checked' : '' %>>
+								<label for="filter-visibility-private">Приватный</label>
+							</div>
+						</div>
+					</div>
+					<h3 class="ui header">
+						Местонахождение проблемы
+						<div class="sub header">только для багрепортов</div>
+					</h3>
+					<div class="inline field">
+						<div class="ui checkbox">
+							<input class="filter-product-unknown" name="product[1]" value="1" type="checkbox" <%= (product.indexOf(1) !== -1) ? 'checked' : '' %>>
+							<label for="filter-product-unknown">Неизвестно</label>
+						</div>
+					</div>
+					<div class="inline field">
+						<div class="ui checkbox">
+							<input class="filter-product-main" name="product[2]" value="2" type="checkbox" <%= (product.indexOf(2) !== -1) ? 'checked' : '' %>>
+							<label for="filter-product-main">GreenCubes</label>
+						</div>
+					</div>
+					<div class="inline field">
+						<div class="ui checkbox">
+							<input class="filter-product-websites" name="product[5]" value="5" type="checkbox" <%= (product.indexOf(5) !== -1) ? 'checked' : '' %>>
+							<label for="filter-product-websites">Веб-сервисы</label>
+						</div>
+					</div>
+					<div class="ui divider"></div>
+					<div class="ui basic big buttons">
+						<div class="ui button" id="gc-filter-submit">Показать</div>
+						<div class="ui icon button" id="gc-filter-reset" title="<%= __('Сброс формы') %>"><i class="remove icon"></i></div>
+					</div>
+				</div>
+			</form>

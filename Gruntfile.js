@@ -45,6 +45,7 @@ module.exports = function (grunt) {
 
 	var jsLibsFilesToInject = [
 		'js/libs/jquery.js',
+		'js/libs/jquery.serializejson.js',
 		'js/libs/semantic-ui.js',
 		'js/libs/moment.js',
 		'js/libs/js-signals.js',
@@ -172,7 +173,7 @@ module.exports = function (grunt) {
 			jsLibs: {
 				options: {
 					compress: {
-						drop_console: true
+						drop_console: false
 					},
 					mangle: false,
 					preserveComments: 'all'

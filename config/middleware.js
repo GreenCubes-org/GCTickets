@@ -41,7 +41,7 @@ passport.deserializeUser(function (id, done) {
 					user.group = result[0].ugroup;
 					user.prefix = result[0].prefix;
 					user.colorclass = result[0].colorclass;
-					user.canModerate = result[0].canModerate;
+					user.canModerate = JSON.parse(result[0].canModerate);
 					user.startPage = (result[0].startPage) ? result[0].startPage : '/all';
 					user.locale = (result[0].locale) ? result[0].locale : 'ru';
 				} else {

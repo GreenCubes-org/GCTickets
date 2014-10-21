@@ -88,32 +88,38 @@ module.exports.routes = {
 	// Новый тикет без типа
 	//'/new': 'create.mainTpl',
 
+	'/tickets': 'list.listTwenty',
+
+	//'/search': 'search.main',
+	//'/search/edit': 'search.edit',
+
+
 	// Все тикеты
-	'/all': 'list.listTwenty',
-	'/all/:param': 'list.listTwenty',
+	'/all': 'list.redirect',
+	'/all/:param': 'list.redirect',
 
 	// Багрепорты
-	'/bugreports': 'list.listTwenty',
-	'/bugreports/:param': 'list.listTwenty',
-	'/bugreports/:param/:page': 'list.listTwenty',
+	'/bugreports': 'list.redirect',
+	'/bugreports/:param': 'list.redirect',
+	'/bugreports/:param/:page': 'list.redirect',
 	'get /new/bugreport': 'create.bugreportTpl',
 	'post /new/bugreport': 'create.bugreportPost',
 
 	// Расприваты
-	'/rempros': 'list.listTwenty',
-	'/rempros/:param': 'list.listTwenty',
+	'/rempros': 'list.redirect',
+	'/rempros/:param': 'list.redirect',
 	'get /new/rempro': 'create.remproTpl',
 	'post /new/rempro': 'create.remproPost',
 
 	// Заявки на бан
-	'/bans': 'list.listTwenty',
-	'/bans/:param': 'list.listTwenty',
+	'/bans': 'list.redirect',
+	'/bans/:param': 'list.redirect',
 	'get /new/ban': 'create.banTpl',
 	'post /new/ban': 'create.banPost',
 
 	// Заявки на разбан
-	'/unbans': 'list.listTwenty',
-	'/unbans/:param': 'list.listTwenty',
+	'/unbans': 'list.redirect',
+	'/unbans/:param': 'list.redirect',
 	'get /new/unban': 'create.unbanTpl',
 	'post /new/unban': 'create.unbanPost'
 

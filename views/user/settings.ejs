@@ -1,9 +1,10 @@
 <% backUrl = '/',
 	title = __('view.user.settings.pagetitle') + ' — ' + __('global.pagetitle') %>
 <%- partial( '../partials/header') %>
-	<div class="container">
-		<h1><%- __('view.user.settings.title') %></h1>
-		<div class="ui divider"></div>
+<%- partial( 'partials/subheader', {
+	header: __('Аккаунт')
+}) %>
+	<div class="container" style="padding-top:2em;">
 		<div class="container">
 			<form id="gc-reportform">
 				<div class="ui form">
