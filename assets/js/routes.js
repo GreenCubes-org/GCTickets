@@ -5,20 +5,8 @@ crossroads.addRoute('/', app.main.index);
 crossroads.addRoute('/login', app.main.login);
 
 /* List pages */
-crossroads.addRoute('/all', app.list.main);
-crossroads.addRoute('/all/{status}', app.list.main);
-crossroads.addRoute('/bugreports', app.list.main);
-crossroads.addRoute('/bugreports/{status}', app.list.main);
-crossroads.addRoute('/rempros', app.list.main);
-crossroads.addRoute('/rempros/{status}', app.list.main);
-crossroads.addRoute('/bans', app.list.main);
-crossroads.addRoute('/bans/{status}', app.list.main);
-crossroads.addRoute('/unbans', app.list.main);
-crossroads.addRoute('/unbans/{status}', app.list.main);
-crossroads.addRoute('/admreqs', app.list.main);
-crossroads.addRoute('/admreqs/{status}', app.list.main);
-crossroads.addRoute('/regens', app.list.main);
-crossroads.addRoute('/regens/{status}', app.list.main);
+crossroads.addRoute('/tickets', app.list.main);
+
 crossroads.addRoute('/user', app.list.main);
 crossroads.addRoute('/users/{user}', app.list.main);
 

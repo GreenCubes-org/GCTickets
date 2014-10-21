@@ -1,5 +1,6 @@
-<% title = type.title + " — " + __('global.pagetitle') %>
+<% title = __('Список тикетов') + " — " + __('global.pagetitle') %>
 <%- partial('partials/header')%>
+<%- partial('partials/subheader')%>
 <div class="container" style="position:relative">
 	<div class="ui grid">
 		<div class="column l-leftcolumn">
@@ -17,7 +18,13 @@
 			</div>
 			<% } %>
 			<input type="hidden" name="_csrf" id="_csrf" value="<%= _csrf %>" />
-			<%- partial('partials/filter')%>
+			<div class="ui divider"></div>
+			<%- partial('partials/filter', {
+				sort: sort,
+				type: type,
+				status: status,
+				visibility: visibility
+			}) %>
 		</div>
 		<div id="l-content" class="column l-rightcolumn" style="display: inline-block;">
 			<div style="padding: 12em 0em;text-align: center;font-size:1.4em">

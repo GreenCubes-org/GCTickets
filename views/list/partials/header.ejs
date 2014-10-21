@@ -1,22 +1,12 @@
 <div class="ui green inverted gc-header menu">
 	<div class="left menu">
-		<div class="ui simple dropdown item">
-			<i class="<%= type.iconclass %> icon"></i> <%= type.text %> <i class="icon dropdown"></i>
-			<div class="menu">
-				<a href="/all" class="item<% if (type.url === 'all') { %> active<% } %>"><i class="reorder icon"></i><%- __('global.list.alltickets') %></a>
-				<% if (req.user) { %><a href="/user" class="item<% if (type.url === 'user') { %> active<% } %>"><i class="user icon"></i><%- __('global.list.yourtickets') %></a><% } %>
-				<a href="/bugreports" class="item<% if (type.url === 'bugreports') { %> active<% } %>"><i class="bug icon"></i><%- __('global.list.bugreports') %></a>
-				<a href="/rempros" class="item<% if (type.url === 'rempros') { %> active<% } %>"><i class="trash icon"></i><%- __('global.list.rempros') %></a>
-				<a href="/bans" class="item<% if (type.url === 'bans') { %> active<% } %>"><i class="ban circle icon"></i><%- __('global.list.bans') %></a>
-				<a href="/unbans" class="item<% if (type.url === 'unbans') { %> active<% } %>"><i class="blank circle icon"></i><%- __('global.list.unbans') %></a>
-			</div>
-		</div>
+		<%- partial('../../partials/mainpanel') %>
 		<% if (!req.user) { %>
 		<a href="/" class="item">
 			<i class="home icon" title="<%- __('view.list.header.tomainpage') %>"></i>
 		</a>
 		<% } else { %>
-		<a href="<%= (req.user && req.user.startPage) ? req.user.startPage : '/all' %>" class="item" title="<%= (req.user && req.user.startPage) ? __('view.header.startpage') : __('view.header.alltickets') %>"><i class="home icon"></i></a>
+		<a href="<%= (req.user && req.user.startPage) ? req.user.startPage : '/' %>" class="item" title="<%= (req.user && req.user.startPage) ? __('view.header.startpage') : __('Список тикетов') %>"><i class="home icon"></i></a>
 		<% } %>
 	</div>
 	<div class="right menu">

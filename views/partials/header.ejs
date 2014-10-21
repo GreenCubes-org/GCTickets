@@ -5,6 +5,7 @@
 			<i class="reply mail icon"></i> <%- __('view.header.back') %>
 		</a>
 		<% } %>
+		<%- partial('mainpanel') %>
 		<a href="<%= (req.user && req.user.startPage) ? req.user.startPage : '/all' %>" class="item" title="<%= (req.user && req.user.startPage) ? __('view.header.startpage') : __('view.header.alltickets') %>"><i class="home icon"></i></a>
 	</div>
 	<div class="right menu">

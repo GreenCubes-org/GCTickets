@@ -8,211 +8,178 @@
 module.exports = {
 
 	listTwenty: function (req, res) {
-		sails.log.verbose('-> ListController.listTwenty:');
-
-		// splitedPath = ['','bugreports','main','1'];
-		var splitedPath = req.path.split('/');
-
-		sails.log.verbose('splitedPath:', splitedPath);
-
-		if (splitedPath[2] && isNaN(splitedPath[2], 10) && splitedPath[1] !== 'bugreports') {
-			return res.notFound();
-		}
-
-		var findBy = {},
-			whereBy = {},
-			filterBy = {},
-			filterByStatus = gct.getStatusByClass(req.query.status),
-			filterByNoStatus = gct.getStatusByClass(req.query.nostatus),
-			filterByVisibility = gct.getVisibilityByClass(req.query.visibility),
-			currentPage = parseInt(req.param('param'), 10) || ((req.param('page')) ? parseInt(req.param('page'), 10) : 1),
-			currentSubSectionId = (splitedPath[2] && isNaN(splitedPath[2], 10) && splitedPath[1] === 'bugreports') ? gct.getProductByTechText(splitedPath[2]).id : null,
-			currentSubSection = (currentSubSectionId) ? splitedPath[2] : null,
+		// GET /tickets?cake=isalie&visibility=1&status=1,5,10&product=1&type=3
+		var sort = parseInt(req.param('sort'), 10),
+			visibility = parseInt(req.param('visibility'), 10),
+			/* On input: '1,2,3' on output: [1, 2, 3]
+				'1,g,3' -> [1, NaN, 3] */
+			status = ((req.param('status')) ? req.param('status').split(',').map(function (el) {
+				el = parseInt(el, 10);
+				if (el && (1 >= el <= 12)) {
+					return parseInt(el, 10);
+				} else {
+					return;
+				}
+			}) : null),
+			statusJoined = (status) ? status.join(',') : null,
+			product = ((req.param('product')) ? req.param('product').split(',').map(function (el) {
+				el = parseInt(el, 10);
+				if (el && [1,2,5].indexOf(el) !== -1) {
+					return parseInt(el, 10);
+				} else {
+					return;
+				}
+			}) : null),
+			productJoined = (product) ? product.join(',') : null,
+			type = ((req.param('type')) ? req.param('type').split(',').map(function (el) {
+				el = parseInt(el, 10);
+				if (el && (1 >= type <= 4)) {
+					return el;
+				} else {
+					return;
+				}
+			}) : null),
+			typeJoined = (type) ? type.join(',') : null,
 			sortBy,
 			query = {
 				status: null,
-				visibility: null
-			};
+				visibility: null,
+				product: null
+			},
+			currentPage = parseInt(req.param('param'), 10) || ((req.param('page')) ? parseInt(req.param('page'), 10) : 1);
 
-		sails.log.verbose('splitedPath:', splitedPath);
-		sails.log.verbose('currentPage:', currentPage);
-		sails.log.verbose('currentSubSectionId:', currentSubSectionId);
-		sails.log.verbose('filterByStatus:', filterByStatus);
-		sails.log.verbose('filterByNoStatus:', filterByNoStatus);
-		sails.log.verbose('filterByVisibility:', filterByVisibility);
-
-		if (splitedPath[3] && isNaN(splitedPath[3])) {
-			return res.notFound();
-		}
-
-		if (filterByStatus) {
-			filterBy.status = filterByStatus;
-		}
-
-		if (filterByNoStatus) {
-			filterBy.nostatus = filterByNoStatus;
-		}
-
-		if (filterByVisibility && req.user && req.user.group >= ugroup.helper) {
-			filterBy.visibility = filterByVisibility;
-		} else if (filterByVisibility && (!req.user || (req.user.group < ugroup.helper))) {
-			return res.status(403).view('403', {layout: false});
-		}
-
-		if ((filterBy.visibility === 5 || filterBy.visibility === 6) && (!req.user || req.user.group < ugroup.mod)) {
-			return res.status(403).view('403', {layout: false});
-		}
-
-		/* Set findBy criteria for sections */
-		switch (splitedPath[1]) {
-			case 'all':
-				break;
-
-			case 'bugreports':
-				findBy.type = 1;
-				break;
-
-			case 'rempros':
-				findBy.type = 2;
-				break;
-
-			case 'bans':
-				findBy.type = 3;
-				break;
-
-			case 'unbans':
-				findBy.type = 4;
-				break;
-
-			default:
-				return res.notFound();
-		}
-
-		var type = gct.serializeList(splitedPath[1]);
-
+		sails.log.verbose('visibility: ', visibility);
+		sails.log.verbose('req.param(\'visibility\'): ', req.param('visibility'));
+		sails.log.verbose('sort: ', sort);
+		sails.log.verbose('req.param(\'sort\'): ', req.param('sort'));
+		sails.log.verbose('status: ', status);
+		sails.log.verbose('req.param(\'status\'): ', req.param('status'));
+		sails.log.verbose('product: ', product);
+		sails.log.verbose('req.param(\'product\'): ', req.param('product'));
 		sails.log.verbose('type: ', type);
+		sails.log.verbose('req.param(\'type\'): ', req.param('type'));
+
+		/* Check and convert data */
+
+		if (sort && !(1 >= sort <= 2)) {
+			return res.badRequest();
+		}
+
+		if (visibility && !(1 >= visibility <= 3)) {
+			return res.badRequest();
+		}
+
+		// Undefined = Wrong input
+		if ((status && status.indexOf(undefined) !== -1) || (product && product.indexOf(undefined) !== -1) || (type && type.indexOf(undefined) !== -1)) {
+			return res.badRequest();
+		}
+
+		/* Perform user-specific checks */
+		if (status && (status.indexOf(5) !== -1 || status.indexOf(6) !== -1) && (!req.user || req.user.group < ugroup.helper)) {
+			return res.forbidden();
+		}
 
 		async.waterfall([
-			function checkData(callback) {
-				if ((filterBy === 5 || filterBy === 6) && (!req.user || req.user.group < ugroup.helper)) {
-					return res.status(403).view('403', {layout: false});
-				}
-
-				callback(null);
-			},
 			function findTickets(callback) {
-				if (!filterBy.visibility && !filterBy.status && !filterBy.nostatus) {
-					whereBy = {
-						status: {
-							'!': 5,
-							'!': 6
-						}
-					};
-
+				if (!visibility && !status) {
 					query.status = '`status` not in (5,6)';
+				}
+				if (type) {
+					query.type = '`type` in (' + typeJoined + ')';
+				}
+				if (status) {
+					query.status = '`status` in (' + statusJoined + ')';
 
-					if (!findBy.owner && (!req.user || req.user.group < ugroup.helper)) {
-						findBy.visiblity = 1;
-
+					if (!req.user || req.user.group < ugroup.helper) {
 						query.visibility = '`visiblity` = 1';
 					}
 				}
-				if (filterBy.status) {
-					findBy.status = filterBy.status;
+				if (visibility && req.user && req.user.group >= ugroup.helper) {
+					if (visibility !== 3) {
+						query.visibility = '`visiblity` = ' + visibility;
+					}
 
-					query.status = '`status` = ' + filterBy.status;
-
-					if (!findBy.owner && (!req.user || req.user.group < ugroup.helper)) {
-						findBy.visiblity = 1;
-
-						query.visibility = '`visiblity` = 1';
+					if (!status) {
+						query.status = '`status` not in (5,6)';
 					}
 				}
-				if (filterBy.nostatus) {
-					whereBy = {
-						status: {
-							'!': 5,
-							'!': 6,
-							'!': filterBy.nostatus
+				if (!req.user || req.user.group <= ugroup.helper) {
+					if (!visibility || visibility === 3) {
+						if (req.user) {
+							query.visibility = '(`visiblity` = 1 OR (`visiblity` = 2 AND `owner` = ' + req.user.id + '))';
+						} else {
+							query.visibility = '`visiblity` = 1';
 						}
-					};
-
-					query.status = '`status` not in (5,6,' + filterBy.nostatus + ')';
-
-					if (!findBy.owner && (!req.user || req.user.group < ugroup.helper)) {
-						findBy.visiblity = 1;
-
+					}
+					if (visibility === 1) {
 						query.visibility = '`visiblity` = 1';
 					}
-				}
-				if (filterBy.visibility && req.user && req.user.group >= ugroup.helper) {
-					findBy.visiblity = filterBy.visibility;
-
-					query.visibility = '`visiblity` = ' + filterBy.visibility;
-
-					if (!filterByStatus) {
-						whereBy = {
-							status: {
-								'!': 5,
-								'!': 6
-							}
-						};
-
-						query.status ='`status` not in (5,6)';
+					if (visibility === 2) {
+						if (req.user) {
+							query.visibility = '`visiblity` = 2 AND `owner` = "' + req.user.id + '"';
+						} else {
+							query.visibility = '`id` = 0';
+						}
 					}
 				}
+				if (product) {
+					query.product = 'CASE WHEN (`type` = 1) THEN (`tid` in (SELECT `id` FROM `bugreport` WHERE `product` IN (' + productJoined + '))) ELSE `id` <> 0 END';
 
-				sails.log.verbose('findBy: ', findBy);
-				sails.log.verbose('whereBy: ', whereBy);
-
-				if (req.param('byCreation')) {
-					sortBy = 'id DESC';
-				} else {
-					sortBy = 'updatedAt DESC';
-				}
-
-				sails.log.verbose('sortBy:', sortBy);
-				sails.log.verbose('query: ', query);
-
-				if (currentSubSectionId) {
-					if (req.user && req.user.canModerate.indexOf(currentSubSectionId) !== -1) {
+					if (req.user &&
+						req.user.canModerate.map(function (el) {
+							if (product.indexOf(el) !== -1) {
+								return true;
+							} else {
+								return false;
+							}
+						}).indexOf(false) !== -1) {
 						delete query.visibility;
 					}
-
-					query = 'SELECT * FROM `ticket` WHERE `type` = 1 AND `tid` in (SELECT `id` FROM `bugreport` WHERE `product` = ' + currentSubSectionId + ')' + ((query.status) ? ' AND ' + query.status : '') + ((query.visibility) ? ' AND ' + query.visibility : '') + ' ORDER BY ' + sortBy + '';
-
-					sails.log.verbose('query: ', query);
-
-					Ticket.query(query, function (err, tickets) {
-							if (err) return callback(err);
-
-							sails.log.verbose('tickets.length: ', tickets.length);
-
-							callback(null, tickets);
-						});
-				} else {
-					Ticket.find(findBy)
-						.where(whereBy)
-						.sort(sortBy)
-						.exec(function (err, tickets) {
-							if (err) return callback(err);
-
-							sails.log.verbose('tickets.length: ', tickets.length);
-
-							callback(null, tickets);
-						});
 				}
+
+				switch (sort) {
+					case 1:
+						sortBy = 'id DESC';
+						break;
+
+					case 2:
+						sortBy = 'updatedAt DESC';
+						break;
+
+					default:
+						sortBy = 'id DESC';
+						break;
+				}
+
+				sails.log.verbose('sortBy: ', sortBy);
+				sails.log.verbose('query: ', query);
+
+				query = 'SELECT * FROM `ticket` WHERE id <> 0' + ((query.type) ? ' AND ' + query.type : '') + ((query.product) ? ' AND ' + query.product : '') + ((query.status) ? ' AND ' + query.status : '') + ((query.visibility) ? ' AND ' + query.visibility : '') + ' ORDER BY ' + sortBy;
+
+				sails.log.verbose('query: ', query);
+
+				Ticket.query(query, function (err, tickets) {
+					if (err) return callback(err);
+
+					sails.log.verbose('tickets.length: ', tickets.length);
+
+					callback(null, tickets);
+				});
 			},
 			function viewTickets(tickets, callback) {
-				var lastPage =  Math.ceil(tickets.length / 20);
+				var lastPage = Math.ceil(tickets.length / 20);
 				var skipRows = (currentPage - 1) * 20;
 
 				sails.log.verbose('lastPage: ', lastPage);
 				sails.log.verbose('skipRows: ', skipRows);
 
 				if (tickets.length <= skipRows) {
-					return res.view('list/notickets',{
-						type: type
+					return res.view('list/notickets', {
+						type: (type) ? type : [],
+						product: (product) ? product : [],
+						status: (status) ? status : [],
+						sort: sort,
+						visibility: visibility
 					});
 				}
 
@@ -223,21 +190,23 @@ module.exports = {
 				gct.all.serializeList(tickets, function (err, result) {
 					if (err) return callback(err);
 
-					res.view('list/main',{
-						type: type,
+					res.view('list/main', {
 						moment: moment,
 						tickets: result,
 						lastPage: lastPage,
 						currentPage: currentPage,
-						currentSubSection: currentSubSection,
-						query: query
+						query: query,
+						type: (type) ? type : [],
+						product: (product) ? product : [],
+						status: (status) ? status : [],
+						sort: sort,
+						visibility: visibility
 					});
 
 					callback(null);
 				});
 			}
-		],
-		function (err) {
+		], function (err) {
 			if (err) {
 				if (err.msg) {
 					return res.json({
@@ -247,5 +216,9 @@ module.exports = {
 				return res.serverError(err);
 			}
 		});
+	},
+
+	redirect: function (req, res) {
+		res.redirect('/tickets');
 	}
 };

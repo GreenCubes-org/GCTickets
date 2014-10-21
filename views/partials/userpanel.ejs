@@ -12,14 +12,8 @@
 	<div class="ui simple top right pointing dropdown item" style="float: none;">
 		<% if (req.user.prefix) { %><%= req.user.prefix %><% } %>&nbsp;<%= req.user.username %> <i class="icon dropdown"></i>
 		<div class="menu">
-			<a href="/user" class="item"><i class="user icon"></i><%- __('view.partials.userpanel.profile') %></a>
-			<a href="/settings" class="item"><i class="setting icon"></i><%- __('view.partials.userpanel.account') %></a>
-		<% if (req.user.group === ugroup.staff) { %>
-			<a href="/admin" class="item"><i class="dashboard icon"></i><%- __('view.partials.userpanel.adminpanel') %></a>
-		<% } %>
-		<% if (req.user.group >= ugroup.mod) { %>
-			<a href="/gameinfo" class="item"><i class="terminal icon"></i><%- __('view.partials.userpanel.gameinfopanel') %></a>
-		<% } %>
+			<a href="/user" class="item<% if (req.path == '/user') { %> active<% } %>"><i class="user icon"></i><%- __('view.partials.userpanel.profile') %></a>
+			<a href="/settings" class="item<% if (req.path == '/settings') { %> active<% } %>"><i class="setting icon"></i><%- __('view.partials.userpanel.account') %></a>
 		</div>
 	</div>
 	

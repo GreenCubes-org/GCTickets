@@ -1,5 +1,7 @@
-<% title = type.title + " — " + __('global.pagetitle') %>
+<% title = "Список тикетов — " + __('global.pagetitle'),
+	url = '/tickets?sort=' + ((req.query.sort) ? req.query.sort : '') + '&type=' + ((req.query.type) ? req.query.type : '') + '&status=' + ((req.query.status) ? req.query.status : '') + '&visibility=' + ((req.query.visibility) ? req.query.visibility : '') +'&product=' + ((req.query.product) ? req.query.product : '')%>
 <%- partial('partials/header')%>
+<%- partial('partials/subheader')%>
 <div class="container" style="position:relative">
 	<div class="ui grid">
 		<div class="column l-leftcolumn">
@@ -22,22 +24,23 @@
 			</div>
 			<% } %>
 			<input type="hidden" name="_csrf" id="_csrf" value="<%= _csrf %>" />
-			<%- partial('partials/filter')%>
+			<div class="ui divider"></div>
+			<%- partial('partials/filter') %>
 		</div>
 		<div id="l-content" class="column l-rightcolumn" style="display: inline-block;margin-top: 2em;">
 			<%- partial('partials/list') %>
 			<div class="gc-center" style="margin-top: 3em !important;">
 				<div class="ui pagination menu">
-					<a href="/<%= type.url %>/<%= ((currentSubSection) ? currentSubSection + '/' : '') %>1<%= query %>" class="item <% if (currentPage === 1) { %>active<% } %>">
+					<a href="<%- url %>&page=1" class="item <% if (currentPage === 1) { %>active<% } %>">
 						1
 					</a>
 					<% if (lastPage >= 2) { %>
-					<a href="/<%= type.url %>/<%= ((currentSubSection) ? currentSubSection + '/' : '' )%>2<%= query %>" class="item <% if (currentPage === 2) { %>active<% } %>">
+					<a href="<%- url %>&page=2" class="item <% if (currentPage === 2) { %>active<% } %>">
 						2
 					</a>
 					<% } %>
 					<% if (lastPage >= 3) { %>
-					<a href="/<%= type.url %>/<%= ((currentSubSection) ? currentSubSection + '/' : '' )%>3<%= query %>" class="item <% if (currentPage === 3) { %>active<% } %>">
+					<a href="<%- url %>&page=3" class="item <% if (currentPage === 3) { %>active<% } %>">
 						3
 					</a>
 					<% } %>
@@ -49,19 +52,19 @@
 					</div>
 					<% } %>
 					<% if (!(currentPage - 1 >= lastPage - 2 )) { %>
-					<a href="/<%= type.url %>/<%= ((currentSubSection) ? currentSubSection + '/' : '' )%><%= currentPage - 1 %><%= query %>" class="item">
+					<a href="<%- url %>&page=<%= currentPage - 1 %>" class="item">
 						<%= currentPage - 1 %>
 					</a>
 					<% } %>
 					<% } %>
 					<% if (!(currentPage >= lastPage - 2) && (currentPage > 3)) { %>
-					<a href="/<%= type.url %>/<%= ((currentSubSection) ? currentSubSection + '/' : '' )%><%= currentPage %><%= query %>" class="item active">
+					<a href="<%- url %>&page=<%= currentPage %>" class="item active">
 						<%= currentPage %>
 					</a>
 					<% } %>
 					<% if (!(currentPage + 1 >= lastPage - 2)) { %>
 					<% if (currentPage >= 3) { %>
-					<a href="/<%= type.url %>/<%= ((currentSubSection) ? currentSubSection + '/' : '' )%><%= currentPage + 1 %><%= query %>" class="item">
+					<a href="<%- url %>&page=<%= currentPage + 1 %>" class="item">
 						<%= currentPage + 1 %>
 					</a>
 					<% } %>
@@ -77,17 +80,17 @@
 					</div>
 					<% } %>
 					<% if (lastPage - 2 >= 5) { %>
-					<a href="/<%= type.url %>/<%= ((currentSubSection) ? currentSubSection + '/' : '' )%><%= lastPage - 2 %><%= query %>" class="item <% if (currentPage === lastPage - 2) { %>active<% } %>">
+					<a href="<%- url %>&page=<%= lastPage - 2 %>" class="item <% if (currentPage === lastPage - 2) { %>active<% } %>">
 						<%= lastPage - 2 %>
 					</a>
 					<% } %>
 					<% if (lastPage - 1 >= 5) { %>
-					<a href="/<%= type.url %>/<%= ((currentSubSection) ? currentSubSection + '/' : '' )%><%= lastPage - 1 %><%= query %>" class="item <% if (currentPage === lastPage - 1) { %>active<% } %>">
+					<a href="<%- url %>&page=<%= lastPage - 1 %>" class="item <% if (currentPage === lastPage - 1) { %>active<% } %>">
 						<%= lastPage - 1 %>
 					</a>
 					<% } %>
 					<% if (lastPage >= 5) { %>
-					<a href="/<%= type.url %>/<%= ((currentSubSection) ? currentSubSection + '/' : '' )%><%= lastPage %><%= query %>" class="item <% if (currentPage === lastPage) { %>active<% } %>">
+					<a href="<%- url %>&page=<%= lastPage %>" class="item <% if (currentPage === lastPage) { %>active<% } %>">
 						<%= lastPage %>
 					</a>
 					<% } %>

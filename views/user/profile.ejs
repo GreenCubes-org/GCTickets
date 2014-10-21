@@ -1,35 +1,69 @@
-<% title = __('view.user.profile.pagetitle', user.login) + " — " + __('global.pagetitle') %>
+<% title = __('view.user.profile.pagetitle', user.login) + ' — ' + __('global.pagetitle'),
+	url = '/tickets?sort=' + ((req.query.sort) ? req.query.sort : '') + '&type=' + ((req.query.type) ? req.query.type : '') + '&status=' + ((req.query.status) ? req.query.status : '') + '&visibility=' + ((req.query.visibility) ? req.query.visibility : '') +'&product=' + ((req.query.product) ? req.query.product : '')
+
+moment.lang(sails.userLocale) %>
 <%- partial('partials/header')%>
+<%- partial('partials/subheader', {
+	header: __('view.user.profile.header', ((user.prefix) ? user.prefix : '') + ' '+  user.login)
+}) %>
 <div class="container" style="position:relative">
 	<div class="ui grid">
 		<div class="column l-leftcolumn">
-			<div class="ui basic fluid button"><%= (user.prefix) ? user.prefix : '' %>&nbsp;<%= user.login %></div>
 			<% if (req.user && currentPage === 1) if (req.user.startPage === req.url) { %>
-			<div class="ui basic fluid button" style="margin: 1rem 0em;">
+			<div class="ui basic fluid button">
 				<%- __('view.list.yourstartpage') %>
 			</div>
 			<% } else { %>
-			<div class="ui basic fluid button" id="l-setstartpage" style="margin: 1rem 0em;">
+			<div class="ui basic fluid button" id="l-setstartpage">
 				<%- __('view.list.setstartpage') %>
 			</div>
 			<% } %>
 			<input type="hidden" name="_csrf" id="_csrf" value="<%= _csrf %>" />
+			<div class="ui divider"></div>
+			<div class="ui list">
+				<div class="item"><b><%- __('view.user.profile.regdate') %></b><br>
+					<small><%- moment(user.pinfo.regdate).format('D MMM YYYY, h:mm') %></small>
+				</div>
+				<div class="item"><b><%- __('view.user.profile.lastseen') %></b><br>
+					<small><%- moment(user.pinfo.lastseen).format('D MMM YYYY, h:mm') %></small>
+				</div>
+				<% if (req.user && req.user.group >= ugroup.mod) { %>
+				<div class="item"><b><%- __('view.user.profile.lastip') %></b><br>
+					<small><% if (user.pinfo.lastip) { %><a href="/gameinfo/player/loginlog?ip=<%- user.pinfo.lastip %>"><%- user.pinfo.lastip %></a><% } else { %>&mdash;<% } %></small>
+				</div>
+				<div class="item"><b><%- __('view.user.profile.lasthwid') %></b><br>
+					<small><% if (user.pinfo.lastip) { %><a href="/gameinfo/player/loginlog?ip=<%- user.pinfo.hwid %>"><%- user.pinfo.hwid %></a><% } else { %>&mdash;<% } %></small>
+				</div>
+				<% } %>
+			</div>
+			<% if (req.user && req.user.group >= ugroup.mod) { %>
+			<div class="ui divider"></div>
+			<div class="ui link list">
+				<a class="item" href="/gameinfo/player/inventory?nickname=<%- user.login %>"><%= __('view.gameinfo.player.inventory.title') %></a>
+				<a class="item" href="/gameinfo/player/loginlog?nickname=<%- user.login %>"><%= __('view.gameinfo.player.loginlog.title') %></a>
+				<a class="item" href="/gameinfo/world/moneylog?nickname=<%- user.login %>"><%= __('view.gameinfo.world.moneylog.title') %></a>
+				<a class="item" href="/gameinfo/player/chestslog?nickname=<%- user.login %>"><%= __('view.gameinfo.player.chestslog.title') %></a>
+				<a class="item" href="/gameinfo/player/chatlog?nickname=<%- user.login %>"><%= __('view.gameinfo.player.chatlog.title') %></a>
+				<a class="item" href="/gameinfo/player/commandslog?nickname=<%- user.login %>"><%= __('view.gameinfo.player.commandslog.title') %></a>
+			</div>
+			<% } %>
+			<div class="ui divider"></div>
 			<%- partial('../list/partials/filter') %>
 		</div>
 		<div id="l-content" class="column l-rightcolumn" style="display: inline-block;margin-top: 2em;">
 			<%- partial('../list/partials/list') %>
 			<div class="gc-center" style="margin-top: 3em !important;">
 				<div class="ui pagination menu">
-					<a href="/users/<%= user.login %>/1<%= query %>" class="item <% if (currentPage === 1) { %>active<% } %>">
+					<a href="<%- url %>&page=1" class="item <% if (currentPage === 1) { %>active<% } %>">
 						1
 					</a>
 					<% if (lastPage >= 2) { %>
-					<a href="/users/<%= user.login %>/2<%= query %>" class="item <% if (currentPage === 2) { %>active<% } %>">
+					<a href="<%- url %>&page=2" class="item <% if (currentPage === 2) { %>active<% } %>">
 						2
 					</a>
 					<% } %>
 					<% if (lastPage >= 3) { %>
-					<a href="/users/<%= user.login %>/3<%= query %>" class="item <% if (currentPage === 3) { %>active<% } %>">
+					<a href="<%- url %>&page=3" class="item <% if (currentPage === 3) { %>active<% } %>">
 						3
 					</a>
 					<% } %>
@@ -41,19 +75,19 @@
 					</div>
 					<% } %>
 					<% if (!(currentPage - 1 >= lastPage - 2 )) { %>
-					<a href="/users/<%= user.login %>/<%= currentPage - 1 %><%= query %>" class="item">
+					<a href="<%- url %>&page=<%= currentPage - 1 %>" class="item">
 						<%= currentPage - 1 %>
 					</a>
 					<% } %>
 					<% } %>
 					<% if (!(currentPage >= lastPage - 2) && (currentPage > 3)) { %>
-					<a href="/users/<%= user.login %>/<%= currentPage %><%= query %>" class="item active">
+					<a href="<%- url %>&page=<%= currentPage %>" class="item active">
 						<%= currentPage %>
 					</a>
 					<% } %>
 					<% if (!(currentPage + 1 >= lastPage - 2)) { %>
 					<% if (currentPage >= 3) { %>
-					<a href="/users/<%= user.login %>/<%= currentPage + 1 %><%= query %>" class="item">
+					<a href="<%- url %>&page=<%= currentPage + 1 %>" class="item">
 						<%= currentPage + 1 %>
 					</a>
 					<% } %>
@@ -69,17 +103,17 @@
 					</div>
 					<% } %>
 					<% if (lastPage - 2 >= 5) { %>
-					<a href="/users/<%= user.login %>/<%= lastPage - 2 %><%= query %>" class="item <% if (currentPage === lastPage - 2) { %>active<% } %>">
+					<a href="<%- url %>&page=<%= lastPage - 2 %>" class="item <% if (currentPage === lastPage - 2) { %>active<% } %>">
 						<%= lastPage - 2 %>
 					</a>
 					<% } %>
 					<% if (lastPage - 1 >= 5) { %>
-					<a href="/users/<%= user.login %>/<%= lastPage - 1 %><%= query %>" class="item <% if (currentPage === lastPage - 1) { %>active<% } %>">
+					<a href="<%- url %>&page=<%= lastPage - 1 %>" class="item <% if (currentPage === lastPage - 1) { %>active<% } %>">
 						<%= lastPage - 1 %>
 					</a>
 					<% } %>
 					<% if (lastPage >= 5) { %>
-					<a href="/users/<%= user.login %>/<%= lastPage %><%= query %>" class="item <% if (currentPage === lastPage) { %>active<% } %>">
+					<a href="<%- url %>&page=<%= lastPage %>" class="item <% if (currentPage === lastPage) { %>active<% } %>">
 						<%= lastPage %>
 					</a>
 					<% } %>
