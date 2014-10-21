@@ -1,8 +1,10 @@
-<% title = __('%s — Страница пользователя', user.login) + ' — ' + __('global.pagetitle'),
-	url = '/tickets?sort=' + ((req.query.sort) ? req.query.sort : '') + '&type=' + ((req.query.type) ? req.query.type : '') + '&status=' + ((req.query.status) ? req.query.status : '') + '&visibility=' + ((req.query.visibility) ? req.query.visibility : '') +'&product=' + ((req.query.product) ? req.query.product : '')%>
+<% title = __('view.user.profile.pagetitle', user.login) + ' — ' + __('global.pagetitle'),
+	url = '/tickets?sort=' + ((req.query.sort) ? req.query.sort : '') + '&type=' + ((req.query.type) ? req.query.type : '') + '&status=' + ((req.query.status) ? req.query.status : '') + '&visibility=' + ((req.query.visibility) ? req.query.visibility : '') +'&product=' + ((req.query.product) ? req.query.product : '')
+
+moment.lang(sails.userLocale) %>
 <%- partial('partials/header')%>
 <%- partial('partials/subheader', {
-	header: 'Профиль ' + ((user.prefix) ? user.prefix : '') + ' '+  user.login
+	header: __('view.user.profile.header', ((user.prefix) ? user.prefix : '') + ' '+  user.login)
 }) %>
 <div class="container" style="position:relative">
 	<div class="ui grid">
@@ -19,17 +21,17 @@
 			<input type="hidden" name="_csrf" id="_csrf" value="<%= _csrf %>" />
 			<div class="ui divider"></div>
 			<div class="ui list">
-				<div class="item"><b>Дата регистрации:</b><br>
+				<div class="item"><b><%- __('view.user.profile.regdate') %></b><br>
 					<small><%- moment(user.pinfo.regdate).format('D MMM YYYY, h:mm') %></small>
 				</div>
-				<div class="item"><b>Последний вход:</b><br>
+				<div class="item"><b><%- __('view.user.profile.lastseen') %></b><br>
 					<small><%- moment(user.pinfo.lastseen).format('D MMM YYYY, h:mm') %></small>
 				</div>
 				<% if (req.user && req.user.group >= ugroup.mod) { %>
-				<div class="item"><b>Последний IP:</b><br>
+				<div class="item"><b><%- __('view.user.profile.lastip') %></b><br>
 					<small><% if (user.pinfo.lastip) { %><a href="/gameinfo/player/loginlog?ip=<%- user.pinfo.lastip %>"><%- user.pinfo.lastip %></a><% } else { %>&mdash;<% } %></small>
 				</div>
-				<div class="item"><b>Последний HWID:</b><br>
+				<div class="item"><b><%- __('view.user.profile.lasthwid') %></b><br>
 					<small><% if (user.pinfo.lastip) { %><a href="/gameinfo/player/loginlog?ip=<%- user.pinfo.hwid %>"><%- user.pinfo.hwid %></a><% } else { %>&mdash;<% } %></small>
 				</div>
 				<% } %>
