@@ -103,7 +103,7 @@ module.exports = {
 						query.status = '`status` not in (5,6)';
 					}
 				}
-				if (!req.user || req.user.group <= ugroup.helper) {
+				if (!req.user || req.user.group < ugroup.helper) {
 					if (!visibility || visibility === 3) {
 						if (req.user) {
 							query.visibility = '(`visiblity` = 1 OR (`visiblity` = 2 AND `owner` = ' + req.user.id + '))';
