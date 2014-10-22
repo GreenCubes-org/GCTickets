@@ -670,13 +670,13 @@ span.s-regionstuffitemcomment {
 }
 
 .l-leftcolumn {
-	width: 21% !important;
+	width: 20% !important;
 	padding-top: 1em;
 	padding-left: 0.6em !important;
 }
 
 .l-rightcolumn {
-	width: 79% !important;
+	width: 80% !important;
 	border-left: 1px solid rgba(0,0,0,0.1);
 	position: relative;
 	padding-right: 0em !important;
