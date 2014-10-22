@@ -1,3 +1,5 @@
+![](https://dl.dropbox.com/s/zpa9kirxsnh9w5r/readme.jpg?dl=0)
+
 BBCode Parser for NodeJS
 =============
 

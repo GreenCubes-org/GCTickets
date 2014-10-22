@@ -271,6 +271,22 @@ exports.parse = function (post, cb) {
 
 	// run the text through main regular expression matcher
 	if (post) {
+		var dontparse = false;
+		// replace non bbcode urls
+		post = (function (_post) {
+			return _post.replace(/(\[url\]|\[url\=.*\]|\[img\])?(http|https|ftp|ftps)\:\/\/[a-zA-Z0-9\-\.]+\.[a-zA-Z]{2,3}([\w.,@?^=%&amp;:/~+#-]*[\w@?^=%&amp;/~+#-])?/g, function (m0, m1, m2, offset, mstr) {
+				if (m1 && ['[url=', '[img]'].indexOf(m1.substr(0, 5)) === 0) {
+					return m0.replace(/(http|ftp|https):\/\/[\w-]+(\.[\w-]+)+([\w.,@?^=%&amp;:/~+#-]*[\w@?^=%&amp;/~+#-])?(\[\/)/g, function (m0, m1, m2, offset, mstr) {
+						m0 = m0.substr(0, m0.length - 2);
+						return "[url=" + m0 + "]" + m0 + "[/url]";
+					});
+				} else {
+					return "[url=" + m0 + "]" + m0 + "[/url]";
+				}
+			});
+		})(post);
+
+
 		// idea to replace single *'s from http://patorjk.com/bbcode-previewer/
 		post = (function (_post) {
 			return _post.replace(/(\[\*\])([^\[]*)(\[\/\*\])/g, function (m0, m1, m2, offset, mstr) {
@@ -280,32 +296,18 @@ exports.parse = function (post, cb) {
 
 		// Replace #123 with links to tickets.
 		post = (function (_post) {
-			return _post.replace(/(?:[^&amp;]\B\#)(([0-9])(\w+)?)/g, function (m0, m1, m2, offset, mstr) {
-				return '<a href="/id/' + m1 + '">#' + m1 + '</a>';
+			return _post.replace(/(?:\B\#)(([0-9])(\w+)?)/g, function (m0, m1, m2, offset, mstr) {
+				return '[url=/id/' + m1 + ']#' + m1 + '[/url]';
 			});
 		})(post);
 
 		// Replace #123 with links to tickets.
 		post = (function (_post) {
 			return _post.replace(/(?:\B\@)(([a-zA-Z\-\_])(\w+)?)/g, function (m0, m1, m2, offset, mstr) {
-				return '<a href="/users/' + m1 + '">@' + m1 + '</a>';
+				return '[url=/users/' + m1 + ']@' + m1 + '[/url]';
 			});
 		})(post);
 
-		// replace non bbcode urls
-		post = (function (_post) {
-			return _post.replace(/(\[url\=.*\]|\[img\])?(http|https|ftp|ftps)\:\/\/[a-zA-Z0-9\-\.]+\.[a-zA-Z]{2,3}([\w.,@?^=%&amp;:/~+#-]*[\w@?^=%&amp;/~+#-])?/g, function (m0, m1, m2, offset, mstr) {
-				if (m1 && ['[url=','[img]'].indexOf(m1.substr(0,5)) === 0) {
-					return m0.replace(/(http|ftp|https):\/\/[\w-]+(\.[\w-]+)+([\w.,@?^=%&amp;:/~+#-]*[\w@?^=%&amp;/~+#-])?(\[\/)/g, function (m0, m1, m2, offset, mstr) {
-						m0 = m0.substr(0, m0.length - 2);
-						return "<a target=\"_blank\" href=\"" + m0 + "\">" + m0 + "</a>";
-					});
-				} else {
-					return m0;
-				}
-
-			});
-		})(post);
 
 		result = post.replace(postfmt_re, textToHtmlCB);
 
