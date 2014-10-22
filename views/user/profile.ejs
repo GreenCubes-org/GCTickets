@@ -1,7 +1,5 @@
 <% title = __('view.user.profile.pagetitle', user.login) + ' — ' + __('global.pagetitle'),
-	url = ((req.path == '/user') ? '/user' : '/users/' + user.login) + '?sort=' + ((req.query.sort) ? req.query.sort : '') + '&type=' + ((req.query.type) ? req.query.type : '') + '&status=' + ((req.query.status) ? req.query.status : '') + '&visibility=' + ((req.query.visibility) ? req.query.visibility : '') +'&product=' + ((req.query.product) ? req.query.product : '')
-
-moment.lang(sails.userLocale);  %>
+	url = ((req.path == '/user') ? '/user' : '/users/' + user.login) + '?sort=' + ((req.query.sort) ? req.query.sort : '') + '&type=' + ((req.query.type) ? req.query.type : '') + '&status=' + ((req.query.status) ? req.query.status : '') + '&visibility=' + ((req.query.visibility) ? req.query.visibility : '') +'&product=' + ((req.query.product) ? req.query.product : '') %>
 <%- partial('partials/header')%>
 <%- partial('partials/subheader', {
 	header: __('view.user.profile.header', (((user.prefix) ? user.prefix : '') + ' ' +  user.login))

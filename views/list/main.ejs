@@ -1,7 +1,5 @@
 <% title = "Список тикетов — " + __('global.pagetitle'),
-	url = '/tickets?sort=' + ((req.query.sort) ? req.query.sort : '') + '&type=' + ((req.query.type) ? req.query.type : '') + '&status=' + ((req.query.status) ? req.query.status : '') + '&visibility=' + ((req.query.visibility) ? req.query.visibility : '') +'&product=' + ((req.query.product) ? req.query.product : '');
-
-moment.lang(sails.userLocale); %>
+	url = '/tickets?sort=' + ((req.query.sort) ? req.query.sort : '') + '&type=' + ((req.query.type) ? req.query.type : '') + '&status=' + ((req.query.status) ? req.query.status : '') + '&visibility=' + ((req.query.visibility) ? req.query.visibility : '') +'&product=' + ((req.query.product) ? req.query.product : ''); %>
 <%- partial('partials/header')%>
 <%- partial('partials/subheader')%>
 <div class="container" style="position:relative">

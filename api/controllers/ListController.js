@@ -5,9 +5,13 @@
  * @description :: Вывод списков тикетов.
  */
 
+var moment = require('moment');
+
 module.exports = {
 
 	listTwenty: function (req, res) {
+		moment.lang((req.user) ? req.user.locale : sails.userLocale);
+
 		// GET /tickets?cake=isalie&visibility=1&status=1,5,10&product=1&type=3
 		var sort = parseInt(req.param('sort'), 10),
 			visibility = parseInt(req.param('visibility'), 10),
