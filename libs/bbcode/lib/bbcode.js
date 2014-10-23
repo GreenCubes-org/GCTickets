@@ -274,11 +274,10 @@ exports.parse = function (post, cb) {
 		var dontparse = false;
 		// replace non bbcode urls
 		post = (function (_post) {
-			return _post.replace(/(\[url\]|\[url\=.*\]|\[img\])?(http|https|ftp|ftps)\:\/\/[a-zA-Z0-9\-\.]+\.[a-zA-Z]{2,3}([\w.,@?^=%&amp;:/~+#-]*[\w@?^=%&amp;/~+#-])?/g, function (m0, m1, m2, offset, mstr) {
-				if (m1 && ['[url=', '[img]'].indexOf(m1.substr(0, 5)) === 0) {
+			return _post.replace(/(\[url\=|\[url\]|\[url\=.*\]|\[img\])?(http|https|ftp|ftps)\:\/\/[a-zA-Z0-9\-\.]+\.[a-zA-Z]{2,3}([\w.,@?^=%&amp;:/~+#-]*[\w@?^=%&amp;/~+#-])?/g, function (m0, m1, m2, offset, mstr) {
+				if (m1 && ['[url]','[url=', '[img]'].indexOf(m1.substr(0, 5)) !== -1) {
 					return m0.replace(/(http|ftp|https):\/\/[\w-]+(\.[\w-]+)+([\w.,@?^=%&amp;:/~+#-]*[\w@?^=%&amp;/~+#-])?(\[\/)/g, function (m0, m1, m2, offset, mstr) {
-						m0 = m0.substr(0, m0.length - 2);
-						return "[url=" + m0 + "]" + m0 + "[/url]";
+						return m0;
 					});
 				} else {
 					return "[url=" + m0 + "]" + m0 + "[/url]";
