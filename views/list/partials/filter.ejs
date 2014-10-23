@@ -5,13 +5,13 @@
 					</h3>
 					<div class="inline field">
 						<div class="ui radio checkbox">
-							<input id="sort-bycreation" name="sort:number" value="1" type="radio" <%= (sort == 2 || !req.query.sort) ? 'checked' : '' %>>
+							<input id="sort-bycreation" name="sort:number" value="1" type="radio" <%= (sort == 1 || !req.query.sort) ? 'checked' : '' %>>
 							<label for="sort-bycreation"><%- __('view.list.partials.filter.sort.bycreation') %></label>
 						</div>
 					</div>
 					<div class="inline field">
 						<div class="ui radio checkbox">
-							<input id="sort-byactivity" name="sort:number" value="2" type="radio" <%= (sort == 1) ? 'checked' : '' %>>
+							<input id="sort-byactivity" name="sort:number" value="2" type="radio" <%= (sort == 2) ? 'checked' : '' %>>
 							<label for="sort-byactivity"><%- __('view.list.partials.filter.sort.byactivity') %></label>
 						</div>
 					</div>
