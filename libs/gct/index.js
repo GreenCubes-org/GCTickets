@@ -1205,3 +1205,119 @@ module.exports.serializeChestLog = serializeChestLog = function (log, cb) {
 		cb(null, log);
 	});
 };
+
+module.exports.getList = getList = function findTickets(config, cb) {
+	var visibility = config.visibility,
+		status = config.status,
+		type = config.type,
+		product = config.product,
+		sort = config.sort,
+		user = config.user,
+		query = {
+			status: null,
+			visibility: null,
+			product: null,
+			type: null,
+			first: null
+		},
+		sortBy;
+
+	if (!visibility && !status) {
+		query.status = '`status` not in (5,6)';
+	}
+
+	if (type) {
+		query.type = '`type` in (' + typeJoined + ')';
+	}
+
+	if (status) {
+		query.status = '`status` in (' + statusJoined + ')';
+
+		if (!user.current.id || user.current.group < ugroup.helper) {
+			query.visibility = '`visiblity` = 1';
+		}
+	}
+
+	if (visibility && user.current.id && user.current.group >= ugroup.helper) {
+		if (visibility !== 3) {
+			query.visibility = '`visiblity` = ' + visibility;
+		}
+
+		if (!status) {
+			query.status = '`status` not in (5,6)';
+		}
+	}
+
+	if (!user.current.id || user.current.group < ugroup.helper) {
+		if (!visibility || visibility === 3) {
+			if (user.current.id) {
+				query.visibility = '(`visiblity` = 1 OR (`visiblity` = 2 AND `owner` = ' + user.current.id + '))';
+			} else {
+				query.visibility = '`visiblity` = 1';
+			}
+		}
+
+		if (visibility === 1) {
+			query.visibility = '`visiblity` = 1';
+		}
+
+		if (visibility === 2) {
+			if (user.current.id) {
+				query.visibility = '`visiblity` = 2 AND `owner` = "' + user.current.id + '"';
+			} else {
+				query.visibility = '`id` = 0';
+			}
+		}
+	}
+
+	if (product) {
+		query.product = 'CASE WHEN (`type` = 1) THEN (`tid` in (SELECT `id` FROM `bugreport` WHERE `product` IN (' + productJoined + '))) ELSE `id` <> 0 END';
+
+		if (user.current.id &&
+			user.current.canModerate.map(function (el) {
+				if (product.indexOf(el) !== -1) {
+					return true;
+				} else {
+					return false;
+				}
+			}).indexOf(false) !== -1) {
+			delete query.visibility;
+		}
+	}
+
+	switch (sort) {
+		case 1:
+			sortBy = 'id DESC';
+			break;
+
+		case 2:
+			sortBy = 'updatedAt DESC';
+			break;
+
+		default:
+			sortBy = 'id DESC';
+			break;
+	}
+
+	sails.log.verbose('sortBy: ', sortBy);
+	sails.log.verbose('query: ', query);
+
+
+	if (user.id) {
+		query.first = 'owner = ' + user.id;
+	} else {
+		query.first = 'id <> 0';
+	}
+
+	query = 'SELECT * FROM `ticket` WHERE ' + query.first + ((query.type) ? ' AND ' + query.type : '') + ((query.product) ? ' AND ' + query.product : '') + ((query.status) ? ' AND ' + query.status : '') + ((query.visibility) ? ' AND ' + query.visibility : '') + ' ORDER BY ' + sortBy;
+
+	sails.log.verbose('query: ', query);
+
+	Ticket.query(query, function (err, tickets) {
+		if (err) return cb(err);
+
+		sails.log.verbose('tickets.length: ', tickets.length);
+
+		cb(null, tickets);
+	});
+};

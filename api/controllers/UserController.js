@@ -42,18 +42,17 @@ module.exports = {
 				}
 			}) : null),
 			typeJoined = (type) ? type.join(',') : null,
-			sortBy,
-			query = {
-				status: null,
-				visibility: null,
-				product: null
-			},
 			currentPage = parseInt(req.param('param'), 10) || ((req.param('page')) ? parseInt(req.param('page'), 10) : 1),
 			user = {
 				login: req.param('user') || req.user.username,
 				id: null,
 				prefix: null,
-				pinfo: null
+				pinfo: null,
+				current: {
+					id: (req.user) ? req.user.id : null,
+					group: (req.user) ? req.user.group : null,
+					canModerate: (req.user) ? req.user.canModerate : null
+				}
 			};
 
 		sails.log.verbose('visibility: ', visibility);
@@ -135,73 +134,15 @@ module.exports = {
 				});
 			},
 			function findTickets(callback) {
-				if (!visibility && !status) {
-					query.status = '`status` not in (5,6)';
-				}
-				if (type) {
-					query.type = '`type` in (' + typeJoined + ')';
-				}
-				if (status) {
-					query.status = '`status` in (' + statusJoined + ')';
-
-					if (!req.user || req.user.group < ugroup.helper) {
-						query.visibility = '`visiblity` = 1';
-					}
-				}
-				if (visibility && req.user && req.user.group >= ugroup.helper) {
-					if (visibility !== 3) {
-						query.visibility = '`visiblity` = ' + visibility;
-					}
-
-					if (!status) {
-						query.status = '`status` not in (5,6)';
-					}
-				}
-				if (!req.user || req.user.group < ugroup.helper) {
-					if (!visibility || visibility === 3) {
-						if (req.user) {
-							query.visibility = '(`visiblity` = 1 OR (`visiblity` = 2 AND `owner` = ' + user.id + '))';
-						} else {
-							query.visibility = '`visiblity` = 1';
-						}
-					}
-					if (visibility === 1) {
-						query.visibility = '`visiblity` = 1';
-					}
-					if (visibility === 2) {
-						if (req.user) {
-							query.visibility = '`visiblity` = 2 AND `owner` = "' + req.user.id + '"';
-						} else {
-							query.visibility = '`id` = 0';
-						}
-					}
-				}
-
-				switch (sort) {
-					case 1:
-						sortBy = 'id DESC';
-						break;
-
-					case 2:
-						sortBy = 'updatedAt DESC';
-						break;
-
-					default:
-						sortBy = 'id DESC';
-						break;
-				}
-
-				sails.log.verbose('sortBy: ', sortBy);
-				sails.log.verbose('query: ', query);
-
-				query = 'SELECT * FROM `ticket` WHERE owner = ' + user.id + ((query.type) ? ' AND ' + query.type : '') + ((query.product) ? ' AND ' + query.product : '') + ((query.status) ? ' AND ' + query.status : '') + ((query.visibility) ? ' AND ' + query.visibility : '') + ' ORDER BY ' + sortBy;
-
-				sails.log.verbose('query: ', query);
-
-				Ticket.query(query, function (err, tickets) {
+				gct.getList({
+					visibility: visibility,
+					status: status,
+					type: type,
+					product: product,
+					sort: sort,
+					user: user
+				}, function (err, tickets) {
 					if (err) return callback(err);
-
-					sails.log.verbose('tickets.length: ', tickets.length);
 
 					callback(null, tickets);
 				});

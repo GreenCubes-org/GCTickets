@@ -44,13 +44,14 @@ module.exports = {
 				}
 			}) : null),
 			typeJoined = (type) ? type.join(',') : null,
-			sortBy,
-			query = {
-				status: null,
-				visibility: null,
-				product: null
-			},
-			currentPage = parseInt(req.param('param'), 10) || ((req.param('page')) ? parseInt(req.param('page'), 10) : 1);
+			currentPage = parseInt(req.param('param'), 10) || ((req.param('page')) ? parseInt(req.param('page'), 10) : 1),
+			user = {
+				current: {
+					id: (req.user) ? req.user.id : null,
+					group: (req.user) ? req.user.group : null,
+					canModerate: (req.user) ? req.user.canModerate : null
+				}
+			};
 
 		sails.log.verbose('visibility: ', visibility);
 		sails.log.verbose('req.param(\'visibility\'): ', req.param('visibility'));
@@ -62,6 +63,7 @@ module.exports = {
 		sails.log.verbose('req.param(\'product\'): ', req.param('product'));
 		sails.log.verbose('type: ', type);
 		sails.log.verbose('req.param(\'type\'): ', req.param('type'));
+		sails.log.verbose('user: ', user);
 
 		/* Check and convert data */
 
@@ -85,87 +87,15 @@ module.exports = {
 
 		async.waterfall([
 			function findTickets(callback) {
-				if (!visibility && !status) {
-					query.status = '`status` not in (5,6)';
-				}
-				if (type) {
-					query.type = '`type` in (' + typeJoined + ')';
-				}
-				if (status) {
-					query.status = '`status` in (' + statusJoined + ')';
-
-					if (!req.user || req.user.group < ugroup.helper) {
-						query.visibility = '`visiblity` = 1';
-					}
-				}
-				if (visibility && req.user && req.user.group >= ugroup.helper) {
-					if (visibility !== 3) {
-						query.visibility = '`visiblity` = ' + visibility;
-					}
-
-					if (!status) {
-						query.status = '`status` not in (5,6)';
-					}
-				}
-				if (!req.user || req.user.group < ugroup.helper) {
-					if (!visibility || visibility === 3) {
-						if (req.user) {
-							query.visibility = '(`visiblity` = 1 OR (`visiblity` = 2 AND `owner` = ' + req.user.id + '))';
-						} else {
-							query.visibility = '`visiblity` = 1';
-						}
-					}
-					if (visibility === 1) {
-						query.visibility = '`visiblity` = 1';
-					}
-					if (visibility === 2) {
-						if (req.user) {
-							query.visibility = '`visiblity` = 2 AND `owner` = "' + req.user.id + '"';
-						} else {
-							query.visibility = '`id` = 0';
-						}
-					}
-				}
-				if (product) {
-					query.product = 'CASE WHEN (`type` = 1) THEN (`tid` in (SELECT `id` FROM `bugreport` WHERE `product` IN (' + productJoined + '))) ELSE `id` <> 0 END';
-
-					if (req.user &&
-						req.user.canModerate.map(function (el) {
-							if (product.indexOf(el) !== -1) {
-								return true;
-							} else {
-								return false;
-							}
-						}).indexOf(false) !== -1) {
-						delete query.visibility;
-					}
-				}
-
-				switch (sort) {
-					case 1:
-						sortBy = 'id DESC';
-						break;
-
-					case 2:
-						sortBy = 'updatedAt DESC';
-						break;
-
-					default:
-						sortBy = 'id DESC';
-						break;
-				}
-
-				sails.log.verbose('sortBy: ', sortBy);
-				sails.log.verbose('query: ', query);
-
-				query = 'SELECT * FROM `ticket` WHERE id <> 0' + ((query.type) ? ' AND ' + query.type : '') + ((query.product) ? ' AND ' + query.product : '') + ((query.status) ? ' AND ' + query.status : '') + ((query.visibility) ? ' AND ' + query.visibility : '') + ' ORDER BY ' + sortBy;
-
-				sails.log.verbose('query: ', query);
-
-				Ticket.query(query, function (err, tickets) {
+				gct.getList({
+					visibility: visibility,
+					status: statusJoined,
+					type: typeJoined,
+					product: productJoined,
+					sort: sort,
+					user: user
+				}, function (err, tickets) {
 					if (err) return callback(err);
-
-					sails.log.verbose('tickets.length: ', tickets.length);
 
 					callback(null, tickets);
 				});
