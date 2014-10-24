@@ -28,7 +28,7 @@
 			<%- partial('partials/filter') %>
 		</div>
 		<div id="l-content" class="column l-rightcolumn" style="display: inline-block;margin-top: 2em;">
-			<%- partial('partials/list') %>
+			<%- partial('partials/list', {moment: moment}) %>
 			<div class="gc-center" style="margin-top: 3em !important;">
 				<div class="ui pagination menu">
 					<a href="<%- url %>&page=1" class="item <% if (currentPage === 1) { %>active<% } %>">
