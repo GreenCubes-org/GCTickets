@@ -1227,11 +1227,11 @@ module.exports.getList = getList = function findTickets(config, cb) {
 	}
 
 	if (type) {
-		query.type = '`type` in (' + typeJoined + ')';
+		query.type = '`type` in (' + type + ')';
 	}
 
 	if (status) {
-		query.status = '`status` in (' + statusJoined + ')';
+		query.status = '`status` in (' + status + ')';
 
 		if (!user.current.id || user.current.group < ugroup.helper) {
 			query.visibility = '`visiblity` = 1';
@@ -1271,7 +1271,7 @@ module.exports.getList = getList = function findTickets(config, cb) {
 	}
 
 	if (product) {
-		query.product = 'CASE WHEN (`type` = 1) THEN (`tid` in (SELECT `id` FROM `bugreport` WHERE `product` IN (' + productJoined + '))) ELSE `id` <> 0 END';
+		query.product = 'CASE WHEN (`type` = 1) THEN (`tid` in (SELECT `id` FROM `bugreport` WHERE `product` IN (' + product + '))) ELSE `id` <> 0 END';
 
 		if (user.current.id &&
 			user.current.canModerate.map(function (el) {
