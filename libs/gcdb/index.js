@@ -121,7 +121,7 @@ module.exports.org = org = {
 	getByID: function getByID(id, cb) {
 		if (!gcdbconn) return cb('You\'re not connected to GC MySQL DB');
 
-		orgdb.query('SELECT * FROM organizations WHERE id = ?', [id], function (err, result) {
+		orgdbconn.query('SELECT * FROM organizations WHERE id = ?', [id], function (err, result) {
 			if (err) return cb(err);
 
 			if (result.length !== 0) {
@@ -135,7 +135,7 @@ module.exports.org = org = {
 	getByTag: function getByTag(tag, cb) {
 		if (!gcdbconn) return cb('You\'re not connected to GC MySQL DB');
 
-		orgdb.query('SELECT * FROM organizations WHERE tag = ?', [tag], function (err, result) {
+		orgdbconn.query('SELECT * FROM organizations WHERE tag = ?', [tag], function (err, result) {
 			if (err) return cb(err);
 
 			if (result.length !== 0) {

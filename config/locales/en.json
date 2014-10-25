@@ -164,6 +164,7 @@
 	"view.partials.regioninfo.showall": "Show all",
 	"view.partials.regioninfo.pinfoisempty": "Personal info is empty",
 	"view.partials.regioninfo.noregion": "Region does not exist",
+	"view.partials.regioninfo.orgtitle": "Title: &laquo;%s&raquo; ID: %s",
 	"view.partials.mainpanel.list": "Tickets",
 	"view.partials.mainpanel.profile": "Your profile",
 	"view.partials.mainpanel.adminpanel": "Admin panel",

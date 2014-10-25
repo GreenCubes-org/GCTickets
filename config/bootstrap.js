@@ -65,7 +65,7 @@ module.exports.bootstrap = function (cb) {
 		password: cfg.appdb.password
 	});
 
-	global.orgconn = mysql.createPool({
+	global.orgdbconn = mysql.createPool({
 		host: cfg.orgdb.host,
 		database: cfg.orgdb.database,
 		user: cfg.orgdb.user,

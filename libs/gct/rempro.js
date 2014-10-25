@@ -314,7 +314,15 @@ module.exports = rempro = {
 								},
 								function serializeFull_accessOrgs(callback) {
 									async.map(region.full_access.orgs, function (element, callback) {
-										callback(null, 'Организация #' + element);
+										gcdb.org.getByID(element, function (err, org) {
+											if (err) return callback(err);
+
+											callback(null, {
+												id: org.id,
+												name: org.title,
+												tag: sorg.tag
+											});
+										});
 									}, function (err, array) {
 										if (err) return callback(err);
 
@@ -325,7 +333,15 @@ module.exports = rempro = {
 								},
 								function serializeBuild_accessOrgs(callback) {
 									async.map(region.build_access.orgs, function (element, callback) {
-										callback(null, 'Организация #' + element);
+										gcdb.org.getByID(element, function (err, org) {
+											if (err) return callback(err);
+
+											callback(null, {
+												id: org.id,
+												name: org.title,
+												tag: org.tag
+											});
+										});
 									}, function (err, array) {
 										if (err) return callback(err);
 
