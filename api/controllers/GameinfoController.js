@@ -828,9 +828,13 @@ module.exports = {
 									callback(null, element);
 								});
 							} else if (element.senderType === 2) {
-								element.sender = sails.__('global.organizationid', element.sender);
+								gcdb.org.getByID(element.reciever, function (err, org) {
+									if (err) return callback(err);
 
-								callback(null, element);
+									element.sender = 'o:' + org.tag;
+
+									callback(null, element);
+								});
 							} else {
 								callback(null, element);
 							}
