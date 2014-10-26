@@ -164,6 +164,7 @@
 	"view.partials.regioninfo.showall": "Показать все",
 	"view.partials.regioninfo.pinfoisempty": "Личное дело пустое",
 	"view.partials.regioninfo.noregion": "Данный регион не существует",
+	"view.partials.regioninfo.orgtitle": "Название: &laquo;%s&raquo; ID: %s",
 	"view.partials.mainpanel.list": "Список тикетов",
 	"view.partials.mainpanel.profile": "Ваш профиль",
 	"view.partials.mainpanel.adminpanel": "Панель администратора",

@@ -65,6 +65,13 @@ module.exports.bootstrap = function (cb) {
 		password: cfg.appdb.password
 	});
 
+	global.orgdbconn = mysql.createPool({
+		host: cfg.orgdb.host,
+		database: cfg.orgdb.database,
+		user: cfg.orgdb.user,
+		password: cfg.orgdb.password
+	});
+
 
 	var redis = require('redis').createClient();
 
