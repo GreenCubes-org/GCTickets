@@ -532,6 +532,24 @@ module.exports = {
 						callback(null);
 					});
 				},
+				function serializeFull_accessOrgs(callback) {
+					async.map(rinfo.full_access.orgs, function (element, callback) {
+						gcdb.org.getByID(element, function (err, org) {
+							if (err) return callback(err);
+
+							callback(null, {
+								id: org.id,
+								tag: org.tag
+							});
+						});
+					}, function (err, array) {
+						if (err) return callback(err);
+
+						rinfo.full_access.orgs = array;
+
+						callback(null);
+					});
+				},
 				function serializeBuild_accessPlayers(callback) {
 					async.map(rinfo.build_access.players, function (element, callback) {
 						gcdb.user.getByID(element.uid, 'maindb', function (err, login) {
@@ -546,6 +564,24 @@ module.exports = {
 						if (err) return callback(err);
 
 						rinfo.build_access.players = array;
+
+						callback(null);
+					});
+				},
+				function serializeBuild_accessOrgs(callback) {
+					async.map(rinfo.build_access.orgs, function (element, callback) {
+						gcdb.org.getByID(element, function (err, org) {
+							if (err) return callback(err);
+
+							callback(null, {
+								id: org.id,
+								tag: org.tag
+							});
+						});
+					}, function (err, array) {
+						if (err) return callback(err);
+
+						rinfo.build_access.orgs = array;
 
 						callback(null);
 					});
