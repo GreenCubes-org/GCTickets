@@ -537,10 +537,17 @@ module.exports = {
 						gcdb.org.getByID(element, function (err, org) {
 							if (err) return callback(err);
 
-							callback(null, {
-								id: org.id,
-								tag: org.tag
-							});
+							if (org) {
+								callback(null, {
+									id: org.id,
+									tag: org.tag
+								});
+							} else {
+								callback(null, {
+									id: element,
+									tag: element
+								});
+							}
 						});
 					}, function (err, array) {
 						if (err) return callback(err);
@@ -573,10 +580,17 @@ module.exports = {
 						gcdb.org.getByID(element, function (err, org) {
 							if (err) return callback(err);
 
-							callback(null, {
-								id: org.id,
-								tag: org.tag
-							});
+							if (org) {
+								callback(null, {
+									id: org.id,
+									tag: org.tag
+								});
+							} else {
+								callback(null, {
+									id: element,
+									tag: element
+								});
+							}
 						});
 					}, function (err, array) {
 						if (err) return callback(err);

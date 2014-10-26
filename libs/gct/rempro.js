@@ -317,11 +317,19 @@ module.exports = rempro = {
 										gcdb.org.getByID(element, function (err, org) {
 											if (err) return callback(err);
 
-											callback(null, {
-												id: org.id,
-												name: org.title,
-												tag: sorg.tag
-											});
+											if (org) {
+												callback(null, {
+													id: org.id,
+													name: org.title,
+													tag: org.tag
+												});
+											} else {
+												callback(null, {
+													id: element,
+													name: '&mdash;',
+													tag: element
+												});
+											}
 										});
 									}, function (err, array) {
 										if (err) return callback(err);
@@ -336,11 +344,19 @@ module.exports = rempro = {
 										gcdb.org.getByID(element, function (err, org) {
 											if (err) return callback(err);
 
-											callback(null, {
-												id: org.id,
-												name: org.title,
-												tag: org.tag
-											});
+											if (org) {
+												callback(null, {
+													id: org.id,
+													name: org.title,
+													tag: org.tag
+												});
+											} else {
+												callback(null, {
+													id: element,
+													name: '&mdash;',
+													tag: element
+												});
+											}
 										});
 									}, function (err, array) {
 										if (err) return callback(err);
