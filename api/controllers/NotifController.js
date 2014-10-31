@@ -10,7 +10,7 @@
 module.exports = {
 
 	listNotifications: function (req, res) {
-		redis.sort('notif:' + req.user.id, function (err, result) {
+		redis.sort('notif:' + req.user.id, 'ALPHA', function (err, result) {
 			if (err) return res.serverError(err);
 
 			if (!result.length) { return res.json([]); }

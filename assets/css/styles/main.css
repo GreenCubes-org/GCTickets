@@ -188,6 +188,13 @@ body.main.ui.dimmable.scrolling.dimmed {
 	overflow: hidden;
 }
 
+#gc-notifheaderbutton.newnotifs {
+	border-bottom: 4px solid #FFF;
+	margin-bottom: -4px;
+	background: none repeat scroll 0px 0px #559A8B;
+	border-color: #FFF;
+}
+
 #gc-notifmodal-refreshbutton, #gc-notifmodal-deletebutton {
 	background-color: transparent !important;
 	background-image: none;

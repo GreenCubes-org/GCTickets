@@ -23,7 +23,10 @@ var renderNotifs = function renderNotifs() {
 		$('#loadingmodal').remove();
 		$('#nonotifs').remove();
 
-		if (!notifs.length) {
+		if (notifs.length) {
+			$('#gc-notifheaderbutton').addClass('newnotifs');
+		} else {
+			$('#gc-notifheaderbutton').removeClass('newnotifs');
 			return $('#gc-notifmodal .content').append('<div style="padding: 7em 0em;text-align: center;font-size:1.4em" id="nonotifs">Нет оповещений</div>');
 		}
 
@@ -95,6 +98,7 @@ $(document).ready(function () {
 					success: function (data) {
 						$('#gc-notifmodal .content').html('<div style="padding: 7em 0em;text-align: center;font-size:1.4em" id="nonotifs">Оповещения успешно удалены</div>');
 
+						$('#gc-notifheaderbutton').removeClass('newnotifs');
 						$('#gc-notifnumber').html(0);
 					}
 				});
