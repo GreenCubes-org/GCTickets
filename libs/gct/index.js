@@ -1321,6 +1321,10 @@ module.exports.getList = getList = function findTickets(config, cb) {
 		query.first = 'id <> 0';
 	}
 
+	if (!user.current.id || user.current.group < ugroup.helper) {
+		query += ' AND `status` not in (5,6)';
+	}
+
 	query = 'SELECT * FROM `ticket` WHERE ' + query.first + ((query.type) ? ' AND ' + query.type : '') + ((query.product) ? ' AND ' + query.product : '') + ((query.status) ? ' AND ' + query.status : '') + ((query.visibility) ? ' AND ' + query.visibility : '') + ' ORDER BY ' + sortBy;
 
 	sails.log.verbose('query: ', query);
