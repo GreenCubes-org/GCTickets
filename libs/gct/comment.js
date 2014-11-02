@@ -151,12 +151,17 @@ module.exports = comment = {
 					return cb(true);
 				}
 
+				// If status "Отклонён"
+				if (ticket.status === 4 && canModerate && [11, 3].indexOf(changedTo) != -1) {
+					return cb(true);
+				}
+
 				// If status "Принят"
 				if (ticket.status === 11 && canModerate && [12,4].indexOf(changedTo) != -1) {
 					return cb(true);
 				}
 
-					return cb(false);
+				return cb(false);
 
 			case 2:
 				// If status "Новый"
@@ -169,6 +174,11 @@ module.exports = comment = {
 
 				// If status "Уточнить"
 				if (ticket.status === 3 && canModerate && [10,4].indexOf(changedTo) != -1) {
+					return cb(true);
+				}
+
+				// If status "Отклонён"
+				if (ticket.status === 4 && canModerate && [8, 3].indexOf(changedTo) != -1) {
 					return cb(true);
 				}
 
@@ -197,6 +207,13 @@ module.exports = comment = {
 				if (ticket.status === 3 && canModerate && [10,4].indexOf(changedTo) != -1) {
 					return cb(true);
 				}
+
+
+				// If status "Отклонён"
+				if (ticket.status === 4 && canModerate && [10, 3].indexOf(changedTo) != -1) {
+					return cb(true);
+				}
+
 				return cb(false);
 
 			case 4:
@@ -212,6 +229,12 @@ module.exports = comment = {
 				if (ticket.status === 3 && canModerate && [10,4].indexOf(changedTo) != -1) {
 					return cb(true);
 				}
+
+				// If status "Отклонён"
+				if (ticket.status === 4 && canModerate && [10, 3].indexOf(changedTo) != -1) {
+					return cb(true);
+				}
+
 				return cb(false);
 
 			case 5:

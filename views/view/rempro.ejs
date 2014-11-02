@@ -149,6 +149,11 @@
 								<div class="item" data-value="10"><%- __('global.status.done') %></div>
 								<div class="item" data-value="4"><%- __('global.status.declined') %></div>
 							<% } %>
+							<% if (ticket.status.id === 4) { %>
+								<div class="active item" data-value="4"><%- __('global.status.declined') %></div>
+								<div class="item" data-value="3"><%- __('global.status.specify') %></div>
+								<div class="item" data-value="8"><%- __('global.status.inreview') %></div>
+							<% } %>
 						</div>
 					</div>
 				</div>

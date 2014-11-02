@@ -110,39 +110,51 @@ module.exports.getStatusByID = getStatusByID = function (id) {
 
 module.exports.getStatusByClass = getStatusByClass = function (classname) {
 	switch (classname) {
+		// Новый
 		case 'new':
 			return 1;
 
+		// Отменён
 		case 'rejected':
 			return 2;
 
+		// Уточнить
 		case 'specify':
 			return 3;
 
+		// Отклонён
 		case 'declined':
 			return 4;
 
+		// Скрыт
 		case 'hidden':
 			return 5;
 
+		// Удалён
 		case 'removed':
 			return 6;
 
+		// Исправлен
 		case 'helpfixed':
 			return 7;
 
+		// На рассмотрении
 		case 'inreview':
 			return 8;
 
+		// Отложен
 		case 'delayed':
 			return 9;
 
+		// Выполнен
 		case 'done':
 			return 10;
 
+		// Принят
 		case 'accepted':
 			return 11;
 
+		// Исправлен
 		case 'fixed':
 			return 12;
 
