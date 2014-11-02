@@ -54,7 +54,7 @@ exports.parse = function (post, cb) {
 	var urlstart = -1; // beginning of the URL if zero or greater (ignored if -1)
 
 	// aceptable BBcode tags, optionally prefixed with a slash
-	var tagname_re = /^\/?(?:b|i|u|url|link|s|u?list|li|spoiler|code|img)$/i;
+	var tagname_re = /^\/?(?:b|i|u|url|link|s|u?list|li|spoiler|code)$/i;
 
 	// color names or hex color
 	var color_re = /^(:?black|silver|gray|white|maroon|red|purple|fuchsia|green|lime|olive|yellow|navy|blue|teal|aqua|#(?:[0-9a-f]{3})?[0-9a-f]{3})$/i;
