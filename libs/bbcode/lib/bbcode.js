@@ -295,7 +295,7 @@ exports.parse = function (post, cb) {
 
 		// Replace #123 with links to tickets.
 		post = (function (_post) {
-			return _post.replace(/(?:\B\#)(([0-9])(\w+)?)/g, function (m0, m1, m2, offset, mstr) {
+			return _post.replace(/^(?!\&)+(?:\#)(([0-9])(\w+)?)$/g, function (m0, m1, m2, offset, mstr) {
 				return '[url=/id/' + m1 + ']#' + m1 + '[/url]';
 			});
 		})(post);
