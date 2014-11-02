@@ -6,7 +6,7 @@ app.create = {
 		if ($('#description')) {
 			$('#description').wysibb({
 				lang: 'ru',
-				buttons: 'bold,italic,underline,|,link,numlist,code,|,img,spoiler',
+				buttons: 'bold,italic,underline,|,link,numlist,code,|,spoiler',
 				allButtons: {
 					spoiler: {
 						title: "Спойлер",
@@ -28,7 +28,7 @@ app.create = {
 		if ($('#reason')) {
 			$('#reason').wysibb({
 				lang: 'ru',
-				buttons: 'bold,italic,underline,|,link,numlist,code,|,img,spoiler',
+				buttons: 'bold,italic,underline,|,link,numlist,code,|,spoiler',
 				allButtons: {
 					spoiler: {
 						title: "Спойлер",
