@@ -119,31 +119,44 @@ module.exports = unban = {
 				gcdb.user.getByID(obj.owner, function (err, ownerLogin) {
 					if (err) return callback(err);
 
-					gcdb.user.getByID(obj.targetUser, function (err, targetUserLogin) {
+					callback(null, {
+						id: obj.id,
+						title: obj.title,
+						reason: obj.reason,
+						status: getStatusByID(obj.status),
+						owner: {
+							id: obj.owner,
+							login: ownerLogin,
+							pinfo: null
+						},
+						targetUser: obj.targetUser,
+						type: obj.type,
+						logs: obj.logs,
+						uploads: obj.uploads,
+						visiblity: null,
+						createdAt: obj.createdAt
+					});
+				});
+			},
+			function getUIDs4TargetUsers(obj, callback) {
+				async.map(obj.targetUser, function (element, callback) {
+					gcdb.user.getByID(element, function(err, login) {
 						if (err) return callback(err);
 
-						callback(null, {
-							id: obj.id,
-							title: obj.title,
-							reason: obj.reason,
-							status: getStatusByID(obj.status),
-							owner: {
-								id: obj.owner,
-								login: ownerLogin,
-								pinfo: null
-							},
-							targetUser: {
-								id: obj.targetUser,
-								login: targetUserLogin,
-								pinfo: null
-							},
-							type: obj.type,
-							logs: obj.logs,
-							uploads: obj.uploads,
-							visiblity: null,
-							createdAt: obj.createdAt
-						});
+						element = {
+							id: element,
+							login: login,
+							pinfo: null
+						};
+
+						callback(null, element);
 					});
+				}, function (err, array) {
+					if (err) return callback(err);
+
+					obj.targetUser = array;
+
+					callback(null, obj);
 				});
 			},
 			function bbcode2html(obj, callback) {
@@ -242,12 +255,20 @@ module.exports = unban = {
 					callback(null, obj, ticket);
 				}
 			},
-			function getPInfo4TargetUser(obj, ticket, callback) {
+			function getPInfo4TargetUsers(obj, ticket, callback) {
 				if (req.user && req.user.group >= ugroup.helper) {
-					gct.user.getPInfo(obj.targetUser.login, function(err, pinfo) {
+					async.map(obj.targetUser, function (element, callback) {
+						gct.user.getPInfo(element.login, function(err, pinfo) {
+							if (err) return callback(err);
+
+							element.pinfo = pinfo;
+
+							callback(null, element);
+						});
+					}, function (err, array) {
 						if (err) return callback(err);
 
-						obj.targetUser.pinfo = pinfo;
+						obj.targetUser = array;
 
 						callback(null, obj, ticket);
 					});

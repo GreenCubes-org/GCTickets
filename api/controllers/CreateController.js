@@ -325,7 +325,7 @@ module.exports = {
 					title: req.param('title').replace(/^(\s*)$/g, ''),
 					reason: req.param('reason'),
 					status: 1,
-					targetUser: req.param('targetuser').replace(/[^a-zA-Z0-9_-]/g, '') || null,
+					targetUser: req.param('targetuser').replace(/[^ a-zA-Z0-9_-]/g, '') || null,
 					owner: req.user.id,
 					logs: req.param('logs') || '',
 					uploads: uploads || [],
@@ -351,21 +351,31 @@ module.exports = {
 				obj.reason = req.sanitize('reason').entityEncode();
 				obj.logs = req.sanitize('logs').entityEncode();
 
+				obj.targetUser = obj.targetUser.split(' ');
+
 				if (obj.logs === '') obj.logs = null;
 
-				/* Set title if no title, set obj.createdFor */
-				gcdb.user.getByLogin(obj.targetUser, function(err, uid) {
+				async.map(obj.targetUser, function (element, callback) {
+					/* Set title if no title, set obj.createdFor */
+					gcdb.user.getByLogin(element, function(err, uid) {
+						if (err) return callback(err);
+
+						if (!uid) {
+							callback({
+								msg: sails.__('controller.create.ban.noplayer', element)
+							})
+						} else {
+							element = uid;
+
+							callback(null, element);
+						}
+					});
+				}, function (err, array) {
 					if (err) return callback(err);
 
-					if (!uid) {
-						callback({
-							msg: sails.__('controller.create.noplayer') //FIXME
-						})
-					} else {
-						obj.targetUser = uid;
+					obj.targetUser = array;
 
-						callback(null, obj);
-					}
+					callback(null, obj);
 				});
 			},
 			function createBugreport(obj, callback) {
@@ -483,21 +493,31 @@ module.exports = {
 				obj.reason = req.sanitize('reason').entityEncode();
 				obj.logs = req.sanitize('logs').entityEncode();
 
+				obj.targetUser = obj.targetUser.split(' ');
+
 				if (obj.logs === '') obj.logs = null;
 
-				/* Set title if no title, set obj.createdFor */
-				gcdb.user.getByLogin(obj.targetUser, function(err, uid) {
+				async.map(obj.targetUser, function (element, callback) {
+					/* Set title if no title, set obj.createdFor */
+					gcdb.user.getByLogin(element, function(err, uid) {
+						if (err) return callback(err);
+
+						if (!uid) {
+							callback({
+								msg: sails.__('controller.create.unban.noplayer', element)
+							})
+						} else {
+							element = uid;
+
+							callback(null, element);
+						}
+					});
+				}, function (err, array) {
 					if (err) return callback(err);
 
-					if (!uid) {
-						callback({
-							msg: sails.__('controller.create.noplayer')
-						})
-					} else {
-						obj.targetUser = uid;
+					obj.targetUser = array;
 
-						callback(null, obj);
-					}
+					callback(null, obj);
 				});
 			},
 			function createBugreport(obj, callback) {

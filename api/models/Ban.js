@@ -19,7 +19,7 @@ module.exports = {
 		// 'imma idiot, plz tp meh to spawn!1!!'
 		reason: 'text',
 		// uid
-		targetUser: 'integer',
+		targetUser: 'array',
 		// 'longtext'
 		logs: 'text',
 		// '42' (id of upload)

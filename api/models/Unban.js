@@ -19,7 +19,7 @@ module.exports = {
 		// 'because you can'
 		reason: 'text',
 		// uid
-		targetUser: 'integer',
+		targetUser: 'array',
 		// 'longtext'
 		logs: 'text',
 		// '42' (id of upload)
