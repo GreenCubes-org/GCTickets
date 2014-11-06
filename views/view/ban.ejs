@@ -27,8 +27,8 @@
 	<div class="s-ui divider"></div>
 	<div class="ui grid">
 		<div class="column" style="width: 56%;">
-			<h2 class="ui header"><%- (ticket.targetUser.length > 1) ? __('view.view.ban.targetusers') : __('view.view.ban.targetuser') %> <% ticket.targetUser.forEach(function(el) { %><a class="<% if (req.user && req.user.group >= ugroup.helper) { %> pinfopopup" style="cursor:pointer;border-bottom: 1px dotted;" data-position="bottom center" data-html="<%- partial('../partials/pinfo', {pinfo:el.pinfo}) %>" data-variation="small" title="<%- __('view.view.pinfohint') %>"<% } else { %>" href="/users/<%= el.login %>"<% } %>><%= el.login %></a>&nbsp;<% }) %></h2>
-			<p class="s-targetuser"></p>
+			<h2 class="ui header"><% if (!ticket.targetUser.length) { %><%- __('view.view.ban.notargetusers') %><% } else { %><%- (ticket.targetUser.length > 1) ? __('view.view.ban.targetusers') : __('view.view.ban.targetuser') %> <% ticket.targetUser.forEach(function(el) { %><a class="<% if (req.user && req.user.group >= ugroup.helper) { %> pinfopopup" style="cursor:pointer;border-bottom: 1px dotted;" data-position="bottom center" data-html="<%- partial('../partials/pinfo', {pinfo:el.pinfo}) %>" data-variation="small" title="<%- __('view.view.pinfohint') %>"<% } else { %>" href="/users/<%= el.login %>"<% } %>><%= el.login %></a>&nbsp;<% }) } %></h2>
+			<p class="s-tazrgetuser"></p>
 
 			<h2 class="ui header"><%- __('view.view.ban.reason') %></h2>
 			<p class="s-description"><%- ticket.reason.view %></p>

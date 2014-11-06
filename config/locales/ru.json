@@ -327,6 +327,7 @@
 	"view.view.rempro.regions.selectall": "Выделить всё",
 	"view.view.rempro.stuff.title": "Сундуки/предметы",
 	"view.view.rempro.stuff.hint": "Если кликнуть на жирный элемент, то он полностью выделится. Это удобно при копировании",
+	"view.view.ban.notargetusers": "Игроки не указаны",
 	"view.view.ban.targetuser": "Игрок:",
 	"view.view.ban.targetusers": "Игроки:",
 	"view.view.ban.reason": "Причина бана",

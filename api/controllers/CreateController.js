@@ -305,12 +305,6 @@ module.exports = {
 					});
 				}
 
-				if (!req.param('targetuser')) {
-					return callback({
-						msg: sails.__('controller.create.unban.entertargetuser')
-					});
-				}
-
 				callback(null);
 			},
 			function handleUpload(callback) {
@@ -325,7 +319,7 @@ module.exports = {
 					title: req.param('title').replace(/^(\s*)$/g, ''),
 					reason: req.param('reason'),
 					status: 1,
-					targetUser: req.param('targetuser').replace(/[^ a-zA-Z0-9_-]/g, '') || null,
+					targetUser: req.param('targetuser').replace(/[^ a-zA-Z0-9_-]/g, '') || [],
 					owner: req.user.id,
 					logs: req.param('logs') || '',
 					uploads: uploads || [],
@@ -351,7 +345,7 @@ module.exports = {
 				obj.reason = req.sanitize('reason').entityEncode();
 				obj.logs = req.sanitize('logs').entityEncode();
 
-				obj.targetUser = obj.targetUser.split(' ');
+				obj.targetUser = (obj.targetUser.length) ? obj.targetUser.split(' ') : obj.targetUser;
 
 				if (obj.logs === '') obj.logs = null;
 
@@ -467,7 +461,7 @@ module.exports = {
 					title: req.param('title').replace(/^(\s*)$/g, ''),
 					reason: req.param('reason'),
 					status: 1,
-					targetUser: req.param('targetuser').replace(/[^a-zA-Z0-9_-]/g, '') || null,
+					targetUser: req.param('targetuser').replace(/[^a-zA-Z0-9_-]/g, '') || [],
 					owner: req.user.id,
 					logs: req.param('logs') || '',
 					uploads: uploads || [],
