@@ -881,7 +881,11 @@ module.exports = {
 								gcdb.org.getByID(element.reciever, function (err, org) {
 									if (err) return callback(err);
 
-									element.sender = 'o:' + org.tag;
+									if (org) {
+										element.reciever = 'o:' + org.tag;
+									} else {
+										element.reciever = 'o:' + element.reciever;
+									}
 
 									callback(null, element);
 								});
@@ -902,7 +906,11 @@ module.exports = {
 								gcdb.org.getByID(element.reciever, function (err, org) {
 									if (err) return callback(err);
 
-									element.reciever = 'o:' + org.tag;
+									if (org) {
+										element.reciever = 'o:' + org.tag;
+									} else {
+										element.reciever = 'o:' + element.reciever;
+									}
 
 									callback(null, element);
 								});
