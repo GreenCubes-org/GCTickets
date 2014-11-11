@@ -99,10 +99,10 @@ exports.parse = function (post, cb) {
 				return mstr;
 
 			switch (m1) {
-			case '\r':
-				return "";
-			case '\n':
-				return "<br>";
+				case '\r':
+					return "";
+				case '\n':
+					return "<br>";
 			}
 		}
 
