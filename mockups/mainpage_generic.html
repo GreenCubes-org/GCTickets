@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Главная &mdash; GreenCubes Поддержка</title>
+		<meta charset="utf-8">
+		
+		<link rel="stylesheet" type="text/css" href="assets/css/libs/semantic.min.css">
+		<link rel="stylesheet" type="text/css" href="assets/css/libs/normalize.css">
+		<link rel="stylesheet" type="text/css" href="assets/css/libs/chartist.min.css">
+		
+		<link rel="stylesheet" type="text/css" href="assets/css/styles/generic.css">
+		<link rel="stylesheet" type="text/css" href="assets/css/styles/statuses.css">
+		<link rel="stylesheet" type="text/css" href="assets/css/styles/mainpage.css">
+	</head>
+	<body>
+		<div class="container gc mainpage">
+			<div id="gc-header">
+				<div class="ui page grid">
+					<div class="column">
+						<a class="gc logo" href="/">
+							<img class="ui image" src="assets/images/logo.png">
+						</a>
+						<div class="ui right large floated secondary menu">
+							<a class="item" href="#">
+								<i class="add icon"></i>
+							</a>
+							<a class="item" href="#">
+								<i class="bell icon"></i>
+							</a>
+							<div class="item">
+								<div class="ui top right pointing dropdown link">
+									<span class="header">nzh</span>
+									<i class="dropdown icon"></i>
+									<div class="menu">
+										<div class="item"><a href="/tickets"><i class="user icon"></i> Ваш профиль</a></div>
+										<div class="item"><a href="/tickets"><i class="settings icon"></i> Настройки</a></div>
+									</div>
+								</div>
+							</div>
+							<a class="item" href="#">
+								<i class="log out icon"></i>
+							</a>
+						</div>
+						<div class="ui large secondary menu">
+							<div class="ui top left pointing dropdown link item">
+								<span class="header">Меню</span>
+								<i class="dropdown icon"></i>
+								<div class="menu">
+									<div class="item"><a href="/tickets"><i class="tasks icon"></i> Список тикетов</a></div>
+									<div class="item"><a href="/tickets"><i class="user icon"></i> Ваш профиль</a></div>
+									<div class="ui divider"></div>
+									<div class="item"><a href="/tickets"><i class="dashboard icon"></i> Панель администратора</a></div>
+									<div class="item"><a href="/tickets"><i class="terminal icon"></i> Панель игровой информации</a></div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="content">
+				<h1 class="gc mainpage header">Вам требуется помощь?</h1>
+				<form id="gc-mainpage-search">
+					<div class="gc mainpage search">
+						<input class="prompt" placeholder="Поиск по вопросам..." id="gc-mainpage-search-input" type="text">
+						<a id="gc-mainpage-search-submit" href="#">
+							<i class="search icon"></i>
+						</a>
+					</div>
+				</form>
+				<div class="ui five column relaxed grid ticket-blocks">
+					<a class="column" href="/new/bugreport">
+						<img class="ui medium bordered image" src="assets/images/mainpage/bugreport-illustration.png">
+						<h3>Отправить баг-репорт</h3>
+					</a>
+					<a class="column" href="/new/rempro">
+						<img class="ui medium bordered image" src="assets/images/mainpage/rempro-illustration.png">
+						<h3>Составить заявку на удаление защит</h3>
+					</a>
+					<a class="column" href="/new/ban">
+						<img class="ui medium bordered image" src="assets/images/mainpage/ban-illustration.png">
+						<h3>Составить заявку на бан</h3>
+					</a>
+					<a class="column" href="/new/unban">
+						<img class="ui medium bordered image" src="assets/images/mainpage/unban-illustration.png">
+						<h3>Составить заявку на разбан</h3>
+					</a>
+					<a class="column" href="/new/regen">
+						<img class="ui medium bordered image" src="assets/images/mainpage/regen-illustration.png">
+						<h3>Составить заявку на реген</h3>
+					</a>
+				</div>
+				<div class="ui two column grid addpadding">
+					<div class="column">
+						<h1>Часто задаваемые вопросы</h1>
+						<div class="ui gc mainpage relaxed gc mainpage list">
+							<div class="item">
+								<div class="content">
+									<a class="header">Как сделать октаблок блоков Бадников?</a>
+									<div class="description"><a href="/id/420#lastmessage" class="info">2 ответа</a> <a href="/id/420" class="info">13 дней назад</a> <a href="/users/noobwrecker3000" class="info">noobwrecker3000</a></div>
+								</div>
+							</div>
+							<div class="item">
+								<div class="content">
+									<a class="header">Где купить удочки?</a>
+									<div class="description"><a href="/id/420#lastmessage" class="info">1 ответ</a> <a href="/id/420" class="info">8 дней назад</a> <a href="/users/ChangedNick" class="info">ChangedNick</a></div>
+								</div>
+							</div>
+							<div class="item">
+								<div class="content">
+									<a class="header">Где я могу найти карту мира?</a>
+									<div class="description"><a href="/id/420#lastmessage" class="info">3 ответа</a> <a href="/id/420" class="info">2 месяца назад</a> <a href="/users/quickscope1337" class="info">quickscope1337</a></div>
+								</div>
+							</div>
+							<div class="item">
+								<div class="content">
+									<a class="header">Что такое "штангенциркуль"?</a>
+									<div class="description"><a href="/id/420#lastmessage" class="info">2 ответа</a> <a href="/id/420" class="info">3 месяца назад</a> <a href="/users/theB3s74ch173c70r" class="info">theB3s74ch173c70r</a></div>
+								</div>
+							</div>
+							<div class="item">
+								<div class="content">
+									<a class="header">Как попасть в Криперово без вреда здоровью?</a>
+									<div class="description"><a href="/id/420#lastmessage" class="info">42 ответа</a> <a href="/id/420" class="info">1 месяц назад</a> <a href="/users/coder" class="info">coder</a></div>
+								</div>
+							</div>
+							<div class="item">
+								<a class="dotted link seemore">
+									Посмотреть все
+								</a>
+							</div>
+						</div>
+					</div>
+					<div class="column">
+						<h1>Новые вопросы</h1>
+						<div class="ui gc mainpage relaxed gc mainpage list">
+							<div class="item">
+								<div class="content">
+									<a class="header">Где построить дом?</a>
+									<div class="description"><a href="/id/420#lastmessage" class="info">нет ответов</a> <a href="/id/420" class="info">2 минуты назад</a> <a href="/users/noobwrecker3000" class="info">theB3s74ch173c70r</a></div>
+								</div>
+							</div>
+							<div class="item">
+								<div class="content">
+									<a class="header">Как сделать магазин?</a>
+									<div class="description"><a href="/id/420#lastmessage" class="info">1 ответ</a> <a href="/id/420" class="info">1 час назад</a> <a href="/users/ChangedNick" class="info">Lo_ogitech</a></div>
+								</div>
+							</div>
+							<div class="item">
+								<div class="content">
+									<a class="header">Как врубить ПвП???</a>
+									<div class="description"><a href="/id/420#lastmessage" class="info">1 ответ</a> <a href="/id/420" class="info">2 часа назад</a> <a href="/users/quickscope1337" class="info">quickscope1337</a></div>
+								</div>
+							</div>
+							<div class="item">
+								<div class="content">
+									<a class="header">Почему у дизайнера этого приложения вдохновение приходит через раз?</a>
+									<div class="description"><a href="/id/420#lastmessage" class="info">2 ответа</a> <a href="/id/420" class="info">1 день назад</a> <a href="/users/theB3s74ch173c70r" class="info">Rena4ka</a></div>
+								</div>
+							</div>
+							<div class="item">
+								<div class="content">
+									<a class="header">Почему кое-кто тупица?</a>
+									<div class="description"><a href="/id/420#lastmessage" class="info">1337 ответов</a> <a href="/id/420" class="info">1 месяц назад</a> <a href="/users/coder" class="info">nzh</a></div>
+								</div>
+							</div>
+							<div class="item">
+								<a class="dotted link seemore">
+									Посмотреть все
+								</a>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="ui two column grid addpadding">
+					<div class="column">
+						<p class="statistics-subheader">Статистика по баг-репортам</p>
+						<div class="ct-chart ct-perfect-fourth"></div>
+					</div>
+					<div class="column">
+						<h1>Последние баг-репорты</h1>
+						<div class="ui gc mainpage relaxed list">
+							<div class="item">
+								<div class="content status declined">
+									<a class="header">GreenCubes: Клиент крашится в ReactOS</a>
+									<div class="description"><a href="/tickets" class="info">Отклонён</a><a href="/id/420#lastmessage" class="info">2 ответа</a> <a href="/id/420" class="info">2 дня назад</a> <a href="/users/noobwrecker3000" class="info">Kernel</a></div>
+								</div>
+							</div>
+							<div class="item">
+								<div class="content status accepted">
+									<a class="header">Веб-сервисы: OAuth не работает</a>
+									<div class="description"><a href="/tickets" class="info">Принят</a><a href="/id/420#lastmessage" class="info">1 ответ</a> <a href="/id/420" class="info">8 дней назад</a> <a href="/users/noobwrecker3000" class="info">astappev</a></div>
+								</div>
+							</div>
+							<div class="item">
+								<div class="content status new">
+									<a class="header">Баг вот тут-то там вот</a>
+									<div class="description"><a href="/tickets" class="info">Новый</a><a href="/id/420#lastmessage" class="info">3 ответа</a> <a href="/id/420" class="info">2 месяца назад</a> <a href="/users/noobwrecker3000" class="info">noob1337420</a></div>
+								</div>
+							</div>
+							<div class="item">
+								<div class="content status accepted">
+									<a class="header">GreenCubes: Internal Server Error</a>
+									<div class="description"><a href="/tickets" class="info">Принят</a><a href="/id/420#lastmessage" class="info">1 ответ</a> <a href="/id/420" class="info">4 месяца назад</a> <a href="/users/noobwrecker3000" class="info">astappev</a></div>
+								</div>
+							</div>
+							<div class="item">
+								<div class="content status new">
+									<a class="header status specify">Веб-сервисы: Шрифт плохой, ГЕКА НЕ ТОРТ, КРЫМ — НАШ</a>
+									<div class="description"><a href="/tickets" class="info">Новый</a><a href="/id/420#lastmessage" class="info">3 ответа</a> <a href="/id/420" class="info">142 дня назад</a> <a href="/users/noobwrecker3000" class="info">mrPutin</a></div>
+								</div>
+							</div>
+							<div class="item">
+								<div class="content status declined">
+									<a class="header">А я вот даже не знаю где баг, вот</a>
+									<div class="description"><a href="/tickets" class="info">Отклонён</a><a href="/id/420#lastmessage" class="info">3 ответа</a> <a href="/id/420" class="info">142 дня назад</a> <a href="/users/noobwrecker3000" class="info">neznayka</a></div>
+								</div>
+							</div>
+							<div class="item">
+								<a class="dotted link seemore">
+									Посмотреть все
+								</a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div id="gc-usefullinks">
+				<nav>
+					<h1>GreenCubes</h1>
+					<div><a href="https://forum.greencubes.org">Форум</a></div>
+					<div><a href="https://forum.greencubes.org/viewforum.php?f=255">Блог разработки</a></div>
+					<div><a href="https://wiki.greencubes.org">Wiki (энциклопедия проекта)</a></div>
+					<div><a href="https://greencubes.org/?action=ucp&amp;do=org">Организации</a></div>
+					<div><a href="https://greencubes.org/news/karta_mira#t">Карта мира</a></div>
+					<div><a href="https://greencubes.org/cat/shop">Магазин</a></div>
+					<div><a href="https://wiki.greencubes.org/API">API</a></div>
+				</nav>
+				<nav>
+					<h1>Аккаунт</h1>
+					<div><a href="https://greencubes.org/?action=ucp&amp;do=reg">Учётная запись</a></div>
+					<div><a href="https://greencubes.org/?action=ucp&amp;do=skin">Настройка персонажа</a></div>
+					<div><a href="https://greencubes.org/?action=ucp&amp;do=homes">Дополнительные дома</a></div>
+					<div><a href="https://greencubes.org/?action=pay">Пополнение баланса</a></div>
+					<div><a href="https://greencubes.org/?action=ucp&amp;do=premium">Премиум-аккаунт</a></div>
+					<div><a href="https://greencubes.org/?action=ucp&amp;do=nickname">Настройка никнейма</a></div>
+				</nav>
+				<nav>
+					<h1>Помощь</h1>
+					<div><a href="https://greencubes.org/news/stub">О проекте</a></div>
+					<div><a href="https://greencubes.org/cat/rules">Правила проекта</a></div>
+					<div><a href="https://greencubes.org/news/obraszenie_k_novichkam#t">Информация для новичков</a></div>
+					<div><a href="https://greencubes.org/news/faq2#t" title="Частозадаваемые вопросы">FAQ</a></div>
+					<div><a href="https://greencubes.org/news/stub">Загрузка игрового клиента</a></div>
+					<div><a href="https://greencubes.org/news/stub">Основные игровые команды</a></div> 
+				</nav>
+				<nav>
+					<h1>Техническая поддержка</h1>
+					<div><a href="https://help.greencubes.org">Система поддержки</a></div>
+					<div><a href="https://forum.greencubes.org/viewtopic.php?f=255&amp;t=25624">Технические требования</a></div>
+					<div><a href="https://greencubes.org/news/stub">Защита учётной записи</a></div>
+					<div><a href="http://status.greencubes.org">Состояние сервисов</a></div>
+				</nav>
+			</div>
+			<div id="gc-footer">
+				<div class="ui page grid">
+					<div class="column">
+						<div class="ui right large floated secondary menu">
+							<div class="item">
+								<a href="http://kern0.ru">Kern0</a> &amp; <a href="https://greencubes.org">GreenCubes</a> &copy;
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<!-- JS -->
+		<script src="https://code.jquery.com/jquery-2.1.1.min.js" type="application/javascript"></script>
+		<script src="assets/js/semantic.min.js" type="application/javascript"></script>
+		<script src="assets/js/chartist.min.js" type="application/javascript"></script>
+		<script>
+			$(document).ready(function(){
+				var data = {
+
+					labels: ['13 ноября, четверг','14 ноября, пятница','15 ноября, суббота', '16 ноября, воскресенье', '17 ноября, понедельник', '18 ноября, вторник', '19 ноября, среда'],
+
+					series: [
+						[1,3,2,4,2,1,2]
+					]
+				};
+
+				new Chartist.Line('.ct-chart', data);
+
+				$('.ui.dropdown').dropdown();
+
+				$('#gc-mainpage-search-input').focus();
+			});
+		</script>
+	</body>
+</html>

@@ -1,0 +1,56 @@
+.content.status.new {
+	border-left: 4px solid rgb(60, 120, 216);
+}
+
+.content.status.rejected
+{
+	border-left: 4px solid rgb(166, 77, 121);
+}
+
+.content.status.specify {
+	border-left: 4px solid rgb(246, 107, 101);
+}
+
+.content.status.declined {
+	border-left: 4px solid rgb(204, 0, 0);
+}
+
+.content.status.hidden {
+	border-left: 4px solid rgb(0, 0, 0);
+}
+
+.content.status.removed {
+	border-left: 4px solid rgb(0, 0, 0);
+}
+
+.content.status.helpfixed {
+	border-left: 4px solid rgb(11, 83, 148);
+}
+
+.content.status.inreview {
+	border-left: 4px solid rgb(106, 168, 79);
+}
+
+.content.status.delayed {
+	border-left: 4px solid rgb(191, 144, 0);
+}
+
+.content.status.accepted {
+	border-left: 4px solid rgb(117, 163, 174);
+}
+
+.content.status.befixed {
+	border-left: 4px solid rgb(56, 118, 29);
+}
+
+.content.status.done {
+	border-left: 4px solid rgb(39, 216, 39);
+}
+
+.content.status.fixed {
+	border-left: 4px solid rgb(39, 216, 39);
+}
+
+.content.status.banned {
+	border-left: 4px solid #cf01ce;
+}

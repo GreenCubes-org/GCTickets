@@ -1,0 +1,67 @@
+.gc.mainpage .content {
+	padding-left: 10%;
+	padding-right: 10%;
+}
+
+.gc.mainpage.header {
+	font-size: 3rem;
+	text-align: center;
+	margin: 0px 0px 40px;
+}
+
+.gc.mainpage.ticket-blocks h3 {
+	margin: 1rem;
+	text-align: center;
+	color: #444;
+}
+
+.gc.mainpage.search {
+	display: block;
+	position: relative;
+	margin: 2rem 0rem;
+}
+
+.gc.mainpage.search .search.icon {
+	font-size: 1.3rem;
+	right: 0em;
+	top: 0.9em;
+}
+
+.gc.mainpage.search, .gc.mainpage.search input.prompt {
+	width: 100%;
+	font-size: 2rem;
+}
+
+.gc.mainpage.search input.prompt {
+	height: 48px;
+	margin: 0px;
+}
+
+.gc.mainpage.list .content {
+	padding: 0px;
+}
+
+.gc.mainpage.list .content.status {
+	padding: 0px 6px;
+}
+
+.gc.mainpage.list .description .info {
+	margin: 0px 5px 0px 0px;
+}
+
+.gc.mainpage.list .seemore {
+	padding: 1em 0 3px;
+}
+
+.gc.mainpage .expirienced-block {
+	font-size: 1.3em;
+}
+
+.gc.mainpage .statistics-subheader {
+	font-size: 1.3rem;
+	padding: 0em 2em;
+}
+
+.ct-chart .ct-series.ct-series-a .ct-bar, .ct-chart .ct-series.ct-series-a .ct-line, .ct-chart .ct-series.ct-series-a .ct-point, .ct-chart .ct-series.ct-series-a .ct-slice.ct-donut {
+	stroke: #453D3F;
+}

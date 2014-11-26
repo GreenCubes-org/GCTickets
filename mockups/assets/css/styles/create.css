@@ -1,0 +1,34 @@
+.gc.create.content {
+	padding-left: 10%;
+	padding-right: 10%;
+}
+
+.gc.create .description {
+	font-size: 1.6rem;
+}
+
+.gc.create .subdescription {
+	font-size: 1.4rem;
+}
+
+
+.gc.create .createform.formtag {
+	width: 100%;
+}
+
+.gc.create .createform.shortdescr {
+	width: 80%;
+}
+
+.gc.create .createform.longdescr {
+	width: 80%;
+}
+
+#createform-ext-shortdescr {
+	padding: 1em 0em 2em;
+}
+
+#createform-ext-longdescr {
+	min-height: 300px;
+	width: 80%
+}

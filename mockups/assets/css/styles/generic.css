@@ -1,0 +1,163 @@
+body {
+	background: none repeat scroll 0% 0% #F7F7F7;
+	font-family: Lato,"Helvetica Neue",Arial,Helvetica,sans-serif;
+	color: #444;
+}
+
+.container {
+	max-width: 1400px;
+	margin: 0px auto;
+	min-width: 900px;
+	width: auto;
+}
+
+#gc-header {
+	max-width: 1400px;
+	margin: 0px auto;
+	height: 100%;
+	min-width: 900px;
+	width: auto;
+	position: relative;
+	padding: 2em 0em;
+}
+
+#gc-footer {
+	max-width: 1400px;
+	margin: 0px auto;
+	height: 100%;
+	min-width: 900px;
+	width: auto;
+	position: relative;
+	padding: 2em 0em;
+}
+
+i.icon {
+	font-family: Icons, "FontAwesome" !important;
+}
+
+.gc.logo {
+	float: left;
+	width: 60px;
+	margin-right: 1em;
+}
+
+#gc-header .ui.menu, #gc-footer .ui.menu, #gc-header .ui.menu:active, #gc-footer .ui.menu:active, #gc-header .ui.menu:focus, #gc-footer .ui.menu:focus, #gc-header .ui.menu:hover, #gc-footer .ui.menu:hover {
+	margin-top: 1rem !important;
+	height: 35px;
+	font-weight: bold !important;
+}
+
+#gc-header .ui.secondary.menu .item, #gc-footer .ui.secondary.menu .item {
+	margin: 0;
+	padding: 0.5em 0.7em;
+	background: inherit;
+}
+
+#gc-header .ui.secondary.menu .active.item, #gc-footer .ui.secondary.menu .active.item {
+	font-weight: inherit;
+	color: inherit;
+}
+
+#gc-header a.item:hover, #gc-header .ui.menu > .link.item:hover, #gc-header .ui.menu > a.item:hover, #gc-footer a.item:hover, #gc-footer .ui.menu > .link.item:hover, #gc-footer .ui.menu > a.item:hover {
+	cursor: pointer;
+	background: inherit;
+	color: inherit;
+}
+
+#gc-header .dropdown.icon, #gc-footer .dropdown.icon {
+	margin-left: 0.3em;
+}
+
+#gc-header .ui.page.grid, #gc-footer .ui.page.grid {
+	width: auto;
+	margin-left: 0px;
+	margin-right: 0px;
+	padding-left: 8%;
+	padding-right: 8%;
+}
+
+#gc-usefullinks {
+	padding-left: 10%;
+	padding-right: 10%;
+	height: 200px;
+	margin: 2rem 0rem 0rem;
+}
+
+#gc-usefullinks nav {
+	float: left;
+	padding-top: 20px;
+	padding-bottom: 17px;
+	width: 25%;
+}
+
+#gc-usefullinks nav div {
+	padding-bottom: 3px;
+}
+
+#gc-usefullinks nav h1 {
+	font-size: 100%;
+	padding: 0px 0px 3px;
+}
+
+#gc-usefullinks a {
+	color: inherit;
+}
+
+.gc.search {
+	display: inline-block;
+	position: absolute;
+	color: rgba(0, 0, 0, 0.8);
+}
+
+.gc.search .search.icon {
+	font-size: 1rem;
+	position: absolute;
+	right: 1em;
+	top: 0.8em;
+	color: rgba(0, 0, 0, 0.4);
+}
+
+input.prompt {
+	height: 36px;
+	width: 16rem;
+	padding: 0;
+	background: none repeat scroll 0% 0% transparent;
+	border-width: 0px 0px 2px;
+	border-style: solid;
+	border-color: transparent transparent #559A8B;
+	-moz-border-top-colors: none;
+	-moz-border-right-colors: none;
+	-moz-border-bottom-colors: none;
+	-moz-border-left-colors: none;
+	border-image: none;
+	margin: 0px 1rem;
+	font-size: 1rem;
+}
+
+.dotted.link {
+	text-decoration: none;
+	border-bottom: 1px dotted;
+}
+
+.addpadding {
+	padding-top: 3rem !important;
+}
+
+form {
+	display: initial;
+}
+
+.ui.menu .ui.dropdown.visible {
+	background: inherit;
+}
+
+.ui.steps .content {
+	width: 100%;
+}
+
+.pen, .pen-menu, .pen-input, .pen textarea {
+	color: inherit;
+	font: inherit;
+	font-size: 1rem;
+	background-color: #ededed;
+}
