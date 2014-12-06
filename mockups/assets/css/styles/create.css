@@ -5,6 +5,12 @@
 
 .gc.create .description {
 	font-size: 1.6rem;
+    padding: 2rem 0rem;
+    margin: 0;
+}
+
+.gc.create .description:first-of-type {
+	padding-top: 0;
 }
 
 .gc.create .subdescription {
@@ -25,10 +31,32 @@
 }
 
 #createform-ext-shortdescr {
-	padding: 1em 0em 2em;
+	padding: 0;
+}
+
+#createform-ext-shortdescr input {
+    background: none;
+    border-width: 0px 0px 0px 3px;
+    border-style: solid;
+    border-color: #559A8B;
+    border-radius: 0;
 }
 
 #createform-ext-longdescr {
 	min-height: 300px;
-	width: 80%
+    height: auto;
+	width: 80%;
+    margin: 0;
+    background: none;
+    border-width: 0px 0px 0px 3px;
+    border-style: solid;
+    border-color: #559A8B;
+    border-radius: 0;
+    font-size: 16px;
+    font-family: inherit;
+}
+
+#createform-ext-longdescr::after {
+    padding: 0.5em 1em;
+    font-size: 16px;
 }

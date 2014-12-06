@@ -132,6 +132,14 @@ input.prompt {
 	border-image: none;
 	margin: 0px 1rem;
 	font-size: 1rem;
+    outline: none;
+}
+
+#gc-easteregg {
+    font-size: 0.8rem;
+    margin: 0;
+    padding: 0;
+    color: #C6C6C6;
 }
 
 .dotted.link {

@@ -1,16 +1,15 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>Главная &mdash; GreenCubes Поддержка</title>
+		<title>%НАЗВАНИЕ% &mdash; GreenCubes Поддержка</title>
 		<meta charset="utf-8">
 		
 		<link rel="stylesheet" type="text/css" href="assets/css/libs/semantic.min.css">
 		<link rel="stylesheet" type="text/css" href="assets/css/libs/normalize.css">
 		<link rel="stylesheet" type="text/css" href="assets/css/libs/chartist.min.css">
+		<link rel="stylesheet" href="assets/css/libs/pen.css">
 		
 		<link rel="stylesheet" type="text/css" href="assets/css/styles/generic.css">
-		<link rel="stylesheet" type="text/css" href="assets/css/styles/statuses.css">
-		<link rel="stylesheet" type="text/css" href="assets/css/styles/mainpage.css">
 	</head>
 	<body>
 		<div class="container gc mainpage">
@@ -35,17 +34,15 @@
 							</a>
 						</div>
 						<div class="ui large secondary menu">
-							<div class="ui large secondary menu">
-								<div class="ui top left pointing dropdown link item">
-									<span class="header">Меню</span>
-									<i class="dropdown icon"></i>
-									<div class="menu">
-										<div class="item"><a href="/tickets"><i class="tasks icon"></i> Список тикетов</a></div>
-										<div class="item"><a href="/tickets"><i class="user icon"></i> Ваш профиль</a></div>
-										<div class="ui divider"></div>
-										<div class="item"><a href="/tickets"><i class="dashboard icon"></i> Панель администратора</a></div>
-										<div class="item"><a href="/tickets"><i class="terminal icon"></i> Панель игровой информации</a></div>
-									</div>
+							<div class="ui top left pointing dropdown link item">
+								<span class="header">Меню</span>
+								<i class="dropdown icon"></i>
+								<div class="menu">
+									<div class="item"><a href="/tickets"><i class="tasks icon"></i> Список тикетов</a></div>
+									<div class="item"><a href="/tickets"><i class="user icon"></i> Ваш профиль</a></div>
+									<div class="ui divider"></div>
+									<div class="item"><a href="/tickets"><i class="dashboard icon"></i> Панель администратора</a></div>
+									<div class="item"><a href="/tickets"><i class="terminal icon"></i> Панель игровой информации</a></div>
 								</div>
 							</div>
 							<form id="gc-header-search">
@@ -62,6 +59,7 @@
 				</div>
 			</div>
 			<div class="content">
+
 			</div>
 			<div id="gc-usefullinks">
 				<nav>
@@ -105,7 +103,7 @@
 					<div class="column">
 						<div class="ui right large floated secondary menu">
 							<div class="item">
-								<a href="http://kern0.ru">Kern0</a> &amp; <a href="https://greencubes.org">GreenCubes</a> &copy;
+								<a href="http://kern0.ru">Kern0</a> &#64; <a href="https://greencubes.org">GreenCubes</a> &copy;
 							</div>
 						</div>
 					</div>
@@ -116,23 +114,9 @@
 		<!-- JS -->
 		<script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
 		<script src="assets/js/semantic.min.js" type="application/javascript"></script>
-		<script src="assets/js/chartist.min.js"></script>
 		<script>
 			$(document).ready(function(){
-				var data = {
-
-					labels: ['13 ноября, четверг','14 ноября, пятница','15 ноября, суббота', '16 ноября, воскресенье', '17 ноября, понедельник', '18 ноября, вторник', '19 ноября, среда'],
-
-					series: [
-						[1,3,2,4,2,1,2]
-					]
-				};
-
-				new Chartist.Line('.ct-chart', data);
-
 				$('.ui.dropdown').dropdown();
-
-				$('#gc-mainpage-search-input').focus();
 			});
 		</script>
 	</body>

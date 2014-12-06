@@ -62,13 +62,13 @@
 			</div>
 			<div class="gc create content">
 				<div class="ui three steps">
-					<div class="active step">
+					<div class="step">
 						<i class="map icon"></i>
 						<div class="content">
 							<div class="title">Начало</div>
 						</div>
 					</div>
-					<div class="disabled step">
+					<div class="active step">
 						<i class="write icon"></i>
 						<div class="content">
 							<div class="title">Описание бага</div>
@@ -95,20 +95,23 @@
 						Теперь следует максимально подробно описать в чём проблема и как вы её получили.<br>
 						Больше информации &mdash; лучше!
 					</p>
-					<div class="ui textarea" id="createform-ext-longdescr"></div>
+					<div class="ui textarea" id="createform-ext-longdescr" data-placeholder="Пожалуйста, придумайте мне средней длины пример вот сюда. Да-да вот такой что вот такой вот."></div>
+                    <p class="description">
+                        Когда вы будете готовы &mdash; нажмите кнопку &laquo;предпросмотр&raquo; для перехода к предпросмотру вашего баг-репорта.
+                    </p>
 				</form>
 				
 				<div class="ui six column grid">
 					<div class="column">
 						<div class="ui left labeled icon big button">
 							<i class="left arrow icon"></i>
-							Назад
+							Начало
 						</div>
 					</div>
 					<div class="column right floated left aligned wide">
 						<div class="ui right labeled icon big button">
 							<i class="right arrow icon"></i>
-							Дальше
+							Предпросмотр
 						</div>
 					</div>
 				</div>
@@ -155,7 +158,7 @@
 					<div class="column">
 						<div class="ui right large floated secondary menu">
 							<div class="item">
-								<a href="http://kern0.ru">Kern0</a> &amp; <a href="https://greencubes.org">GreenCubes</a> &copy;
+								<a href="http://kern0.ru">Kern0</a> &#64; <a href="https://greencubes.org">GreenCubes</a> &copy;
 							</div>
 						</div>
 					</div>
