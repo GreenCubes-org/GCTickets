@@ -76,6 +76,19 @@ i.icon {
 	padding-right: 8%;
 }
 
+.gc.header {
+	display: table;
+	padding: 0 5px;
+	margin: 0 0 1rem;
+	background-color: #559A8B;
+	color: #FFF;
+	font-weight: bold;
+}
+
+.gc.page.header {
+	font-size: 3rem;
+}
+
 #gc-usefullinks {
 	padding-left: 10%;
 	padding-right: 10%;
@@ -168,4 +181,16 @@ form {
 	font: inherit;
 	font-size: 1rem;
 	background-color: #ededed;
+}
+
+.gc.center {
+	margin: 0px auto !important;
+	text-align: center !important;
+	display: block !important;
+}
+
+.gc.link.button {
+	border-bottom: 1px dotted;
+	color: inherit;
+	font-size: 1.3em;
 }

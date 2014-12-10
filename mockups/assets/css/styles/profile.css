@@ -2,70 +2,50 @@
 	padding-left: 10%;
 	padding-right: 10%;
 }
-
-.userheader {
-    font-size: 3rem;
-    padding: 0 5px;
-    margin: 0;
-    background-color: #559A8B;
-    color: #FFF;
-    font-weight: bold;
-}
-
-.gc.header:first-of-type {
-	padding-top: 2rem;
-}
-
-.gc.header {
-    padding: 3rem 0rem 1rem;
-    margin: 0;
-}
-
-.gc.bold {
-    font-weight: bold;
-}
-
 .gc.infoblock {
-    margin: 0;
-    font-size: 1.3rem;
+	margin: 0;
+	font-size: 1.3rem;
 }
-
 .gc.infoblock.addpadding {
-    padding-top: 1rem !important;
+	padding-top: 1rem !important;
 }
-
 .gc.profile.list {
 	margin: 0px;
 }
-
 .gc.profile.list .content {
 	padding: 0px;
 }
-
 .gc.profile.list .content.status {
 	padding: 0px 6px;
 }
-
 .gc.profile.list .description .info {
 	margin: 0px 5px 0px 0px;
 }
-
 .gc.profile.list .seemore {
 	padding: 1em 0 3px;
 }
-
 .gc.profile .statistics-subheader {
 	font-size: 1.714rem;
-    padding: 2rem 3rem 1rem;
-    font-weight: bold;
-    margin: 0;
+	padding: 2rem 0rem 1rem;
+	font-weight: bold;
+	margin: 0;
 }
-
 .gc.profile .statistics-links {
-    margin: 0;
-    padding: 0rem 3rem;
+	margin: 0;
 }
-
-.ct-chart .ct-series.ct-series-a .ct-bar, .ct-chart .ct-series.ct-series-a .ct-line, .ct-chart .ct-series.ct-series-a .ct-point, .ct-chart .ct-series.ct-series-a .ct-slice.ct-donut {
+.ui.statistics.center {
+	margin: 0px auto;
+	width: 70%;
+}
+.ct-chart .ct-series.ct-series-a .ct-bar,
+.ct-chart .ct-series.ct-series-a .ct-line,
+.ct-chart .ct-series.ct-series-a .ct-point,
+.ct-chart .ct-series.ct-series-a .ct-slice.ct-donut {
 	stroke: #453D3F;
+}
+.ct-chart .ct-series.ct-series-b .ct-bar,
+.ct-chart .ct-series.ct-series-b .ct-line,
+.ct-chart .ct-series.ct-series-b .ct-point,
+.ct-chart .ct-series.ct-series-b .ct-slice.ct-donut {
+	stroke: #5BBD72;
 }

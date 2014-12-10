@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Список тикетов &mdash; GreenCubes Поддержка</title>
+		<meta charset="utf-8">
+
+		<link rel="stylesheet" type="text/css" href="assets/css/libs/semantic.min.css">
+		<link rel="stylesheet" type="text/css" href="assets/css/libs/normalize.css">
+		<link rel="stylesheet" type="text/css" href="assets/css/libs/chartist.min.css">
+		<link rel="stylesheet" href="assets/css/libs/pen.css">
+
+		<link rel="stylesheet" type="text/css" href="assets/css/styles/generic.css">
+		<link rel="stylesheet" type="text/css" href="assets/css/styles/list.css">
+		<link rel="stylesheet" type="text/css" href="assets/css/styles/statuses.css">
+	</head>
+	<body>
+		<div class="container gc ticketlist">
+			<div id="gc-header">
+				<div class="ui page grid">
+					<div class="column">
+						<a class="gc logo" href="/">
+							<img class="ui image" src="assets/images/logo.png">
+						</a>
+						<div class="ui right large floated secondary menu">
+							<a class="item" href="#">
+								<i class="add icon"></i>
+							</a>
+							<a class="item" href="#">
+								<i class="bell icon"></i>
+							</a>
+							<a class="item" href="#">
+								nzh <i class="dropdown icon"></i>
+							</a>
+							<a class="item" href="#">
+								<i class="log out icon"></i>
+							</a>
+						</div>
+						<div class="ui large secondary menu">
+							<div class="ui top left pointing dropdown link item">
+								<span class="header">Меню</span>
+								<i class="dropdown icon"></i>
+								<div class="menu">
+									<div class="item"><a href="/tickets"><i class="tasks icon"></i> Список тикетов</a></div>
+									<div class="item"><a href="/tickets"><i class="user icon"></i> Ваш профиль</a></div>
+									<div class="ui divider"></div>
+									<div class="item"><a href="/tickets"><i class="dashboard icon"></i> Панель администратора</a></div>
+									<div class="item"><a href="/tickets"><i class="terminal icon"></i> Панель игровой информации</a></div>
+								</div>
+							</div>
+							<form id="gc-header-search">
+								<div class="gc search">
+									<input class="prompt" placeholder="Поиск по всей системе..." type="text">
+									<a id="gc-header-search-submit" href="#">
+										<i class="search icon"></i>
+									</a>
+									<div class="results"></div>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="content">
+				<h1 style="margin-bottom: 30px;" class="gc page header">Список тикетов</h1>
+				<div class="ui grid">
+					<div class="left column">
+						<div class="ui gc ticketlist relaxed big list">
+							<div class="item">
+								<div class="content status declined">
+									<div class="header"><i class="bug icon"></i><a href="#">GreenCubes: Клиент крашится в ReactOS</a></div>
+									<div class="description"><i class="lock icon"></i><a href="/tickets" class="info">Отклонён</a><a href="/id/420#lastmessage" class="info">2 ответа</a>  <a href="/id/420" class="info">2 дня назад</a>  <a href="/users/noobwrecker3000" class="info">Kernel</a>
+									</div>
+								</div>
+							</div>
+							<div class="item">
+								<div class="content status accepted">
+									<div class="header"><i class="bug icon"></i><a href="#">Веб-сервисы: OAuth не работает</a></div>
+									<div class="description"><i class="lock icon"></i><a href="/tickets" class="info">Принят</a><a href="/id/420#lastmessage" class="info">1 ответ</a>  <a href="/id/420" class="info">8 дней назад</a>  <a href="/users/noobwrecker3000" class="info">astappev</a>
+									</div>
+								</div>
+							</div>
+							<div class="item">
+								<div class="content status new">
+									<div class="header"><i class="bug icon"></i><a href="#">Баг вот тут-то там вот</a></div>
+									<div class="description"><i class="lock icon"></i><a href="/tickets" class="info">Новый</a><a href="/id/420#lastmessage" class="info">3 ответа</a>  <a href="/id/420" class="info">2 месяца назад</a>  <a href="/users/noobwrecker3000" class="info">noob1337420</a>
+									</div>
+								</div>
+							</div>
+							<div class="item">
+								<div class="content status declined">
+									<div class="header"><i class="bug icon"></i><a href="#">GreenCubes: Клиент крашится в ReactOS</a></div>
+									<div class="description"><i class="lock icon"></i><a href="/tickets" class="info">Отклонён</a><a href="/id/420#lastmessage" class="info">2 ответа</a>  <a href="/id/420" class="info">2 дня назад</a>  <a href="/users/noobwrecker3000" class="info">Kernel</a>
+									</div>
+								</div>
+							</div>
+							<div class="item">
+								<div class="content status accepted">
+									<div class="header"><i class="bug icon"></i><a href="#">Веб-сервисы: OAuth не работает</a></div>
+									<div class="description"><i class="lock icon"></i><a href="/tickets" class="info">Принят</a><a href="/id/420#lastmessage" class="info">1 ответ</a>  <a href="/id/420" class="info">8 дней назад</a>  <a href="/users/noobwrecker3000" class="info">astappev</a>
+									</div>
+								</div>
+							</div>
+							<div class="item">
+								<div class="content status new">
+									<div class="header"><i class="bug icon"></i><a href="#">Баг вот тут-то там вот</a></div>
+									<div class="description"><i class="lock icon"></i><a href="/tickets" class="info">Новый</a><a href="/id/420#lastmessage" class="info">3 ответа</a>  <a href="/id/420" class="info">2 месяца назад</a>  <a href="/users/noobwrecker3000" class="info">noob1337420</a>
+									</div>
+								</div>
+							</div>
+							<div class="item">
+								<div class="content status declined">
+									<div class="header"><i class="bug icon"></i><a href="#">GreenCubes: Клиент крашится в ReactOS</a></div>
+									<div class="description"><i class="lock icon"></i><a href="/tickets" class="info">Отклонён</a><a href="/id/420#lastmessage" class="info">2 ответа</a>  <a href="/id/420" class="info">2 дня назад</a>  <a href="/users/noobwrecker3000" class="info">Kernel</a>
+									</div>
+								</div>
+							</div>
+							<div class="item">
+								<div class="content status accepted">
+									<div class="header"><i class="bug icon"></i><a href="#">Веб-сервисы: OAuth не работает</a></div>
+									<div class="description"><i class="lock icon"></i><a href="/tickets" class="info">Принят</a><a href="/id/420#lastmessage" class="info">1 ответ</a>  <a href="/id/420" class="info">8 дней назад</a>  <a href="/users/noobwrecker3000" class="info">astappev</a>
+									</div>
+								</div>
+							</div>
+							<div class="item">
+								<div class="content status new">
+									<div class="header"><i class="bug icon"></i><a href="#">Баг вот тут-то там вот</a></div>
+									<div class="description"><i class="lock icon"></i><a href="/tickets" class="info">Новый</a><a href="/id/420#lastmessage" class="info">3 ответа</a>  <a href="/id/420" class="info">2 месяца назад</a>  <a href="/users/noobwrecker3000" class="info">noob1337420</a>
+									</div>
+								</div>
+							</div>
+							<div class="item">
+								<div class="content status declined">
+									<div class="header"><i class="bug icon"></i><a href="#">GreenCubes: Клиент крашится в ReactOS</a></div>
+									<div class="description"><i class="lock icon"></i><a href="/tickets" class="info">Отклонён</a><a href="/id/420#lastmessage" class="info">2 ответа</a>  <a href="/id/420" class="info">2 дня назад</a>  <a href="/users/noobwrecker3000" class="info">Kernel</a>
+									</div>
+								</div>
+							</div>
+							<div class="item">
+								<div class="content status accepted">
+									<div class="header"><i class="bug icon"></i><a href="#">Веб-сервисы: OAuth не работает</a></div>
+									<div class="description"><i class="lock icon"></i><a href="/tickets" class="info">Принят</a><a href="/id/420#lastmessage" class="info">1 ответ</a>  <a href="/id/420" class="info">8 дней назад</a>  <a href="/users/noobwrecker3000" class="info">astappev</a>
+									</div>
+								</div>
+							</div>
+							<div class="item">
+								<div class="content status new">
+									<div class="header"><i class="bug icon"></i><a href="#">Баг вот тут-то там вот</a></div>
+									<div class="description"><i class="lock icon"></i><a href="/tickets" class="info">Новый</a><a href="/id/420#lastmessage" class="info">3 ответа</a>  <a href="/id/420" class="info">2 месяца назад</a>  <a href="/users/noobwrecker3000" class="info">noob1337420</a>
+									</div>
+								</div>
+							</div>
+							<div class="item">
+								<div class="content status declined">
+									<div class="header"><i class="bug icon"></i><a href="#">GreenCubes: Клиент крашится в ReactOS</a></div>
+									<div class="description"><i class="lock icon"></i><a href="/tickets" class="info">Отклонён</a><a href="/id/420#lastmessage" class="info">2 ответа</a>  <a href="/id/420" class="info">2 дня назад</a>  <a href="/users/noobwrecker3000" class="info">Kernel</a>
+									</div>
+								</div>
+							</div>
+							<div class="item">
+								<div class="content status accepted">
+									<div class="header"><i class="bug icon"></i><a href="#">Веб-сервисы: OAuth не работает</a></div>
+									<div class="description"><i class="lock icon"></i><a href="/tickets" class="info">Принят</a><a href="/id/420#lastmessage" class="info">1 ответ</a>  <a href="/id/420" class="info">8 дней назад</a>  <a href="/users/noobwrecker3000" class="info">astappev</a>
+									</div>
+								</div>
+							</div>
+							<div class="item">
+								<div class="content status new">
+									<div class="header"><i class="bug icon"></i><a href="#">Баг вот тут-то там вот</a></div>
+									<div class="description"><i class="lock icon"></i><a href="/tickets" class="info">Новый</a><a href="/id/420#lastmessage" class="info">3 ответа</a>  <a href="/id/420" class="info">2 месяца назад</a>  <a href="/users/noobwrecker3000" class="info">noob1337420</a>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="gc center" style="padding-top: 30px">
+							<div class="ui pagination menu">
+								<a class="active item" href="#">1</a>
+								<a class="item" href="#">2</a>
+								<a class="item" href="#">3</a>
+								<a class="item">...</a>
+								<a class="item" href="#">8</a>
+								<a class="item" href="#">9</a>
+								<a class="item" href="#">10</a>
+							</div>
+						</div>
+					</div>
+					<div class="right column">
+						<div class="ui form" style="font-size: 0.9em;">
+							<h3 class="ui header">
+								Sort by
+							</h3>
+							<div class="inline field">
+								<div class="ui radio checkbox">
+									<input id="sort-bycreation" name="sort:number" value="1" checked="" type="radio">
+									<label for="sort-bycreation">date</label>
+								</div>
+							</div>
+							<div class="inline field">
+								<div class="ui radio checkbox">
+									<input id="sort-byactivity" name="sort:number" value="2" type="radio">
+									<label for="sort-byactivity">activity</label>
+								</div>
+							</div>
+							<h3 class="ui header">
+								Ticket types
+							</h3>
+							<div class="inline field">
+								<div class="ui checkbox">
+									<input class="filter-type-bugreport" name="type[1]:number" value="1" type="checkbox">
+									<label for="filter-type-bugreport">Bug report</label>
+								</div>
+							</div>
+							<div class="inline field">
+								<div class="ui checkbox">
+									<input class="filter-type-rempro" name="type[2]:number" value="2" type="checkbox">
+									<label for="filter-type-rempro">Region removal request</label>
+								</div>
+							</div>
+							<div class="inline field">
+								<div class="ui checkbox">
+									<input class="filter-type-ban" name="type[3]:number" value="3" type="checkbox">
+									<label for="filter-type-ban">Ban request</label>
+								</div>
+							</div>
+							<div class="inline field">
+								<div class="ui checkbox">
+									<input class="filter-type-unban" name="type[4]:number" value="4" type="checkbox">
+									<label for="filter-type-unban">Pardon request</label>
+								</div>
+							</div>
+							<h3 class="ui header">Statuses</h3>
+							<div class="ui basic accordion">
+								<div class="title">
+									<i class="dropdown icon"></i>
+									<label style="cursor:pointer;">General statuses</label>
+								</div>
+								<div class="content">
+									<div class="inline field">
+										<div class="ui checkbox">
+											<input class="filter-status-new" name="status[1]:number" value="1" type="checkbox">
+											<label for="filter-status-new">New</label>
+										</div>
+									</div>
+									<div class="inline field">
+										<div class="ui checkbox">
+											<input class="filter-status-specify" name="status[3]:number" value="3" type="checkbox">
+											<label for="filter-status-specify">Clarify</label>
+										</div>
+									</div>
+									<div class="inline field">
+										<div class="ui checkbox">
+											<input class="filter-status-rejected" name="status[2]:number" value="2" type="checkbox">
+											<label for="filter-status-rejected">Revoked</label>
+										</div>
+									</div>
+									<div class="inline field">
+										<div class="ui checkbox">
+											<input class="filter-status-declined" name="status[4]:number" value="4" type="checkbox">
+											<label for="filter-status-declined">Declined</label>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="ui basic accordion">
+								<div class="title">
+									<i class="dropdown icon"></i>
+									<label style="cursor:pointer;">Bug reports</label>
+								</div>
+								<div class="content">
+									<div class="inline field">
+										<div class="ui checkbox">
+											<input class="filter-status-accepted" name="status[11]:number" value="11" type="checkbox">
+											<label for="filter-status-accepted">Accepted</label>
+										</div>
+									</div>
+									<div class="inline field">
+										<div class="ui checkbox">
+											<input class="filter-status-fixed" name="status[12]:number" value="12" type="checkbox">
+											<label for="filter-status-fixed">Done</label>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="ui basic accordion">
+								<div class="title">
+									<i class="dropdown icon"></i>
+									<label style="cursor:pointer;">Protection removal requests</label>
+								</div>
+								<div class="content">
+									<div class="inline field">
+										<div class="ui checkbox">
+											<input class="filter-status-inreview" name="status[8]:number" value="8" type="checkbox">
+											<label for="filter-status-inreview">In&nbsp;progress</label>
+										</div>
+									</div>
+									<div class="inline field">
+										<div class="ui checkbox">
+											<input class="filter-status-delayed" name="status[9]:number" value="9" type="checkbox">
+											<label for="filter-status-delayed">Delayed</label>
+										</div>
+									</div>
+									<div class="inline field">
+										<div class="ui checkbox">
+											<input class="filter-status-done" name="status[10]:number" value="10" type="checkbox">
+											<label for="filter-status-done">Done</label>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="ui basic accordion">
+								<div class="title">
+									<i class="dropdown icon"></i>
+									<label style="cursor:pointer;">Ban/Pardon requests</label>
+								</div>
+								<div class="content">
+									<div class="inline field">
+										<div class="ui checkbox">
+											<input class="filter-status-done" name="status[10]:number" value="10" type="checkbox">
+											<label for="filter-status-done">Done</label>
+										</div>
+									</div>
+								</div>
+							</div>
+
+							<div class="ui basic accordion">
+								<div class="title">
+									<i class="dropdown icon"></i>
+									<label style="cursor:pointer;">Hidden statuses</label>
+								</div>
+								<div class="content">
+									<div class="inline field">
+										<div class="ui checkbox">
+											<input class="filter-status-hidden" name="status[5]:number" value="5" type="checkbox">
+											<label for="filter-status-hidden">Hidden</label>
+										</div>
+									</div>
+									<div class="inline field">
+										<div class="ui checkbox">
+											<input class="filter-status-removed" name="status[6]:number" value="6" type="checkbox">
+											<label for="filter-status-removed">Deleted</label>
+										</div>
+									</div>
+								</div>
+							</div>
+
+							<h3 class="ui header">Visibility</h3>
+							<div class="grouped fields">
+								<div class="field">
+									<div class="ui radio checkbox">
+										<input class="filter-visibility-all" name="visibility:number" value="3" checked="" type="radio">
+										<label for="filter-visibility-all">Any</label>
+									</div>
+								</div>
+								<div class="field">
+									<div class="ui radio checkbox">
+										<input class="filter-visibility-public" name="visibility:number" value="1" type="radio">
+										<label for="filter-visibility-public">Public</label>
+									</div>
+								</div>
+								<div class="field">
+									<div class="ui radio checkbox">
+										<input class="filter-visibility-private" name="visibility:number" value="2" type="radio">
+										<label for="filter-visibility-private">Private</label>
+									</div>
+								</div>
+							</div>
+							<h3 class="ui header">
+								Problem location
+								<div class="sub header">only for bug reports</div>
+							</h3>
+							<div class="inline field">
+								<div class="ui checkbox">
+									<input class="filter-product-unknown" name="product[1]" value="1" type="checkbox">
+									<label for="filter-product-unknown">Unknown</label>
+								</div>
+							</div>
+							<div class="inline field">
+								<div class="ui checkbox">
+									<input class="filter-product-main" name="product[2]" value="2" type="checkbox">
+									<label for="filter-product-main">GreenCubes</label>
+								</div>
+							</div>
+							<div class="inline field">
+								<div class="ui checkbox">
+									<input class="filter-product-websites" name="product[5]" value="5" type="checkbox">
+									<label for="filter-product-websites">Web services</label>
+								</div>
+							</div>
+							<div class="ui divider"></div>
+							<div class="ui big fluid button" id="gc-filter-submit">Show</div>
+							<a class="gc link button" href="#">Reset form</a>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div id="gc-usefullinks">
+				<nav>
+					<h1>GreenCubes</h1>
+					<div><a href="https://forum.greencubes.org">Форум</a></div>
+					<div><a href="https://forum.greencubes.org/viewforum.php?f=255">Блог разработки</a></div>
+					<div><a href="https://wiki.greencubes.org">Wiki (энциклопедия проекта)</a></div>
+					<div><a href="https://greencubes.org/?action=ucp&amp;do=org">Организации</a></div>
+					<div><a href="https://greencubes.org/news/karta_mira#t">Карта мира</a></div>
+					<div><a href="https://greencubes.org/cat/shop">Магазин</a></div>
+					<div><a href="https://wiki.greencubes.org/API">API</a></div>
+				</nav>
+				<nav>
+					<h1>Аккаунт</h1>
+					<div><a href="https://greencubes.org/?action=ucp&amp;do=reg">Учётная запись</a></div>
+					<div><a href="https://greencubes.org/?action=ucp&amp;do=skin">Настройка персонажа</a></div>
+					<div><a href="https://greencubes.org/?action=ucp&amp;do=homes">Дополнительные дома</a></div>
+					<div><a href="https://greencubes.org/?action=pay">Пополнение баланса</a></div>
+					<div><a href="https://greencubes.org/?action=ucp&amp;do=premium">Премиум-аккаунт</a></div>
+					<div><a href="https://greencubes.org/?action=ucp&amp;do=nickname">Настройка никнейма</a></div>
+				</nav>
+				<nav>
+					<h1>Помощь</h1>
+					<div><a href="https://greencubes.org/news/stub">О проекте</a></div>
+					<div><a href="https://greencubes.org/cat/rules">Правила проекта</a></div>
+					<div><a href="https://greencubes.org/news/obraszenie_k_novichkam#t">Информация для новичков</a></div>
+					<div><a href="https://greencubes.org/news/faq2#t" title="Частозадаваемые вопросы">FAQ</a></div>
+					<div><a href="https://greencubes.org/news/stub">Загрузка игрового клиента</a></div>
+					<div><a href="https://greencubes.org/news/stub">Основные игровые команды</a></div>
+				</nav>
+				<nav>
+					<h1>Техническая поддержка</h1>
+					<div><a href="https://help.greencubes.org">Система поддержки</a></div>
+					<div><a href="https://forum.greencubes.org/viewtopic.php?f=255&amp;t=25624">Технические требования</a></div>
+					<div><a href="https://greencubes.org/news/stub">Защита учётной записи</a></div>
+					<div><a href="http://status.greencubes.org">Состояние сервисов</a></div>
+				</nav>
+			</div>
+			<div id="gc-footer">
+				<div class="ui page grid">
+					<div class="column">
+						<div class="ui right large floated secondary menu">
+							<div class="item">
+								<a href="http://kern0.ru">Kern0</a> &#64; <a href="https://greencubes.org">GreenCubes</a> &copy;
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div id="gc-easteregg">wow so modern</div>
+		</div>
+
+		<!-- JS -->
+		<script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+		<script src="assets/js/semantic.min.js" type="application/javascript"></script>
+		<script>
+			$(document).ready(function(){
+				$('.ui.dropdown').dropdown();
+				$('.ui.accordion').accordion();
+			});
+		</script>
+	</body>
+</html>

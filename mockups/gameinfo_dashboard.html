@@ -1,19 +1,18 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>Главная &mdash; GreenCubes Поддержка</title>
+		<title>Панель игровой информации &mdash; GreenCubes Поддержка</title>
 		<meta charset="utf-8">
-		
+
 		<link rel="stylesheet" type="text/css" href="assets/css/libs/semantic.min.css">
 		<link rel="stylesheet" type="text/css" href="assets/css/libs/normalize.css">
 		<link rel="stylesheet" type="text/css" href="assets/css/libs/chartist.min.css">
-		
+
 		<link rel="stylesheet" type="text/css" href="assets/css/styles/generic.css">
-		<link rel="stylesheet" type="text/css" href="assets/css/styles/statuses.css">
-		<link rel="stylesheet" type="text/css" href="assets/css/styles/mainpage.css">
+		<link rel="stylesheet" type="text/css" href="assets/css/styles/gameinfo.css">
 	</head>
 	<body>
-		<div class="container gc mainpage">
+		<div class="container gc gameinfo">
 			<div id="gc-header">
 				<div class="ui page grid">
 					<div class="column">
@@ -35,10 +34,17 @@
 							</a>
 						</div>
 						<div class="ui large secondary menu">
-							<a class="item" href="#">
-								<i class="sidebar icon"></i>
-								Меню
-							</a>
+							<div class="ui top left pointing dropdown link item">
+								<span class="header">Меню</span>
+								<i class="dropdown icon"></i>
+								<div class="menu">
+									<div class="item"><a href="/tickets"><i class="tasks icon"></i> Список тикетов</a></div>
+									<div class="item"><a href="/tickets"><i class="user icon"></i> Ваш профиль</a></div>
+									<div class="ui divider"></div>
+									<div class="item"><a href="/tickets"><i class="dashboard icon"></i> Панель администратора</a></div>
+									<div class="item"><a href="/tickets"><i class="terminal icon"></i> Панель игровой информации</a></div>
+								</div>
+							</div>
 							<form id="gc-header-search">
 								<div class="gc search">
 									<input class="prompt" placeholder="Поиск по всей системе..." type="text">
@@ -53,6 +59,79 @@
 				</div>
 			</div>
 			<div class="content">
+				<header class="gc page header">Панель игровой информации</header>
+				<div class="ui two columns grid">
+					<div class="column">
+						<h1>Игрок</h1>
+						<div class="ui relaxed list">
+							<div class="item">
+								<a class="content" href="/gameinfo/player/info">
+									<span class="header">General information about player</span>
+									<span class="description" style="display:block">Browsing registration date, prefix, online and ban status, login statistics</span>
+								</a>
+							</div>
+							<div class="item">
+								<a class="content" href="/gameinfo/player/inventory">
+									<span class="header">Inventory</span>
+									<span class="description" style="display:block">Browsing items list in player's inventory</span>
+								</a>
+							</div>
+							<div class="item">
+								<a class="content" href="/gameinfo/player/loginlog">
+									<span class="header">Login's logs</span>
+									<span class="description" style="display:block">Browsing conections to the server</span>
+								</a>
+							</div>
+							<div class="item">
+								<a class="content" href="/gameinfo/player/chestslog">
+									<span class="header">Logs of player's actions with chests</span>
+									<span class="description" style="display:block">Browsing player's actions with all chests</span>
+								</a>
+							</div>
+							<div class="item">
+								<a class="content" href="/gameinfo/player/chatlog">
+									<span class="header">Chat's log</span>
+									<span class="description" style="display:block">Browsing player's chat messages</span>
+								</a>
+							</div>
+							<div class="item">
+								<a class="content" href="/gameinfo/player/commandslog">
+									<span class="header">Commands' log</span>
+									<span class="description" style="display:block">Browsing player's commands' log</span>
+								</a>
+							</div>
+						</div>
+					</div>
+					<div class="column">
+						<h1>Мир</h1>
+						<div class="ui relaxed list">
+							<div class="item">
+								<a class="content" href="/gameinfo/world/regioninfo">
+									<span class="header">Information about region</span>
+									<span class="description" style="display:block">Browsing full information about region</span>
+								</a>
+							</div>
+							<div class="item">
+								<a class="content" href="/gameinfo/world/chestlog">
+									<span class="header">Chest's logs</span>
+									<span class="description" style="display:block">Browsing logs of the chests</span>
+								</a>
+							</div>
+							<div class="item">
+								<a class="content" href="/gameinfo/world/blockslog">
+									<span class="header">Blocks' log</span>
+									<span class="description" style="display:block">Browsing logs of the blocks</span>
+								</a>
+							</div>
+							<div class="item">
+								<a class="content" href="/gameinfo/world/moneylog">
+									<span class="header">Logs of money transactions</span>
+									<span class="description" style="display:block">Browsing transactions of money and coins</span>
+								</a>
+							</div>
+						</div>
+					</div>
+				</div>
 			</div>
 			<div id="gc-usefullinks">
 				<nav>
@@ -81,7 +160,7 @@
 					<div><a href="https://greencubes.org/news/obraszenie_k_novichkam#t">Информация для новичков</a></div>
 					<div><a href="https://greencubes.org/news/faq2#t" title="Частозадаваемые вопросы">FAQ</a></div>
 					<div><a href="https://greencubes.org/news/stub">Загрузка игрового клиента</a></div>
-					<div><a href="https://greencubes.org/news/stub">Основные игровые команды</a></div> 
+					<div><a href="https://greencubes.org/news/stub">Основные игровые команды</a></div>
 				</nav>
 				<nav>
 					<h1>Техническая поддержка</h1>
@@ -102,28 +181,15 @@
 					</div>
 				</div>
 			</div>
+			<div id="gc-easteregg">wow so modern</div>
 		</div>
-		
+
 		<!-- JS -->
 		<script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
 		<script src="assets/js/semantic.min.js" type="application/javascript"></script>
-		<script src="assets/js/chartist.min.js"></script>
 		<script>
 			$(document).ready(function(){
-				var data = {
-
-					labels: ['13 ноября, четверг','14 ноября, пятница','15 ноября, суббота', '16 ноября, воскресенье', '17 ноября, понедельник', '18 ноября, вторник', '19 ноября, среда'],
-
-					series: [
-						[1,3,2,4,2,1,2]
-					]
-				};
-
-				new Chartist.Line('.ct-chart', data);
-
 				$('.ui.dropdown').dropdown();
-
-				$('#gc-mainpage-search-input').focus();
 			});
 		</script>
 	</body>

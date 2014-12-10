@@ -1,278 +1,365 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<title>Профиль nzh &mdash; GreenCubes Поддержка</title>
-		<meta charset="utf-8">
 
-		<link rel="stylesheet" type="text/css" href="assets/css/libs/semantic.min.css">
-		<link rel="stylesheet" type="text/css" href="assets/css/libs/normalize.css">
-        <link rel="stylesheet" type="text/css" href="assets/css/libs/chartist.min.css">
+<head>
+	<title>Профиль nzh &mdash; GreenCubes Поддержка</title>
+	<meta charset="utf-8">
 
-		<link rel="stylesheet" type="text/css" href="assets/css/styles/generic.css">
-		<link rel="stylesheet" type="text/css" href="assets/css/styles/profile.css">
-        <link rel="stylesheet" type="text/css" href="assets/css/styles/statuses.css">
-	</head>
-	<body>
-		<div class="container gc mainpage">
-			<div id="gc-header">
-				<div class="ui page grid">
-					<div class="column">
-						<a class="gc logo" href="/">
-							<img class="ui image" src="assets/images/logo.png">
+	<link rel="stylesheet" type="text/css" href="assets/css/libs/semantic.min.css">
+	<link rel="stylesheet" type="text/css" href="assets/css/libs/normalize.css">
+	<link rel="stylesheet" type="text/css" href="assets/css/libs/chartist.min.css">
+
+	<link rel="stylesheet" type="text/css" href="assets/css/styles/generic.css">
+	<link rel="stylesheet" type="text/css" href="assets/css/styles/profile.css">
+	<link rel="stylesheet" type="text/css" href="assets/css/styles/statuses.css">
+</head>
+
+<body>
+	<div class="container gc mainpage">
+		<div id="gc-header">
+			<div class="ui page grid">
+				<div class="column">
+					<a class="gc logo" href="/">
+						<img class="ui image" src="assets/images/logo.png">
+					</a>
+					<div class="ui right large floated secondary menu">
+						<a class="item" href="#">
+							<i class="add icon"></i>
 						</a>
-						<div class="ui right large floated secondary menu">
-							<a class="item" href="#">
-								<i class="add icon"></i>
-							</a>
-							<a class="item" href="#">
-								<i class="bell icon"></i>
-							</a>
-							<a class="item" href="#">
+						<a class="item" href="#">
+							<i class="bell icon"></i>
+						</a>
+						<a class="item" href="#">
 								nzh <i class="dropdown icon"></i>
 							</a>
-							<a class="item" href="#">
-								<i class="log out icon"></i>
-							</a>
-						</div>
-						<div class="ui large secondary menu">
-							<div class="ui top left pointing dropdown link item">
-								<span class="header">Меню</span>
-								<i class="dropdown icon"></i>
-								<div class="menu">
-									<div class="item"><a href="/tickets"><i class="tasks icon"></i> Список тикетов</a></div>
-									<div class="item"><a href="/tickets"><i class="user icon"></i> Ваш профиль</a></div>
-									<div class="ui divider"></div>
-									<div class="item"><a href="/tickets"><i class="dashboard icon"></i> Панель администратора</a></div>
-									<div class="item"><a href="/tickets"><i class="terminal icon"></i> Панель игровой информации</a></div>
+						<a class="item" href="#">
+							<i class="log out icon"></i>
+						</a>
+					</div>
+					<div class="ui large secondary menu">
+						<div class="ui top left pointing dropdown link item">
+							<span class="header">Меню</span>
+							<i class="dropdown icon"></i>
+							<div class="menu">
+								<div class="item"><a href="/tickets"><i class="tasks icon"></i> Список тикетов</a>
+								</div>
+								<div class="item"><a href="/tickets"><i class="user icon"></i> Ваш профиль</a>
+								</div>
+								<div class="ui divider"></div>
+								<div class="item"><a href="/tickets"><i class="dashboard icon"></i> Панель администратора</a>
+								</div>
+								<div class="item"><a href="/tickets"><i class="terminal icon"></i> Панель игровой информации</a>
 								</div>
 							</div>
-							<form id="gc-header-search">
-								<div class="gc search">
-									<input class="prompt" placeholder="Поиск по всей системе..." type="text">
-									<a id="gc-header-search-submit" href="#">
-										<i class="search icon"></i>
-									</a>
-									<div class="results"></div>
-								</div>
-							</form>
 						</div>
+						<form id="gc-header-search">
+							<div class="gc search">
+								<input class="prompt" placeholder="Поиск по всей системе..." type="text">
+								<a id="gc-header-search-submit" href="#">
+									<i class="search icon"></i>
+								</a>
+								<div class="results"></div>
+							</div>
+						</form>
 					</div>
 				</div>
 			</div>
-			<div class="gc profile content">
-				<div><span class="userheader">Профиль игрока nzh</span></div>
-                <h2 class="gc header">Основная информация об аккаунте</h2>
-                <div class="ui grid two column">
-                    <div class="column">
-                        <div class="gc infoblock"><span class="gc bold">Последний вход:</span> 29 ноября 2014, 10:21</div>
-                        <div class="gc addpadding infoblock"><span class="gc bold">Дата регистрации:</span> 6 апреля 2012, 12:31</div>
-                    </div>
-                    <div class="column">
-                        <div class="gc infoblock"><span class="gc bold">Последний IP:</span> 81.88.223.153</div>
-                        <div class="gc addpadding infoblock"><span class="gc bold">Последний HWID:</span> WRONGID:6b1pqhghdc</div>
-                    </div>
-                </div>
-                <div class="ui two column grid">
-                    <div class="column">
-                        <h2 class="gc header">Последние тикеты</h2>
-                        <div class="ui gc profile relaxed list">
-                            <div class="item">
-                                <div class="content status declined">
-                                    <a class="header">GreenCubes: Клиент крашится в ReactOS</a>
-                                    <div class="description"><a href="/tickets" class="info">Отклонён</a><a href="/id/420#lastmessage" class="info">2 ответа</a> <a href="/id/420" class="info">2 дня назад</a> <a href="/users/noobwrecker3000" class="info">Kernel</a></div>
-                                </div>
-                            </div>
-                            <div class="item">
-                                <div class="content status accepted">
-                                    <a class="header">Веб-сервисы: OAuth не работает</a>
-                                    <div class="description"><a href="/tickets" class="info">Принят</a><a href="/id/420#lastmessage" class="info">1 ответ</a> <a href="/id/420" class="info">8 дней назад</a> <a href="/users/noobwrecker3000" class="info">astappev</a></div>
-                                </div>
-                            </div>
-                            <div class="item">
-                                <div class="content status new">
-                                    <a class="header">Баг вот тут-то там вот</a>
-                                    <div class="description"><a href="/tickets" class="info">Новый</a><a href="/id/420#lastmessage" class="info">3 ответа</a> <a href="/id/420" class="info">2 месяца назад</a> <a href="/users/noobwrecker3000" class="info">noob1337420</a></div>
-                                </div>
-                            </div>
-                            <div class="item">
-                                <div class="content status accepted">
-                                    <a class="header">GreenCubes: Internal Server Error</a>
-                                    <div class="description"><a href="/tickets" class="info">Принят</a><a href="/id/420#lastmessage" class="info">1 ответ</a> <a href="/id/420" class="info">4 месяца назад</a> <a href="/users/noobwrecker3000" class="info">astappev</a></div>
-                                </div>
-                            </div>
-                            <div class="item">
-                                <div class="content status new">
-                                    <a class="header status specify">Веб-сервисы: Шрифт плохой, ГЕКА НЕ ТОРТ, КРЫМ — НАШ</a>
-                                    <div class="description"><a href="/tickets" class="info">Новый</a><a href="/id/420#lastmessage" class="info">3 ответа</a> <a href="/id/420" class="info">142 дня назад</a> <a href="/users/noobwrecker3000" class="info">mrPutin</a></div>
-                                </div>
-                            </div>
-                            <div class="item">
-                                <div class="content status declined">
-                                    <a class="header">А я вот даже не знаю где баг, вот</a>
-                                    <div class="description"><a href="/tickets" class="info">Отклонён</a><a href="/id/420#lastmessage" class="info">3 ответа</a> <a href="/id/420" class="info">142 дня назад</a> <a href="/users/noobwrecker3000" class="info">neznayka</a></div>
-                                </div>
-                            </div>
-                            <div class="item">
-                                <div class="content status declined">
-                                    <a class="header">GreenCubes: Клиент крашится в ReactOS</a>
-                                    <div class="description"><a href="/tickets" class="info">Отклонён</a><a href="/id/420#lastmessage" class="info">2 ответа</a> <a href="/id/420" class="info">2 дня назад</a> <a href="/users/noobwrecker3000" class="info">Kernel</a></div>
-                                </div>
-                            </div>
-                            <div class="item">
-                                <div class="content status accepted">
-                                    <a class="header">Веб-сервисы: OAuth не работает</a>
-                                    <div class="description"><a href="/tickets" class="info">Принят</a><a href="/id/420#lastmessage" class="info">1 ответ</a> <a href="/id/420" class="info">8 дней назад</a> <a href="/users/noobwrecker3000" class="info">astappev</a></div>
-                                </div>
-                            </div>
-                            <div class="item">
-                                <div class="content status new">
-                                    <a class="header">Баг вот тут-то там вот</a>
-                                    <div class="description"><a href="/tickets" class="info">Новый</a><a href="/id/420#lastmessage" class="info">3 ответа</a> <a href="/id/420" class="info">2 месяца назад</a> <a href="/users/noobwrecker3000" class="info">noob1337420</a></div>
-                                </div>
-                            </div>
-                            <div class="item">
-                                <div class="content status accepted">
-                                    <a class="header">GreenCubes: Internal Server Error</a>
-                                    <div class="description"><a href="/tickets" class="info">Принят</a><a href="/id/420#lastmessage" class="info">1 ответ</a> <a href="/id/420" class="info">4 месяца назад</a> <a href="/users/noobwrecker3000" class="info">astappev</a></div>
-                                </div>
-                            </div>
-                            <div class="item">
-                                <div class="content status new">
-                                    <a class="header status specify">Веб-сервисы: Шрифт плохой, ГЕКА НЕ ТОРТ, КРЫМ — НАШ</a>
-                                    <div class="description"><a href="/tickets" class="info">Новый</a><a href="/id/420#lastmessage" class="info">3 ответа</a> <a href="/id/420" class="info">142 дня назад</a> <a href="/users/noobwrecker3000" class="info">mrPutin</a></div>
-                                </div>
-                            </div>
-                            <div class="item">
-                                <div class="content status declined">
-                                    <a class="header">А я вот даже не знаю где баг, вот</a>
-                                    <div class="description"><a href="/tickets" class="info">Отклонён</a><a href="/id/420#lastmessage" class="info">3 ответа</a> <a href="/id/420" class="info">142 дня назад</a> <a href="/users/noobwrecker3000" class="info">neznayka</a></div>
-                                </div>
-                            </div>
-                            <div class="item">
-                                <div class="content status accepted">
-                                    <a class="header">GreenCubes: Internal Server Error</a>
-                                    <div class="description"><a href="/tickets" class="info">Принят</a><a href="/id/420#lastmessage" class="info">1 ответ</a> <a href="/id/420" class="info">4 месяца назад</a> <a href="/users/noobwrecker3000" class="info">astappev</a></div>
-                                </div>
-                            </div>
-                            <div class="item">
-                                <div class="content status new">
-                                    <a class="header status specify">Веб-сервисы: Шрифт плохой, ГЕКА НЕ ТОРТ, КРЫМ — НАШ</a>
-                                    <div class="description"><a href="/tickets" class="info">Новый</a><a href="/id/420#lastmessage" class="info">3 ответа</a> <a href="/id/420" class="info">142 дня назад</a> <a href="/users/noobwrecker3000" class="info">mrPutin</a></div>
-                                </div>
-                            </div>
-                            <div class="item">
-                                <div class="content status declined">
-                                    <a class="header">А я вот даже не знаю где баг, вот</a>
-                                    <div class="description"><a href="/tickets" class="info">Отклонён</a><a href="/id/420#lastmessage" class="info">3 ответа</a> <a href="/id/420" class="info">142 дня назад</a> <a href="/users/noobwrecker3000" class="info">neznayka</a></div>
-                                </div>
-                            </div>
-                            <div class="item">
-                                <div class="content status new">
-                                    <a class="header status specify">Веб-сервисы: Шрифт плохой, ГЕКА НЕ ТОРТ, КРЫМ — НАШ</a>
-                                    <div class="description"><a href="/tickets" class="info">Новый</a><a href="/id/420#lastmessage" class="info">3 ответа</a> <a href="/id/420" class="info">142 дня назад</a> <a href="/users/noobwrecker3000" class="info">mrPutin</a></div>
-                                </div>
-                            </div>
-                            <div class="item">
-                                <div class="content status declined">
-                                    <a class="header">А я вот даже не знаю где баг, вот</a>
-                                    <div class="description"><a href="/tickets" class="info">Отклонён</a><a href="/id/420#lastmessage" class="info">3 ответа</a> <a href="/id/420" class="info">142 дня назад</a> <a href="/users/noobwrecker3000" class="info">neznayka</a></div>
-                                </div>
-                            </div>
-                            <div class="item">
-                                <a class="dotted link seemore">
+		</div>
+		<div class="gc profile content">
+			<h1 class="gc page header">Профиль игрока nzh</h1>
+			<h2>Основная информация об аккаунте</h2>
+			<div class="ui grid two column">
+				<div class="column">
+					<div class="gc infoblock"><b>Последний вход:</b> 29 ноября 2014, 10:21</div>
+					<div class="gc addpadding infoblock"><b>Дата регистрации:</b> 6 апреля 2012, 12:31</div>
+				</div>
+				<div class="column">
+					<div class="gc infoblock"><b>Последний IP:</b> 81.88.223.153</div>
+					<div class="gc addpadding infoblock"><b>Последний HWID:</b> WRONGID:6b1pqhghdc</div>
+				</div>
+			</div>
+			<div class="ui two column grid">
+				<div class="column">
+					<h2>Последние тикеты</h2>
+					<div class="ui gc profile relaxed large list">
+						<div class="item">
+							<div class="content status declined">
+								<a class="header">GreenCubes: Клиент крашится в ReactOS</a>
+								<div class="description"><a href="/tickets" class="info">Отклонён</a><a href="/id/420#lastmessage" class="info">2 ответа</a>  <a href="/id/420" class="info">2 дня назад</a>  <a href="/users/noobwrecker3000" class="info">Kernel</a>
+								</div>
+							</div>
+						</div>
+						<div class="item">
+							<div class="content status accepted">
+								<a class="header">Веб-сервисы: OAuth не работает</a>
+								<div class="description"><a href="/tickets" class="info">Принят</a><a href="/id/420#lastmessage" class="info">1 ответ</a>  <a href="/id/420" class="info">8 дней назад</a>  <a href="/users/noobwrecker3000" class="info">astappev</a>
+								</div>
+							</div>
+						</div>
+						<div class="item">
+							<div class="content status new">
+								<a class="header">Баг вот тут-то там вот</a>
+								<div class="description"><a href="/tickets" class="info">Новый</a><a href="/id/420#lastmessage" class="info">3 ответа</a>  <a href="/id/420" class="info">2 месяца назад</a>  <a href="/users/noobwrecker3000" class="info">noob1337420</a>
+								</div>
+							</div>
+						</div>
+						<div class="item">
+							<div class="content status accepted">
+								<a class="header">GreenCubes: Internal Server Error</a>
+								<div class="description"><a href="/tickets" class="info">Принят</a><a href="/id/420#lastmessage" class="info">1 ответ</a>  <a href="/id/420" class="info">4 месяца назад</a>  <a href="/users/noobwrecker3000" class="info">astappev</a>
+								</div>
+							</div>
+						</div>
+						<div class="item">
+							<div class="content status new">
+								<a class="header status specify">Веб-сервисы: Шрифт плохой, ГЕКА НЕ ТОРТ, КРЫМ — НАШ</a>
+								<div class="description"><a href="/tickets" class="info">Новый</a><a href="/id/420#lastmessage" class="info">3 ответа</a>  <a href="/id/420" class="info">142 дня назад</a>  <a href="/users/noobwrecker3000" class="info">mrPutin</a>
+								</div>
+							</div>
+						</div>
+						<div class="item">
+							<div class="content status declined">
+								<a class="header">А я вот даже не знаю где баг, вот</a>
+								<div class="description"><a href="/tickets" class="info">Отклонён</a><a href="/id/420#lastmessage" class="info">3 ответа</a>  <a href="/id/420" class="info">142 дня назад</a>  <a href="/users/noobwrecker3000" class="info">neznayka</a>
+								</div>
+							</div>
+						</div>
+						<div class="item">
+							<div class="content status declined">
+								<a class="header">GreenCubes: Клиент крашится в ReactOS</a>
+								<div class="description"><a href="/tickets" class="info">Отклонён</a><a href="/id/420#lastmessage" class="info">2 ответа</a>  <a href="/id/420" class="info">2 дня назад</a>  <a href="/users/noobwrecker3000" class="info">Kernel</a>
+								</div>
+							</div>
+						</div>
+						<div class="item">
+							<div class="content status accepted">
+								<a class="header">Веб-сервисы: OAuth не работает</a>
+								<div class="description"><a href="/tickets" class="info">Принят</a><a href="/id/420#lastmessage" class="info">1 ответ</a>  <a href="/id/420" class="info">8 дней назад</a>  <a href="/users/noobwrecker3000" class="info">astappev</a>
+								</div>
+							</div>
+						</div>
+						<div class="item">
+							<div class="content status new">
+								<a class="header">Баг вот тут-то там вот</a>
+								<div class="description"><a href="/tickets" class="info">Новый</a><a href="/id/420#lastmessage" class="info">3 ответа</a>  <a href="/id/420" class="info">2 месяца назад</a>  <a href="/users/noobwrecker3000" class="info">noob1337420</a>
+								</div>
+							</div>
+						</div>
+						<div class="item">
+							<div class="content status accepted">
+								<a class="header">GreenCubes: Internal Server Error</a>
+								<div class="description"><a href="/tickets" class="info">Принят</a><a href="/id/420#lastmessage" class="info">1 ответ</a>  <a href="/id/420" class="info">4 месяца назад</a>  <a href="/users/noobwrecker3000" class="info">astappev</a>
+								</div>
+							</div>
+						</div>
+						<div class="item">
+							<div class="content status new">
+								<a class="header status specify">Веб-сервисы: Шрифт плохой, ГЕКА НЕ ТОРТ, КРЫМ — НАШ</a>
+								<div class="description"><a href="/tickets" class="info">Новый</a><a href="/id/420#lastmessage" class="info">3 ответа</a>  <a href="/id/420" class="info">142 дня назад</a>  <a href="/users/noobwrecker3000" class="info">mrPutin</a>
+								</div>
+							</div>
+						</div>
+						<div class="item">
+							<div class="content status declined">
+								<a class="header">А я вот даже не знаю где баг, вот</a>
+								<div class="description"><a href="/tickets" class="info">Отклонён</a><a href="/id/420#lastmessage" class="info">3 ответа</a>  <a href="/id/420" class="info">142 дня назад</a>  <a href="/users/noobwrecker3000" class="info">neznayka</a>
+								</div>
+							</div>
+						</div>
+						<div class="item">
+							<div class="content status accepted">
+								<a class="header">GreenCubes: Internal Server Error</a>
+								<div class="description"><a href="/tickets" class="info">Принят</a><a href="/id/420#lastmessage" class="info">1 ответ</a>  <a href="/id/420" class="info">4 месяца назад</a>  <a href="/users/noobwrecker3000" class="info">astappev</a>
+								</div>
+							</div>
+						</div>
+						<div class="item">
+							<div class="content status new">
+								<a class="header status specify">Веб-сервисы: Шрифт плохой, ГЕКА НЕ ТОРТ, КРЫМ — НАШ</a>
+								<div class="description"><a href="/tickets" class="info">Новый</a><a href="/id/420#lastmessage" class="info">3 ответа</a>  <a href="/id/420" class="info">142 дня назад</a>  <a href="/users/noobwrecker3000" class="info">mrPutin</a>
+								</div>
+							</div>
+						</div>
+						<div class="item">
+							<div class="content status declined">
+								<a class="header">А я вот даже не знаю где баг, вот</a>
+								<div class="description"><a href="/tickets" class="info">Отклонён</a><a href="/id/420#lastmessage" class="info">3 ответа</a>  <a href="/id/420" class="info">142 дня назад</a>  <a href="/users/noobwrecker3000" class="info">neznayka</a>
+								</div>
+							</div>
+						</div>
+						<div class="item">
+							<div class="content status new">
+								<a class="header status specify">Веб-сервисы: Шрифт плохой, ГЕКА НЕ ТОРТ, КРЫМ — НАШ</a>
+								<div class="description"><a href="/tickets" class="info">Новый</a><a href="/id/420#lastmessage" class="info">3 ответа</a>  <a href="/id/420" class="info">142 дня назад</a>  <a href="/users/noobwrecker3000" class="info">mrPutin</a>
+								</div>
+							</div>
+						</div>
+						<div class="item">
+							<div class="content status declined">
+								<a class="header">А я вот даже не знаю где баг, вот</a>
+								<div class="description"><a href="/tickets" class="info">Отклонён</a><a href="/id/420#lastmessage" class="info">3 ответа</a>  <a href="/id/420" class="info">142 дня назад</a>  <a href="/users/noobwrecker3000" class="info">neznayka</a>
+								</div>
+							</div>
+						</div>
+						<div class="item">
+							<a class="dotted link seemore">
                                     Посмотреть все
                                 </a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="column">
-                        <p class="statistics-subheader">Модераторские ссылки</p>
-                        <div class="ui link list statistics-links">
-                            <a class="item" href="/gameinfo/player/inventory?nickname=">Инвентарь</a>
-                            <a class="item" href="/gameinfo/player/loginlog?nickname=">Логи входа</a>
-                            <a class="item" href="/gameinfo/world/moneylog?nickname=">Логи переводов валюты</a>
-                            <a class="item" href="/gameinfo/player/chestslog?nickname=">Логи доступа к сундукам</a>
-                            <a class="item" href="/gameinfo/player/chatlog?nickname=">Логи чата</a>
-                            <a class="item" href="/gameinfo/player/commandslog?nickname=">Логи команд</a>
-                        </div>
-                        <p class="statistics-subheader">Количество рассмотренных тикетов</p>
-						<div class="ct-chart ct-perfect-fourth" id="chart1"></div>
-                        <p class="statistics-subheader">Количество ответов</p>
-						<div class="ct-chart ct-perfect-fourth" id="chart2"></div>
-                    </div>
-                </div>
-			</div>
-			<div id="gc-usefullinks">
-				<nav>
-					<h1>GreenCubes</h1>
-					<div><a href="https://forum.greencubes.org">Форум</a></div>
-					<div><a href="https://forum.greencubes.org/viewforum.php?f=255">Блог разработки</a></div>
-					<div><a href="https://wiki.greencubes.org">Wiki (энциклопедия проекта)</a></div>
-					<div><a href="https://greencubes.org/?action=ucp&amp;do=org">Организации</a></div>
-					<div><a href="https://greencubes.org/news/karta_mira#t">Карта мира</a></div>
-					<div><a href="https://greencubes.org/cat/shop">Магазин</a></div>
-					<div><a href="https://wiki.greencubes.org/API">API</a></div>
-				</nav>
-				<nav>
-					<h1>Аккаунт</h1>
-					<div><a href="https://greencubes.org/?action=ucp&amp;do=reg">Учётная запись</a></div>
-					<div><a href="https://greencubes.org/?action=ucp&amp;do=skin">Настройка персонажа</a></div>
-					<div><a href="https://greencubes.org/?action=ucp&amp;do=homes">Дополнительные дома</a></div>
-					<div><a href="https://greencubes.org/?action=pay">Пополнение баланса</a></div>
-					<div><a href="https://greencubes.org/?action=ucp&amp;do=premium">Премиум-аккаунт</a></div>
-					<div><a href="https://greencubes.org/?action=ucp&amp;do=nickname">Настройка никнейма</a></div>
-				</nav>
-				<nav>
-					<h1>Помощь</h1>
-					<div><a href="https://greencubes.org/news/stub">О проекте</a></div>
-					<div><a href="https://greencubes.org/cat/rules">Правила проекта</a></div>
-					<div><a href="https://greencubes.org/news/obraszenie_k_novichkam#t">Информация для новичков</a></div>
-					<div><a href="https://greencubes.org/news/faq2#t" title="Частозадаваемые вопросы">FAQ</a></div>
-					<div><a href="https://greencubes.org/news/stub">Загрузка игрового клиента</a></div>
-					<div><a href="https://greencubes.org/news/stub">Основные игровые команды</a></div>
-				</nav>
-				<nav>
-					<h1>Техническая поддержка</h1>
-					<div><a href="https://help.greencubes.org">Система поддержки</a></div>
-					<div><a href="https://forum.greencubes.org/viewtopic.php?f=255&amp;t=25624">Технические требования</a></div>
-					<div><a href="https://greencubes.org/news/stub">Защита учётной записи</a></div>
-					<div><a href="http://status.greencubes.org">Состояние сервисов</a></div>
-				</nav>
-			</div>
-			<div id="gc-footer">
-				<div class="ui page grid">
-					<div class="column">
-						<div class="ui right large floated secondary menu">
-							<div class="item">
-								<a href="http://kern0.ru">Kern0</a> &#64; <a href="https://greencubes.org">GreenCubes</a> &copy;
+						</div>
+					</div>
+				</div>
+				<div class="column">
+					<p class="statistics-subheader">Модераторские ссылки</p>
+					<div class="ui link list statistics-links">
+						<a class="item" href="/gameinfo/player/inventory?nickname=">Инвентарь</a>
+						<a class="item" href="/gameinfo/player/loginlog?nickname=">Логи входа</a>
+						<a class="item" href="/gameinfo/world/moneylog?nickname=">Логи переводов валюты</a>
+						<a class="item" href="/gameinfo/player/chestslog?nickname=">Логи доступа к сундукам</a>
+						<a class="item" href="/gameinfo/player/chatlog?nickname=">Логи чата</a>
+						<a class="item" href="/gameinfo/player/commandslog?nickname=">Логи команд</a>
+					</div>
+					<p class="statistics-subheader">Статистика</p>
+					<div style="width: 100%">
+						<div class="ui center statistics">
+							<div class="statistic">
+								<div class="value">
+									22
+								</div>
+								<div class="label">
+									Открытых тикета...
+								</div>
 							</div>
+							<div class="green statistic">
+								<div class="value">
+									18
+								</div>
+								<div class="label">
+									...из них были решены за последний месяц
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="ct-chart ct-perfect-fourth" id="chart1"></div>
+					<div class="addpadding" style="width: 100%">
+						<div class="ui center statistics">
+							<div class="statistic">
+								<div class="value">
+									42
+								</div>
+								<div class="label">
+									Ответов в тикеты...
+								</div>
+							</div>
+							<div class="green statistic">
+								<div class="value">
+									8
+								</div>
+								<div class="label">
+									...из них со статусами за последний месяц
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="ct-chart ct-perfect-fourth" id="chart2"></div>
+				</div>
+			</div>
+		</div>
+		<div id="gc-usefullinks">
+			<nav>
+				<h1>GreenCubes</h1>
+				<div><a href="https://forum.greencubes.org">Форум</a>
+				</div>
+				<div><a href="https://forum.greencubes.org/viewforum.php?f=255">Блог разработки</a>
+				</div>
+				<div><a href="https://wiki.greencubes.org">Wiki (энциклопедия проекта)</a>
+				</div>
+				<div><a href="https://greencubes.org/?action=ucp&amp;do=org">Организации</a>
+				</div>
+				<div><a href="https://greencubes.org/news/karta_mira#t">Карта мира</a>
+				</div>
+				<div><a href="https://greencubes.org/cat/shop">Магазин</a>
+				</div>
+				<div><a href="https://wiki.greencubes.org/API">API</a>
+				</div>
+			</nav>
+			<nav>
+				<h1>Аккаунт</h1>
+				<div><a href="https://greencubes.org/?action=ucp&amp;do=reg">Учётная запись</a>
+				</div>
+				<div><a href="https://greencubes.org/?action=ucp&amp;do=skin">Настройка персонажа</a>
+				</div>
+				<div><a href="https://greencubes.org/?action=ucp&amp;do=homes">Дополнительные дома</a>
+				</div>
+				<div><a href="https://greencubes.org/?action=pay">Пополнение баланса</a>
+				</div>
+				<div><a href="https://greencubes.org/?action=ucp&amp;do=premium">Премиум-аккаунт</a>
+				</div>
+				<div><a href="https://greencubes.org/?action=ucp&amp;do=nickname">Настройка никнейма</a>
+				</div>
+			</nav>
+			<nav>
+				<h1>Помощь</h1>
+				<div><a href="https://greencubes.org/news/stub">О проекте</a>
+				</div>
+				<div><a href="https://greencubes.org/cat/rules">Правила проекта</a>
+				</div>
+				<div><a href="https://greencubes.org/news/obraszenie_k_novichkam#t">Информация для новичков</a>
+				</div>
+				<div><a href="https://greencubes.org/news/faq2#t" title="Частозадаваемые вопросы">FAQ</a>
+				</div>
+				<div><a href="https://greencubes.org/news/stub">Загрузка игрового клиента</a>
+				</div>
+				<div><a href="https://greencubes.org/news/stub">Основные игровые команды</a>
+				</div>
+			</nav>
+			<nav>
+				<h1>Техническая поддержка</h1>
+				<div><a href="https://help.greencubes.org">Система поддержки</a>
+				</div>
+				<div><a href="https://forum.greencubes.org/viewtopic.php?f=255&amp;t=25624">Технические требования</a>
+				</div>
+				<div><a href="https://greencubes.org/news/stub">Защита учётной записи</a>
+				</div>
+				<div><a href="http://status.greencubes.org">Состояние сервисов</a>
+				</div>
+			</nav>
+		</div>
+		<div id="gc-footer">
+			<div class="ui page grid">
+				<div class="column">
+					<div class="ui right large floated secondary menu">
+						<div class="item">
+							<a href="http://kern0.ru">Kern0</a> &#64; <a href="https://greencubes.org">GreenCubes</a> &copy;
 						</div>
 					</div>
 				</div>
 			</div>
-            <div id="gc-easteregg">wow so modern</div>
 		</div>
+		<div id="gc-easteregg">wow so modern</div>
+	</div>
 
-		<!-- JS -->
-		<script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
-		<script src="assets/js/semantic.min.js" type="application/javascript"></script>
-        <script src="assets/js/chartist.min.js" type="application/javascript"></script>
-		<script>
-			$(document).ready(function(){
-                var data = {
+	<!-- JS -->
+	<script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+	<script src="assets/js/semantic.min.js" type="application/javascript"></script>
+	<script src="assets/js/chartist.min.js" type="application/javascript"></script>
+	<script>
+		$(document).ready(function () {
+			var data = {
 
-					labels: ['13 ноября, четверг','14 ноября, пятница','15 ноября, суббота', '16 ноября, воскресенье', '17 ноября, понедельник', '18 ноября, вторник', '19 ноября, среда'],
+				labels: ['13 ноября, четверг', '14 ноября, пятница', '15 ноября, суббота', '16 ноября, воскресенье', '17 ноября, понедельник', '18 ноября, вторник', '19 ноября, среда'],
 
-					series: [
-						[1,3,2,4,2,1,2]
+				series: [
+						[1, 3, 2, 4, 2, 1, 2],
+						[2, 2, 3, 1, 3, 2, 1]
 					]
-				};
+			};
 
-				new Chartist.Line('#chart1', data);
-				new Chartist.Line('#chart2', data);
+			new Chartist.Line('#chart1', data);
+			new Chartist.Line('#chart2', data);
 
-				$('.ui.dropdown').dropdown();
-			});
-		</script>
-	</body>
+			$('.ui.dropdown').dropdown();
+		});
+	</script>
+</body>
+
 </html>
