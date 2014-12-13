@@ -78,15 +78,38 @@ i.icon {
 
 .gc.header {
 	display: table;
-	padding: 0 5px;
 	margin: 0 0 1rem;
-	background-color: #559A8B;
-	color: #FFF;
 	font-weight: bold;
+}
+
+.gc.header.nomargin {
+	margin: 0;
 }
 
 .gc.page.header {
 	font-size: 3rem;
+}
+
+.gc.sub.page.header {
+	font-size: 1.6rem;
+}
+
+.gc.small.sub.page.header {
+	font-size: 1.3rem;
+}
+
+.gc.sub.page.header > a.item {
+	color: inherit;
+	text-decoration: none;
+	padding: 0px 5px 0px 0px;
+}
+
+.gc.status.header {
+	background-color: inherit;
+	font-size: 3rem;
+	float: right;
+	color: inherit;
+	padding: 0 1rem;
 }
 
 #gc-usefullinks {
@@ -145,14 +168,23 @@ input.prompt {
 	border-image: none;
 	margin: 0px 1rem;
 	font-size: 1rem;
-    outline: none;
+	outline: none;
+}
+
+.gc.status.link {
+	background: none repeat scroll 0% 0% transparent;
+	border-width: 0px 0px 2px;
+	border-style: solid;
+	border-color: transparent transparent #559A8B;
+	color: inherit;
+	text-decoration: none;
 }
 
 #gc-easteregg {
-    font-size: 0.8rem;
-    margin: 0;
-    padding: 0;
-    color: #C6C6C6;
+	font-size: 0.8rem;
+	margin: 0;
+	padding: 0;
+	color: #C6C6C6;
 }
 
 .dotted.link {
@@ -160,12 +192,13 @@ input.prompt {
 	border-bottom: 1px dotted;
 }
 
-.addpadding {
-	padding-top: 3rem !important;
+.nostyle.link {
+	color: inherit;
+	text-decoration: none;
 }
 
-form {
-	display: initial;
+.addpadding {
+	padding-top: 3rem !important;
 }
 
 .ui.menu .ui.dropdown.visible {
@@ -193,4 +226,8 @@ form {
 	border-bottom: 1px dotted;
 	color: inherit;
 	font-size: 1.3em;
+}
+
+.ui.divider.small {
+	margin: 0.5rem 0rem !important;
 }
