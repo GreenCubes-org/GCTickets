@@ -4,6 +4,7 @@
 }
 
 .gc.mainpage.header {
+	display: block;
 	font-size: 3rem;
 	text-align: center;
 	margin: 0px 0px 40px;

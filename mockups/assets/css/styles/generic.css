@@ -104,6 +104,10 @@ i.icon {
 	padding: 0px 5px 0px 0px;
 }
 
+.gc.inactive.header {
+	color: rgba(0, 0, 0, 0.66);
+}
+
 .gc.status.header {
 	background-color: inherit;
 	font-size: 3rem;
@@ -229,5 +233,5 @@ input.prompt {
 }
 
 .ui.divider.small {
-	margin: 0.5rem 0rem !important;
+	margin: 0.4rem 0rem !important;
 }

@@ -11,15 +11,19 @@
 	font-size: 1.5rem;
 }
 
-.editbutton {
+.gc.ticketview .editbutton {
 	font-size: 1.6rem;
 	padding: 0px 0.6rem;
 	position: relative;
 	bottom: 0.3rem;
-	color: rgba(0,0,0,0.4);
+	color: rgba(0, 0, 0, 0.4);
 	text-decoration: none;
 }
 
-.editbutton:hover, .editbutton:active {
-	color: rgba(0,0,0,0.3);
+.gc.ticketview .editbutton:hover, .editbutton:active {
+	color: rgba(0, 0, 0, 0.5);
+}
+
+.gc.ticketview .ui.comments .comment {
+	margin: 1em 0px 0px;
 }
