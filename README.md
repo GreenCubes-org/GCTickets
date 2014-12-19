@@ -1,4 +1,5 @@
 # GreenCubes Tickets
+[*Codename &laquo;Beta&raquo;*](https://github.com/GreenCubes/GCTickets/milestones/%C2%ABBeta%C2%BB)
 
 Support system for [GreenCubes](http://greencubes.org). Written on Node.js with Sails.js.
 
