@@ -1,0 +1,154 @@
+.content.status.new {
+	border-left: 4px solid rgb(60, 120, 216);
+}
+
+.content.status.rejected {
+	border-left: 4px solid rgb(166, 77, 121);
+}
+
+.content.status.specify {
+	border-left: 4px solid rgb(246, 107, 101);
+}
+
+.content.status.declined {
+	border-left: 4px solid rgb(204, 0, 0);
+}
+
+.content.status.hidden {
+	border-left: 4px solid rgb(0, 0, 0);
+}
+
+.content.status.removed {
+	border-left: 4px solid rgb(0, 0, 0);
+}
+
+.content.status.helpfixed {
+	border-left: 4px solid rgb(11, 83, 148);
+}
+
+.content.status.inreview {
+	border-left: 4px solid rgb(106, 168, 79);
+}
+
+.content.status.delayed {
+	border-left: 4px solid rgb(191, 144, 0);
+}
+
+.content.status.accepted {
+	border-left: 4px solid rgb(117, 163, 174);
+}
+
+.content.status.befixed {
+	border-left: 4px solid rgb(56, 118, 29);
+}
+
+.content.status.done {
+	border-left: 4px solid rgb(39, 216, 39);
+}
+
+.content.status.fixed {
+	border-left: 4px solid rgb(39, 216, 39);
+}
+
+.content.status.banned {
+	border-left: 4px solid #cf01ce;
+}
+
+/* Underline */
+.gc.status.link.new {
+	border-bottom: 3px solid rgb(60, 120, 216);
+}
+
+.gc.status.link.rejected {
+	border-bottom: 3px solid rgb(166, 77, 121);
+}
+
+.gc.status.link.specify {
+	border-bottom: 3px solid rgb(246, 107, 101);
+}
+
+.gc.status.link.declined {
+	border-bottom: 3px solid rgb(204, 0, 0);
+}
+
+.gc.status.link.hidden {
+	border-bottom: 3px solid rgb(0, 0, 0);
+}
+
+.gc.status.link.removed {
+	border-bottom: 3px solid rgb(0, 0, 0);
+}
+
+.gc.status.link.helpfixed {
+	border-bottom: 3px solid rgb(11, 83, 148);
+}
+
+.gc.status.link.inreview {
+	border-bottom: 3px solid rgb(106, 168, 79);
+}
+
+.gc.status.link.delayed {
+	border-bottom: 3px solid rgb(191, 144, 0);
+}
+
+.gc.status.link.accepted {
+	border-bottom: 3px solid rgb(117, 163, 174);
+}
+
+.gc.status.link.befixed {
+	border-bottom: 3px solid rgb(56, 118, 29);
+}
+
+.gc.status.link.done {
+	border-bottom: 3px solid rgb(39, 216, 39);
+}
+
+.gc.status.link.fixed {
+	border-bottom: 3px solid rgb(39, 216, 39);
+}
+
+.gc.status.link.banned {
+	border-bottom: 3px solid #cf01ce;
+}
+
+
+/* Labels, headers */
+.gc.status.header.new {
+	background-color: rgb(231, 238, 250) !important;
+}
+.gc.status.header.rejected {
+	background-color: rgb(219, 177, 198) !important;
+}
+.gc.status.header.specify {
+	background-color: rgb(251, 196, 194); !important;
+}
+.gc.status.header.declined {
+	background-color: rgb(255, 203, 203) !important;
+}
+.gc.status.header.hidden {
+	background-color: rgb(214, 214, 214) !important;
+}
+.gc.status.header.removed {
+	background-color: rgb(214, 214, 214) !important;
+}
+.gc.status.header.helpfixed {
+	background-color: rgb(184, 218, 250) !important;
+}
+.gc.status.header.inreview {
+	background-color: rgb(194, 221, 183) !important;
+}
+.gc.status.header.delayed {
+	background-color: rgb(255, 239, 191) !important;
+}
+.gc.status.header.accepted {
+	background-color: rgb(205, 222, 226) !important;
+}
+.gc.status.header.befixed {
+	background-color: rgb(212, 241, 200) !important;
+}
+.gc.status.header.done {
+	background-color: rgb(216, 255, 216) !important;
+}
+.gc.status.header.fixed {
+	background-color: rgb(216, 255, 216) !important;
+}

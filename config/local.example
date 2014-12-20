@@ -1,0 +1,51 @@
+// local.js example
+
+/* Uncomment if https
+var sslKey = require('fs').readFileSync('server.key', 'utf8');
+var sslCery = require('fs').readFileSync('server.crt', 'utf8');
+*/
+
+module.exports = {
+	appName: 'GC.Help',
+
+	port: process.env.PORT || 80, //Or change it to 433 if https
+
+	/* Uncomment if https
+	express: {
+		serverOptions: { 
+			key: sslKey,
+			cert: sslCert
+		}
+	},
+	*/
+	
+	// The runtime "environment" of your app is either 'development' or 'production'.
+	environment: process.env.NODE_ENV || 'production',
+
+	//Session secret
+	secret: 'somethinglongandRANDOM', //Make it pure random
+
+	appdb: { //Application DB
+		host: 'localhost',
+		user: 'YOUR_MYSQL_USER',
+		password: 'YOUR_MYSQL_PASSWORD', 
+		database: 'YOUR_MYSQL_DB',
+		socketPath: '/var/run/mysqld/mysqld.sock'
+	},
+	gcdb: { //User auth DB
+		host: 'localhost',
+		user: 'YOUR_MYSQL_USER',
+		password: 'YOUR_MYSQL_PASSWORD',
+		database: 'YOUR_MYSQL_DB',
+	socketPath: '/var/run/mysqld/mysqld.sock'
+	},
+	redis: {//Redis DB
+		host: 'localhost',
+		port: 6379,
+		ttl: 129600, // = 1.5 days
+		db: {//change this if other db
+			session: 0
+		}, 
+		pass:'<redis auth password>'
+	}
+};
