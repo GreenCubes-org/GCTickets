@@ -49,6 +49,7 @@
                 <th width="40%"><%= __('view.gameinfo.player.chatlog.table.message') %></th>
                 <th width="20%"><%= __('view.gameinfo.player.chatlog.table.time') %></th>
                 <th><%= __('view.gameinfo.player.chatlog.table.coordinates') %></th>
+				<th><%= __('view.gameinfo.player.chatlog.table.status') %></th>
             </tr>
         </thead>
         <tbody>
@@ -59,6 +60,7 @@
                 <td><% if (element.message) { %><%= element.message %><% } else { %>&mdash;<% } %></td>
                 <td><%= moment(element.time).format('YYYY-MM-DD HH:mm:ss') %></td>
                 <td><%= Math.floor(element.playerX) %> <%= Math.floor(element.playerY) %> <%= Math.floor(element.playerZ) %></td>
+				<td><%= __('view.gameinfo.player.chatlog.table.' + element.status) %></td>
             </tr>
             <% }) %>
         </tbody>
