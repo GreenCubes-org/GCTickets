@@ -57,10 +57,10 @@
             <tr>
                 <td><a href='/gameinfo/player/info?nickname=<%= element.player %>'><%= element.player %></a>&nbsp;<% if (element.targetPlayer) { %><i class="angle right icon"></i>&nbsp;&nbsp;<a href='/gameinfo/player/info?nickname=<%= element.targetPlayer %>'><%= element.targetPlayer %></a><% } %></td>
                 <td><%= element.channel %></td>
-                <td><% if (element.message) { %><%= element.message %><% } else { %>&mdash;<% } %></td>
+                <td><% if (element.message) { %><%= element.message %><% } else { %>&mdash;<% } %>
+				<% if (!element.status) { %><br><%= __('view.gameinfo.player.chatlog.table.status.0') %><% } %></td>
                 <td><%= moment(element.time).format('YYYY-MM-DD HH:mm:ss') %></td>
                 <td><%= Math.floor(element.playerX) %> <%= Math.floor(element.playerY) %> <%= Math.floor(element.playerZ) %></td>
-				<td><%= __('view.gameinfo.player.chatlog.table.status.' + element.status) %></td>
             </tr>
             <% }) %>
         </tbody>
