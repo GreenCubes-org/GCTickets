@@ -60,7 +60,7 @@
                 <td><% if (element.message) { %><%= element.message %><% } else { %>&mdash;<% } %></td>
                 <td><%= moment(element.time).format('YYYY-MM-DD HH:mm:ss') %></td>
                 <td><%= Math.floor(element.playerX) %> <%= Math.floor(element.playerY) %> <%= Math.floor(element.playerZ) %></td>
-				<td><%= __('view.gameinfo.player.chatlog.table.' + element.status) %></td>
+				<td><%= __('view.gameinfo.player.chatlog.table.status.' + element.status) %></td>
             </tr>
             <% }) %>
         </tbody>
