@@ -13,10 +13,7 @@ module.exports = {
 		reason: 'text',
 
 		// uid
-		targetUser: 'array',
-
-		// '42' (id of attachment)
-		attachments: 'array'
+		targetUser: 'array'
 	}
 
 };

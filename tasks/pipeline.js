@@ -15,23 +15,24 @@
 // (if you're using LESS with the built-in default config, you'll want
 //  to change `assets/styles/importer.less` instead.)
 var cssFilesToInject = [
-  'styles/**/*.css'
+	'styles/**/*.css'
 ];
 
 
 // Client-side javascript files to inject in order
 // (uses Grunt-style wildcard/glob/splat expressions)
-var jsFilesToInject = [
+var jsLibsFilesToInject = [
+	'js/dependencies/js-signals.js',
+	'js/dependencies/crossroads.js',
+	'js/dependencies/semantic.min.js',
+	'js/dependencies/markdown.js',
+	'js/dependencies/pen.js',
+	'js/dependencies/chartist.min.js'
+];
 
-  // Load sails.io before everything else
-  'js/dependencies/sails.io.js',
-
-  // Dependencies like jQuery, or Angular are brought in here
-  'js/dependencies/**/*.js',
-
-  // All of the rest of your client-side js files
-  // will be injected here in no particular order.
-  'js/**/*.js'
+var jsAppFilesToInject = [
+	'js/routes/*.js',
+	'js/*.js'
 ];
 
 
@@ -56,7 +57,10 @@ var templateFilesToInject = [
 module.exports.cssFilesToInject = cssFilesToInject.map(function(path) {
   return '.tmp/public/' + path;
 });
-module.exports.jsFilesToInject = jsFilesToInject.map(function(path) {
+module.exports.jsLibsFilesToInject = jsLibsFilesToInject.map(function(path) {
+  return '.tmp/public/' + path;
+});
+module.exports.jsAppFilesToInject = jsAppFilesToInject.map(function(path) {
   return '.tmp/public/' + path;
 });
 module.exports.templateFilesToInject = templateFilesToInject.map(function(path) {

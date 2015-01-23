@@ -55,7 +55,7 @@ module.exports = function serverError(data, options) {
 		return res.view(options.view, {
 			data: data,
 			datetime: datetime,
-			layout: false
+			layout: 'layouts/error'
 		});
 	}
 
@@ -64,7 +64,7 @@ module.exports = function serverError(data, options) {
 	else return res.view('errors/500', {
 		data: data,
 		datetime: datetime,
-		layout: false
+		layout: 'layouts/error'
 	}, function (err, html) {
 
 		// If a view error occured, fall back to JSON(P).

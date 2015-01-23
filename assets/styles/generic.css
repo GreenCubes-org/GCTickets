@@ -4,6 +4,10 @@ body {
 	color: #444;
 }
 
+a:hover, .ui.list .item a:hover {
+	color: #559A8B !important;
+}
+
 .container {
 	max-width: 1400px;
 	margin: 0px auto;
@@ -39,6 +43,11 @@ i.icon {
 	float: left;
 	width: 60px;
 	margin-right: 1em;
+}
+
+.templatescontent {
+	padding-left: 10%;
+	padding-right: 10%;
 }
 
 #gc-header .ui.menu, #gc-footer .ui.menu, #gc-header .ui.menu:active, #gc-footer .ui.menu:active, #gc-header .ui.menu:focus, #gc-footer .ui.menu:focus, #gc-header .ui.menu:hover, #gc-footer .ui.menu:hover {

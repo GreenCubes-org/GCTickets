@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title><%= title %> – <%= __('GreenCubes Support') %></title>
+		<meta charset="utf-8">
+
+		<link rel="stylesheet" type="text/css" href="/min/production.min.css">
+	</head>
+	<body>
+		<div class="container gc boilerplate">
+			<%- partial('../partials/header') %>
+			<div class="templatescontent">
+				<%- body %>
+			</div>
+			<%- partial('../partials/footer') %>
+			<div id="gc-easteregg">wow so indev</div>
+		</div>
+
+		<!-- JS -->
+		<script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+		<script src="/min/libs.js" type="application/javascript"></script>
+		<script src="/min/app.js" type="application/javascript"></script>
+	</body>
+</html>

@@ -13,10 +13,7 @@ module.exports = {
 		description: 'text',
 
 		// '1' (id of product)
-		product: 'integer',
-
-		// '42' (id of attachment)
-		attachments: 'array'
+		product: 'integer'
 	}
 
 };

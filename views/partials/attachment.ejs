@@ -1,0 +1,29 @@
+<% if (attachments.images.length) { %>
+<div class="ui cards">
+	<% attachments.images.forEach(function (image) { %>
+	<div class="card">
+		<div class="image">
+			<img src="<%- image.src %>">
+		</div>
+		<div class="content">
+			<div class="description">
+				<%- image.description %>
+			</div>
+		</div>
+	</div>
+	<% }) %>
+</div>
+<% } %>
+<% if (attachments.logs.length) { %>
+<% attachments.logs.forEach(function (log) { %>
+<div class="ui fluid styled accordion">
+	<div class="title">
+		<i class="dropdown icon"></i>
+		<%= log.description %>
+	</div>
+	<div class="content">
+		<p><%= log.data %></p>
+	</div>
+</div>
+<% }) %>
+<% } %>

@@ -1,11 +1,6 @@
-.gc.mainpage .content {
-	padding-left: 10%;
-	padding-right: 10%;
-}
-
 .gc.mainpage.header {
 	display: block;
-	font-size: 3rem;
+	font-size: 4.5rem;
 	text-align: center;
 	margin: 0px 0px 40px;
 }

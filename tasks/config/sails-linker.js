@@ -22,9 +22,9 @@ module.exports = function(grunt) {
 				appRoot: '.tmp/public'
 			},
 			files: {
-				'.tmp/public/**/*.html': require('../pipeline').jsFilesToInject,
-				'views/**/*.html': require('../pipeline').jsFilesToInject,
-				'views/**/*.ejs': require('../pipeline').jsFilesToInject
+				'.tmp/public/**/*.html': require('../pipeline').jsAppFilesToInject,
+				'views/**/*.html': require('../pipeline').jsAppFilesToInject,
+				'views/**/*.ejs': require('../pipeline').jsAppFilesToInject
 			}
 		},
 
@@ -37,9 +37,9 @@ module.exports = function(grunt) {
 				relative: true
 			},
 			files: {
-				'.tmp/public/**/*.html': require('../pipeline').jsFilesToInject,
-				'views/**/*.html': require('../pipeline').jsFilesToInject,
-				'views/**/*.ejs': require('../pipeline').jsFilesToInject
+				'.tmp/public/**/*.html': require('../pipeline').jsAppFilesToInject,
+				'views/**/*.html': require('../pipeline').jsAppFilesToInject,
+				'views/**/*.ejs': require('../pipeline').jsAppFilesToInject
 			}
 		},
 
@@ -155,7 +155,7 @@ module.exports = function(grunt) {
 				appRoot: '.tmp/public'
 			},
 			files: {
-				'views/**/*.jade': require('../pipeline').jsFilesToInject
+				'views/**/*.jade': require('../pipeline').jsAppFilesToInject
 			}
 		},
 
@@ -168,7 +168,7 @@ module.exports = function(grunt) {
 				relative: true
 			},
 			files: {
-				'views/**/*.jade': require('../pipeline').jsFilesToInject
+				'views/**/*.jade': require('../pipeline').jsAppFilesToInject
 			}
 		},
 

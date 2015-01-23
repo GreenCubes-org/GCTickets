@@ -51,7 +51,7 @@ module.exports = function forbidden(data, options) {
 	if (options.view) {
 		return res.view(options.view, {
 			data: data,
-			layout: false
+			layout: 'layouts/error'
 		});
 	}
 
@@ -59,7 +59,7 @@ module.exports = function forbidden(data, options) {
 	// but fall back to sending JSON(P) if any errors occur.
 	else return res.view('errors/403-ban', {
 		data: data,
-		layout: false
+		layout: 'layouts/error'
 	}, function (err, html) {
 
 		// If a view error occured, fall back to JSON(P).

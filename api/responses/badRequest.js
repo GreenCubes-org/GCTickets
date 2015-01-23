@@ -30,13 +30,6 @@ module.exports = function badRequest(data, options) {
 		sails.log.verbose('Sending 400 ("Bad Request") response: \n', data);
 	} else sails.log.verbose('Sending 400 ("Bad Request") response');
 
-	// Only include errors in response if application environment
-	// is not set to 'production'.  In production, we shouldn't
-	// send back any identifying information about errors.
-	if (sails.config.environment === 'production') {
-		data = undefined;
-	}
-
 	// If the user-agent wants JSON, always respond with JSON
 	if (req.wantsJSON) {
 		return res.jsonx(data);
@@ -53,7 +46,8 @@ module.exports = function badRequest(data, options) {
 	// work, just send JSON.
 	if (options.view) {
 		return res.view(options.view, {
-			data: data
+			data: data,
+			layout: 'layouts/error'
 		});
 	}
 
@@ -61,7 +55,7 @@ module.exports = function badRequest(data, options) {
 	// but fall back to sending JSON(P) if no view can be inferred.
 	else return res.view('errors/400', {
 		data: data,
-		layout: false
+		layout: 'layouts/error'
 	}, function couldNotGuessView() {
 		return res.jsonx(data);
 	});

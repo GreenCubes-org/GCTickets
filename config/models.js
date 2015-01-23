@@ -9,6 +9,8 @@
  * http://sailsjs.org/#/documentation/concepts/ORM
  */
 
+var appConfig = require('./local.js');
+
 module.exports.models = {
 
   /***************************************************************************
@@ -17,7 +19,7 @@ module.exports.models = {
   * connections (see `config/connections.js`)                                *
   *                                                                          *
   ***************************************************************************/
-  // connection: 'localDiskDb',
+  connection: 'appMySQL',
 
   /***************************************************************************
   *                                                                          *
@@ -27,6 +29,6 @@ module.exports.models = {
   * See http://sailsjs.org/#/documentation/concepts/ORM/model-settings.html  *
   *                                                                          *
   ***************************************************************************/
-  // migrate: 'alter'
+  migrate: appConfig.migrate || 'alter'
 
 };

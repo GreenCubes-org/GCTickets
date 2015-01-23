@@ -1,15 +1,10 @@
-.gc.ticketlist .content {
-	padding-left: 10%;
-	padding-right: 10%;
-}
-
-.left.column {
+.gc.ticketlist .left.column {
 	width: 75% !important;
 	position: relative;
 	padding-right: 0px !important;
 }
 
-.right.column {
+.gc.ticketlist .right.column {
 	width: 25% !important;
 	border-left: 1px solid rgba(0, 0, 0, 0.1);
 	padding-top: 1em;

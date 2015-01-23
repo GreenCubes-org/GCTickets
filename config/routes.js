@@ -22,28 +22,76 @@
 
 module.exports.routes = {
 
-  /***************************************************************************
-  *                                                                          *
-  * Make the view located at `views/homepage.ejs` (or `views/homepage.jade`, *
-  * etc. depending on your default view engine) your home page.              *
-  *                                                                          *
-  * (Alternatively, remove this and add an `index.html` file in your         *
-  * `assets` directory)                                                      *
-  *                                                                          *
-  ***************************************************************************/
+	/* Main page */
+	'/': {
+		view: 'main/mainpage'
+	},
+	
+	/* Misc stuff */
+	'/new': 'misc.new',
+	
+	/* User stuff */
+	'/login': 'users.login',
+	'/logout': 'users.logout',
+	
+	'/oauth/callback': 'users.callback',
+	
+	
+	/* Search stuff */
+	'/search': {
+		view: 'search/main'
+	},
+	'get /api/search': 'search.find',
+	
+	/* Tickets stuff */
+	'get /api/tickets/new': {
+		view: 'tickets/new'
+	},
+	'post /tickets/new': 'tickets.create',
+	'get /id/test': 'tickets.getTest',
+	'get /id/:id': 'tickets.get',
+	'patch /id/:id': 'tickets.update',
+	'delete /id/:id': 'tickets.delete',
+	'/tickets': 'tickets.list',
+	
+	
+	/* Questions stuff */
+	'get /questions/new': {
+		view: 'questions/new'
+	},
+	'post /api/questions/new': 'questions.create',
+	'get /question/:name': 'questions.get',
+	'patch /question/:name': 'questions.update',
+	'delete /question/:name': 'questions.delete',
+	'/questions': 'questions.list',
+	
+	
+	/* Admin-panel stuff */
+	'/admin': 'admin.main',
+	'/admin/users': 'dev.hideFeature',
 
-  '/': {
-    view: 'homepage'
-  }
+	'/admin/users/roles': 'admin.usersRights',
+	'post /admin/users/roles/new': 'admin.setRights',
+	'/admin/users/roles/remove/:uid': 'admin.removeRights',
 
-  /***************************************************************************
-  *                                                                          *
-  * Custom routes here...                                                    *
-  *                                                                          *
-  *  If a request to a URL doesn't match any of the custom routes above, it  *
-  * is matched against Sails route blueprints. See `config/blueprints.js`    *
-  * for configuration options and examples.                                  *
-  *                                                                          *
-  ***************************************************************************/
+	'/admin/users/bans': 'admin.usersBans',
+	'post /admin/users/bans/new': 'admin.setBan',
+	'/admin/users/bans/remove/:id': 'admin.removeBan',
+	
+	
+	/* In-game panel stuff */
+	'/gameinfo': 'gameinfo.main',
+
+	'/gameinfo/player/info': 'gameinfo.playerInfo',
+	'/gameinfo/player/loginlog': 'gameinfo.playerLoginlog',
+	'/gameinfo/player/inventory': 'gameinfo.playerInventory',
+	'/gameinfo/player/chestslog': 'gameinfo.playerChestslog',
+	'/gameinfo/player/chatlog': 'gameinfo.playerChatlog',
+	'/gameinfo/player/commandslog': 'gameinfo.playerCommandslog',
+
+	'/gameinfo/world/regioninfo': 'gameinfo.worldRegioninfo',
+	'/gameinfo/world/chestlog': 'gameinfo.worldChestlog',
+	'/gameinfo/world/blockslog': 'gameinfo.worldBlockslog',
+	'/gameinfo/world/moneylog': 'gameinfo.worldMoneylog',
 
 };

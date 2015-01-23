@@ -14,7 +14,7 @@ module.exports = {
 		tid: 'integer',
 
 		// Author id
-		owner: 'integer',
+		author: 'integer',
 
 		// Comment message
 		message: 'text',
@@ -25,8 +25,8 @@ module.exports = {
 		// Status of comment, 1 - public, 2 - reported, 3 - removed
 		status: 'integer',
 
-		// Uploads
-		uploads: 'array'
+		// Attachments
+		attachments: 'array'
 
 	}
 

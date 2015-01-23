@@ -19,10 +19,7 @@ module.exports = {
 		regions: 'array',
 
 		// ['-14 00 33','33 33 33']
-		stuff: 'array',
-
-		// '42' (id of attachment)
-		attachments: 'array'
+		stuff: 'array'
 	}
 
 };

@@ -28,7 +28,10 @@ module.exports = {
 		status: 'integer',
 
 		// '1' (id of owner user)
-		owner: 'integer'
+		owner: 'integer',
+
+		// '42' (id of attachment)
+		attachments: 'array'
 	}
 
 };

@@ -13,6 +13,9 @@ module.exports = {
 		type: 'integer',
 
 		// Data.
-		data: 'string'
+		data: 'json',
+		
+		// Created By
+		createdBy: 'integer'
 	}
 };

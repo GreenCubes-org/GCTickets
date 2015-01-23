@@ -10,6 +10,8 @@
  * http://sailsjs.org/#/documentation/concepts/Logging
  */
 
+var appConfig = require('./local.js');
+
 module.exports.log = {
 
   /***************************************************************************
@@ -24,6 +26,6 @@ module.exports.log = {
   *                                                                          *
   ***************************************************************************/
 
-  // level: 'info'
+  level: appConfig.logLevel || 'info'
 
 };
