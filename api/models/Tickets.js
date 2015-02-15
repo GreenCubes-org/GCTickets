@@ -21,8 +21,8 @@ module.exports = {
 		// Type ID
 		type: 'integer',
 
-		// '1' (id of visiblity to users)
-		visiblity: 'integer',
+		// '1' (id of visibility to users)
+		visibility: 'integer',
 
 		// '1' (id of status)
 		status: 'integer',

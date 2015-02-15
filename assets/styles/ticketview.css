@@ -27,3 +27,16 @@
 .gc.ticketview .ui.comments .comment {
 	margin: 1em 0px 0px;
 }
+
+
+div.gc.nocomments {
+	height: 150px;
+	text-align: center;
+}
+
+.gc.nocomments title {
+	display: inline-block;
+	text-align: center;
+	margin-top: 60px;
+	color: rgba(0, 0, 0, 0.6);
+}

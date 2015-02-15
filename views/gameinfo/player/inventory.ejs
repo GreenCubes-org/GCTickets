@@ -1,0 +1,35 @@
+<% title = __('view.gameinfo.player.inventory.title') + ' / ' + __('view.gameinfo.player.title') + ' / ' + __('view.gameinfo.title') + " — " + __('global.pagetitle');  %>
+
+<%- partial('../partials/subheader', { header: __('view.gameinfo.player.title'), subheader: __('view.gameinfo.player.inventory.title') }) %>
+
+<div class="container" style="margin-top: 20px">
+    <form method="GET">
+    <div class="ui two column grid">
+        <div class="column">
+            <label><%= __('view.gameinfo.player.inventory.table.playername') %></label>
+            <div class="ui action fluid input">
+                <input placeholder="nzh" type="text" name="nickname" id="gc-forminput" value="<%= (req.query.nickname) ? req.query.nickname : '' %>">
+                <div class="ui icon black button" type="submit" id="gc-formsubmit"><i class="search icon"></i></div>
+            </div>
+        </div>
+    </div>
+    </form>
+    <div class="ui divider"></div>
+    <% if (inventory && inventory.length) { %>
+    <div class="ui list">
+        <% inventory.forEach(function (element) { %>
+        <div class="item">
+            <img class="ui avatar image" src="<%- element.image %>">
+            <div class="content">
+                <div class="header"><%- element.name %> (<%= element.itemId %>,<%= element.itemDamage %>)</div>
+                <%= __('view.gameinfo.player.inventory.table.slot') %>: <%= element.slot %>; <%= __('view.gameinfo.player.inventory.table.amount') %>: <%= element.count %>; <% if (element.slot >= 36 && element.slot <= 39) { %> <%= __('view.gameinfo.player.inventory.table.armorslot') %>;<% } %>
+            </div>
+        </div>
+        <% }) %>
+    </div>
+    <% } else if (inventory && !inventory.length) { %>
+    <div style="padding: 5em 0em;text-align: center;font-size:1.4em"><%= __('view.gameinfo.player.inventory.error.empty') %></div>
+    <% } else { %>
+    <div style="padding: 5em 0em;text-align: center;font-size:1.4em"><%= __('view.gameinfo.player.inventory.error.enterplayername') %></div>
+    <% } %>
+</div>

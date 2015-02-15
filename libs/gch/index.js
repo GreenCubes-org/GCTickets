@@ -3,6 +3,7 @@
 var moment = require('moment');
 
 /* Ticket files */
+module.exports.ticket = require('./ticket.js');
 module.exports.bugreport = require('./bugreport.js');
 module.exports.rempro = require('./rempro.js');
 module.exports.ban = require('./ban.js');
@@ -19,6 +20,27 @@ module.exports.attachement = require('./attachment.js');
 
 
 /* Root functions */
+module.exports.getVisibility = getVisibility = function (visibility) {
+	switch (visibility) {
+		case 1:
+			return {
+				id: 1,
+				name: 'public',
+				iconClass: 'unlock'
+			};
+
+		case 2:
+			return {
+				id: 2,
+				name: 'private',
+				iconClass: 'lock'
+			};
+
+		default:
+			return;
+	}
+};
+
 module.exports.getStatus = getStatus = function (status) {
 	switch (status) {
 		case 1:
@@ -160,31 +182,36 @@ module.exports.getType = function (id) {
 		case 1:
 			return {
 				id: 1,
-				name: 'bugreport'
+				name: 'bugreport',
+				iconClass: 'bug'
 			};
 		
 		case 2:
 			return {
 				id: 2,
-				name: 'rempro'
+				name: 'rempro',
+				iconClass: 'trash'
 			};
 		
 		case 3:
 			return {
 				id: 3,
-				name: 'ban'
+				name: 'ban',
+				iconClass: 'ban circle'
 			};
 		
 		case 4:
 			return {
 				id: 4,
-				name: 'unban'
+				name: 'unban',
+				iconClass: 'circle blank'
 			};
 		
 		case 5:
 			return {
 				id: 5,
-				name: 'regen'
+				name: 'regen',
+				iconClass: 'leaf'
 			};
 		
 		default:
@@ -198,6 +225,7 @@ module.exports.getType = function (id) {
 module.exports.serializeTime = function (time) {
 	return {
 		date: time,
-		pretty: moment(time).format('D MMM YYYY, H:mm')
+		pretty: moment(time).format('D MMM YYYY, H:mm'),
+		fromNow: moment(time).fromNow()
 	};
 };

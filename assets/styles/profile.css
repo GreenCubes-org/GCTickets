@@ -20,13 +20,18 @@
 .gc.profile.list .seemore {
 	padding: 1em 0 3px;
 }
-.gc.profile .statistics-subheader {
+.gc.profile.statistics-subheader {
 	font-size: 1.714rem;
 	padding: 2rem 0rem 1rem;
 	font-weight: bold;
 	margin: 0;
 }
-.gc.profile .statistics-links {
+.gc.profile.statistics-subsubheader {
+	padding: 0rem 0rem 1rem;
+	font-size: 1.5rem;
+	font-weight: bold;
+}
+.gc.profile.statistics-links {
 	margin: 0;
 }
 .ui.statistics.center {

@@ -1,0 +1,115 @@
+<% title =  __('view.gameinfo.world.blockslog.title') + ' / ' + __('view.gameinfo.world.title') + ' / ' + __('view.gameinfo.title') + " — " + __('global.pagetitle'),
+    url = (req.query.xyz) ? ('/gameinfo/world/blockslog?cake=isalie' + ((req.query.xyz) ? '&xyz='  + req.query.xyz : '' ) + ((req.query.block) ? '&block='  + req.query.block : '' )) : ('/gameinfo/world/blockslog?cake=isalie' + ((req.query.firstxyz) ? '&firstxyz='  + req.query.firstxyz : '' ) + ((req.query.secondtime) ? '&secondtime='  + req.query.secondtime : '' ) + ((req.query.firsttime) ? '&firsttime='  + req.query.firsttime : '' ) + ((req.query.secondtime) ? '&secondtime='  + req.query.secondtime : '' ) + ((req.query.block) ? '&block='  + req.query.block : '' ));  %>
+
+<%- partial('../partials/subheader', { header: __('view.gameinfo.world.title'), subheader: __('view.gameinfo.world.blockslog.title') }) %>
+
+<div class="container" style="margin-top: 20px">
+    <form method="GET">
+    <div class="ui small form">
+        <div class="two fields">
+            <div class="field">
+                <label><%= __('view.gameinfo.world.blockslog.form.blockscoordinate') %></label>
+                <div class="ui fluid input">
+                    <input placeholder="-1337 62 1333" type="text" name="xyz" value="<%= (req.query.xyz) ? req.query.xyz : '' %>">
+                </div>
+            </div>
+            <div class="field">
+                <label><%= __('view.gameinfo.world.blockslog.form.block') %></label>
+                <div class="ui fluid selection dropdown gc-formdropdown">
+                    <div class="text"><%= __('view.gameinfo.world.blockslog.form.choose') %></div>
+                    <i class="dropdown icon"></i>
+                    <input name="block" id="gc-formfirstblockinput" type="hidden" value="<%= (req.query.block) ? req.query.block : '' %>">
+                    <div class="menu">
+                        <div class="item" data-value="10"><%= __('view.gameinfo.world.blockslog.form.block.lava') %></div>
+                        <div class="item" data-value="8"><%= __('view.gameinfo.world.blockslog.form.block.water') %></div>
+                        <div class="item" data-value="51"><%= __('view.gameinfo.world.blockslog.form.block.fire') %></div>
+                        <div class="item" data-value="63"><%= __('view.gameinfo.world.blockslog.form.block.plate') %></div>
+                        <div class="item" data-value="19"><%= __('view.gameinfo.world.blockslog.form.block.sponge') %></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="ui blue submit button" id="gc-formfirstsubmit"><%= __('view.gameinfo.form.send') %></div>
+    </div>
+    </form>
+    <div class="ui divider"></div>
+    <form method="GET">
+    <div class="ui small form">
+        <div class="two fields">
+            <div class="field">
+                <label><%= __('view.gameinfo.world.blockslog.form.firstcoord') %></label>
+                <input placeholder="-1337 62 1333" type="text" name="firstxyz" value="<%= (req.query.firstxyz) ? req.query.firstxyz : '' %>">
+            </div>
+            <div class="field">
+                <label><%= __('view.gameinfo.world.blockslog.form.secondcoord') %></label>
+                <input placeholder="-1339 65 1342" type="text" name="secondxyz" value="<%= (req.query.secondxyz) ? req.query.secondxyz : '' %>">
+            </div>
+        </div>
+        <div class="three fields">
+            <div class="field">
+                <label><%= __('view.gameinfo.form.firsttime') %></label>
+                <input placeholder="<%= moment().subtract(3, 'days').format('YYYY-MM-DD HH:mm:ss') %>" value="<%= (req.query.firsttime) ? req.query.firsttime : moment().subtract(3, 'days').format('YYYY-MM-DD HH:mm:ss') %>"  type="text" name="firsttime">
+            </div>
+            <div class="field">
+                <label><%= __('view.gameinfo.form.secondtime') %></label>
+                <input placeholder="<%= moment().format('YYYY-MM-DD HH:mm:ss') %>" value="<%= (req.query.secondtime) ? req.query.secondtime : moment().format('YYYY-MM-DD HH:mm:ss') %>"  type="text" name="secondtime">
+            </div>
+            <div class="field">
+                <label><%= __('view.gameinfo.world.blockslog.form.block') %></label>
+                <div class="ui fluid selection dropdown gc-formdropdown">
+                    <div class="text"><%= __('view.gameinfo.world.blockslog.form.choose') %></div>
+                    <i class="dropdown icon"></i>
+                    <input name="block" id="gc-formsecondblockinput" type="hidden" value="<%= (req.query.block) ? req.query.block : '' %>">
+                    <div class="menu">
+                        <div class="item" data-value="10"><%= __('view.gameinfo.world.blockslog.form.block.lava') %></div>
+                        <div class="item" data-value="8"><%= __('view.gameinfo.world.blockslog.form.block.water') %></div>
+                        <div class="item" data-value="51"><%= __('view.gameinfo.world.blockslog.form.block.fire') %></div>
+                        <div class="item" data-value="63"><%= __('view.gameinfo.world.blockslog.form.block.plate') %></div>
+                        <div class="item" data-value="19"><%= __('view.gameinfo.world.blockslog.form.block.sponge') %></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="ui blue submit button" id="gc-formsecondsubmit"><%= __('view.gameinfo.form.send') %></div>
+    </div>
+    </form>
+    <div class="ui divider"></div>
+    <% if (log && log.length) { %>
+    <% if (log.length >= 15) { %>
+    <%- partial('../partials/pagination', {currentPage: currentPage, lastPage: lastPage, url: url}) %>
+    <% } %>
+    <div class="ui two column grid">
+        <div class="column">
+            <table class="ui basic small compact table">
+                <thead>
+                    <tr>
+                        <th><%= __('view.gameinfo.world.blockslog.table.playername') %></th>
+                        <th><%= __('view.gameinfo.world.blockslog.table.time') %></th>
+                        <th><%= __('view.gameinfo.world.blockslog.table.coordinate') %></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% log.forEach(function (element) { %>
+                    <tr>
+                        <td><a href='/gameinfo/player/info?nickname=<%= element.user %>'><%= element.user %></a></td>
+                        <td><%= moment(element.time).format('D MMM YYYY, h:mm') %></td>
+                        <td><%= Math.floor(element.x) %> <%= Math.floor(element.y) %> <%= Math.floor(element.z) %></td>
+                    </tr>
+                    <% }) %>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div style="margin-top: 3em !important;">
+        <%- partial('../partials/pagination', {currentPage: currentPage, lastPage: lastPage, url: url}) %>
+    </div>
+    <% } else if (log && log.code === 'wrongxyz') { %>
+    <div style="padding: 5em 0em;text-align: center;font-size:1.4em"><%= __('view.gameinfo.error.wrongxyz') %></div>
+    <% } else if (log && log.code === 'wrongblock') { %>
+    <div style="padding: 5em 0em;text-align: center;font-size:1.4em"><%= __('view.gameinfo.world.blockslog.error.wrongblock') %></div>
+    <% } else if (log && !log.length) { %>
+    <div style="padding: 5em 0em;text-align: center;font-size:1.4em"><%= __('view.gameinfo.error.notfound') %></div>
+    <% } else { %>
+    <div style="padding: 5em 0em;text-align: center;font-size:1.4em"><%= __('view.gameinfo.world.blockslog.error.enterxyz') %></div>
+    <% } %>
+</div>

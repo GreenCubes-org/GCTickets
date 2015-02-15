@@ -126,7 +126,7 @@ module.exports = user = {
 				}
 			},
 			function findLastseenMain(username, callback) {
-				gcmainconn.query('SELECT * FROM login_log WHERE `login` = ? AND `status` = 1 ORDER BY `time` DESC LIMIT 1', [username], function (err, result) {
+				gcdb.mainsrvdb.query('SELECT * FROM login_log WHERE `login` = ? AND `status` = 1 ORDER BY `time` DESC LIMIT 1', [username], function (err, result) {
 					if (err) return callback(err);
 
 					if (result.length === 0) {
@@ -273,7 +273,7 @@ module.exports = user = {
 				});
 			},
 			function getBanNUId(obj, callback) {
-				maindbconn.query('SELECT `id`, `isBanned`, `bannedTill`, UNIX_TIMESTAMP(`bannedTill`) AS `bannedTillTS`, UNIX_TIMESTAMP(NOW()) AS `currentTimestamp` FROM users WHERE name = ?', [obj.user.login], function (err, result) {
+				gcdb.usersdb.query('SELECT `id`, `isBanned`, `bannedTill`, UNIX_TIMESTAMP(`bannedTill`) AS `bannedTillTS`, UNIX_TIMESTAMP(NOW()) AS `currentTimestamp` FROM users WHERE name = ?', [obj.user.login], function (err, result) {
 					if (err) return callback(err);
 
 					if (result.length === 0) {
@@ -302,7 +302,7 @@ module.exports = user = {
 				});
 			},
 			function getTicketsCount(obj, callback) {
-				Ticket.count({
+				Tickets.count({
 					owner: obj.user.id
 				}).exec(function (err, count) {
 					if (err) return callback(err);
@@ -313,7 +313,7 @@ module.exports = user = {
 				});
 			},
 			function getMemos(obj, callback) {
-				maindbconn.query('SELECT `moderator_id` AS `moderator`, `memo`, `time` FROM memos WHERE user_id = ? ORDER BY time DESC', [obj.user.gameId], function (err, result) {
+				gcdb.usersdb.query('SELECT `moderator_id` AS `moderator`, `memo`, `time` FROM memos WHERE user_id = ? ORDER BY time DESC', [obj.user.gameId], function (err, result) {
 					if (err) return callback(err);
 
 					obj.memos = result;

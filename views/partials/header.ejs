@@ -1,10 +1,10 @@
-<% console.log(req.user) %>
 <div id="gc-header">
 	<div class="ui page grid">
 		<div class="column">
 			<a class="gc logo" href="/">
 				<img class="ui image" src="/images/logo.png">
 			</a>
+			<a href="https://forum.greencubes.org/viewtopic.php?f=255&t=26543" id="previewlink" title="&laquo;Баг? Так это превью версия, так задумано&raquo;".>preview</a>
 			<div class="ui right large floated secondary menu">
 				<% if (req.user) { %>
 				<a class="item" href="#">
@@ -18,8 +18,8 @@
 						<span class="header"><%= req.user.username %></span>
 						<i class="dropdown icon"></i>
 						<div class="menu">
-							<div class="item"><a href="/tickets"><i class="user icon"></i> Ваш профиль</a></div>
-							<div class="item"><a href="/tickets"><i class="settings icon"></i> Настройки</a></div>
+							<div class="item"><a href="/user"><i class="user icon"></i> Ваш профиль</a></div>
+							<div class="item"><a href="/settings"><i class="settings icon"></i> Настройки</a></div>
 						</div>
 					</div>
 				</div>
@@ -38,10 +38,14 @@
 					<i class="dropdown icon"></i>
 					<div class="menu">
 						<div class="item"><a href="/tickets"><i class="tasks icon"></i> <%= __('Список тикетов') %></a></div>
-						<div class="item"><a href="/tickets"><i class="user icon"></i> <%= __('Ваш профиль') %></a></div>
+						<div class="item"><a href="/user"><i class="user icon"></i> <%= __('Ваш профиль') %></a></div>
+						<% if (req.user && req.user.group >= ugroup.moderator) { %>
 						<div class="ui divider"></div>
-						<div class="item"><a href="/tickets"><i class="dashboard icon"></i> <%= __('Панель администратора') %></a></div>
-						<div class="item"><a href="/tickets"><i class="terminal icon"></i> <%= __('Панель игровой информации') %></a></div>
+						<% if (req.user.group >= ugroup.staff) { %>
+						<div class="item"><a href="/admin"><i class="dashboard icon"></i> <%= __('Панель администратора') %></a></div>
+						<% } %>
+						<div class="item"><a href="/gameinfo"><i class="terminal icon"></i> <%= __('Панель игровой информации') %></a></div>
+						<% } %>
 					</div>
 				</div>
 				<form id="gc-header-search">

@@ -15,7 +15,7 @@ module.exports = {
 		};
 		
 		if (obj.id === NaN) {
-			return res.badRequest("Wrong ID format");
+			return cb("Wrong ID format");
 		}
 		
 		async.waterfall([
@@ -38,69 +38,13 @@ module.exports = {
 				});
 			},
 			function getAndSerializeAdditionalField(obj, callback) {
-				switch (obj.type) {
-					case 1:
-						gch.bugreport.getAdditionalFields(obj.tid, function (err, result) {
-							if (err) return callback(err);
-								
-							obj.additional.description = result.description;
-							obj.additional.product = result.product;
-
-							callback(null, obj);
-						});
-						break;
+				gch.ticket.serializeAdditionalFields(obj, function (err, modifiedObj) {
+					if (err) return callback(err);
 					
-					case 2:
-						gch.rempro.getAdditionalFields(obj.tid, function (err, result) {
-							if (err) return callback(err);
-							
-							gch.rempro.serializeAdditionalFields(result, function (err, result) {
-								if (err) return callback(err);
-								
-								obj.additional.createdFor = result.createdFor;
-								obj.additional.reason = result.reason;
-								obj.additional.regions = result.regions;
-								obj.additional.stuff = result.stuff;
-
-								callback(null, obj);
-							});
-						});
-						break;
+					obj = obj;
 					
-					case 3:
-						gch.ban.getAdditionalFields(obj.tid, function (err, result) {
-							if (err) return callback(err);
-							
-							gch.ban.serializeAdditionalFields(result, function (err, result) {
-								if (err) return callback(err);
-								
-								obj.additional.reason = result.reason;
-								obj.additional.targetUser = result.targetUser;
-								
-								callback(null, obj);
-							});
-						});
-						break;
-					
-					case 4:
-						gch.unban.getAdditionalFields(obj.tid, function (err, result) {
-							if (err) return callback(err);
-							
-							gch.uban.serializeAdditionalFields(result, function (err, result) {
-								if (err) return callback(err);
-								
-								obj.additional.reason = result.reason;
-								obj.additional.targetUser = result.targetUser;
-								
-								callback(null, obj);
-							});
-						});
-						break;
-					
-					default:
-						callback('Wrong ticket type');
-						break;
-				}
+					callback(null, obj);
+				});
 			},
 			function getCommentsField(obj, callback) {
 				Comments.find({
@@ -114,8 +58,8 @@ module.exports = {
 				});
 			},
 			function serializeCommentsField(obj, callback) {
-				gch.comment.serializeComments(obj.comments, 1, 1, function (err, comments) {
-				//gch.comment.serializeComments(obj.comments, req.user.group, req.user.id, function (err, comments) {
+				//gch.comment.serializeComments(obj.comments, 1, 1, function (err, comments) {
+				gch.comment.serializeComments(obj.comments, req.user.group, req.user.id, function (err, comments) {
 					if (err) return callback(err);
 					
 					obj.comments = comments;
@@ -123,7 +67,7 @@ module.exports = {
 					callback(null, obj);
 				});
 			},
-			function getAndserializeAttachmentsField(obj, callback) {
+			function getAndSerializeAttachmentsField(obj, callback) {
 				gcdb.appdb.query('SELECT * FROM `attachments` WHERE id IN (' + obj.attachments.join(',') + ')', function (err, attachments) {
 					if (err) return callback(err);
 					
@@ -171,13 +115,13 @@ module.exports = {
 			query.status = '`status` in (' + status + ')';
 
 			if (!user.current.id || user.current.group < ugroup.helper) {
-				query.visibility = '`visiblity` = 1';
+				query.visibility = '`visibility` = 1';
 			}
 		}
 
 		if (visibility && user.current.id && user.current.group >= ugroup.helper) {
 			if (visibility !== 3) {
-				query.visibility = '`visiblity` = ' + visibility;
+				query.visibility = '`visibility` = ' + visibility;
 			}
 
 			if (!status) {
@@ -188,19 +132,19 @@ module.exports = {
 		if (!user.current.id || user.current.group < ugroup.helper) {
 			if (!visibility || visibility === 3) {
 				if (user.current.id) {
-					query.visibility = '(`visiblity` = 1 OR (`visiblity` = 2 AND `owner` = ' + user.current.id + '))';
+					query.visibility = '(`visibility` = 1 OR (`visibility` = 2 AND `owner` = ' + user.current.id + '))';
 				} else {
-					query.visibility = '`visiblity` = 1';
+					query.visibility = '`visibility` = 1';
 				}
 			}
 
 			if (visibility === 1) {
-				query.visibility = '`visiblity` = 1';
+				query.visibility = '`visibility` = 1';
 			}
 
 			if (visibility === 2) {
 				if (user.current.id) {
-					query.visibility = '`visiblity` = 2 AND `owner` = "' + user.current.id + '"';
+					query.visibility = '`visibility` = 2 AND `owner` = "' + user.current.id + '"';
 				} else {
 					query.visibility = '`id` = 0';
 				}
@@ -250,16 +194,163 @@ module.exports = {
 			query.first += ' AND `status` not in (5,6)';
 		}
 
-		query = 'SELECT * FROM `ticket` WHERE ' + query.first + ((query.type) ? ' AND ' + query.type : '') + ((query.product) ? ' AND ' + query.product : '') + ((query.status) ? ' AND ' + query.status : '') + ((query.visibility) ? ' AND ' + query.visibility : '') + ' ORDER BY ' + sortBy;
+		query = 'SELECT * FROM `tickets` WHERE ' + query.first + ((query.type) ? ' AND ' + query.type : '') + ((query.product) ? ' AND ' + query.product : '') + ((query.status) ? ' AND ' + query.status : '') + ((query.visibility) ? ' AND ' + query.visibility : '') + ' ORDER BY ' + sortBy;
 
 		sails.log.verbose('query: ', query);
 
-		Ticket.query(query, function (err, tickets) {
+
+		Tickets.query(query, function (err, tickets) {
 			if (err) return cb(err);
 
 			sails.log.verbose('tickets.length: ', tickets.length);
 
 			cb(null, tickets);
 		});
-	};
+	},
+
+	serializeList: function (tickets, cb) {
+		async.map(tickets, function (ticket, callback) {
+			async.waterfall([
+				function serializeMainFields(callback) {
+					ticket.type = gch.getType(ticket.type);
+					ticket.visibility = gch.getVisibility(ticket.visibility);
+					ticket.status = gch.getStatus(ticket.status);
+					ticket.createdAt = gch.serializeTime(ticket.createdAt);
+
+					try {
+						ticket.attachments = JSON.parse(ticket.attachments);
+					} catch (err) {
+						return callback(err);
+					}
+
+					callback(null, ticket);
+				},
+				function getOwner(ticket, callback) {
+					ticket.owner = {
+						id: ticket.owner,
+						username: null
+					};
+
+					gcdb.user.getByID(ticket.owner.id, function (err, login) {
+						if (err) return callback(err);
+
+						ticket.owner.username = login;
+
+						callback(null, ticket);
+					});
+				},
+				function getCommentsCount(ticket, callback) {
+					Comments.count({
+						tid: ticket.id
+					}).exec(function (err, result) {
+						if (err) return callback(err);
+
+						ticket.comments = {
+							count: result
+						};
+
+						callback(null, ticket);
+					});
+				},
+				function serializeAdditionalFields(ticket, callback) {
+					ticket.additional = {};
+
+					gch.ticket.serializeAdditionalFields(ticket, function (err, modifiedTicket) {
+						if (err) return callback(err);
+
+						ticket = modifiedTicket;
+
+						callback(null, ticket);
+					});
+				},
+				function getAndSerializeAttachmentsField(ticket, callback) {
+					gcdb.appdb.query('SELECT * FROM `attachments` WHERE id IN (' + ticket.attachments.join(',') + ')', function (err, attachments) {
+						if (err) return callback(err);
+
+						gch.attachement.serializeAttachments(attachments, function (err, attachments) {
+							if (err) return callback(err);
+
+							ticket.attachments = attachments;
+
+							callback(null, ticket);
+						});
+					});
+				}
+			], function (err, ticket) {
+				if (err) callback(err);
+
+				callback(null, ticket);
+			});
+		}, function (err, array) {
+			if (err) cb(err);
+
+			cb(null, array);
+		});
+	},
+
+	serializeAdditionalFields: function serializeAdditionalFields(ticket, cb) {
+		switch ((ticket.type.id) ? ticket.type.id : ticket.type) {
+			case 1:
+				gch.bugreport.getAdditionalFields(ticket.tid, function (err, result) {
+					if (err) return cb(err);
+
+					ticket.additional.description = result.description;
+					ticket.additional.product = result.product;
+
+					cb(null, ticket);
+				});
+				return;
+
+			case 2:
+				gch.rempro.getAdditionalFields(ticket.tid, function (err, result) {
+					if (err) return cb(err);
+
+					gch.rempro.serializeAdditionalFields(result, function (err, result) {
+						if (err) return cb(err);
+
+						ticket.additional.createdFor = result.createdFor;
+						ticket.additional.reason = result.reason;
+						ticket.additional.regions = result.regions;
+						ticket.additional.stuff = result.stuff;
+
+						cb(null, ticket);
+					});
+				});
+				return;
+
+			case 3:
+				gch.ban.getAdditionalFields(ticket.tid, function (err, result) {
+					if (err) return cb(err);
+
+					gch.ban.serializeAdditionalFields(result, function (err, result) {
+						if (err) return cb(err);
+
+						ticket.additional.reason = result.reason;
+						ticket.additional.targetUser = result.targetUser;
+
+						cb(null, ticket);
+					});
+				});
+				return;
+
+			case 4:
+				gch.unban.getAdditionalFields(ticket.tid, function (err, result) {
+					if (err) return cb(err);
+
+					gch.uban.serializeAdditionalFields(result, function (err, result) {
+						if (err) return cb(err);
+
+						ticket.additional.reason = result.reason;
+						ticket.additional.targetUser = result.targetUser;
+
+						cb(null, ticket);
+					});
+				});
+				return;
+
+			default:
+				cb('Wrong ticket type');
+				return;
+		}
+	}
 };

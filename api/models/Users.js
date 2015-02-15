@@ -12,6 +12,9 @@ module.exports = {
 		// User id
 		uid: 'integer',
 
+		// Game id
+		gameId: 'integer',
+
 		// User group
 		ugroup: 'integer',
 

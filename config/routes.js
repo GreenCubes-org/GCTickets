@@ -34,6 +34,9 @@ module.exports.routes = {
 	'/login': 'users.login',
 	'/logout': 'users.logout',
 	
+	'/users/:user': 'users.profile',
+	'/user': 'users.profile',
+
 	'/oauth/callback': 'users.callback',
 	
 	
@@ -44,15 +47,22 @@ module.exports.routes = {
 	'get /api/search': 'search.find',
 	
 	/* Tickets stuff */
+	'/tickets': 'tickets.list',
 	'get /api/tickets/new': {
 		view: 'tickets/new'
 	},
 	'post /tickets/new': 'tickets.create',
 	'get /id/test': 'tickets.getTest',
-	'get /id/:id': 'tickets.get',
-	'patch /id/:id': 'tickets.update',
-	'delete /id/:id': 'tickets.delete',
-	'/tickets': 'tickets.list',
+	'get /id/:tid': 'tickets.get',
+	'patch /id/:tid': 'tickets.update',
+	'delete /id/:tid': 'tickets.delete',
+
+
+	/* Comments stuff */
+	'get /api/comments': 'comments.list',
+	'post /api/comments/new': 'comments.new',
+	'get /api/comments/:cid': 'comments.get',
+	'post /api/comments/:cid': 'comments.post',
 	
 	
 	/* Questions stuff */
@@ -80,18 +90,18 @@ module.exports.routes = {
 	
 	
 	/* In-game panel stuff */
-	'/gameinfo': 'gameinfo.main',
+	'/gameinfo': 'ingameinfo.main',
 
-	'/gameinfo/player/info': 'gameinfo.playerInfo',
-	'/gameinfo/player/loginlog': 'gameinfo.playerLoginlog',
-	'/gameinfo/player/inventory': 'gameinfo.playerInventory',
-	'/gameinfo/player/chestslog': 'gameinfo.playerChestslog',
-	'/gameinfo/player/chatlog': 'gameinfo.playerChatlog',
-	'/gameinfo/player/commandslog': 'gameinfo.playerCommandslog',
+	'/gameinfo/player/info': 'ingameinfo.playerInfo',
+	'/gameinfo/player/loginlog': 'ingameinfo.playerLoginlog',
+	'/gameinfo/player/inventory': 'ingameinfo.playerInventory',
+	'/gameinfo/player/chestslog': 'ingameinfo.playerChestslog',
+	'/gameinfo/player/chatlog': 'ingameinfo.playerChatlog',
+	'/gameinfo/player/commandslog': 'ingameinfo.playerCommandslog',
 
-	'/gameinfo/world/regioninfo': 'gameinfo.worldRegioninfo',
-	'/gameinfo/world/chestlog': 'gameinfo.worldChestlog',
-	'/gameinfo/world/blockslog': 'gameinfo.worldBlockslog',
-	'/gameinfo/world/moneylog': 'gameinfo.worldMoneylog',
+	'/gameinfo/world/regioninfo': 'ingameinfo.worldRegioninfo',
+	'/gameinfo/world/chestlog': 'ingameinfo.worldChestlog',
+	'/gameinfo/world/blockslog': 'ingameinfo.worldBlockslog',
+	'/gameinfo/world/moneylog': 'ingameinfo.worldMoneylog',
 
 };

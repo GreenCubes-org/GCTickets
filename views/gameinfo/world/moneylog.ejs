@@ -1,0 +1,78 @@
+<% title =  __('view.gameinfo.world.moneylog.title') + ' / ' + __('view.gameinfo.world.title') + ' / ' + __('view.gameinfo.title') + " — " + __('global.pagetitle'),
+    url = '/gameinfo/world/moneylog?cake=isalie' + ((req.query.sender) ? '&sender='  + req.query.sender : '' ) + ((req.query.firsttime) ? '&firsttime='  + req.query.firsttime : '' ) + ((req.query.secondtime) ? '&secondtime='  + req.query.secondtime : '' ) + ((req.query.block) ? '&block='  + req.query.block : '' );  %>
+
+<%- partial('../partials/subheader', { header: __('view.gameinfo.world.title'), subheader: __('view.gameinfo.world.moneylog.title') }) %>
+
+<div class="container" style="margin-top: 20px">
+    <form method="GET">
+    <div class="ui small form">
+        <div class="two fields">
+            <div class="field">
+                <label><%= __('view.gameinfo.world.moneylog.form.sender') %></label>
+                <div class="ui fluid input">
+                    <input placeholder="<%= __('view.gameinfo.world.moneylog.form.sender.placeholder') %>" type="text" name="sender" value="<%= (req.query.nickname) ? req.query.nickname : '' %>">
+                </div>
+            </div>
+        </div>
+        <div class="ui divider"></div>
+		<div class="inline field">
+			<div class="ui checkbox">
+				<input type="checkbox" name="time" <%= (req.query.time === 'true') ? 'checked="checked"' : '' %>>
+				<label><%= __('view.gameinfo.form.timecheckbox') %></label>
+			</div>
+		</div>
+        <div class="two fields">
+            <div class="field">
+                <label><%= __('view.gameinfo.form.firsttime') %></label>
+                <input placeholder="<%= moment().subtract(3, 'days').format('YYYY-MM-DD HH:mm:ss') %>" value="<%= (req.query.firsttime) ? req.query.firsttime : moment().subtract(3, 'days').format('YYYY-MM-DD HH:mm:ss') %>"  type="text" name="firsttime">
+            </div>
+            <div class="field">
+                <label><%= __('view.gameinfo.form.secondtime') %></label>
+                <input placeholder="<%= moment().format('YYYY-MM-DD HH:mm:ss') %>" value="<%= (req.query.secondtime) ? req.query.secondtime : moment().format('YYYY-MM-DD HH:mm:ss') %>"  type="text" name="secondtime">
+            </div>
+        </div>
+        <div class="ui blue submit button" id="gc-formsubmit"><%= __('view.gameinfo.form.send') %></div>
+    </div>
+    </form>
+    <div class="ui divider"></div>
+    <% if (log && log.length) { %>
+    <% if (log.length >= 15) { %>
+    <%- partial('../partials/pagination', {currentPage: currentPage, lastPage: lastPage, url: url}) %>
+    <% } %>
+    <table class="ui basic small compact table">
+        <thead>
+            <tr>
+                <th><%= __('view.gameinfo.world.moneylog.table.time') %></th>
+                <th><%= __('view.gameinfo.world.moneylog.table.sender') %></th>
+                <th><%= __('view.gameinfo.world.moneylog.table.receiver') %></th>
+                <th><%= __('view.gameinfo.world.moneylog.table.amount') %></th>
+                <th><%= __('view.gameinfo.world.moneylog.table.type') %></th>
+                <th><%= __('view.gameinfo.world.moneylog.table.transactiontype') %></th>
+            </tr>
+        </thead>
+        <tbody>
+            <% log.forEach(function (element) { %>
+            <tr>
+                <td><%= moment(element.time).format('YYYY-MM-DD HH:mm:ss') %></td>
+                <td><% if (element.senderType === 1) { %><a href="/gameinfo/player/info?nickname=<%= element.sender %>"><%= element.sender %></a><% } else { %><%= element.sender %><% } %></td>
+                <td><% if (element.recieverType === 3) { %>&mdash;<% } else if (element.recieverType === 1) { %><a href="/gameinfo/player/info?nickname=<%= element.reciever %>"><%= element.reciever %></a><% } else { %><%= element.reciever %><% } %></td>
+                <td><%= element.money %></td>
+                <td><%= __('view.gameinfo.player.moneylog.moneytype.' + element.moneyType) %></td>
+                <td><%- (element.data) ? element.data : __('view.gameinfo.player.moneylog.sendmoney') %></td>
+            </tr>
+            <% }) %>
+        </tbody>
+    </table>
+    <div style="margin-top: 3em !important;">
+        <%- partial('../partials/pagination', {currentPage: currentPage, lastPage: lastPage, url: url}) %>
+    </div>
+    <% } else if (log && log.code === 'staffblock') { %>
+    <div style="padding: 5em 0em;text-align: center;font-size:1.4em"><%= __('view.gameinfo.world.moneylog.error.staffblock') %></div>
+    <% } else if (log && log.code === 'wrongorg') { %>
+    <div style="padding: 5em 0em;text-align: center;font-size:1.4em"><%= __('view.gameinfo.world.moneylog.error.wrongformat') %></div>
+    <% } else if (log && !log.length) { %>
+    <div style="padding: 5em 0em;text-align: center;font-size:1.4em"><%= __('view.gameinfo.error.notfound') %></div>
+    <% } else { %>
+    <div style="padding: 5em 0em;text-align: center;font-size:1.4em"><%= __('view.gameinfo.world.moneylog.error.entername') %></div>
+    <% } %>
+</div>

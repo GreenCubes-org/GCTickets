@@ -20,7 +20,7 @@ module.exports = function (req, res, ok) {
 			}
 		},
 		function magicLogic(tid, callback) {
-			Ticket.findOne(tid).exec(function (err, ticket) {
+			Tickets.findOne(tid).exec(function (err, ticket) {
 				if (err) return callback(err);
 
 				if (!ticket) {
@@ -44,7 +44,7 @@ module.exports = function (req, res, ok) {
 								}
 							},
 							function checkUGroup(userGroup, ticketCreator, canModerate, callback) {
-								Ticket.findOne(tid).exec(function (err, ticket) {
+								Tickets.findOne(tid).exec(function (err, ticket) {
 									if (err) return callback(err);
 
 									if (userGroup >= ugroup.mod || ticket.owner === ticketCreator) {
@@ -58,7 +58,7 @@ module.exports = function (req, res, ok) {
 							function checkRights(canModerate, tid, callback) {
 								if (!canModerate) return res.forbidden();
 
-								Bugreport.findOne(tid).exec(function (err, bugreport) {
+								Bugreports.findOne(tid).exec(function (err, bugreport) {
 									if (err) return callback(err);
 
 									async.each(canModerate, function (element, callback) {

@@ -27,7 +27,8 @@ var jsLibsFilesToInject = [
 	'js/dependencies/semantic.min.js',
 	'js/dependencies/markdown.js',
 	'js/dependencies/pen.js',
-	'js/dependencies/chartist.min.js'
+	'js/dependencies/chartist.min.js',
+	'js/dependencies/jquery.serializejson.js'
 ];
 
 var jsAppFilesToInject = [

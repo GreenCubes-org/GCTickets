@@ -13,19 +13,31 @@ passport.serializeUser(function (user, done) {
 });
 
 passport.deserializeUser(function (id, done) {
+	var user = {
+		id: id
+	};
+
 	async.waterfall([
 		function getUserCredentials(callback) {
-			gcdb.usersdb.query('SELECT name FROM users WHERE id = ?', [id], function (err, result, fields) {
+			gcdb.sitedb.query('SELECT login FROM users WHERE id = ?', [user.id], function (err, result) {
 				if (err) return callback(err);
 
-				callback(null, {
-					id: id,
-					username: result[0].name
-				});
+				user.username = result[0].login;
+
+				callback(null, user);
+			});
+		},
+		function getGameId(user, callback) {
+			gcdb.user.getByLogin(user.username, 'maindb', function (err, result) {
+				if (err) return callback(err);
+
+				user.gameId = result;
+
+				callback(null, user);
 			});
 		},
 		function getUserRights(user, callback) {
-			gcdb.appdb.query('SELECT * FROM users WHERE uid = ?', [id], function (err, result) {
+			gcdb.appdb.query('SELECT * FROM users WHERE uid = ?', [user.id], function (err, result) {
 				if (err) return callback(err);
 
 				if (result.length !== 0) {
@@ -36,8 +48,6 @@ passport.deserializeUser(function (id, done) {
 					user.group = 0; // User have group 0 by default
 					user.canModerate = [];
 				}
-
-				user.id = user.uid;
 
 				callback(null, user);
 			});
@@ -63,7 +73,7 @@ module.exports = {
 				callbackURL: appConfig.oauth2.callbackURL
 			}, function (accessToken, refreshToken, profile, done) {
 				Users.findOrCreate({
-					uid: accessToken.userId
+					gameId: accessToken.userId
 				}, function (err, user) {
 					if (!user.uid) {
 						if (err) return done(err);

@@ -9,7 +9,7 @@ module.exports = {
 	/* GET /api/tickets/:id */
 	get: function (req, res) {
 		var ticket = {
-			id: parseInt(req.param('id'), 10),
+			id: parseInt(req.param('tid'), 10),
 			title: null,
 			type: null,
 			visibility: null,
@@ -35,7 +35,7 @@ module.exports = {
 					ticket.tid = result.tid;
 					ticket.title = result.title;
 					ticket.type = gch.getType(result.type);
-					ticket.visibility = result.visibility;
+					ticket.visibility = gch.getVisibility(result.visibility);
 					ticket.status = gch.getStatus(result.status);
 					ticket.owner = result.owner;
 					ticket.attachments = result.attachments;
@@ -161,14 +161,14 @@ module.exports = {
 			
 			sails.log.verbose('-> Tickets.get: ticket: \n', ticket);
 			
-			res.view('tickets/view_' + ticket.type.name, {
+			res.view('tickets/view/view_' + ticket.type.name, {
 				ticket: ticket
 			});
 		});
 	},
 	
 	getTest: function (req, res) {
-		res.view('tickets/view_bugreport', {
+		res.view('tickets/view/view_bugreport', {
 			ticket: {
 				id: 0,
 				title: 'Testificate',
@@ -225,8 +225,6 @@ module.exports = {
 	
 	/* GET /api/tickets */
 	list: function (req, res) {
-		moment.lang((req.user) ? req.user.locale : sails.userLocale);
-
 		// GET /tickets?cake=isalie&visibility=1&status=1,5,10&product=1&type=3
 		var sort = parseInt(req.param('sort'), 10),
 			visibility = parseInt(req.param('visibility'), 10),
@@ -282,6 +280,7 @@ module.exports = {
 
 		/* Check and convert data */
 
+
 		if (sort && !(1 >= sort <= 2)) {
 			return res.badRequest();
 		}
@@ -302,7 +301,7 @@ module.exports = {
 
 		async.waterfall([
 			function findTickets(callback) {
-				gct.ticket.getList({
+				gch.ticket.getList({
 					visibility: visibility,
 					status: statusJoined,
 					type: typeJoined,
@@ -323,7 +322,7 @@ module.exports = {
 				sails.log.verbose('skipRows: ', skipRows);
 
 				if (tickets.length <= skipRows) {
-					return res.view('list/notickets', {
+					return res.view('tickets/list/list_notickets', {
 						type: (type) ? type : [],
 						product: (product) ? product : [],
 						status: (status) ? status : [],
@@ -336,11 +335,10 @@ module.exports = {
 
 				var query = (req.originalUrl.split('?')[1]) ? '?' + req.originalUrl.split('?')[1] : '';
 
-				gct.ticket.serializeList(tickets, function (err, result) {
+				gch.ticket.serializeList(tickets, function (err, result) {
 					if (err) return callback(err);
 
-					res.view('tickets/list', {
-						moment: moment,
+					res.view('tickets/list/list', {
 						tickets: result,
 						lastPage: lastPage,
 						currentPage: currentPage,
@@ -352,7 +350,7 @@ module.exports = {
 						visibility: visibility
 					});
 
-					callback(null);
+					callback(null, result);
 				});
 			}
 		], function (err) {

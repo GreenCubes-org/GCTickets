@@ -1,0 +1,97 @@
+<div class="gc ticketview ui two column grid">
+	<div class="column" style="width: 70%">
+		<header class="gc page nomargin header">#<%= ticket.id %>: &laquo;<%= ticket.title %>&raquo;<a class="editbutton" href="#"><i class="pencil small icon"></i></a></header>
+		<header class="gc sub page nomargin inactive header"><a class="item" href="#" style="padding: 0"><i class="bug icon"></i></a>  <a class="item" href="#"><%= ticket.owner.username %></a>  <a class="item" href="#"><%= ticket.createdAt.pretty %></a><a class="item" href="#"><%= ticket.additional.product.name %></a>
+		</header>
+	</div>
+	<div class="right floated column" style="width: 30%"><header class="gc status nomargin <%= ticket.status.name %> header"><%= __('Новый') %></header></div>
+</div>
+
+<div class="gc ticketview main">
+	<h1>Описание</h1>
+	<p class="text"><%- ticket.additional.description %></p>
+
+	<h1>Прикрепления</h1>
+	<%- partial('../../partials/attachment', {
+		attachments: ticket.attachments
+	}) %>
+	<div class="ui huge comments">
+		<h1>Комментарии</h1>
+		<% if (ticket.comments.length) { %>
+		<% ticket.comments.forEach(function (comment) { %>
+		<div class="comment">
+			<div class="content">
+				<a class="author"><%= (comment.author.prefix) ? comment.author.prefix : '' %><%= comment.author.username %></a>
+				<div class="metadata">
+					<a class="date" href="#<%= comment.id %>" title="<%= comment.createdAt.pretty %>"><%= comment.createdAt.fromNow %></a>
+				</div>
+				<div class="text">
+					<%- comment.message %>
+					<% if (comment.changedTo) { %>
+					<div class="ui small divider"></div>
+					Статус изменён на <a class="gc status <%= comment.changedTo.name %> link" href="#"><%= comment.changedTo.name %></a>
+					<% } %>
+				</div>
+			</div>
+		</div>
+		<% }) %>
+		<% } else { %>
+		<div class="gc nocomments">
+			<title>Тут никто ещё ничего не писал :(</title>
+		</div>
+		<% } %>
+		<form class="ui reply form" id="commentpost">
+			<div class="field">
+				<textarea name="message" id="commentform"></textarea>
+			</div>
+			<div class="ui two column grid">
+				<div class="left aligned column">
+					<div class="ui blue labeled submit icon button"  id="commentsubmit">
+						<i class="icon edit"></i> Ответить
+					</div>
+				</div>
+				<% if ([1,3,11,4].indexOf(ticket.status.id) !== -1 && req.user && ((ticket.owner.id === req.user.id || ((req.user.group || 0) >= ugroup.helper)) && ticket.status.id === 1)) { %>
+				<div class="right aligned column">
+					<div class="ui selection dropdown" id="s-setstatus">
+						<input name="status" type="hidden" />
+						<div class="default text">Сменить статус</div>
+						<i class="dropdown icon"></i>
+						<div class="menu">
+							<% if (ticket.status.id === 1) { %>
+								<div class="active item" data-value="1"><%- __('global.status.new') %></div>
+								<% if ((req.user.group || 0) >= ugroup.mod) { %>
+								<div class="item" data-value="11"><%- __('global.status.accepted') %></div>
+								<% } %>
+								<% if ((req.user.group || 0) >= ugroup.helper) { %>
+								<div class="item" data-value="3"><%- __('global.status.specify') %></div>
+								<% } %>
+								<% if ((req.user.group || 0) >= ugroup.mod) { %>
+								<div class="item" data-value="4"><%- __('global.status.declined') %></div>
+								<% } %>
+								<% if (ticket.owner.id === req.user.id) { %>
+								<div class="item" data-value="2"><%- __('global.status.rejected') %></div>
+								<% } %>
+							<% } %>
+							<% if (ticket.status.id === 3) { %>
+								<div class="active item" data-value="3"><%- __('global.status.specify') %></div>
+								<div class="item" data-value="11"><%- __('global.status.accepted') %></div>
+								<div class="item" data-value="4"><%- __('global.status.declined') %></div>
+							<% } %>
+							<% if (ticket.status.id === 11) { %>
+								<div class="active item" data-value="11"><%- __('global.status.accepted') %></div>
+								<div class="item" data-value="12"><%- __('global.status.fixed') %></div>
+								<div class="item" data-value="4"><%- __('global.status.declined') %></div>
+							<% } %>
+							<% if (ticket.status.id === 4) { %>
+								<div class="active item" data-value="4"><%- __('global.status.declined') %></div>
+								<div class="item" data-value="3"><%- __('global.status.specify') %></div>
+								<div class="item" data-value="11"><%- __('global.status.accepted') %></div>
+							<% } %>
+						</div>
+					</div>
+				</div>
+				<% } %>
+			</div>
+		</form>
+	</div>
+</div>

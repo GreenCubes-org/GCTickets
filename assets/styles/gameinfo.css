@@ -1,3 +1,11 @@
 .ui.list > .item > .content {
 	padding: 0;
 }
+
+.gc.gameinfo.header {
+	margin-bottom: 0px;
+}
+
+.gc.gameinfo.subheader {
+	margin-top: 0px;
+}

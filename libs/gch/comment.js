@@ -3,7 +3,7 @@ var gch = require('./index.js');
 
 module.exports = {
 	serializeComments: function serializeComments(comments, userGroup, userId, cb) {
-		if (comments === null || comments.length === 0) return cb(null, null);
+		if (comments === null || comments.length === 0) return cb(null, []);
 
 		async.waterfall([
 			function getBugreportProduct(callback) {
@@ -121,5 +121,122 @@ module.exports = {
 				});
 			}
 		]);
+	},
+
+	processStatus: function processStatus(req, res, type, canModerate, ticket, changedTo, cb) {
+		var isStatus;
+		switch (type) {
+			case 1:
+				// If status "Новый"
+				if (ticket.status === 1 && (
+					(canModerate && [11,4,3].indexOf(changedTo) != -1) ||
+					(req.user.id === ticket.owner && changedTo === 2) ||
+					(req.user.group >= ugroup.helper && changedTo === 3))) {
+					return cb(true);
+				}
+
+				// If status "Уточнить"
+				if (ticket.status === 3 && canModerate && [11,4].indexOf(changedTo) != -1) {
+					return cb(true);
+				}
+
+				// If status "Отклонён"
+				if (ticket.status === 4 && canModerate && [11, 3].indexOf(changedTo) != -1) {
+					return cb(true);
+				}
+
+				// If status "Принят"
+				if (ticket.status === 11 && canModerate && [12,4].indexOf(changedTo) != -1) {
+					return cb(true);
+				}
+
+				return cb(false);
+
+			case 2:
+				// If status "Новый"
+				if (ticket.status === 1 && (
+					(req.user.id === ticket.owner && changedTo === 2) || // Only owner can change to status 2 (Отклонён)
+					(canModerate && [8,4,3].indexOf(changedTo) != -1) ||
+					(req.user.group >= ugroup.helper && changedTo === 3))) {
+					return cb(true);
+				}
+
+				// If status "Уточнить"
+				if (ticket.status === 3 && canModerate && [10,4].indexOf(changedTo) != -1) {
+					return cb(true);
+				}
+
+				// If status "Отклонён"
+				if (ticket.status === 4 && canModerate && [8, 3].indexOf(changedTo) != -1) {
+					return cb(true);
+				}
+
+				// If status "На рассмотрении"
+				if (ticket.status === 8 && canModerate && [10,9,4,3].indexOf(changedTo) != -1) {
+					return cb(true);
+				}
+
+				// If status "Отложен"
+				if (ticket.status === 9 && canModerate && [10,4,3].indexOf(changedTo) != -1) {
+					return cb(true);
+				}
+
+				return cb(false);
+
+			case 3:
+				// If status "Новый"
+				if (ticket.status === 1 && (
+					(req.user.id === ticket.owner && changedTo === 2) || // Only owner can change to status 2 (Отклонён)
+					(canModerate && [10,4,3].indexOf(changedTo) != -1) ||
+					(req.user.group >= ugroup.helper && changedTo === 3))) {
+					return cb(true);
+				}
+
+				// If status "Уточнить"
+				if (ticket.status === 3 && canModerate && [10,4].indexOf(changedTo) != -1) {
+					return cb(true);
+				}
+
+
+				// If status "Отклонён"
+				if (ticket.status === 4 && canModerate && [10, 3].indexOf(changedTo) != -1) {
+					return cb(true);
+				}
+
+				return cb(false);
+
+			case 4:
+				// If status "Новый"
+				if (ticket.status === 1 && (
+					(req.user.id === ticket.owner && changedTo === 2) || // Only owner can change to status 2 (Отклонён)
+					(canModerate && [10,4,3].indexOf(changedTo) != -1) ||
+					(req.user.group >= ugroup.helper && changedTo === 3))) {
+					return cb(true);
+				}
+
+				// If status "Уточнить"
+				if (ticket.status === 3 && canModerate && [10,4].indexOf(changedTo) != -1) {
+					return cb(true);
+				}
+
+				// If status "Отклонён"
+				if (ticket.status === 4 && canModerate && [10, 3].indexOf(changedTo) != -1) {
+					return cb(true);
+				}
+
+				return cb(false);
+
+			case 5:
+				return cb(false);
+
+			case 6:
+				return cb(false);
+
+			case 7:
+				return cb(false);
+
+			default:
+				return cb(false);
+		}
 	}
 };

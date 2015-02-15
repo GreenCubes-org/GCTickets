@@ -1,0 +1,85 @@
+<% title = __('view.gameinfo.title') + " — " + __('global.pagetitle'),
+	backUrl = '/';  %>
+
+<div class="gameinfopanel header"><%= __('view.gameinfo.title') %></div>
+<div class="container">
+	<div class="ui relaxed list">
+		<div class="item">
+			<i class="icon big user" style="margin: 10px 10px 0px 0px;"></i>
+			<div class="content">
+				<h2><%= __('view.gameinfo.dashboard.player') %></h2>
+				<div class="ui relaxed list">
+					<div class="item">
+						<a class="gc-nostylelink content"  href="/gameinfo/player/info">
+							<span class="header"><%= __('view.gameinfo.dashboard.player.info.header') %></span>
+							<span class="description" style="display:block"><%= __('view.gameinfo.dashboard.player.info.description') %></span>
+						</a>
+					</div>
+					<div class="item">
+						<a class="gc-nostylelink content"  href="/gameinfo/player/inventory">
+							<span class="header"><%= __('view.gameinfo.dashboard.player.inventory.header') %></span>
+							<span class="description" style="display:block"><%= __('view.gameinfo.dashboard.player.inventory.description') %></span>
+						</a>
+					</div>
+					<div class="item">
+						<a class="gc-nostylelink content"  href="/gameinfo/player/loginlog">
+							<span class="header"><%= __('view.gameinfo.dashboard.player.loginlog.header') %></span>
+							<span class="description" style="display:block"><%= __('view.gameinfo.dashboard.player.loginlog.description') %></span>
+						</a>
+					</div>
+					<div class="item">
+						<a class="gc-nostylelink content"  href="/gameinfo/player/chestslog">
+							<span class="header"><%= __('view.gameinfo.dashboard.player.chestslog.header') %></span>
+							<span class="description" style="display:block"><%= __('view.gameinfo.dashboard.player.chestslog.description') %></span>
+						</a>
+					</div>
+					<div class="item">
+						<a class="gc-nostylelink content"  href="/gameinfo/player/chatlog">
+							<span class="header"><%= __('view.gameinfo.dashboard.player.chatlog.header') %></span>
+							<span class="description" style="display:block"><%= __('view.gameinfo.dashboard.player.chatlog.description') %></span>
+						</a>
+					</div>
+					<div class="item">
+						<a class="gc-nostylelink content"  href="/gameinfo/player/commandslog">
+							<span class="header"><%= __('view.gameinfo.dashboard.player.commandslog.header') %></span>
+							<span class="description" style="display:block"><%= __('view.gameinfo.dashboard.player.commandslog.description') %></span>
+						</a>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="item">
+			<i class="icon big globe" style="margin: 10px 10px 0px 0px;"></i>
+			<div class="content">
+				<h2><%= __('view.gameinfo.dashboard.world') %></h2>
+				<div class="ui relaxed list">
+					<div class="item">
+						<a class="gc-nostylelink content"  href="/gameinfo/world/regioninfo">
+							<span class="header"><%= __('view.gameinfo.dashboard.world.regioninfo.header') %></span>
+							<span class="description" style="display:block"><%= __('view.gameinfo.dashboard.world.regioninfo.description') %></span>
+						</a>
+					</div>
+					<div class="item">
+						<a class="gc-nostylelink content"  href="/gameinfo/world/chestlog">
+							<span class="header"><%= __('view.gameinfo.dashboard.world.chestlog.header') %></span>
+							<span class="description" style="display:block"><%= __('view.gameinfo.dashboard.world.chestlog.description') %></span>
+						</a>
+					</div>
+					<div class="item">
+						<a class="gc-nostylelink content"  href="/gameinfo/world/blockslog">
+							<span class="header"><%= __('view.gameinfo.dashboard.world.blockslog.header') %></span>
+							<span class="description" style="display:block"><%= __('view.gameinfo.dashboard.world.blockslog.description') %></span>
+						</a>
+					</div>
+					<div class="item">
+						<a class="gc-nostylelink content"  href="/gameinfo/world/moneylog">
+							<span class="header"><%= __('view.gameinfo.dashboard.world.moneylog.header') %></span>
+							<span class="description" style="display:block"><%= __('view.gameinfo.dashboard.world.moneylog.description') %></span>
+						</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+

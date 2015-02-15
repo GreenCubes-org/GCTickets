@@ -1,0 +1,131 @@
+<h1 class="gc profile page header">Профиль игрока <%= user.login %></h1>
+<h2>Основная информация об аккаунте</h2>
+<div class="ui grid two column">
+	<div class="column">
+		<div class="gc infoblock"><b>Последний вход:</b> <%= (user.pinfo.lastseen) ? user.pinfo.lastseen : '&mdash;' %></div>
+		<div class="gc addpadding infoblock"><b>Дата регистрации:</b> <%= (user.pinfo.regdate) ? user.pinfo.regdate : '&mdash;' %></div>
+	</div>
+	<div class="column">
+		<div class="gc infoblock"><b>Последний IP:</b> <%= (user.pinfo.lastip) ? user.pinfo.lastip : '&mdash;' %></div>
+		<div class="gc addpadding infoblock"><b>Последний HWID:</b> <%= (user.pinfo.lasthwid) ? user.pinfo.lasthwid : '&mdash;' %></div>
+	</div>
+</div>
+<div class="ui two column grid">
+	<div class="column">
+		<h2>Последние тикеты</h2>
+		<div class="ui gc profile relaxed large list">
+			<% if (tickets.length) {
+			tickets.forEach(function (element) { %>
+			<div class="item">
+				<div class="content status <%= element.status.name %>">
+					<div class="header"><i class="<%= element.type.iconClass %> icon"></i><a href="/id/<%= element.id %>"><%= element.title %></a></div>
+					<div class="description"><i class="<%= element.visibility.iconClass %> icon"></i><a href="/tickets" class="info"><%= element.status.name %></a><a href="/id/<%= element.id %>#lastmessage" class="info"><%= element.comments.count + ' ' + ((element.count == 1) ? 'ответ' : 'ответов')%></a>  <a href="/id/<%= element.id %>" class="info"><%= element.createdAt.pretty %></a>  <a href="/users/<%= element.owner.username %>" class="info"><%= element.owner.username %></a>
+					</div>
+				</div>
+			</div>
+			<% })
+			} else { %>
+			<p>Тикетов нет</p>
+			<% } %>
+			<div class="item">
+				<a class="dotted link seemore">
+					Посмотреть все
+				</a>
+			</div>
+		</div>
+	</div>
+	<div class="column">
+		<p class="gc profile statistics-subheader">Модераторские ссылки</p>
+		<div class="ui link list statistics-links">
+			<a class="item" href="/gameinfo/player/inventory?nickname=<%= user.login %>">Инвентарь</a>
+			<a class="item" href="/gameinfo/player/loginlog?nickname=<%= user.login %>">Логи входа</a>
+			<a class="item" href="/gameinfo/world/moneylog?nickname=<%= user.login %>">Логи переводов валюты</a>
+			<a class="item" href="/gameinfo/player/chestslog?nickname=<%= user.login %>">Логи доступа к сундукам</a>
+			<a class="item" href="/gameinfo/player/chatlog?nickname=<%= user.login %>">Логи чата</a>
+			<a class="item" href="/gameinfo/player/commandslog?nickname=<%= user.login %>">Логи команд</a>
+		</div>
+		<p class="gc profile statistics-subheader">Статистика</p>
+		<p class="gc profile statistics-subsubheader">Тикеты</p>
+		<div style="width: 100%">
+			<div class="ui center statistics">
+				<div class="statistic">
+					<div class="value">
+						<%= statistics.tickets.all.open %>
+					</div>
+					<div class="label">
+						Открытых тикета...
+					</div>
+				</div>
+				<div class="green statistic">
+					<div class="value">
+						<%= statistics.tickets.all.solved %>
+					</div>
+					<div class="label">
+						...из них были решены за всё время
+					</div>
+				</div>
+			</div>
+		</div>
+		<div style="width: 100%">
+			<div class="ui center statistics">
+				<div class="statistic">
+					<div class="value">
+						<%= statistics.tickets.lastMonth.open %>
+					</div>
+					<div class="label">
+						Открытых тикета...
+					</div>
+				</div>
+				<div class="green statistic">
+					<div class="value">
+						<%= statistics.tickets.lastMonth.solved %>
+					</div>
+					<div class="label">
+						...из них были решены за последний месяц
+					</div>
+				</div>
+			</div>
+		</div>
+		<p class="gc profile statistics-subsubheader">Комментарии</p>
+		<div style="width: 100%">
+			<div class="ui center statistics">
+				<div class="statistic">
+					<div class="value">
+						<%= statistics.comments.all.count %>
+					</div>
+					<div class="label">
+						Ответов в тикеты...
+					</div>
+				</div>
+				<div class="green statistic">
+					<div class="value">
+						<%= statistics.comments.all.withStatus %>
+					</div>
+					<div class="label">
+						...из них со статусами за всё время
+					</div>
+				</div>
+			</div>
+		</div>
+		<div style="width: 100%">
+			<div class="ui center statistics">
+				<div class="statistic">
+					<div class="value">
+						<%= statistics.comments.lastMonth.count %>
+					</div>
+					<div class="label">
+						Ответов в тикеты...
+					</div>
+				</div>
+				<div class="green statistic">
+					<div class="value">
+						<%= statistics.comments.lastMonth.withStatus %>
+					</div>
+					<div class="label">
+						...из них со статусами за последний месяц
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

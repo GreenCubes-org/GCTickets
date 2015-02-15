@@ -45,6 +45,14 @@ i.icon {
 	margin-right: 1em;
 }
 
+#previewlink {
+	position: absolute;
+	font-size: 9px;
+	left: 76px;
+	color: rgba(0,0,0,0.4);
+	top: 16px;
+}
+
 .templatescontent {
 	padding-left: 10%;
 	padding-right: 10%;

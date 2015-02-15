@@ -25,14 +25,14 @@ crossroads.addRoute('/admin/users/roles', app.admin.roles);
 crossroads.addRoute('/admin/users/bans', app.admin.bans);
 
 /* Game information panel pages */
-crossroads.addRoute('/gameinfo/player/info', app.gameinfo.player);
-crossroads.addRoute('/gameinfo/player/loginlog', app.gameinfo.playerLoginlog);
-crossroads.addRoute('/gameinfo/player/inventory', app.gameinfo.player);
-crossroads.addRoute('/gameinfo/player/chatlog', app.gameinfo.playerChatlog);
-crossroads.addRoute('/gameinfo/player/commandslog', app.gameinfo.playerCommandslog);
-crossroads.addRoute('/gameinfo/player/chestslog', app.gameinfo.playerChestslog);
+crossroads.addRoute('/gameinfo/player/info', app.ingameinfo.player);
+crossroads.addRoute('/gameinfo/player/loginlog', app.ingameinfo.playerLoginlog);
+crossroads.addRoute('/gameinfo/player/inventory', app.ingameinfo.player);
+crossroads.addRoute('/gameinfo/player/chatlog', app.ingameinfo.playerChatlog);
+crossroads.addRoute('/gameinfo/player/commandslog', app.ingameinfo.playerCommandslog);
+crossroads.addRoute('/gameinfo/player/chestslog', app.ingameinfo.playerChestslog);
 
-crossroads.addRoute('/gameinfo/world/moneylog', app.gameinfo.worldMoneylog);
-crossroads.addRoute('/gameinfo/world/regioninfo', app.gameinfo.worldRegioninfo);
-crossroads.addRoute('/gameinfo/world/blockslog', app.gameinfo.worldBlockslog);
-crossroads.addRoute('/gameinfo/world/chestlog', app.gameinfo.worldChestlog);
+crossroads.addRoute('/gameinfo/world/moneylog', app.ingameinfo.worldMoneylog);
+crossroads.addRoute('/gameinfo/world/regioninfo', app.ingameinfo.worldRegioninfo);
+crossroads.addRoute('/gameinfo/world/blockslog', app.ingameinfo.worldBlockslog);
+crossroads.addRoute('/gameinfo/world/chestlog', app.ingameinfo.worldChestlog);

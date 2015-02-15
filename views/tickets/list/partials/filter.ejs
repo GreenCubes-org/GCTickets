@@ -1,0 +1,207 @@
+<div class="ui form" style="font-size: 0.9em;">
+			<form id="gc-filter-form">
+				<h3 class="ui header">
+					Sort by
+				</h3>
+				<div class="inline field">
+					<div class="ui radio checkbox">
+						<input id="sort-bycreation" name="sort:number" value="1" type="radio" <%= (sort == 1 || !req.query.sort) ? 'checked' : '' %>>
+						<label for="sort-bycreation">date</label>
+					</div>
+				</div>
+				<div class="inline field">
+					<div class="ui radio checkbox">
+						<input id="sort-byactivity" name="sort:number" value="2" type="radio" <%= (sort == 2) ? 'checked' : '' %>>
+						<label for="sort-byactivity">activity</label>
+					</div>
+				</div>
+				<h3 class="ui header">
+					Ticket types
+				</h3>
+				<div class="inline field">
+					<div class="ui checkbox">
+						<input class="filter-type-bugreport" name="type[1]:number" value="1" type="checkbox" <%= (type.indexOf(1) !== -1) ? 'checked' : '' %>>
+						<label for="filter-type-bugreport">Bug report</label>
+					</div>
+				</div>
+				<div class="inline field">
+					<div class="ui checkbox">
+						<input class="filter-type-rempro" name="type[2]:number" value="2" type="checkbox" <%= (type.indexOf(2) !== -1) ? 'checked' : '' %>>
+						<label for="filter-type-rempro">Region removal request</label>
+					</div>
+				</div>
+				<div class="inline field">
+					<div class="ui checkbox">
+						<input class="filter-type-ban" name="type[3]:number" value="3" type="checkbox" <%= (type.indexOf(3) !== -1) ? 'checked' : '' %>>
+						<label for="filter-type-ban">Ban request</label>
+					</div>
+				</div>
+				<div class="inline field">
+					<div class="ui checkbox">
+						<input class="filter-type-unban" name="type[4]:number" value="4" type="checkbox" <%= (type.indexOf(4) !== -1) ? 'checked' : '' %>>
+						<label for="filter-type-unban">Pardon request</label>
+					</div>
+				</div>
+				<h3 class="ui header">Statuses</h3>
+				<div class="ui basic accordion">
+					<div class="title">
+						<i class="dropdown icon"></i>
+						<label style="cursor:pointer;">General statuses</label>
+					</div>
+					<div class="content">
+						<div class="inline field">
+							<div class="ui checkbox">
+								<input class="filter-status-new" name="status[1]:number" value="1" type="checkbox" <%= (status.indexOf(1) !== -1) ? 'checked' : '' %>>
+								<label for="filter-status-new">New</label>
+							</div>
+						</div>
+						<div class="inline field">
+							<div class="ui checkbox">
+								<input class="filter-status-specify" name="status[3]:number" value="3" type="checkbox" <%= (status.indexOf(3) !== -1) ? 'checked' : '' %>>
+								<label for="filter-status-specify">Clarify</label>
+							</div>
+						</div>
+						<div class="inline field">
+							<div class="ui checkbox">
+								<input class="filter-status-rejected" name="status[2]:number" value="2" type="checkbox" <%= (status.indexOf(2) !== -1) ? 'checked' : '' %>>
+								<label for="filter-status-rejected">Revoked</label>
+							</div>
+						</div>
+						<div class="inline field">
+							<div class="ui checkbox">
+								<input class="filter-status-declined" name="status[4]:number" value="4" type="checkbox" <%= (status.indexOf(4) !== -1) ? 'checked' : '' %>>
+								<label for="filter-status-declined">Declined</label>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="ui basic accordion">
+					<div class="title">
+						<i class="dropdown icon"></i>
+						<label style="cursor:pointer;">Bug reports</label>
+					</div>
+					<div class="content">
+						<div class="inline field">
+							<div class="ui checkbox">
+								<input class="filter-status-accepted" name="status[11]:number" value="11" type="checkbox" <%= (status.indexOf(11) !== -1) ? 'checked' : '' %>>
+								<label for="filter-status-accepted">Accepted</label>
+							</div>
+						</div>
+						<div class="inline field">
+							<div class="ui checkbox">
+								<input class="filter-status-fixed" name="status[12]:number" value="12" type="checkbox" <%= (status.indexOf(12) !== -1) ? 'checked' : '' %>>
+								<label for="filter-status-fixed">Done</label>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="ui basic accordion">
+					<div class="title">
+						<i class="dropdown icon"></i>
+						<label style="cursor:pointer;">Protection removal requests</label>
+					</div>
+					<div class="content">
+						<div class="inline field">
+							<div class="ui checkbox">
+								<input class="filter-status-inreview" name="status[8]:number" value="8" type="checkbox" <%= (status.indexOf(8) !== -1) ? 'checked' : '' %>>
+								<label for="filter-status-inreview">In&nbsp;progress</label>
+							</div>
+						</div>
+						<div class="inline field">
+							<div class="ui checkbox">
+								<input class="filter-status-delayed" name="status[9]:number" value="9" type="checkbox" <%= (status.indexOf(9) !== -1) ? 'checked' : '' %>>
+								<label for="filter-status-delayed">Delayed</label>
+							</div>
+						</div>
+						<div class="inline field">
+							<div class="ui checkbox">
+								<input class="filter-status-done" name="status[10]:number" value="10" type="checkbox" <%= (status.indexOf(10) !== -1) ? 'checked' : '' %>>
+								<label for="filter-status-done">Done</label>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="ui basic accordion">
+					<div class="title">
+						<i class="dropdown icon"></i>
+						<label style="cursor:pointer;">Ban/Pardon requests</label>
+					</div>
+					<div class="content">
+						<div class="inline field">
+							<div class="ui checkbox">
+								<input class="filter-status-done" name="status[10]:number" value="10" type="checkbox" <%= (status.indexOf(10) !== -1) ? 'checked' : '' %>>
+								<label for="filter-status-done">Done</label>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="ui basic accordion">
+					<div class="title">
+						<i class="dropdown icon"></i>
+						<label style="cursor:pointer;">Hidden statuses</label>
+					</div>
+					<div class="content">
+						<div class="inline field">
+							<div class="ui checkbox">
+								<input class="filter-status-hidden" name="status[5]:number" value="5" type="checkbox" <%= (status.indexOf(5) !== -1) ? 'checked' : '' %>>
+								<label for="filter-status-hidden">Hidden</label>
+							</div>
+						</div>
+						<div class="inline field">
+							<div class="ui checkbox">
+								<input class="filter-status-removed" name="status[6]:number" value="6" type="checkbox" <%= (status.indexOf(6) !== -1) ? 'checked' : '' %>>
+								<label for="filter-status-removed">Deleted</label>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<h3 class="ui header">Visibility</h3>
+				<div class="grouped fields">
+					<div class="field">
+						<div class="ui radio checkbox">
+							<input class="filter-visibility-all" name="visibility:number" value="3" type="radio" <%= (visibility === 3 || !req.query.visibility) ? 'checked' : '' %>>
+							<label for="filter-visibility-all">Any</label>
+						</div>
+					</div>
+					<div class="field">
+						<div class="ui radio checkbox">
+							<input class="filter-visibility-public" name="visibility:number" value="1" type="radio" <%= (visibility === 1) ? 'checked' : '' %>>
+							<label for="filter-visibility-public">Public</label>
+						</div>
+					</div>
+					<div class="field">
+						<div class="ui radio checkbox">
+							<input class="filter-visibility-private" name="visibility:number" value="2" type="radio" <%= (visibility === 2) ? 'checked' : '' %>>
+							<label for="filter-visibility-private">Private</label>
+						</div>
+					</div>
+				</div>
+				<h3 class="ui header">
+					Problem location
+					<div class="sub header">only for bug reports</div>
+				</h3>
+				<div class="inline field">
+					<div class="ui checkbox">
+						<input class="filter-product-unknown" name="product[1]" value="1" type="checkbox" <%= (product.indexOf(1) !== -1) ? 'checked' : '' %>>
+						<label for="filter-product-unknown">Unknown</label>
+					</div>
+				</div>
+				<div class="inline field">
+					<div class="ui checkbox">
+						<input class="filter-product-main" name="product[2]" value="2" type="checkbox" <%= (product.indexOf(2) !== -1) ? 'checked' : '' %>>
+						<label for="filter-product-main">GreenCubes</label>
+					</div>
+				</div>
+				<div class="inline field">
+					<div class="ui checkbox">
+						<input class="filter-product-websites" name="product[5]" value="5" type="checkbox" <%= (product.indexOf(5) !== -1) ? 'checked' : '' %>>
+						<label for="filter-product-websites">Web services</label>
+					</div>
+				</div>
+				<div class="ui divider"></div>
+				<div class="ui big fluid button" id="gc-filter-submit">Show</div>
+				<a class="gc link button" href="#">Reset form</a>
+			</form>
+		</div>

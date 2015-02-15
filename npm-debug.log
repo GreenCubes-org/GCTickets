@@ -1,0 +1,305 @@
+0 info it worked if it ends with ok
+1 verbose cli [ '/usr/bin/node', '/usr/bin/npm', 'install', '-g', 'sails' ]
+2 info using npm@1.4.28
+3 info using node@v0.10.35
+4 verbose node symlink /usr/bin/node
+5 verbose cache add [ 'sails', null ]
+6 verbose cache add name=undefined spec="sails" args=["sails",null]
+7 verbose parsed url { protocol: null,
+7 verbose parsed url   slashes: null,
+7 verbose parsed url   auth: null,
+7 verbose parsed url   host: null,
+7 verbose parsed url   port: null,
+7 verbose parsed url   hostname: null,
+7 verbose parsed url   hash: null,
+7 verbose parsed url   search: null,
+7 verbose parsed url   query: null,
+7 verbose parsed url   pathname: 'sails',
+7 verbose parsed url   path: 'sails',
+7 verbose parsed url   href: 'sails' }
+8 silly lockFile e20e6cdc-sails sails
+9 verbose lock sails /home/kern0/.npm/e20e6cdc-sails.lock
+10 silly lockFile e20e6cdc-sails sails
+11 silly lockFile e20e6cdc-sails sails
+12 verbose addNamed [ 'sails', '' ]
+13 verbose addNamed [ null, '*' ]
+14 silly lockFile 5291d548-sails sails@
+15 verbose lock sails@ /home/kern0/.npm/5291d548-sails.lock
+16 silly addNameRange { name: 'sails', range: '*', hasData: false }
+17 verbose request where is /sails
+18 verbose request registry https://registry.npmjs.org/
+19 verbose request id a4ec4e6564fea576
+20 verbose url raw /sails
+21 verbose url resolving [ 'https://registry.npmjs.org/', './sails' ]
+22 verbose url resolved https://registry.npmjs.org/sails
+23 verbose request where is https://registry.npmjs.org/sails
+24 info trying registry request attempt 1 at 22:02:36
+25 http GET https://registry.npmjs.org/sails
+26 http 200 https://registry.npmjs.org/sails
+27 silly registry.get cb [ 200,
+27 silly registry.get   { date: 'Mon, 26 Jan 2015 19:02:37 GMT',
+27 silly registry.get     server: 'CouchDB/1.5.0 (Erlang OTP/R16B03)',
+27 silly registry.get     etag: '"5AJOCPUBCCTPFAQOWZFAJDQSN"',
+27 silly registry.get     'content-type': 'application/json',
+27 silly registry.get     'cache-control': 'max-age=60',
+27 silly registry.get     'content-length': '215027',
+27 silly registry.get     'accept-ranges': 'bytes',
+27 silly registry.get     via: '1.1 varnish',
+27 silly registry.get     age: '0',
+27 silly registry.get     'x-served-by': 'cache-ams4139-AMS',
+27 silly registry.get     'x-cache': 'MISS',
+27 silly registry.get     'x-cache-hits': '0',
+27 silly registry.get     'x-timer': 'S1422298957.328239,VS0,VE91',
+27 silly registry.get     vary: 'Accept',
+27 silly registry.get     'keep-alive': 'timeout=10, max=50',
+27 silly registry.get     connection: 'Keep-Alive' } ]
+28 silly addNameRange number 2 { name: 'sails', range: '*', hasData: true }
+29 silly addNameRange versions [ 'sails',
+29 silly addNameRange   [ '0.0.0',
+29 silly addNameRange     '0.0.0-2',
+29 silly addNameRange     '0.7.0',
+29 silly addNameRange     '0.7.0-2',
+29 silly addNameRange     '0.7.0-3',
+29 silly addNameRange     '0.7.0-4',
+29 silly addNameRange     '0.7.0-5',
+29 silly addNameRange     '0.0.0-1',
+29 silly addNameRange     '0.7.0-6',
+29 silly addNameRange     '0.7.0-7',
+29 silly addNameRange     '0.7.0-8',
+29 silly addNameRange     '0.7.1',
+29 silly addNameRange     '0.7.2',
+29 silly addNameRange     '0.7.3',
+29 silly addNameRange     '0.7.4',
+29 silly addNameRange     '0.7.4-1',
+29 silly addNameRange     '0.7.5-0',
+29 silly addNameRange     '0.7.6-0',
+29 silly addNameRange     '0.7.7',
+29 silly addNameRange     '0.7.8',
+29 silly addNameRange     '0.7.9',
+29 silly addNameRange     '0.8.0',
+29 silly addNameRange     '0.8.1',
+29 silly addNameRange     '0.8.2',
+29 silly addNameRange     '0.8.3',
+29 silly addNameRange     '0.8.4',
+29 silly addNameRange     '0.8.5',
+29 silly addNameRange     '0.8.6',
+29 silly addNameRange     '0.8.7',
+29 silly addNameRange     '0.8.71',
+29 silly addNameRange     '0.8.72',
+29 silly addNameRange     '0.8.73',
+29 silly addNameRange     '0.8.74',
+29 silly addNameRange     '0.8.75',
+29 silly addNameRange     '0.8.76',
+29 silly addNameRange     '0.8.77',
+29 silly addNameRange     '0.8.78',
+29 silly addNameRange     '0.8.79',
+29 silly addNameRange     '0.8.80',
+29 silly addNameRange     '0.8.81',
+29 silly addNameRange     '0.8.82',
+29 silly addNameRange     '0.8.83',
+29 silly addNameRange     '0.8.84',
+29 silly addNameRange     '0.8.85',
+29 silly addNameRange     '0.8.86',
+29 silly addNameRange     '0.8.87',
+29 silly addNameRange     '0.8.88',
+29 silly addNameRange     '0.8.89',
+29 silly addNameRange     '0.8.89-1',
+29 silly addNameRange     '0.8.892',
+29 silly addNameRange     '0.8.894',
+29 silly addNameRange     '0.8.895',
+29 silly addNameRange     '0.8.9',
+29 silly addNameRange     '0.8.91',
+29 silly addNameRange     '0.8.92',
+29 silly addNameRange     '0.8.93',
+29 silly addNameRange     '0.8.94',
+29 silly addNameRange     '0.9.0',
+29 silly addNameRange     '0.9.1',
+29 silly addNameRange     '0.9.2',
+29 silly addNameRange     '0.9.3',
+29 silly addNameRange     '0.9.4',
+29 silly addNameRange     '0.9.5',
+29 silly addNameRange     '0.9.7',
+29 silly addNameRange     '0.9.8',
+29 silly addNameRange     '0.9.9',
+29 silly addNameRange     '0.10.0-rc1',
+29 silly addNameRange     '0.10.0-rc2',
+29 silly addNameRange     '0.10.0-rc3',
+29 silly addNameRange     '0.9.11',
+29 silly addNameRange     '0.10.0-rc4',
+29 silly addNameRange     '0.9.12',
+29 silly addNameRange     '0.9.13',
+29 silly addNameRange     '0.9.15',
+29 silly addNameRange     '0.9.16',
+29 silly addNameRange     '0.10.0-rc5',
+29 silly addNameRange     '0.10.0-rc6',
+29 silly addNameRange     '0.10.0-rc7',
+29 silly addNameRange     '0.10.0-rc8',
+29 silly addNameRange     '0.9.17',
+29 silly addNameRange     '0.10.0-rc9',
+29 silly addNameRange     '0.10.0-max',
+29 silly addNameRange     '0.10.0-rc10',
+29 silly addNameRange     '0.10.0-rc11',
+29 silly addNameRange     '0.10.1',
+29 silly addNameRange     '0.10.2',
+29 silly addNameRange     '0.10.3',
+29 silly addNameRange     '0.10.4',
+29 silly addNameRange     '0.10.5',
+29 silly addNameRange     '0.11.0-rc2',
+29 silly addNameRange     '0.11.0-rc3',
+29 silly addNameRange     '0.11.0-rc4',
+29 silly addNameRange     '0.11.0-rc5',
+29 silly addNameRange     '0.11.0-rc6',
+29 silly addNameRange     '0.11.0-rc7',
+29 silly addNameRange     '0.11.0-rc8' ] ]
+30 verbose addNamed [ 'sails', '0.10.5' ]
+31 verbose addNamed [ '0.10.5', '0.10.5' ]
+32 silly lockFile 41d5a3b3-sails-0-10-5 sails@0.10.5
+33 verbose lock sails@0.10.5 /home/kern0/.npm/41d5a3b3-sails-0-10-5.lock
+34 silly lockFile 73d830ae-npmjs-org-sails-sails-0-10-5-tgz https://registry.npmjs.org/sails/-/sails-0.10.5.tgz
+35 verbose lock https://registry.npmjs.org/sails/-/sails-0.10.5.tgz /home/kern0/.npm/73d830ae-npmjs-org-sails-sails-0-10-5-tgz.lock
+36 verbose addRemoteTarball [ 'https://registry.npmjs.org/sails/-/sails-0.10.5.tgz',
+36 verbose addRemoteTarball   '0973d3ef2c4c23b6c691b91798a558996bd76e99' ]
+37 info retry fetch attempt 1 at 22:02:37
+38 verbose fetch to= /tmp/npm-15862-ua5Ge3ao/registry.npmjs.org/sails/-/sails-0.10.5.tgz
+39 http GET https://registry.npmjs.org/sails/-/sails-0.10.5.tgz
+40 http 200 https://registry.npmjs.org/sails/-/sails-0.10.5.tgz
+41 silly lockFile 73d830ae-npmjs-org-sails-sails-0-10-5-tgz https://registry.npmjs.org/sails/-/sails-0.10.5.tgz
+42 silly lockFile 73d830ae-npmjs-org-sails-sails-0-10-5-tgz https://registry.npmjs.org/sails/-/sails-0.10.5.tgz
+43 silly lockFile 41d5a3b3-sails-0-10-5 sails@0.10.5
+44 silly lockFile 41d5a3b3-sails-0-10-5 sails@0.10.5
+45 silly lockFile 5291d548-sails sails@
+46 silly lockFile 5291d548-sails sails@
+47 silly resolved [ { name: 'sails',
+47 silly resolved     author: { name: 'Mike McNeil', email: 'mike@balderdash.co' },
+47 silly resolved     version: '0.10.5',
+47 silly resolved     description: 'API-driven framework for building realtime apps, using MVC conventions (based on Express and Socket.io)',
+47 silly resolved     homepage: 'http://sailsjs.org',
+47 silly resolved     keywords:
+47 silly resolved      [ 'mvc',
+47 silly resolved        'web-framework',
+47 silly resolved        'express',
+47 silly resolved        'sails',
+47 silly resolved        'sailsjs',
+47 silly resolved        'sails.js',
+47 silly resolved        'REST',
+47 silly resolved        'API',
+47 silly resolved        'orm',
+47 silly resolved        'socket.io' ],
+47 silly resolved     main: './lib/index.js',
+47 silly resolved     bin: { sails: './bin/sails.js' },
+47 silly resolved     scripts: { test: 'mocha -b', prepublish: 'npm prune' },
+47 silly resolved     directories: { lib: 'lib' },
+47 silly resolved     dependencies:
+47 silly resolved      { express: '3.4.3',
+47 silly resolved        waterline: '~0.10.9',
+47 silly resolved        rc: '~0.5.0',
+47 silly resolved        'sails-stringfile': '~0.3.0',
+47 silly resolved        async: '~0.2.9',
+47 silly resolved        lodash: '~2.4.1',
+47 silly resolved        'captains-log': '~0.11.8',
+47 silly resolved        reportback: '~0.1.4',
+47 silly resolved        'sails-util': '~0.10.3',
+47 silly resolved        colors: '~0.6.2',
+47 silly resolved        'socket.io': '~0.9.14',
+47 silly resolved        'connect-flash': '~0.1.1',
+47 silly resolved        pluralize: '~0.0.5',
+47 silly resolved        'node-uuid': '~1.4.0',
+47 silly resolved        'ejs-locals': '~1.0.2',
+47 silly resolved        glob: '~3.2.9',
+47 silly resolved        i18n: '~0.5.0',
+47 silly resolved        'sails-generate': '~0.11.2',
+47 silly resolved        'sails-build-dictionary': '~0.10.1',
+47 silly resolved        'grunt-cli': '~0.1.11',
+47 silly resolved        ejs: '~0.8.4',
+47 silly resolved        'fs-extra': '~0.8.1',
+47 silly resolved        'sails-disk': '~0.10.0',
+47 silly resolved        commander: '~2.1.0',
+47 silly resolved        grunt: '0.4.2',
+47 silly resolved        'grunt-contrib-copy': '~0.5.0',
+47 silly resolved        'grunt-contrib-clean': '~0.5.0',
+47 silly resolved        'grunt-contrib-concat': '~0.3.0',
+47 silly resolved        'grunt-sails-linker': '~0.9.5',
+47 silly resolved        'grunt-contrib-jst': '~0.6.0',
+47 silly resolved        'grunt-contrib-watch': '~0.5.3',
+47 silly resolved        'grunt-contrib-uglify': '~0.4.0',
+47 silly resolved        'grunt-contrib-cssmin': '~0.9.0',
+47 silly resolved        'grunt-contrib-less': '0.11.1',
+47 silly resolved        'grunt-contrib-coffee': '~0.10.1',
+47 silly resolved        'grunt-sync': '~0.0.4',
+47 silly resolved        'express-handlebars': '~1.0.1',
+47 silly resolved        'include-all': '~0.1.3',
+47 silly resolved        skipper: '~0.5.3',
+47 silly resolved        'merge-defaults': '~0.1.0',
+47 silly resolved        anchor: '~0.10.0',
+47 silly resolved        'mock-req': '0.1.0',
+47 silly resolved        'mock-res': '0.1.0',
+47 silly resolved        semver: '~2.2.1',
+47 silly resolved        prompt: '~0.2.13' },
+47 silly resolved     devDependencies:
+47 silly resolved      { 'root-require': '~0.2.0',
+47 silly resolved        checksum: '~0.1.1',
+47 silly resolved        request: '*',
+47 silly resolved        istanbul: '*',
+47 silly resolved        wrench: '~1.5.1',
+47 silly resolved        benchmark: '~1.0.0',
+47 silly resolved        microtime: '~0.6.0',
+47 silly resolved        colors: '~0.6.2',
+47 silly resolved        'expect.js': '~0.2.0',
+47 silly resolved        should: '~2.1.1',
+47 silly resolved        supertest: '~0.8.2',
+47 silly resolved        'socket.io-client': '~0.9.16',
+47 silly resolved        mocha: '~1.17.1',
+47 silly resolved        portfinder: '~0.2.1',
+47 silly resolved        'coffee-script': '~1.7.1' },
+47 silly resolved     repository: { type: 'git', url: 'git://github.com/balderdashy/sails.git' },
+47 silly resolved     licenses: [ [Object] ],
+47 silly resolved     bugs: { url: 'http://github.com/balderdashy/sails/issues' },
+47 silly resolved     engines: { node: '>= 0.10.0' },
+47 silly resolved     _id: 'sails@0.10.5',
+47 silly resolved     _shasum: '0973d3ef2c4c23b6c691b91798a558996bd76e99',
+47 silly resolved     _from: 'sails@',
+47 silly resolved     _npmVersion: '1.4.9',
+47 silly resolved     _npmUser: { name: 'sgress454', email: 'scott@balderdash.co' },
+47 silly resolved     maintainers: [ [Object], [Object], [Object] ],
+47 silly resolved     dist:
+47 silly resolved      { shasum: '0973d3ef2c4c23b6c691b91798a558996bd76e99',
+47 silly resolved        tarball: 'http://registry.npmjs.org/sails/-/sails-0.10.5.tgz' },
+47 silly resolved     _resolved: 'https://registry.npmjs.org/sails/-/sails-0.10.5.tgz' } ]
+48 info install sails@0.10.5 into /usr/lib
+49 info installOne sails@0.10.5
+50 verbose lib/node_modules/sails unbuild
+51 verbose tar unpack /home/kern0/.npm/sails/0.10.5/package.tgz
+52 silly lockFile 5310e03b-tar-usr-lib-node-modules-sails tar:///usr/lib/node_modules/sails
+53 verbose lock tar:///usr/lib/node_modules/sails /home/kern0/.npm/5310e03b-tar-usr-lib-node-modules-sails.lock
+54 silly lockFile 46905e00-rn0-npm-sails-0-10-5-package-tgz tar:///home/kern0/.npm/sails/0.10.5/package.tgz
+55 verbose lock tar:///home/kern0/.npm/sails/0.10.5/package.tgz /home/kern0/.npm/46905e00-rn0-npm-sails-0-10-5-package-tgz.lock
+56 silly gunzTarPerm modes [ '775', '664' ]
+57 error Error: EACCES, mkdir '/usr/lib/node_modules/sails'
+57 error  { [Error: EACCES, mkdir '/usr/lib/node_modules/sails']
+57 error   errno: 3,
+57 error   code: 'EACCES',
+57 error   path: '/usr/lib/node_modules/sails',
+57 error   fstream_type: 'Directory',
+57 error   fstream_path: '/usr/lib/node_modules/sails',
+57 error   fstream_class: 'DirWriter',
+57 error   fstream_stack:
+57 error    [ '/usr/lib/node_modules/npm/node_modules/fstream/lib/dir-writer.js:36:23',
+57 error      '/usr/lib/node_modules/npm/node_modules/mkdirp/index.js:46:53',
+57 error      'Object.oncomplete (fs.js:108:15)' ] }
+58 error Please try running this command again as root/Administrator.
+59 error System Linux 3.13.0-44-generic
+60 error command "/usr/bin/node" "/usr/bin/npm" "install" "-g" "sails"
+61 error cwd /home/kern0/DEV/GCHelp
+62 error node -v v0.10.35
+63 error npm -v 1.4.28
+64 error path /usr/lib/node_modules/sails
+65 error fstream_path /usr/lib/node_modules/sails
+66 error fstream_type Directory
+67 error fstream_class DirWriter
+68 error code EACCES
+69 error errno 3
+70 error stack Error: EACCES, mkdir '/usr/lib/node_modules/sails'
+71 error fstream_stack /usr/lib/node_modules/npm/node_modules/fstream/lib/dir-writer.js:36:23
+71 error fstream_stack /usr/lib/node_modules/npm/node_modules/mkdirp/index.js:46:53
+71 error fstream_stack Object.oncomplete (fs.js:108:15)
+72 verbose exit [ 3, true ]
