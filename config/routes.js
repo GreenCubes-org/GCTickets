@@ -23,12 +23,10 @@
 module.exports.routes = {
 
 	/* Main page */
-	'/': {
-		view: 'main/mainpage'
-	},
+	'/': 'misc.mainPage',
 	
 	/* Misc stuff */
-	'/new': 'misc.new',
+	'/new': 'tickets.createPage',
 	
 	/* User stuff */
 	'/login': 'users.login',
@@ -39,6 +37,9 @@ module.exports.routes = {
 
 	'/oauth/callback': 'users.callback',
 	
+	'get /api/notifs': 'users.listNotifications',
+	'delete /api/notifs': 'users.removeNotifications',
+
 	
 	/* Search stuff */
 	'/search': {

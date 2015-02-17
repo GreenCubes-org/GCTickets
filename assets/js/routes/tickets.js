@@ -55,8 +55,6 @@ app.tickets = {
 		$('#gc-filter-submit').click(function () {
 			var json = $('#gc-filter-form').serializeJSON({useIntKeysAsArrayIndex: true});
 
-			console.log(json, $('#gc-filter-form'));
-
 			// Remove undefined elements in arrays
 			if (json.status) {
 				json.status = json.status.filter(function (n) {

@@ -99,9 +99,11 @@ module.exports = {
 				visibility: null,
 				product: null,
 				type: null,
-				first: null
+				first: null,
+				limit: null
 			},
-			sortBy;
+			sortBy,
+			limit;
 
 		if (!visibility && !status) {
 			query.status = '`status` not in (5,6)';
@@ -194,7 +196,11 @@ module.exports = {
 			query.first += ' AND `status` not in (5,6)';
 		}
 
-		query = 'SELECT * FROM `tickets` WHERE ' + query.first + ((query.type) ? ' AND ' + query.type : '') + ((query.product) ? ' AND ' + query.product : '') + ((query.status) ? ' AND ' + query.status : '') + ((query.visibility) ? ' AND ' + query.visibility : '') + ' ORDER BY ' + sortBy;
+		if (limit) {
+			query.limit = ' LIMIT 0,' + limit;
+		}
+
+		query = 'SELECT * FROM `tickets` WHERE ' + query.first + ((query.type) ? ' AND ' + query.type : '') + ((query.product) ? ' AND ' + query.product : '') + ((query.status) ? ' AND ' + query.status : '') + ((query.visibility) ? ' AND ' + query.visibility : '') + ' ORDER BY ' + sortBy + ((query.limit) ? query.limit : '');
 
 		sails.log.verbose('query: ', query);
 

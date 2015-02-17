@@ -118,7 +118,7 @@ module.exports = {
 					return callback(null, newComment);
 				}
 
-				gct.comment.processStatus(req, res, ticket.type, canModerate, ticket, newComment.changedTo, function(result) {
+				gch.comment.processStatus(req, res, ticket.type, canModerate, ticket, newComment.changedTo, function(result) {
 					if (!result){
 						delete newComment.changedTo;
 					}

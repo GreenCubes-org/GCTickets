@@ -1,0 +1,15 @@
+<div class="ui modal" id="gc-notifmodal">
+	<i class="close icon"></i>
+	<div class="header">
+		<%- __('view.partials.notifmodal.header') %>
+	</div>
+	<div class="content" style="overflow-y:auto;display:block;">
+		<table class="ui basic padded large table" id="gc-notiftable">
+			<tbody id="gc-notiftablebody"></tbody>
+		</table>
+	</div>
+	<div class="actions">
+		<div class="ui basic deny button" id="gc-notifmodal-deletebutton"><%- __('view.partials.notifmodal.deleteall') %></div>
+		<div class="ui basic ok icon button" id="gc-notifmodal-refreshbutton" title="<%- __('view.partials.notifmodal.refresh') %>"><i class="refresh icon"></i></div>
+	</div>
+</div>

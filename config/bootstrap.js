@@ -47,6 +47,18 @@ module.exports.bootstrap = function (cb) {
 		'destr'
 	];
 
+	var redis = require('redis').createClient();
+
+	if (appConfig.db.redis.pass) redis.auth(appConfig.db.redis.pass);
+
+	redis.select(appConfig.db.redis.db.session);
+
+	redis.on('error', function (err) {
+	  console.log("[REDIS][ERR]: " + err);
+	});
+
+	global.redis = redis;
+
 	// It's very important to trigger this callback method when you are finished
 	// with the bootstrap!  (otherwise your server will never lift, since it's waiting on the bootstrap)
 	cb();

@@ -113,50 +113,52 @@
 </div>
 <div class="ui two column grid addpadding">
 	<div class="column">
-		<p class="statistics-subheader">Статистика по баг-репортам</p>
-		<div class="ct-chart ct-perfect-fourth"></div>
+		<div class="ct-chart ct-perfect-fourth" style="margin-top: 1rem;"></div>
 	</div>
 	<div class="column">
 		<h1>Последние баг-репорты</h1>
 		<div class="ui gc mainpage relaxed large list">
+			<%- partial('../partials/ticketList', {
+				tickets: tickets.latestBugreports
+			}) %>
 			<div class="item">
-				<div class="content status declined">
-					<a class="header">GreenCubes: Клиент крашится в ReactOS</a>
-					<div class="description"><a href="/tickets" class="info">Отклонён</a><a href="/id/420#lastmessage" class="info">2 ответа</a> <a href="/id/420" class="info">2 дня назад</a> <a href="/users/noobwrecker3000" class="info">Kernel</a></div>
-				</div>
+				<a href="/tickets?edgy=aspuck&sort=1&visibility=3&type=1" class="dotted link seemore">
+					Посмотреть все
+				</a>
 			</div>
+		</div>
+	</div>
+</div>
+<div class="ui two column grid addpadding">
+	<div class="column">
+		<h1>Последние заявки<br> на удаление защит</h1>
+		<div class="ui gc mainpage relaxed large list">
+			<%- partial('../partials/ticketList', {
+				tickets: tickets.latestRempros
+			}) %>
 			<div class="item">
-				<div class="content status accepted">
-					<a class="header">Веб-сервисы: OAuth не работает</a>
-					<div class="description"><a href="/tickets" class="info">Принят</a><a href="/id/420#lastmessage" class="info">1 ответ</a> <a href="/id/420" class="info">8 дней назад</a> <a href="/users/noobwrecker3000" class="info">astappev</a></div>
-				</div>
+				<a href="/tickets?edgy=aspuck&sort=1&visibility=3&type=2" class="dotted link seemore">
+					Посмотреть все
+				</a>
 			</div>
+		</div>
+	</div>
+	<div class="column">
+		<div class="ct-chart ct-perfect-fourth" style="margin-top: 1rem;"></div>
+	</div>
+</div>
+<div class="ui two column grid addpadding">
+	<div class="column">
+		<div class="ct-chart ct-perfect-fourth" style="margin-top: 1rem;"></div>
+	</div>
+	<div class="column">
+		<h1>Последние заявки<br> на баны и разбаны</h1>
+		<div class="ui gc mainpage relaxed large list">
+			<%- partial('../partials/ticketList', {
+				tickets: tickets.latestBansUnbans
+			}) %>
 			<div class="item">
-				<div class="content status new">
-					<a class="header">Баг вот тут-то там вот</a>
-					<div class="description"><a href="/tickets" class="info">Новый</a><a href="/id/420#lastmessage" class="info">3 ответа</a> <a href="/id/420" class="info">2 месяца назад</a> <a href="/users/noobwrecker3000" class="info">noob1337420</a></div>
-				</div>
-			</div>
-			<div class="item">
-				<div class="content status accepted">
-					<a class="header">GreenCubes: Internal Server Error</a>
-					<div class="description"><a href="/tickets" class="info">Принят</a><a href="/id/420#lastmessage" class="info">1 ответ</a> <a href="/id/420" class="info">4 месяца назад</a> <a href="/users/noobwrecker3000" class="info">astappev</a></div>
-				</div>
-			</div>
-			<div class="item">
-				<div class="content status new">
-					<a class="header status specify">Веб-сервисы: Шрифт плохой, ГЕКА НЕ ТОРТ, КРЫМ — НАШ</a>
-					<div class="description"><a href="/tickets" class="info">Новый</a><a href="/id/420#lastmessage" class="info">3 ответа</a> <a href="/id/420" class="info">142 дня назад</a> <a href="/users/noobwrecker3000" class="info">mrPutin</a></div>
-				</div>
-			</div>
-			<div class="item">
-				<div class="content status declined">
-					<a class="header">А я вот даже не знаю где баг, вот</a>
-					<div class="description"><a href="/tickets" class="info">Отклонён</a><a href="/id/420#lastmessage" class="info">3 ответа</a> <a href="/id/420" class="info">142 дня назад</a> <a href="/users/noobwrecker3000" class="info">neznayka</a></div>
-				</div>
-			</div>
-			<div class="item">
-				<a class="dotted link seemore">
+				<a href="/tickets?edgy=aspuck&sort=1&visibility=3&type=3,4" class="dotted link seemore">
 					Посмотреть все
 				</a>
 			</div>

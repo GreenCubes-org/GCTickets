@@ -222,10 +222,42 @@ module.exports.getType = function (id) {
 	}
 };
 
-module.exports.serializeTime = function (time) {
+module.exports.serializeTime = serializeTime =  function (time) {
 	return {
 		date: time,
 		pretty: moment(time).format('D MMM YYYY, H:mm'),
 		fromNow: moment(time).fromNow()
 	};
+};
+
+module.exports.serializeNotifType = serializeNotifType = function (id) {
+	switch (id) {
+		case 1:
+			return {
+				id: 1,
+				text: sails.__({phrase:'gct.serializeNotifType.comment',locale: sails.language}),
+				iconclass: 'comment'
+			};
+
+		case 2:
+			return {
+				id: 2,
+				name: sails.__({phrase:'gct.serializeNotifType.commentwithstatus',locale: sails.language}),
+				iconclass: 'comment'
+			};
+
+		case 3:
+			return {
+				id: 3,
+				text: sails.__({phrase:'gct.serializeNotifType.removedcomment',locale: sails.language}),
+				iconclass: 'trash'
+			};
+
+		case 4:
+			return {
+				id: 4,
+				text: sails.__({phrase:'gct.serializeNotifType.mentioned',locale: sails.language}),
+				iconclass: 'bell outline'
+			};
+	}
 };

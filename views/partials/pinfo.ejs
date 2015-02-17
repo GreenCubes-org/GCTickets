@@ -1,0 +1,15 @@
+<%- __('view.partials.pinfo.title') %> <a href='/users/<%= pinfo.user.login %>'><%= pinfo.user.login %></a><% if (req.user.group >= ugroup.mod) { %> [<a href='https://greencubes.org/admin.php?action=logs&do=login&login=<%= pinfo.user.login %>&ip=&hw='>лог</a>]<% } %>
+<div class='ui fitted divider'></div>
+<%= (pinfo.lastseen) ? __('view.partials.pinfo.lastseen') + ': ' + moment(pinfo.lastseen).format('D MMM YYYY, h:mm') : __('view.partials.pinfo.playernotgo') %>
+<div class='ui fitted divider'></div>
+<%= (pinfo.ban.status == 2) ? __('view.partials.pinfo.bannedforever') : (pinfo.ban.status == 1) ? __('view.partials.pinfo.bannedtemp') + ': ' + moment(pinfo.ban.till).format('D MMM YYYY') : __('view.partials.pinfo.notbanned') %>
+<div class='ui fitted divider'></div>
+<%- __('view.partials.pinfo.ticketscount') %>: <%= pinfo.ticketsCount %>
+<div class='ui fitted divider'></div>
+<% if (pinfo.memos.length) {
+	pinfo.memos.forEach(function(memo) { %>
+<div title='<%= moment(memo.time).format('D MMM YYYY, h:mm') %>'><a href='/users/<%= memo.moderator %>'><%= memo.moderator %></a>: <%= memo.memo %></div>
+	<% })
+} else { %>
+<%- __('view.partials.pinfo.nomemos') %>
+<% } %>

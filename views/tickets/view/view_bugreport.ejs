@@ -17,29 +17,7 @@
 	}) %>
 	<div class="ui huge comments">
 		<h1>Комментарии</h1>
-		<% if (ticket.comments.length) { %>
-		<% ticket.comments.forEach(function (comment) { %>
-		<div class="comment">
-			<div class="content">
-				<a class="author"><%= (comment.author.prefix) ? comment.author.prefix : '' %><%= comment.author.username %></a>
-				<div class="metadata">
-					<a class="date" href="#<%= comment.id %>" title="<%= comment.createdAt.pretty %>"><%= comment.createdAt.fromNow %></a>
-				</div>
-				<div class="text">
-					<%- comment.message %>
-					<% if (comment.changedTo) { %>
-					<div class="ui small divider"></div>
-					Статус изменён на <a class="gc status <%= comment.changedTo.name %> link" href="#"><%= comment.changedTo.name %></a>
-					<% } %>
-				</div>
-			</div>
-		</div>
-		<% }) %>
-		<% } else { %>
-		<div class="gc nocomments">
-			<title>Тут никто ещё ничего не писал :(</title>
-		</div>
-		<% } %>
+		<%- partial('../partials/comments', {comments: ticket.comments}) %>
 		<form class="ui reply form" id="commentpost">
 			<div class="field">
 				<textarea name="message" id="commentform"></textarea>

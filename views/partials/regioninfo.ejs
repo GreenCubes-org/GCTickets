@@ -1,0 +1,40 @@
+<b><%= rinfo.name %></b> <% if (req.user && req.user.group >= ugroup.helper && rinfo.status.className !== 'noregion') { %><div class='ui small label <%= rinfo.status.className %>'><%= rinfo.status.text %></div><% } %>
+<% if (rinfo.creator) { %>
+<% if (req.user.group >= ugroup.helper) { %>
+<div class='ui fitted divider'></div>
+<b><%- __('view.partials.regioninfo.creator') %>:</b> <%= (rinfo.creator) ? rinfo.creator : '' %>
+<% } %>
+<div class='ui fitted divider'></div>
+<b><%- __('view.partials.regioninfo.owners') %>:</b> <% if (rinfo.full_access.players.length) { rinfo.full_access.players.forEach(function (el, idx) { %><span title='<%- __('view.partials.regioninfo.lastseen') %>: <%= el.lastseen %>'><%= el.name %></span><% if (idx !== rinfo.full_access.players.length - 1) { %>, <% } %><% }) } %><% if (rinfo.full_access.orgs.length) { %>, <% rinfo.full_access.orgs.forEach(function (el, idx) { %><span title='<%- __('view.partials.regioninfo.orgtitle', el.name, el.id) %>'><%= 'o:' + el.tag %></span><% if (idx !== rinfo.full_access.orgs.length - 1) { %>, <% } %><% }) } %><% if (rinfo.full_access.all) { %>, Все<% } %>
+<div class='ui fitted divider'></div>
+<b><%- __('view.partials.regioninfo.members') %>:</b> <% if (rinfo.build_access.players.length) { rinfo.build_access.players.forEach(function (el, idx) { %><span title='<%- __('view.partials.regioninfo.lastseen') %>: <%= el.lastseen %>'><%= el.name %></span><% if (idx !== rinfo.build_access.players.length - 1) { %>, <% } %><% }) } %><% if (rinfo.build_access.orgs.length) { %>, <% rinfo.build_access.orgs.forEach(function (el, idx) { %><span title='<%- __('view.partials.regioninfo.orgtitle', el.name, el.id) %>'><%= 'o:' + el.tag %></span><% if (idx !== rinfo.build_access.orgs.length - 1) { %>, <% } %><% }) } %><% if (rinfo.build_access.all) { %>, Все<% } %>
+<% if (rinfo.memos) { %>
+<div class='ui fitted divider'></div>
+<b><%- __('view.partials.regioninfo.ownerspinfos') %></b>
+<% rinfo.memos.forEach(function (el, idx) { %>
+<% if (idx !== 0) { %>
+<div class='ui fitted divider'></div>
+<% } else { %>
+<br>
+<% } %>
+<b><%= el.player %></b>
+<% if (el.memos.length) {
+	el.memos.forEach(function(memo,idx) { %>
+<div title='<%= moment(memo.time).format('D MMM YYYY, h:mm') %>'><a href='/users/<%= memo.moderator %>'><%= memo.moderator %></a>: <%= memo.memo %></div>
+<% if (idx === 2 && el.memos.length > 3) { %>
+<span id='hiddenmemosbutton' style='border-bottom: 1px dotted;cursor: pointer;'><%- __('view.partials.regioninfo.showall') %></span>
+<div id='hiddenmemos' style='display:none;'>
+<% } %>
+<% if (idx === el.memos.length - 1) { %>
+</div>
+<% } %>
+<% }) } else { %>
+<br>
+<span style='text-align: center;'><%- __('view.partials.regioninfo.pinfoisempty') %></span>
+<% } %>
+<% }) %>
+<% } %>
+<% } else { %>
+<div class='ui fitted divider'></div>
+<span style='text-align: center;'><%- __('view.partials.regioninfo.noregion') %></span>
+<% } %>

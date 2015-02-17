@@ -1,0 +1,9 @@
+<% tickets.forEach(function (element) { %>
+<div class="item">
+	<div class="content status <%= element.status.name %>">
+		<div class="header"><i class="<%= element.type.iconClass %> icon"></i><a href="/id/<%= element.id %>"><%= element.title %></a></div>
+		<div class="description"><i class="<%= element.visibility.iconClass %> icon"></i><a href="/tickets" class="info"><%= element.status.name %></a><a href="/id/<%= element.id %>#lastmessage" class="info"><%= element.comments.count + ' ' + ((element.count == 1) ? 'ответ' : 'ответов')%></a>  <a href="/id/<%= element.id %>" class="info" title="<%= element.createdAt.pretty %>"><%= element.createdAt.fromNow %></a>  <a href="/users/<%= element.owner.username %>" class="info"><%= element.owner.username %></a>
+		</div>
+	</div>
+</div>
+<% }) %>
