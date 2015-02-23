@@ -4,6 +4,7 @@
  * @module :: Controller
  * @description :: Панель игровой информации
  */
+
 module.exports = {
 
 	main: function (req, res) {
@@ -282,13 +283,6 @@ module.exports = {
 			return;
 		}
 
-		if ((secondtime - firsttime) > 1209600) {
-			res.view('gameinfo/player/chatlog', {
-				log: {code: 'bigtime'}
-			});
-			return;
-		}
-
 		if (req.param('channelid') && isNaN(req.param('channelid'))) {
 			res.view('gameinfo/player/chatlog', {
 				log: {code: 'wrongchannelid'}
@@ -419,13 +413,6 @@ module.exports = {
 		if (firsttime && isNaN(firsttime) || secondtime && isNaN(secondtime) || firsttime > secondtime) {
 			res.view('gameinfo/player/commandslog', {
 				log: {code: 'wrongtime'}
-			});
-			return;
-		}
-
-		if ((secondtime - firsttime) > 1209600) {
-			res.view('gameinfo/player/commandslog', {
-				log: {code: 'bigtime'}
 			});
 			return;
 		}
