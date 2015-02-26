@@ -136,7 +136,7 @@ module.exports = {
 			whereQuery += ((nickname || ip) ? 'AND ' : '') + '`hardware` = "' + hwid + '"';
 		}
 
-		query += ' ORDER BY `id` DESC LIMIT ' + (page - 1) * 100 + ',' + page * 100;
+		query += ' ORDER BY `id` DESC LIMIT ' + (page - 1) * 100 + ',100';
 
 		async.waterfall([
 			function getLog(callback) {
@@ -221,7 +221,7 @@ module.exports = {
 				});
 			},
 			function getLog(callback) {
-				var query = 'SELECT * FROM `chest_logs` WHERE `user` = "' + userId + '"' + queryTime + ' ORDER BY `id` DESC LIMIT ' + (page - 1) * 100 + ',' + page * 100;
+				var query = 'SELECT * FROM `chest_logs` WHERE `user` = "' + userId + '"' + queryTime + ' ORDER BY `id` DESC LIMIT ' + (page - 1) * 100 + ',100';
 
 				gcmainconn.query(query, function (err, result) {
 					if (err) return callback(err);
@@ -302,7 +302,7 @@ module.exports = {
 							query += ' AND `channel` = "' + req.param('channelid') + '"';
 						}
 
-						query += ' ORDER BY `id` DESC LIMIT ' + (page - 1) * 100 + ',' + page * 100;
+						query += ' ORDER BY `id` DESC LIMIT ' + (page - 1) * 100 + ',100';
 
 						userId = uid;
 
@@ -315,7 +315,7 @@ module.exports = {
 						query += ' AND `channel` = "' + req.param('channelid') + '"';
 					}
 
-					query += ' ORDER BY `id` DESC LIMIT ' + (page - 1) * 100 + ',' + page * 100;
+					query += ' ORDER BY `id` DESC LIMIT ' + (page - 1) * 100 + ',100';
 
 					callback(null);
 				}
@@ -422,7 +422,7 @@ module.exports = {
 				gcdb.user.getByLogin(req.param('nickname').replace(/[^a-zA-Z0-9_-]/g, ''), 'maindb', function (err, uid) {
 					if (err) return callback(err);
 
-					query = 'SELECT * FROM `commands_log` WHERE `player` = "' + uid +  '" AND UNIX_TIMESTAMP(`time`) >= "' + firsttime + '" AND UNIX_TIMESTAMP(`time`) <= "' + secondtime + '" ORDER BY `id` DESC LIMIT ' + (page - 1) * 100 + ',' + page * 100;
+					query = 'SELECT * FROM `commands_log` WHERE `player` = "' + uid +  '" AND UNIX_TIMESTAMP(`time`) >= "' + firsttime + '" AND UNIX_TIMESTAMP(`time`) <= "' + secondtime + '" ORDER BY `id` DESC LIMIT ' + (page - 1) * 100 + ',100';
 
 					userId = uid;
 
@@ -637,7 +637,7 @@ module.exports = {
 
 		async.waterfall([
 			function getLog(callback) {
-				var query = 'SELECT * FROM `chest_logs` WHERE `x` = ' + xyzSplited[0] + ' AND `y` = ' + xyzSplited[1] + ' AND `z` = ' + xyzSplited[2] + queryTime + ' ORDER BY `id` DESC LIMIT ' + (page - 1) * 100 + ',' + page * 100;
+				var query = 'SELECT * FROM `chest_logs` WHERE `x` = ' + xyzSplited[0] + ' AND `y` = ' + xyzSplited[1] + ' AND `z` = ' + xyzSplited[2] + queryTime + ' ORDER BY `id` DESC LIMIT ' + (page - 1) * 100 + ',100';
 
 				gcmainconn.query(query, function (err, result) {
 					if (err) return callback(err);
@@ -707,7 +707,7 @@ module.exports = {
 					queryParams = [xyzSplited[0], xyzSplited[1], xyzSplited[2], req.param('block')];
 
 
-					gcmainconn.query('SELECT * FROM `blocks_log` WHERE ' + queryWhere  + ' ORDER BY `id` DESC LIMIT ' + (page - 1) * 100 + ',' + page * 100, queryParams, function (err, result) {
+					gcmainconn.query('SELECT * FROM `blocks_log` WHERE ' + queryWhere  + ' ORDER BY `id` DESC LIMIT ' + (page - 1) * 100 + ',100', queryParams, function (err, result) {
 						if (err) return callback(err);
 
 						callback(null, result);
@@ -738,7 +738,7 @@ module.exports = {
 					queryWhere = '`x` >= ? AND `x` <= ? AND `y` >= ? AND `y` <= ? AND `z` >= ? AND `z` <= ? AND UNIX_TIMESTAMP(`time`) >= ? AND UNIX_TIMESTAMP(`time`) <= ? AND `block` = ?';
 					queryParams = [firstxyzSplited[0], secondxyzSplited[0], firstxyzSplited[1], secondxyzSplited[1], firstxyzSplited[2], secondxyzSplited[2], firsttime, secondtime, req.param('block')];
 
-					gcmainconn.query('SELECT * FROM `blocks_log` WHERE ' + queryWhere + ' ORDER BY `id` DESC LIMIT ' + (page - 1) * 100 + ',' + page * 100, queryParams, function (err, result) {
+					gcmainconn.query('SELECT * FROM `blocks_log` WHERE ' + queryWhere + ' ORDER BY `id` DESC LIMIT ' + (page - 1) * 100 + ',100', queryParams, function (err, result) {
 						if (err) return callback(err);
 
 						callback(null, result);
@@ -846,7 +846,7 @@ module.exports = {
 				}
 			},
 			function getLog(uid, type, callback) {
-				gcmainconn.query('SELECT * FROM `money_log` WHERE ((`sender` = ? AND `senderType` = ?) OR (`reciever` = ? AND `recieverType` = ?))' + queryTime + ' ORDER BY `id` DESC LIMIT ' + (page - 1) * 100 + ',' + page * 100, [uid, type, uid, type, firstTime, secondTime], function (err, result) {
+				gcmainconn.query('SELECT * FROM `money_log` WHERE ((`sender` = ? AND `senderType` = ?) OR (`reciever` = ? AND `recieverType` = ?))' + queryTime + ' ORDER BY `id` DESC LIMIT ' + (page - 1) * 100 + ',100', [uid, type, uid, type, firstTime, secondTime], function (err, result) {
 					if (err) return callback(err);
 
 					callback(null, result);
