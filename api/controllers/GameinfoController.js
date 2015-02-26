@@ -120,7 +120,7 @@ module.exports = {
 			ip = (req.param('ip')) ? req.param('ip').replace(/[^0-9\.]/g, '') : null,
 			hwid = (req.param('hwid')) ? req.param('hwid').replace(/[^a-zA-Z0-9\:]/g, '') : null,
 			page = (parseInt(req.param('page'), 10) >= 1) ? parseInt(req.param('page'), 10) : 1,
-			sort = (['asc','desc'].indexOf(req.param('sort') !== -1) ? req.param('sort') : 'desc';
+			sort = (['asc','desc'].indexOf(req.param('sort')) !== -1) ? req.param('sort') : 'desc';
 
 		if (nickname) {
 			query += '`login` = "' + nickname + '"';
@@ -195,7 +195,7 @@ module.exports = {
 			page = (parseInt(req.param('page'), 10) >= 1) ? parseInt(req.param('page'), 10) : 1,
 			userId,
 			queryTime,
-			sort = (['asc','desc'].indexOf(req.param('sort') !== -1) ? req.param('sort') : 'desc';
+			sort = (['asc','desc'].indexOf(req.param('sort')) !== -1) ? req.param('sort') : 'desc';
 
 
 		if (time && firsttime && isNaN(firsttime) || secondtime && isNaN(secondtime) || firsttime > secondtime) {
@@ -263,7 +263,7 @@ module.exports = {
 			page = (parseInt(req.param('page'), 10) >= 1) ? parseInt(req.param('page'), 10) : 1,
 			userId,
 			nickname = (req.param('nickname')) ? req.param('nickname').replace(/[^a-zA-Z0-9_-]/g, '') : null,
-			sort = (['asc','desc'].indexOf(req.param('sort') !== -1) ? req.param('sort') : 'desc';
+			sort = (['asc','desc'].indexOf(req.param('sort')) !== -1) ? req.param('sort') : 'desc';
 
 		if (!nickname && !req.param('channelid')) {
 			res.view('gameinfo/player/chatlog', {
@@ -412,7 +412,7 @@ module.exports = {
 			query,
 			page = (parseInt(req.param('page'), 10) >= 1) ? parseInt(req.param('page'), 10) : 1,
 			userId,
-			sort = (['asc','desc'].indexOf(req.param('sort') !== -1) ? req.param('sort') : 'desc';
+			sort = (['asc','desc'].indexOf(req.param('sort')) !== -1) ? req.param('sort') : 'desc';
 
 		if (firsttime && isNaN(firsttime) || secondtime && isNaN(secondtime) || firsttime > secondtime) {
 			res.view('gameinfo/player/commandslog', {
@@ -614,7 +614,7 @@ module.exports = {
 			secondtime = Date.parse(req.param('secondtime')) / 1000,
 			page = (parseInt(req.param('page'), 10) >= 1) ? parseInt(req.param('page'), 10) : 1,
 			queryTime,
-			sort = (['asc','desc'].indexOf(req.param('sort') !== -1) ? req.param('sort') : 'desc';
+			sort = (['asc','desc'].indexOf(req.param('sort')) !== -1) ? req.param('sort') : 'desc';
 
 		if (time && firsttime && isNaN(firsttime) || secondtime && isNaN(secondtime) || firsttime > secondtime) {
 			res.view('gameinfo/player/chatlog', {
@@ -693,7 +693,7 @@ module.exports = {
 		var page = (parseInt(req.param('page'), 10) >= 1) ? parseInt(req.param('page'), 10) : 1,
 			queryWhere,
 			queryParams,
-			sort = (['asc','desc'].indexOf(req.param('sort') !== -1) ? req.param('sort') : 'desc';
+			sort = (['asc','desc'].indexOf(req.param('sort')) !== -1) ? req.param('sort') : 'desc';
 
 		async.waterfall([
 			function getLogs(callback) {
@@ -744,7 +744,7 @@ module.exports = {
 					queryWhere = '`x` >= ? AND `x` <= ? AND `y` >= ? AND `y` <= ? AND `z` >= ? AND `z` <= ? AND UNIX_TIMESTAMP(`time`) >= ? AND UNIX_TIMESTAMP(`time`) <= ? AND `block` = ?';
 					queryParams = [firstxyzSplited[0], secondxyzSplited[0], firstxyzSplited[1], secondxyzSplited[1], firstxyzSplited[2], secondxyzSplited[2], firsttime, secondtime, req.param('block')];
 
-					gcmainconn.query('SELECT * FROM `blocks_log` WHERE ' + queryWhere + ' ORDER BY `id` ' + sort ' + LIMIT ' + (page - 1) * 100 + ',100', queryParams, function (err, result) {
+					gcmainconn.query('SELECT * FROM `blocks_log` WHERE ' + queryWhere + ' ORDER BY `id` ' + sort + ' LIMIT ' + (page - 1) * 100 + ',100', queryParams, function (err, result) {
 						if (err) return callback(err);
 
 						callback(null, result);
@@ -810,7 +810,7 @@ module.exports = {
 			queryTime,
 			type,
 			page = (parseInt(req.param('page'), 10) >= 1) ? parseInt(req.param('page'), 10) : 1,
-			sort = (['asc','desc'].indexOf(req.param('sort') !== -1) ? req.param('sort') : 'desc';
+			sort = (['asc','desc'].indexOf(req.param('sort')) !== -1) ? req.param('sort') : 'desc';
 
 		if (time && firsttime && secondtime) {
 			queryTime = ' AND UNIX_TIMESTAMP(`time`) >= "' + firsttime + '" AND UNIX_TIMESTAMP(`time`) <= "' + secondtime + '"';
