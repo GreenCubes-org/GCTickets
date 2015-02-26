@@ -32,7 +32,7 @@
 			<label><%= __('view.gameinfo.form.sortcheckbox.title') %></label>
 			<div class="field">
 				<div class="ui radio checkbox checked">
-					<input <%= (req.query.sort === 'desc') ? 'checked=""' : '' %> name="sort" type="radio" value="desc">
+					<input !req.query.sort name="sort" type="radio" value="desc">
 					<label><%= __('view.gameinfo.form.sortcheckbox.desc') %></label>
 				</div>
 			</div>
