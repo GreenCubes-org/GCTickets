@@ -1,8 +1,7 @@
 var app = app || {};
 
 app.gameinfo = {
-	player: function () {
-		$('#gc-formsubmit').click(function () {
+	player: function () {$('#gc-formsubmit').click(function () {
 			window.location.search = '?nickname=' + $('input[name=nickname]').val();
 		});
 		
@@ -15,6 +14,8 @@ app.gameinfo = {
 	},
 
 	playerLoginlog: function () {
+		$('.ui.checkbox').checkbox();
+
 		$('#gc-formsubmit').click(function () {
 			window.location.search = '?nickname=' + $('input[name=nickname]').val() + '&ip=' + $('input[name=ip]').val() + '&hwid=' + $('input[name=hwid]').val() + '&sort=' + $('input[name=sort]').val();
 		});
@@ -29,6 +30,8 @@ app.gameinfo = {
 	},
 
 	playerChatlog: function () {
+		$('.ui.checkbox').checkbox();
+
 		$('#gc-formsubmit').click(function () {
 			window.location.search = '?nickname=' + $('input[name=nickname]').val() + '&channelid=' + $('input[name=channelid]').val() + '&firsttime=' + $('input[name=firsttime]').val() + '&secondtime=' + $('input[name=secondtime]').val() + '&sort=' + $('input[name=sort]').val();
 		});
@@ -43,6 +46,8 @@ app.gameinfo = {
 	},
 
 	playerCommandslog: function () {
+		$('.ui.checkbox').checkbox();
+
 		$('#gc-formsubmit').click(function () {
 			window.location.search = '?nickname=' + $('input[name=nickname]').val() + '&firsttime=' + $('input[name=firsttime]').val() + '&secondtime=' + $('input[name=secondtime]').val() + '&sort=' + $('input[name=sort]').val();
 		});
@@ -57,6 +62,8 @@ app.gameinfo = {
 	},
 
 	playerChestslog: function () {
+		$('.ui.checkbox').checkbox();
+
 		$('#gc-formsubmit').click(function () {
 			window.location.search = '?nickname=' + $('input[name=nickname]').val() + '&time=' + $('input[name=time]').prop('checked') + '&firsttime=' + $('input[name=firsttime]').val() + '&secondtime=' + $('input[name=secondtime]').val() + '&sort=' + $('input[name=sort]').val();
 		});
@@ -73,6 +80,8 @@ app.gameinfo = {
 	},
 
 	worldMoneylog: function () {
+		$('.ui.checkbox').checkbox();
+
 		$('#gc-formsubmit').click(function () {
 			window.location.search = '?sender=' + $('input[name=sender]').val() + '&time=' + $('input[name=time]').prop('checked') + '&firsttime=' + $('input[name=firsttime]').val() + '&secondtime=' + $('input[name=secondtime]').val() + '&block=' + $('input[name=block]').val() + '&sort=' + $('input[name=sort]').val();
 		});
@@ -103,6 +112,8 @@ app.gameinfo = {
 	},
 
 	worldBlockslog: function () {
+		$('.ui.checkbox').checkbox();
+
 		$('#gc-formfirstsubmit').click(function () {
 			window.location.search = '?xyz=' + $('input[name=xyz]').val() + '&block=' + $('input#gc-formfirstblockinput').val() + '&sort=' + $('input[name=sort]').val();
 		});
@@ -123,6 +134,8 @@ app.gameinfo = {
 	},
 
 	worldChestlog: function () {
+		$('.ui.checkbox').checkbox();
+
 		$('#gc-formsubmit').click(function () {
 			window.location.search = '?xyz=' + $('input[name=xyz]').val() + '&time=' + $('input[name=time]').prop('checked') + '&firsttime=' + $('input[name=firsttime]').val() + '&secondtime=' + $('input[name=secondtime]').val() + '&sort=' + $('input[name=sort]').val();
 		});
