@@ -1,6 +1,6 @@
 <% title = __('view.gameinfo.world.chestlog.title') + ' / ' + __('view.gameinfo.world.title') + ' / ' +  __('view.gameinfo.title') + ' — ' + __('global.pagetitle'),
     backUrl = '/gameinfo',
-    url = '/gameinfo/world/chestlog?cake=isalie' + ((req.query.xyz) ? '&xyz='  + req.query.xyz : '' ) + ((req.query.time === 'true') ? '&time=true' : '') + ((req.query.firsttime) ? '&firsttime='  + req.query.firsttime : '' ) + ((req.query.secondtime) ? '&secondtime='  + req.query.secondtime : '' );  %>
+    url = '/gameinfo/world/chestlog?cake=isalie' + ((req.query.xyz) ? '&xyz='  + req.query.xyz : '' ) + ((req.query.time === 'true') ? '&time=true' : '') + ((req.query.firsttime) ? '&firsttime='  + req.query.firsttime : '' ) + ((req.query.secondtime) ? '&secondtime='  + req.query.secondtime : '' ) + ((req.query.sort) ? '&sort=' + req.query.sort : '');  %>
 <%- partial('../partials/header')%>
 
 <%- partial('../partials/subheader', { header: __('view.gameinfo.world.title'), subheader: __('view.gameinfo.world.chestlog.title') }) %>

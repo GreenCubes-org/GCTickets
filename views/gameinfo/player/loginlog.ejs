@@ -1,6 +1,6 @@
 <% title = __('view.gameinfo.player.loginlog.title') + ' / ' + __('view.gameinfo.player.title') + ' / ' + __('view.gameinfo.title') + " — " + __('global.pagetitle'),
     backUrl = '/gameinfo',
-    url = '/gameinfo/player/loginlog?cake=isalie' + ((req.query.nickname) ? '&nickname=' + req.query.nickname : '' )+ ((req.query.ip) ? '&ip=' + req.query.ip : '' ) + ((req.query.hwid) ? '&hwid=' + req.query.hwid : '');  %>
+    url = '/gameinfo/player/loginlog?cake=isalie' + ((req.query.nickname) ? '&nickname=' + req.query.nickname : '' )+ ((req.query.ip) ? '&ip=' + req.query.ip : '' ) + ((req.query.hwid) ? '&hwid=' + req.query.hwid : '') + ((req.query.sort) ? '&sort=' + req.query.sort : '');  %>
 <%- partial('../partials/header')%>
 
 
