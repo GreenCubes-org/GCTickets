@@ -31,6 +31,21 @@
                 </div>
             </div>
         </div>
+		<div class="ui divider"></div>
+		<div class="grouped fields">
+			<label><%= __('view.gameinfo.form.sortcheckbox.title') %></label>
+			<div class="field">
+				<div class="ui radio checkbox checked">
+					<input <%= (req.query.sort === 'desc') ? 'checked=""' : '' %> name="sort" type="radio" value="desc">
+					<label><%= __('view.gameinfo.form.timecheckbox.desc') %></label>
+				</div>
+			</div>
+			<div class="field">
+				<div class="ui radio checkbox">
+					<input <%= (req.query.sort === 'asc') ? 'checked=""' : '' %> name="sort" type="radio" value="asc">
+				<label><%= __('view.gameinfo.form.timecheckbox.asc') %></label>
+			</div>
+		</div>
         <div class="ui blue submit button" id="gc-formfirstsubmit"><%= __('view.gameinfo.form.send') %></div>
     </div>
     </form>
@@ -72,6 +87,21 @@
                 </div>
             </div>
         </div>
+		<div class="ui divider"></div>
+		<div class="grouped fields">
+			<label><%= __('view.gameinfo.form.sortcheckbox.title') %></label>
+			<div class="field">
+				<div class="ui radio checkbox checked">
+					<input <%= (req.query.sort === 'desc') ? 'checked=""' : '' %> name="sort" type="radio" value="desc">
+					<label><%= __('view.gameinfo.form.timecheckbox.desc') %></label>
+				</div>
+			</div>
+			<div class="field">
+				<div class="ui radio checkbox">
+					<input <%= (req.query.sort === 'asc') ? 'checked=""' : '' %> name="sort" type="radio" value="asc">
+				<label><%= __('view.gameinfo.form.timecheckbox.asc') %></label>
+			</div>
+		</div>
         <div class="ui blue submit button" id="gc-formsecondsubmit"><%= __('view.gameinfo.form.send') %></div>
     </div>
     </form>
