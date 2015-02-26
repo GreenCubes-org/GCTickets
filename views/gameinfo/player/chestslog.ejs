@@ -38,13 +38,13 @@
 			<div class="field">
 				<div class="ui radio checkbox checked">
 					<input <%= (req.query.sort === 'desc') ? 'checked=""' : '' %> name="sort" type="radio" value="desc">
-					<label><%= __('view.gameinfo.form.timecheckbox.desc') %></label>
+					<label><%= __('view.gameinfo.form.sortcheckbox.desc') %></label>
 				</div>
 			</div>
 			<div class="field">
 				<div class="ui radio checkbox">
 					<input <%= (req.query.sort === 'asc') ? 'checked=""' : '' %> name="sort" type="radio" value="asc">
-				<label><%= __('view.gameinfo.form.timecheckbox.asc') %></label>
+				<label><%= __('view.gameinfo.form.sortcheckbox.asc') %></label>
 			</div>
 		</div>
         <div class="ui blue submit button" id="gc-formsubmit"><%= __('view.gameinfo.form.send') %></div>
