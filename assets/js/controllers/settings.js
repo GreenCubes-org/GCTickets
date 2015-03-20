@@ -8,8 +8,7 @@ app.settings = function () {
 			url: '/settings',
 			data: $(this).serialize(),
 			success: function (data) {
-				console.log('test');
-				window.location.reload();
+				window.location.search = "";
 			},
 		});
 		return false;

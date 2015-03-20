@@ -6,7 +6,16 @@
 	</ul>
 	<ul class="links right">
 		<li id="hiddentruth"><%- __('view.footer.hiddentruth') %></li>
-		<li><a class="link" href="https://forum.greencubes.org/viewtopic.php?f=255&t=26543"><%- __('view.footer.developerblog') %></a></li>
+		<li>
+			<div class="ui upward dropdown icon lang">
+				<i class="<%= (req.language == 'en') ? 'us' : req.language %> flag" style="margin:0"></i>
+				<div class="menu">
+					<a href="?lang=ru" class="item"><i class="ru flag"></i> Русский</a>
+					<a href="?lang=en" class="item"><i class="us flag"></i> English</a>
+				</div>
+			</div>
+		</li>
+		<li>&bull; <a class="link" href="https://forum.greencubes.org/viewtopic.php?f=255&t=26543"><%- __('view.footer.developerblog') %></a></li>
 		<li>&bull; <a class="link" href="http://kern0.ru">Kern0</a></li>
 		<li>&amp; <a class="link" href="//greencubes.org">GreenCubes</a> &copy;</li>
 	</ul>

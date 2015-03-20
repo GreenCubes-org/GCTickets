@@ -46,6 +46,7 @@ module.exports = function (grunt) {
 	var jsLibsFilesToInject = [
 		'js/libs/jquery.js',
 		'js/libs/jquery.serializejson.js',
+		'js/libs/jquery.browserLanguage.js',
 		'js/libs/semantic-ui.js',
 		'js/libs/moment.js',
 		'js/libs/js-signals.js',

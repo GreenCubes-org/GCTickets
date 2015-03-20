@@ -495,6 +495,7 @@ module.exports = {
 						user.canModerate = [];
 						user.ugroup = 0;
 						user.startPage = '/all';
+						user.locale = (req.param('locale')) ? req.param('locale') : 'ru';
 
 						user.save(function (err) {
 							if (err) return callback(err);

@@ -1,8 +1,23 @@
 var app = app || {};
 
+function getUrlVars(href)
+{
+    var vars = [], hash;
+    var hashes = href.slice(href.indexOf('?') + 1).split('&');
+    for(var i = 0; i < hashes.length; i++)
+    {
+        hash = hashes[i].split('=');
+        vars.push(hash[0]);
+        vars[hash[0]] = hash[1];
+    }
+    return vars;
+}
+
 app.main = {
 	index: function () {
-		var html;
+		var html,
+			urlSearch = getUrlVars(window.location.search);
+
 		$.ajax({
 			type: "GET",
 			url: '/csrfToken',
@@ -56,7 +71,7 @@ app.main = {
 			$.ajax({
 			  type: "POST",
 			  url: '/login',
-			  data: $('form#loginform').serialize(),
+			  data: $('form#loginform').serialize() + ((urlSearch.lang) ? '&locale=' + urlSearch.lang : ''),
 			  success: function(data) {
 				if (!data.error) {
 				  window.location ='/';
@@ -67,6 +82,17 @@ app.main = {
 			});
 			return false;
 		});
+
+		$.browserLanguage(function (language, acceptHeader) {
+			if (!urlSearch.lang) {
+				var lang = acceptHeader.substring(0,2);
+				if (['ru','en'].indexOf(lang) !== -1) {
+					window.location.search = '?lang=' + lang;
+				} else {
+					window.location.search = '?lang=en';
+				}
+			}
+		});
 	},
 
 	login: function () {
@@ -74,7 +100,7 @@ app.main = {
 			$.ajax({
 				type: "POST",
 				url: '/login',
-				data: $('form#loginform').serialize(),
+				data: $('form#loginform').serialize() + ((urlSearch.lang) ? '&locale=' + urlSearch.lang : ''),
 				success: function (data) {
 
 					if (data.error) {
@@ -92,6 +118,17 @@ app.main = {
 				}
 			});
 			return false;
+		});
+
+		$.browserLanguage(function (language, acceptHeader) {
+			if (!urlSearch.lang) {
+				var lang = acceptHeader.substring(0,2);
+				if (['ru','en'].indexOf(lang) !== -1) {
+					window.location.search = '?lang=' + lang;
+				} else {
+					window.location.search = '?lang=en';
+				}
+			}
 		});
 	}
 };

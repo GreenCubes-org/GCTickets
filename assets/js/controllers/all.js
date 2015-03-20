@@ -130,4 +130,10 @@ $(document).ready(function () {
 			}
 		}).modal('show');
 	});
+
+	/* Lang dropdown */
+	$('.ui.lang.dropdown').dropdown({
+		on: 'hover',
+		transition: 'slide up'
+	});
 });
