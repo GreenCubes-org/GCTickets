@@ -20,7 +20,7 @@
 <b><%= el.player %></b>
 <% if (el.memos.length) {
 	el.memos.forEach(function(memo,idx) { %>
-<div title='<%= moment(memo.time).format('D MMM YYYY, h:mm') %>'><a href='/users/<%= memo.moderator %>'><%= memo.moderator %></a>: <%= memo.memo %></div>
+<div title='<%= moment(memo.time).format('D MMM YYYY, H:mm') %>'><a href='/users/<%= memo.moderator %>'><%= memo.moderator %></a>: <%= memo.memo %></div>
 <% if (idx === 2 && el.memos.length > 3) { %>
 <span id='hiddenmemosbutton' style='border-bottom: 1px dotted;cursor: pointer;'><%- __('view.partials.regioninfo.showall') %></span>
 <div id='hiddenmemos' style='display:none;'>

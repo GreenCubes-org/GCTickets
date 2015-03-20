@@ -89,7 +89,7 @@
                                 <img src="http://greencubes.org/img/items/<%- el.image %>" title="<%= el.name %>" style="margin-right: 5px;" width="32px" height="32px" align="left"><b><%- el.name %> (<%= el.id %>,<%= el.data %>)</b><br><%= el.action %> <b><%= el.count %></b><br>
                             <% }) %>
                         </td>
-                        <td><%= moment(element.time).format('D MMM YYYY, h:mm') %></td>
+                        <td><%= moment(element.time).format('D MMM YYYY, H:mm') %></td>
                         <td><a href="/gameinfo/world/chestlog?xyz=<%= element.x %> <%= element.y %> <%= element.z %>"><%= element.x %> <%= element.y %> <%= element.z %></a></td>
                     </tr>
                     <% }) %>

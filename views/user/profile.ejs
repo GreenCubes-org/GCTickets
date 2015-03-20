@@ -20,10 +20,10 @@
 			<div class="ui divider"></div>
 			<div class="ui list">
 				<div class="item"><b><%- __('view.user.profile.regdate') %></b><br>
-					<small><%- moment(user.pinfo.regdate).format('D MMM YYYY, h:mm') %></small>
+					<small><%- moment(user.pinfo.regdate).format('D MMM YYYY, H:mm') %></small>
 				</div>
 				<div class="item"><b><%- __('view.user.profile.lastseen') %></b><br>
-					<small><%- moment(user.pinfo.lastseen).format('D MMM YYYY, h:mm') %></small>
+					<small><%- moment(user.pinfo.lastseen).format('D MMM YYYY, H:mm') %></small>
 				</div>
 				<% if (req.user && req.user.group >= ugroup.mod) { %>
 				<div class="item"><b><%- __('view.user.profile.lastip') %></b><br>
