@@ -2,10 +2,10 @@
 	<a href="/all" class="item" title="<%- __('view.home.partials.header.ticketlist') %>"><i class="reorder icon"></i><%- __('view.home.partials.header.alltickets') %></a>
 	<div class="right menu">
 		<div class="ui simple dropdown item">
-			<%- __( 'global.language.' + req.language) %> <i class="icon dropdown"></i>
+			<i class="<%= req.language %> flag"></i> <%- __( 'global.language.' + req.language) %> <i class="icon dropdown"></i>
 			<div class="menu">
-				<a href="/?lang=ru" class="item">Русский</a>
-				<a href="/?lang=en" class="item">English</a>
+				<a href="/?lang=ru" class="item"><i class="ru flag"></i> Русский</a>
+				<a href="/?lang=en" class="item"><i class="en flag"></i> English</a>
 			</div>
 		</div>
 		<a href="https://greencubes.org/?action=recover#t" class="item">
