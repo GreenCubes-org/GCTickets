@@ -277,6 +277,7 @@
 	"view.list.header.tomainpage": "To main page",
 	"view.list.partials.list.statussetby": "Status set: %s",
 	"view.list.partials.list.lastcommenter": "Last answer by: %s",
+	"view.list.newticket": "New ticket",
 	"view.user.login.pagetitle": "Logging In",
 	"view.user.login.title": "GreenCubes Support",
 	"view.user.login.subtitle": "Open!",

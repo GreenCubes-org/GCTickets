@@ -7,6 +7,15 @@
 <div class="container" style="position:relative">
 	<div class="ui grid">
 		<div class="column l-leftcolumn">
+			<div class="ui basic fluid dropdown simple button">
+				<%- __('view.user.newticket') %> <i class="add icon"></i>
+				<div class="menu">
+					<a href="/new/bugreport" class="item"><i class="bug icon"></i><%- __('global.type.bugreport') %></a>
+					<a href="/new/rempro" class="item"><i class="trash icon"></i><%- __('global.type.rempro') %></a>
+					<a href="/new/ban" class="item"><i class="ban circle icon"></i><%- __('global.type.ban') %></a>
+					<a href="/new/unban" class="item"><i class="circle blank icon"></i><%- __('global.type.unban') %></a>
+				</div>
+			</div>
 			<% if (req.user && currentPage === 1) if (req.user.startPage === req.url) { %>
 			<div class="ui basic fluid button">
 				<%- __('view.list.yourstartpage') %>

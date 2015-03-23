@@ -277,6 +277,7 @@
 	"view.list.header.tomainpage": "На главную",
 	"view.list.partials.list.statussetby": "Статус установлен %s",
 	"view.list.partials.list.lastcommenter": "Последний ответивший: %s",
+	"view.user.newticket": "Новый тикет",
 	"view.user.login.pagetitle": "Вход в систему",
 	"view.user.login.title": "Система поддержки GreenCubes",
 	"view.user.login.subtitle": "Откройся!",
