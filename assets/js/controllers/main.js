@@ -96,6 +96,8 @@ app.main = {
 	},
 
 	login: function () {
+		var urlSearch = getUrlVars(window.location.search);
+
 		$(document).on('submit', "#loginform", function (e) {
 			$.ajax({
 				type: "POST",
