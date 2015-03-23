@@ -32,9 +32,9 @@ module.exports.http = {
 		 *                                                                          *
 		 ***************************************************************************/
 		momentLang: function (req, res, next) {
-			moment.lang((sails.userLocale) ? sails.userLocale : 'en');
-
 			if (req.user && req.query.lang && sails.userLocale !== req.query.lang) {
+				moment.lang((sails.userLocale) ? sails.userLocale : 'en');
+
 				User.findOne({
 					uid: req.user.id
 				}).exec(function (err, user) {
@@ -49,6 +49,8 @@ module.exports.http = {
 					});
 				});
 			} else {
+				moment.lang((sails.userLocale) ? sails.userLocale : 'en');
+
 				next();
 			}
 		},
