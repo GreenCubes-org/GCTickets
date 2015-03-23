@@ -13,6 +13,8 @@ module.exports.routes = {
 	// Главная
 	'/': 'home.route',
 
+	'/test': 'dev.test',
+
 	// Действия с пользователем
 	// Профиль
 	'/user': 'user.profile',

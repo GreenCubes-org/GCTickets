@@ -29,5 +29,9 @@ module.exports = {
 
 	check: function (req, res) {
 		res.status(204).send('42');
+	},
+
+	test: function (req, res) {
+		res.json(req.session.locale);
 	}
 };

@@ -34,7 +34,7 @@ module.exports = function(sails) {
 					i18n.init(req, res, function() {
 						res.locals.i18n = res.i18n = res.__;
 
-						var language = (req.query.lang && sails.config.i18n.locales.indexOf(req.query.lang) !== -1) ? req.query.lang : ((req.user) ? req.user.locale : sails.config.i18n.defaultLocale);
+						var language = (req.query.lang && sails.config.i18n.locales.indexOf(req.query.lang) !== -1) ? req.query.lang : ((req.session.locale) ? req.session.locale : sails.config.i18n.defaultLocale);
 
 						// Set locale from ?lang= or from userconfig
 						res.setLocale(language);

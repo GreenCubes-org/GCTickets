@@ -32,24 +32,41 @@ module.exports.http = {
 		 *                                                                          *
 		 ***************************************************************************/
 		momentLang: function (req, res, next) {
-			if (req.user && req.query.lang && sails.userLocale !== req.query.lang) {
-				moment.lang((sails.userLocale) ? sails.userLocale : 'en');
-
+			if (req.user) {
 				User.findOne({
 					uid: req.user.id
 				}).exec(function (err, user) {
 					if (err) return res.serverError(err);
 
-					user.locale = req.query.lang;
+					if (req.query.lang && req.session.locale !== req.query.lang) {
+						user.locale = req.query.lang;
+						req.session.locale = user.locale;
 
-					user.save(function (err) {
-						if (err) return res.serverError(err);
+						moment.lang(req.session.locale);
+
+						user.save(function (err) {
+							if (err) return res.serverError(err);
+
+							next();
+						});
+					} else {
+						req.session.locale = user.locale;
+
+						moment.lang(req.session.locale);
 
 						next();
-					});
+					}
 				});
 			} else {
-				moment.lang((sails.userLocale) ? sails.userLocale : 'en');
+				if (!req.session.locale) {
+					req.session.locale = 'ru'; // Russian language by default
+				}
+
+				if (req.query.lang && req.session.locale !== req.query.lang) {
+					req.session.locale = req.query.lang;
+				}
+
+				moment.lang(req.session.locale);
 
 				next();
 			}
