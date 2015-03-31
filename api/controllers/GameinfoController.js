@@ -993,7 +993,9 @@ module.exports = {
 				UserStatistics.find({
 					date: {
 						'>=': twoWeeksEarler
-					}
+					},
+					limit: 14,
+					sort: 'date DESC'
 				}).exec(function (err, result) {
 					if (err) return res.serverError(err);
 
