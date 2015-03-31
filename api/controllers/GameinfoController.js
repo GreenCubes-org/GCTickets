@@ -1138,7 +1138,7 @@ module.exports = {
 				});
 			}
 		], function (err, obj) {
-			if (err) return res.json(err);
+			if (err) return res.json({err: err, trace: err.stack);
 
 			res.json(obj);
 		});
