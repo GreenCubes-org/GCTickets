@@ -60,10 +60,8 @@ module.exports.routes = {
 	'/gameinfo/world/chestlog': 'gameinfo.worldChestlog',
 	'/gameinfo/world/blockslog': 'gameinfo.worldBlockslog',
 	'/gameinfo/world/moneylog': 'gameinfo.worldMoneylog',
-	'/gameinfo/world/statistics': {
-		view: 'gameinfo/world/statistics'
-	},
-	'get /gameinfo/world/statistics/info': 'gameinfo.worldStatistics',
+	'/gameinfo/world/statistics': 'gameinfo.worldStatisticsView',
+	'get /gameinfo/world/statistics/info': 'gameinfo.worldStatisticsGet',
 
 	// Контроллер сервисных функций.
 	'/500': 'dev.serverError',

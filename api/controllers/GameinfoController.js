@@ -964,7 +964,11 @@ module.exports = {
 		});
 	},
 
-	worldStatistics: function (req, res) {
+	worldStatisticsView: function (req, res) {
+		res.view('gameinfo/world/statistics');
+	},
+
+	worldStatisticsGet: function (req, res) {
 		/*var obj = {
 			dates: [
 				'23 марта',

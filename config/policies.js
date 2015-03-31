@@ -53,7 +53,8 @@ module.exports.policies = {
 
 	GameinfoController: {
 		'*': 'modAbove',
-		'worldStatistics': 'staffOnly'
+		'worldStatisticsView': 'staffOnly',
+		'worldStatisticsGet': 'staffOnly'
 	}
 
 
