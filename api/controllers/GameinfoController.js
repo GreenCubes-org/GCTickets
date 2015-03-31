@@ -1017,7 +1017,7 @@ module.exports = {
 						function (callback) {
 							async.waterfall([
 								function getDaysRegistratedUsers(callback) {
-									gcdbconn.query('SELECT `login` FROM `users` WHERE DATE(`reg_date`) = ?', [checkDate.toDate()], function (err, result) {
+									gcdbconn.query('SELECT `login` FROM `users` WHERE DATE(`reg_date`) = ?', [checkDate.format("YYYY-MM-DD")], function (err, result) {
 										if (err) return callback(err);
 
 										var regUsers = result.map(function (element) {
@@ -1047,7 +1047,7 @@ module.exports = {
 									if (obj.registrations === 0) {
 										callback(null, obj);
 									} else {
-										gcdbconn.query('SELECT COUNT(*) as `count` FROM `users` WHERE DATE(`reg_date`) = ?', [checkDate.toDate()], function (err, result) {
+										gcdbconn.query('SELECT COUNT(*) as `count` FROM `users` WHERE DATE(`reg_date`) = ?', [checkDate.format("YYYY-MM-DD")], function (err, result) {
 											if (err) return callback(err);
 
 											obj.registrations = result[0].count;
@@ -1060,7 +1060,7 @@ module.exports = {
 									if (obj.activations === 0) {
 										callback(null, obj);
 									} else {
-										gcdbconn.query('SELECT COUNT(*) as `count` FROM `users` WHERE DATE(`reg_date`) = ? AND (`activation_code` = "" OR `activation_code` IS NULL)', [checkDate.toDate()], function (err, result) {
+										gcdbconn.query('SELECT COUNT(*) as `count` FROM `users` WHERE DATE(`reg_date`) = ? AND (`activation_code` = "" OR `activation_code` IS NULL)', [checkDate.format("YYYY-MM-DD")], function (err, result) {
 											if (err) return callback(err);
 
 											obj.activations = result[0].count;
