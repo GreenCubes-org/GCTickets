@@ -1090,7 +1090,17 @@ module.exports = {
 							if (err) return callback(err);
 
 							var sortFunction = function (a, b) {
-								return moment(a.date).diff(moment(b.date), 'days');
+								var test = moment(a.date).diff(moment(b.date), 'days');
+
+								if (test < 0) {
+									return -1;
+								}
+
+								if (test > 0) {
+									return 1;
+								}
+
+								return 0;
 							}
 
 							// Sort obj's
