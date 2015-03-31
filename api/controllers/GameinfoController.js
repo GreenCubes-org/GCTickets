@@ -986,7 +986,7 @@ module.exports = {
 				dates: [],
 				data: []
 			},
-			twoWeeksEarler = moment().subtract(14, 'days').toDate();
+			twoWeeksEarler = moment().subtract(15, 'days').toDate();
 
 		async.waterfall([
 			function getCachedData(callback) {
@@ -1013,7 +1013,7 @@ module.exports = {
 						toCache = [];
 
 					async.whilst(
-						function () { return checkDate.diff(moment(), 'days') < 0; },
+						function () { return checkDate.diff(moment().subtract(1, 'days'), 'days') < 0; },
 						function (callback) {
 							async.waterfall([
 								function getDaysRegistratedUsers(callback) {
@@ -1036,25 +1036,12 @@ module.exports = {
 
 										callback(null, {
 											registratedUsers: regUsers,
-											registrations: null,
+											registrations: regUsers.length,
 											activations: null,
 											online: null,
 											date: checkDate.format("YYYY-MM-DD")
 										});
 									});
-								},
-								function getRegistrationsCount(obj, callback) {
-									if (obj.registrations === 0) {
-										callback(null, obj);
-									} else {
-										gcdbconn.query('SELECT COUNT(*) as `count` FROM `users` WHERE DATE(`reg_date`) = ?', [checkDate.format("YYYY-MM-DD")], function (err, result) {
-											if (err) return callback(err);
-
-											obj.registrations = result[0].count;
-
-											callback(null, obj);
-										});
-									}
 								},
 								function getActivationsCount(obj, callback) {
 									if (obj.activations === 0) {
@@ -1085,10 +1072,12 @@ module.exports = {
 							], function (err, result) {
 								if (err) return callback(err);
 
-								delete result.registratedUsers;
+								if (lastCachedDate.diff(moment(), 'days')) {
+									delete result.registratedUsers;
 
-								toCache.push(result);
-								obj.data.push(result);
+									toCache.push(result);
+									obj.data.push(result);
+								}
 
 								callback(null);
 							});
