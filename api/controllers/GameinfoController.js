@@ -1073,7 +1073,7 @@ module.exports = {
 									if (obj.online === 0) {
 										callback(null, obj);
 									} else {
-										maindbconn.query('SELECT COUNT(distinct login) as `count` FROM `login_log` WHERE `login` IN (?)', [obj.registratedUsers], function (err, result) {
+										gcmainconn.query('SELECT COUNT(distinct login) as `count` FROM `login_log` WHERE `login` IN (?)', [obj.registratedUsers], function (err, result) {
 											if (err) return callback(err);
 
 											obj.online = result[0].count;
@@ -1138,7 +1138,7 @@ module.exports = {
 				});
 			}
 		], function (err, obj) {
-			if (err) return res.json({err: err, trace: err.stack});
+			if (err) return res.serverError(err);
 
 			res.json(obj);
 		});
