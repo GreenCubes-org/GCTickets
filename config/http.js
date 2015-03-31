@@ -31,6 +31,7 @@ module.exports.http = {
 		 * router is invoked by the "router" middleware below.)                     *
 		 *                                                                          *
 		 ***************************************************************************/
+
 		momentLang: function (req, res, next) {
 			if (req.user) {
 				User.findOne({

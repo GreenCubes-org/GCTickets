@@ -5,6 +5,8 @@
  * @description :: Панель игровой информации
  */
 
+var moment = require('moment');
+
 module.exports = {
 
 	main: function (req, res) {
@@ -959,6 +961,186 @@ module.exports = {
 				lastPage: lastPage,
 				currentPage: page
 			});
+		});
+	},
+
+	worldStatistics: function (req, res) {
+		/*var obj = {
+			dates: [
+				'23 марта',
+				'24 марта',
+				'25 марта',
+				'26 марта',
+				'27 марта',
+				'28 марта',
+				'29 марта',
+			],
+			data: [
+				[1000,1000,1000,1000,1000,1000,1000],
+				[800,800,800,800,800,800,800],
+				[400,400,400,400,400,400,400]
+			]
+		};*/
+
+		var obj = {
+				dates: [],
+				data: []
+			},
+			twoWeeksEarler = moment().subtract(15, 'days').toDate();
+
+		async.waterfall([
+			function getCachedData(callback) {
+				UserStatistics.find({
+					date: {
+						'>=': twoWeeksEarler
+					}
+				}).exec(function (err, result) {
+					if (err) return res.serverError(err);
+
+					obj.data = result;
+
+					callback(null, obj);
+				});
+			},
+			function cacheNewData(obj, callback) {
+				var lastElement = obj.data[obj.data.length - 1],
+					lastCachedDate = (lastElement) ? moment(lastElement.date) : moment().subtract(16, 'days');
+
+				if (!lastCachedDate.diff(moment(), 'days')) {
+					callback(null, obj);
+				} else {
+					var checkDate = lastCachedDate.add(1, 'days'),
+						toCache = [];
+
+					async.whilst(
+						function () { return checkDate.diff(moment().subtract(1, 'days'), 'days'); },
+						function (callback) {
+							async.waterfall([
+								function getDaysRegistratedUsers(callback) {
+									gcdbconn.query('SELECT `login` FROM `users` WHERE DATE(`reg_date`) = ?', [checkDate.toDate()], function (err, result) {
+										if (err) return callback(err);
+
+										var regUsers = result.map(function (element) {
+											return element.login;
+										});
+
+										if (regUsers.length === 0) {
+											return callback(null, {
+												registratedUsers: [],
+												registrations: 0,
+												activations: 0,
+												online: 0,
+												date: checkDate.format("YYYY-MM-DD")
+											});
+										}
+
+										callback(null, {
+											registratedUsers: regUsers,
+											registrations: null,
+											activations: null,
+											online: null,
+											date: checkDate.format("YYYY-MM-DD")
+										});
+									});
+								},
+								function getRegistrationsCount(obj, callback) {
+									if (obj.registrations === 0) {
+										callback(null, obj);
+									} else {
+										gcdbconn.query('SELECT COUNT(*) as `count` FROM `users` WHERE DATE(`reg_date`) = ?', [checkDate.toDate()], function (err, result) {
+											if (err) return callback(err);
+
+											obj.registrations = result[0].count;
+
+											callback(null, obj);
+										});
+									}
+								},
+								function getActivationsCount(obj, callback) {
+									if (obj.activations === 0) {
+										callback(null, obj);
+									} else {
+										gcdbconn.query('SELECT COUNT(*) as `count` FROM `users` WHERE DATE(`reg_date`) = ? AND (`activation_code` = "" OR `activation_code` IS NULL)', [checkDate.toDate()], function (err, result) {
+											if (err) return callback(err);
+
+											obj.activations = result[0].count;
+
+											callback(null, obj);
+										});
+									}
+								},
+								function getPlayersThatEnteredServer(obj, callback) {
+									if (obj.online === 0) {
+										callback(null, obj);
+									} else {
+										maindbconn.query('SELECT COUNT(distinct login) as `count` FROM `login_log` WHERE `login` IN (?)', [obj.registratedUsers], function (err, result) {
+											if (err) return callback(err);
+
+											obj.online = result[0].count;
+
+											callback(null, obj);
+										});
+									}
+								}
+							], function (err, result) {
+								if (err) return callback(err);
+
+								delete result.registratedUsers;
+
+								toCache.push(result);
+								obj.data.push(result);
+
+								callback(null);
+							});
+
+							checkDate = lastCachedDate.add(1, 'days');
+						},
+						function (err) {
+							if (err) return callback(err);
+
+							UserStatistics.create(toCache, function (err, result) {
+								if (err) return callback(err);
+
+								callback(null, obj);
+							});
+						}
+					);
+				}
+			},
+			function setDateStrings(obj, callback) {
+				for (var i = 14; i > 0; i--) {
+					obj.dates.push(moment().subtract(i, 'days').format('D, MMM'));
+				}
+
+				callback(null, obj);
+			},
+			function serializeData(obj, callback) {
+				var registrations = [],
+					activations = [],
+					online = [];
+
+				async.each(obj.data, function (element, callback) {
+					registrations.push(element.registrations);
+					activations.push(element.activations);
+					online.push(element.online);
+
+					callback(null);
+				}, function (err) {
+					if (err) return callback(err);
+
+					obj.data = [
+						registrations,
+						activations,
+						online
+					];
+
+					callback(null, obj);
+				});
+			}
+		], function (err, obj) {
+			if (err) return res.serverError(err);
+
+			res.json(obj);
 		});
 	}
 

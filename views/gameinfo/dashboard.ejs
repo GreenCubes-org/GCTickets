@@ -78,6 +78,14 @@
 							<span class="description" style="display:block"><%= __('view.gameinfo.dashboard.world.moneylog.description') %></span>
 						</a>
 					</div>
+					<% if (req.user.group === ugroup.staff) { %>
+					<div class="item">
+						<a class="gc-nostylelink content"  href="/gameinfo/world/statistics">
+							<span class="header"><%= __('view.gameinfo.dashboard.world.statistics.header') %></span>
+							<span class="description" style="display:block"><%= __('view.gameinfo.dashboard.world.statistics.description') %></span>
+						</a>
+					</div>
+					<% } %>
 				</div>
 			</div>
 		</div>

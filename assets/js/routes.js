@@ -36,6 +36,7 @@ crossroads.addRoute('/gameinfo/world/moneylog', app.gameinfo.worldMoneylog);
 crossroads.addRoute('/gameinfo/world/regioninfo', app.gameinfo.worldRegioninfo);
 crossroads.addRoute('/gameinfo/world/blockslog', app.gameinfo.worldBlockslog);
 crossroads.addRoute('/gameinfo/world/chestlog', app.gameinfo.worldChestlog);
+crossroads.addRoute('/gameinfo/world/statistics', app.gameinfo.worldStatistics);
 
 /* Settings pages */
 crossroads.addRoute('/settings', app.settings);

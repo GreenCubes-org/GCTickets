@@ -26,6 +26,7 @@ app.admin = {
 			return false;
 		});
 	},
+
 	bans: function () {
 		$('.ui.fluid.dropdown').dropdown();
 		$('.ui.checkbox').checkbox();

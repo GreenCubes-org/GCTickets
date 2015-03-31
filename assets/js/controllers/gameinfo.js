@@ -150,4 +150,24 @@ app.gameinfo = {
 
 		$('.ui.checkbox').checkbox();
 	},
+
+	worldStatistics: function () {
+		$.ajax({
+			type: "GET",
+			url: '/gameinfo/world/statistics/info',
+			//data: $('form#gc-newban').serialize(),
+			success: function(data) {
+				console.log(data);
+				var chartist = new Chartist.Line('.chart', {
+						labels: data.dates,
+						series: data.data
+					}, {
+						fullWidth: true,
+						chartPadding: {
+						right: 40
+					}
+				});
+			},
+		});
+	}
 };

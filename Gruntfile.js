@@ -53,7 +53,8 @@ module.exports = function (grunt) {
 		'js/libs/crossroads.js',
 		'js/libs/lightbox.js',
 		'js/libs/wbb.js',
-		'js/libs/wbb-ru.js'
+		'js/libs/wbb-ru.js',
+		'js/libs/chartist.js'
 	];
 
 	var jsFilesToInject = [
