@@ -995,7 +995,7 @@ module.exports = {
 						'>=': twoWeeksEarler
 					},
 					limit: 14,
-					sort: 'date DESC'
+					sort: 'date ASC'
 				}).exec(function (err, result) {
 					if (err) return res.serverError(err);
 
@@ -1006,9 +1006,9 @@ module.exports = {
 			},
 			function cacheNewData(obj, callback) {
 				var lastElement = obj.data[obj.data.length - 1],
-					lastCachedDate = (lastElement) ? moment(lastElement.date) : moment().subtract(14, 'days');
+					lastCachedDate = (lastElement) ? moment(lastElement.date) : moment().subtract(15, 'days');
 
-				if (!lastCachedDate.diff(moment(), 'days')) {
+				if (!lastCachedDate.diff(moment().subtract(1, 'days'), 'days')) {
 					callback(null, obj);
 				} else {
 					var checkDate = lastCachedDate,
