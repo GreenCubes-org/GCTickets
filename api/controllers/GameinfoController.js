@@ -1013,7 +1013,7 @@ module.exports = {
 						toCache = [];
 
 					async.whilst(
-						function () { return checkDate.diff(moment().subtract(1, 'days'), 'days'); },
+						function () { return checkDate.diff(moment(), 'days'); },
 						function (callback) {
 							async.waterfall([
 								function getDaysRegistratedUsers(callback) {
