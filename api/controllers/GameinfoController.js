@@ -1138,7 +1138,7 @@ module.exports = {
 				});
 			}
 		], function (err, obj) {
-			if (err) return res.serverError(err);
+			if (err) return res.json(err);
 
 			res.json(obj);
 		});
