@@ -991,10 +991,6 @@ module.exports = {
 		async.waterfall([
 			function getCachedData(callback) {
 				UserStatistics.find({
-					date: {
-						'>=': twoWeeksEarler
-					},
-					limit: 14,
 					sort: 'date ASC'
 				}).exec(function (err, result) {
 					if (err) return res.serverError(err);
@@ -1006,16 +1002,16 @@ module.exports = {
 			},
 			function cacheNewData(obj, callback) {
 				var lastElement = obj.data[obj.data.length - 1],
-					lastCachedDate = (lastElement) ? moment(lastElement.date) : moment().subtract(15, 'days');
+					lastCachedDate = (lastElement) ? moment(lastElement.date) : moment('2011-01-13');
 
 				if (!lastCachedDate.diff(moment().subtract(1, 'days'), 'days')) {
 					callback(null, obj);
 				} else {
-					var checkDate = lastCachedDate,
+					var checkDate = lastCachedDate.add(1, 'days'),
 						toCache = [];
 
 					async.whilst(
-						function () { return checkDate.diff(moment().subtract(1, 'days'), 'days') < 0; },
+						function () { return checkDate.diff(moment(), 'days') < 0; },
 						function (callback) {
 							async.waterfall([
 								function getDaysRegistratedUsers(callback) {
@@ -1116,32 +1112,25 @@ module.exports = {
 					);
 				}
 			},
-			function setDateStrings(obj, callback) {
-				for (var i = 14; i > 0; i--) {
-					obj.dates.push(moment().subtract(i, 'days').format('D, MMM'));
-				}
-
-				callback(null, obj);
-			},
 			function serializeData(obj, callback) {
 				var registrations = [],
 					activations = [],
 					online = [];
 
 				async.each(obj.data, function (element, callback) {
-					registrations.push(element.registrations);
-					activations.push(element.activations);
-					online.push(element.online);
+					registrations.push([moment(element.date).add(4, 'hours').unix() * 1000, element.registrations]);
+					activations.push([moment(element.date).add(4, 'hours').unix() * 1000, element.activations]);
+					online.push([moment(element.date).add(4, 'hours').unix() * 1000, element.online]);
 
 					callback(null);
 				}, function (err) {
 					if (err) return callback(err);
 
-					obj.data = [
-						registrations,
-						activations,
-						online
-					];
+					obj.data = {
+						registrations: registrations,
+						activations: activations,
+						online: online
+					};
 
 					callback(null, obj);
 				});

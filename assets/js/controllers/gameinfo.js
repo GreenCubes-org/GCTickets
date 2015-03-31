@@ -1,10 +1,11 @@
 var app = app || {};
 
 app.gameinfo = {
-	player: function () {$('#gc-formsubmit').click(function () {
+	player: function () {
+		$('#gc-formsubmit').click(function () {
 			window.location.search = '?nickname=' + $('input[name=nickname]').val();
 		});
-		
+
 		$('input[name=nickname]').keypress(function (e) {
 			if (e.which == 13) {
 				window.location.search = '?nickname=' + $('input[name=nickname]').val();
@@ -19,7 +20,7 @@ app.gameinfo = {
 		$('#gc-formsubmit').click(function () {
 			window.location.search = '?nickname=' + $('input[name=nickname]').val() + '&ip=' + $('input[name=ip]').val() + '&hwid=' + $('input[name=hwid]').val() + '&sort=' + $('input[name=sort]:checked').val();
 		});
-		
+
 		$('input[name=nickname]').keypress(function (e) {
 			if (e.which == 13) {
 				window.location.search = '?nickname=' + $('input[name=nickname]').val() + '&ip=' + $('input[name=ip]').val() + '&hwid=' + $('input[name=hwid]').val() + '&sort=' + $('input[name=sort]:checked:checked').val();
@@ -35,7 +36,7 @@ app.gameinfo = {
 		$('#gc-formsubmit').click(function () {
 			window.location.search = '?nickname=' + $('input[name=nickname]').val() + '&channelid=' + $('input[name=channelid]').val() + '&firsttime=' + $('input[name=firsttime]').val() + '&secondtime=' + $('input[name=secondtime]').val() + '&sort=' + $('input[name=sort]:checked').val();
 		});
-		
+
 		$('input[name=nickname]').keypress(function (e) {
 			if (e.which == 13) {
 				window.location.search = '?nickname=' + $('input[name=nickname]').val() + '&channelid=' + $('input[name=channelid]').val() + '&firsttime=' + $('input[name=firsttime]').val() + '&secondtime=' + $('input[name=secondtime]').val() + '&sort=' + $('input[name=sort]:checked').val();
@@ -51,7 +52,7 @@ app.gameinfo = {
 		$('#gc-formsubmit').click(function () {
 			window.location.search = '?nickname=' + $('input[name=nickname]').val() + '&firsttime=' + $('input[name=firsttime]').val() + '&secondtime=' + $('input[name=secondtime]').val() + '&sort=' + $('input[name=sort]:checked').val();
 		});
-		
+
 		$('input[name=nickname]').keypress(function (e) {
 			if (e.which == 13) {
 				window.location.search = '?nickname=' + $('input[name=nickname]').val() + '&firsttime=' + $('input[name=firsttime]').val() + '&secondtime=' + $('input[name=secondtime]').val() + '&sort=' + $('input[name=sort]:checked').val();
@@ -67,7 +68,7 @@ app.gameinfo = {
 		$('#gc-formsubmit').click(function () {
 			window.location.search = '?nickname=' + $('input[name=nickname]').val() + '&time=' + $('input[name=time]').prop('checked') + '&firsttime=' + $('input[name=firsttime]').val() + '&secondtime=' + $('input[name=secondtime]').val() + '&sort=' + $('input[name=sort]:checked').val();
 		});
-		
+
 		$('input[name=nickname]').keypress(function (e) {
 			if (e.which == 13) {
 				window.location.search = '?nickname=' + $('input[name=nickname]').val() + '&time=' + $('input[name=time]').prop('checked') + '&firsttime=' + $('input[name=firsttime]').val() + '&secondtime=' + $('input[name=secondtime]').val() + '&sort=' + $('input[name=sort]:checked').val();
@@ -85,7 +86,7 @@ app.gameinfo = {
 		$('#gc-formsubmit').click(function () {
 			window.location.search = '?sender=' + $('input[name=sender]').val() + '&time=' + $('input[name=time]').prop('checked') + '&firsttime=' + $('input[name=firsttime]').val() + '&secondtime=' + $('input[name=secondtime]').val() + '&block=' + $('input[name=block]').val() + '&sort=' + $('input[name=sort]:checked').val();
 		});
-		
+
 		$('input[name=sender]').keypress(function (e) {
 			if (e.which == 13) {
 				window.location.search = '?sender=' + $('input[name=sender]').val() + '&time=' + $('input[name=time]').prop('checked') + '&firsttime=' + $('input[name=firsttime]').val() + '&secondtime=' + $('input[name=secondtime]').val() + '&block=' + $('input[name=block]').val() + '&sort=' + $('input[name=sort]:checked').val();
@@ -101,7 +102,7 @@ app.gameinfo = {
 		$('#gc-formsubmit').click(function () {
 			window.location.search = '?regionname=' + $('input[name=regionname]').val();
 		});
-		
+
 		$('input[name=regionname]').keypress(function (e) {
 			if (e.which == 13) {
 				window.location.search = '?regionname=' + $('input[name=regionname]').val();
@@ -117,7 +118,7 @@ app.gameinfo = {
 		$('#gc-formfirstsubmit').click(function () {
 			window.location.search = '?xyz=' + $('input[name=xyz]').val() + '&block=' + $('input#gc-formfirstblockinput').val() + '&sort=' + $('input[name=sort]:checked').val();
 		});
-		
+
 		$('input[name=xyz]').keypress(function (e) {
 			if (e.which == 13) {
 				window.location.search = '?xyz=' + $('input[name=xyz]').val() + '&block=' + $('input#gc-formfirstblockinput').val() + '&sort=' + $('input[name=sort]:checked').val();
@@ -139,7 +140,7 @@ app.gameinfo = {
 		$('#gc-formsubmit').click(function () {
 			window.location.search = '?xyz=' + $('input[name=xyz]').val() + '&time=' + $('input[name=time]').prop('checked') + '&firsttime=' + $('input[name=firsttime]').val() + '&secondtime=' + $('input[name=secondtime]').val() + '&sort=' + $('input[name=sort]:checked').val();
 		});
-		
+
 		$('input[name=xyz]').keypress(function (e) {
 			if (e.which == 13) {
 				window.location.search = '?xyz=' + $('input[name=xyz]').val() + '&time=' + $('input[name=time]').prop('checked') + '&firsttime=' + $('input[name=firsttime]').val() + '&secondtime=' + $('input[name=secondtime]').val() + '&sort=' + $('input[name=sort]:checked').val();
@@ -156,16 +157,39 @@ app.gameinfo = {
 			type: "GET",
 			url: '/gameinfo/world/statistics/info',
 			//data: $('form#gc-newban').serialize(),
-			success: function(data) {
+			success: function (data) {
 				console.log(data);
-				var chartist = new Chartist.Line('.chart', {
-						labels: data.dates,
-						series: data.data
-					}, {
-						fullWidth: true,
-						chartPadding: {
-						right: 40
-					}
+				$('.chart').highcharts('StockChart', {
+
+
+					rangeSelector: {
+						selected: 1
+					},
+
+					title: {
+						text: 'Players statistics'
+					},
+
+					series: [{
+						name: 'Registrations',
+						data: data.data.registrations,
+						tooltip: {
+							valueDecimals: 2
+						}
+					},{
+						name: 'Players that activated their account',
+						data: data.data.activations,
+						tooltip: {
+							valueDecimals: 2
+						}
+					},
+					{
+						name: 'Players that played on server',
+						data: data.data.online,
+						tooltip: {
+							valueDecimals: 2
+						}
+					}]
 				});
 			},
 		});

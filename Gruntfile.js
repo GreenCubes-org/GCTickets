@@ -54,7 +54,7 @@ module.exports = function (grunt) {
 		'js/libs/lightbox.js',
 		'js/libs/wbb.js',
 		'js/libs/wbb-ru.js',
-		'js/libs/chartist.js'
+		'js/libs/highcharts.js'
 	];
 
 	var jsFilesToInject = [
