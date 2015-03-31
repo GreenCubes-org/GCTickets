@@ -1089,6 +1089,14 @@ module.exports = {
 						function (err) {
 							if (err) return callback(err);
 
+							var sortFunction = function (a, b) {
+								return moment(a.date).diff(moment(b.date), 'days');
+							}
+
+							// Sort obj's
+							toCache.sort(sortFunction);
+							obj.data.sort(sortFunction);
+
 							UserStatistics.create(toCache, function (err, result) {
 								if (err) return callback(err);
 
