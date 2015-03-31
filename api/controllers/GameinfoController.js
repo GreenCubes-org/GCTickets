@@ -986,7 +986,7 @@ module.exports = {
 				dates: [],
 				data: []
 			},
-			twoWeeksEarler = moment().subtract(15, 'days').toDate();
+			twoWeeksEarler = moment().subtract(14, 'days').toDate();
 
 		async.waterfall([
 			function getCachedData(callback) {
@@ -1004,12 +1004,12 @@ module.exports = {
 			},
 			function cacheNewData(obj, callback) {
 				var lastElement = obj.data[obj.data.length - 1],
-					lastCachedDate = (lastElement) ? moment(lastElement.date) : moment().subtract(16, 'days');
+					lastCachedDate = (lastElement) ? moment(lastElement.date) : moment().subtract(14, 'days');
 
 				if (!lastCachedDate.diff(moment(), 'days')) {
 					callback(null, obj);
 				} else {
-					var checkDate = lastCachedDate.add(1, 'days'),
+					var checkDate = lastCachedDate,
 						toCache = [];
 
 					async.whilst(
