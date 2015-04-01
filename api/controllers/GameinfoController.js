@@ -1144,7 +1144,7 @@ module.exports = {
 						function (callback) {
 							async.waterfall([
 								function getRegistratedUsers(callback) {
-									gcdbconn.query('SELECT `login`, `id` FROM `users` WHERE DATE(`reg_date`) = ? AND (`activation_code` = "" OR `activation_code` IS NULL)', [checkDate.format("YYYY-MM-DD")], function (err, result) {
+									gcdbconn.query('SELECT `login`, `game_id` as `id` FROM `users` WHERE DATE(`reg_date`) = ? AND (`activation_code` = "" OR `activation_code` IS NULL)', [checkDate.format("YYYY-MM-DD")], function (err, result) {
 										if (err) return callback(err);
 
 										var regUsersIds = result.map(function (element) {
