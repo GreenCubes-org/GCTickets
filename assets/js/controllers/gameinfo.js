@@ -208,7 +208,7 @@ app.gameinfo = {
 					},
 
 					series: [{
-						name: 'Total players',
+						name: 'Accounts that played at server',
 						data: data.data.players,
 						tooltip: {
 							valueDecimals: 2
