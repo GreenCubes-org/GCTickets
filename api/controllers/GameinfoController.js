@@ -968,29 +968,11 @@ module.exports = {
 		res.view('gameinfo/world/statistics');
 	},
 
-	worldStatisticsGet: function (req, res) {
-		/*var obj = {
-			dates: [
-				'23 марта',
-				'24 марта',
-				'25 марта',
-				'26 марта',
-				'27 марта',
-				'28 марта',
-				'29 марта',
-			],
-			data: [
-				[1000,1000,1000,1000,1000,1000,1000],
-				[800,800,800,800,800,800,800],
-				[400,400,400,400,400,400,400]
-			]
-		};*/
-
+	worldStatisticsPlayers: function (req, res) {
 		var obj = {
 				dates: [],
 				data: []
-			},
-			twoWeeksEarler = moment().subtract(15, 'days').toDate();
+			};
 
 		async.waterfall([
 			function getCachedData(callback) {
@@ -1089,24 +1071,6 @@ module.exports = {
 						function (err) {
 							if (err) return callback(err);
 
-							var sortFunction = function (a, b) {
-								var test = moment(a.date).diff(moment(b.date), 'days');
-
-								if (test < 0) {
-									return -1;
-								}
-
-								if (test > 0) {
-									return 1;
-								}
-
-								return 0;
-							}
-
-							// Sort obj's
-							toCache.sort(sortFunction);
-							obj.data.sort(sortFunction);
-
 							UserStatistics.create(toCache, function (err, result) {
 								if (err) return callback(err);
 
@@ -1134,6 +1098,233 @@ module.exports = {
 						registrations: registrations,
 						activations: activations,
 						online: online
+					};
+
+					callback(null, obj);
+				});
+			}
+		], function (err, obj) {
+			if (err) return res.serverError(err);
+
+			res.json(obj);
+		});
+	},
+
+	worldStatisticsQuests: function (req, res) {
+		// 2 6 11 16 24
+		var obj = {
+				dates: [],
+				data: []
+			};
+
+		async.waterfall([
+			function getCachedData(callback) {
+				QuestStatistics.find({
+					sort: 'date ASC'
+				}).exec(function (err, result) {
+					if (err) return res.serverError(err);
+
+					obj.data = result;
+
+					callback(null, obj);
+				});
+			},
+			function cacheNewData(obj, callback) {
+				var lastElement = obj.data[obj.data.length - 1],
+					lastCachedDate = (lastElement) ? moment(lastElement.date) : moment('2011-01-13');
+
+				if (!lastCachedDate.diff(moment().subtract(1, 'days'), 'days')) {
+					callback(null, obj);
+				} else {
+					var checkDate = lastCachedDate.add(1, 'days'),
+						toCache = [];
+
+					async.whilst(
+						function () { return checkDate.diff(moment(), 'days') < 0; },
+						function (callback) {
+							async.waterfall([
+								function getRegistratedUsers(callback) {
+									gcdbconn.query('SELECT `login`, `id` FROM `users` WHERE DATE(`reg_date`) = ? AND (`activation_code` = "" OR `activation_code` IS NULL)', [checkDate.format("YYYY-MM-DD")], function (err, result) {
+										if (err) return callback(err);
+
+										var regUsersIds = result.map(function (element) {
+												return element.id;
+											}),
+											regUsersLogins = result.map(function (element) {
+												return element.login;
+											});
+
+										if (regUsersIds.length === 0) {
+											return callback(null, {
+												players: 0,
+												quest2: 0,
+												quest6: 0,
+												quest11: 0,
+												quest16: 0,
+												quest24: 0,
+												date: checkDate.format("YYYY-MM-DD")
+											});
+										}
+
+										callback(null, {
+											players: null,
+											playersIds: regUsersIds,
+											playersLogins: regUsersLogins,
+											quest2: null,
+											quest6: null,
+											quest11: null,
+											quest16: null,
+											quest24: null,
+											date: checkDate.format("YYYY-MM-DD")
+										});
+									});
+								},
+								function getCountPlayersThatEnteredServer(obj, callback) {
+									if (obj.players === 0) {
+										callback(null, obj);
+									} else {
+										gcmainconn.query('SELECT COUNT(distinct login) as `count` FROM `login_log` WHERE `login` IN (?)', [obj.playersLogins], function (err, result) {
+											if (err) return callback(err);
+
+											obj.players = result[0].count;
+
+											callback(null, obj);
+										});
+									}
+								},
+								function getIdsPlayersThatEnteredServer(obj, callback) {
+									if (obj.players === 0) {
+										callback(null, obj);
+									} else {
+										gcmainconn.query('SELECT distinct `id` as `count` FROM `login_log` WHERE `login` IN (?)', [obj.playersLogins], function (err, result) {
+											if (err) return callback(err);
+
+											obj.players = result[0].count;
+
+											callback(null, obj);
+										});
+									}
+								},
+								function getQuest2PlayersPassed(obj, callback) {
+									if (obj.quest2 === 0) {
+										callback(null, obj);
+									} else {
+										gcmainconn.query('SELECT COUNT(*) as `count` FROM `quests_data` WHERE `data` LIKE \'%"quest_2":"1"%\' AND `user` IN (?)', [obj.playersIds], function (err, result) {
+											if (err) return callback(err);
+
+											obj.quest2 = result[0].count;
+
+											callback(null, obj);
+										});
+									}
+								},
+								function getQuest6PlayersPassed(obj, callback) {
+									if (obj.quest6 === 0) {
+										callback(null, obj);
+									} else {
+										gcmainconn.query('SELECT COUNT(*) as `count` FROM `quests_data` WHERE `data` LIKE \'%"quest_6":"1"%\' AND `user` IN (?)', [obj.playersIds], function (err, result) {
+											if (err) return callback(err);
+
+											obj.quest6 = result[0].count;
+
+											callback(null, obj);
+										});
+									}
+								},
+								function getQuest11PlayersPassed(obj, callback) {
+									if (obj.quest11 === 0) {
+										callback(null, obj);
+									} else {
+										gcmainconn.query('SELECT COUNT(*) as `count` FROM `quests_data` WHERE `data` LIKE \'%"quest_11":"1"%\' AND `user` IN (?)', [obj.playersIds], function (err, result) {
+											if (err) return callback(err);
+
+											obj.quest11 = result[0].count;
+
+											callback(null, obj);
+										});
+									}
+								},
+								function getQuest16PlayersPassed(obj, callback) {
+									if (obj.quest16 === 0) {
+										callback(null, obj);
+									} else {
+										gcmainconn.query('SELECT COUNT(*) as `count` FROM `quests_data` WHERE `data` LIKE \'%"quest_16":"1"%\' AND `user` IN (?)', [obj.playersIds], function (err, result) {
+											if (err) return callback(err);
+
+											obj.quest16 = result[0].count;
+
+											callback(null, obj);
+										});
+									}
+								},
+								function getQuest24PlayersPassed(obj, callback) {
+									if (obj.quest24 === 0) {
+										callback(null, obj);
+									} else {
+										gcmainconn.query('SELECT COUNT(*) as `count` FROM `quests_data` WHERE `data` LIKE \'%"quest_24":"1"%\' AND `user` IN (?)', [obj.playersIds], function (err, result) {
+											if (err) return callback(err);
+
+											obj.quest24 = result[0].count;
+
+											callback(null, obj);
+										});
+									}
+								}
+							], function (err, result) {
+								if (err) return callback(err);
+
+								if (lastCachedDate.diff(moment(), 'days')) {
+									delete obj.playersIds;
+									delete obj.playersLogins;
+
+									toCache.push(result);
+									obj.data.push(result);
+								}
+
+								callback(null);
+							});
+
+							checkDate = lastCachedDate.add(1, 'days');
+						},
+						function (err) {
+							if (err) return callback(err);
+
+							QuestStatistics.create(toCache, function (err, result) {
+								if (err) return callback(err);
+
+								callback(null, obj);
+							});
+						}
+					);
+				}
+			},
+			function serializeData(obj, callback) {
+				var players = [],
+					quest2 = [],
+					quest6 = [],
+					quest11 = [],
+					quest16 = [],
+					quest24 = [];
+
+				async.each(obj.data, function (element, callback) {
+					players.push([moment(element.date).add(4, 'hours').unix() * 1000, element.players]);
+					quest2.push([moment(element.date).add(4, 'hours').unix() * 1000, element.quest2]);
+					quest6.push([moment(element.date).add(4, 'hours').unix() * 1000, element.quest6]);
+					quest11.push([moment(element.date).add(4, 'hours').unix() * 1000, element.quest11]);
+					quest16.push([moment(element.date).add(4, 'hours').unix() * 1000, element.quest16]);
+					quest24.push([moment(element.date).add(4, 'hours').unix() * 1000, element.quest24]);
+
+					callback(null);
+				}, function (err) {
+					if (err) return callback(err);
+
+					obj.data = {
+						players: players,
+						quest2: quest2,
+						quest6: quest6,
+						quest11: quest11,
+						quest16: quest16,
+						quest24: quest24,
 					};
 
 					callback(null, obj);

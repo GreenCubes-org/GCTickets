@@ -61,7 +61,8 @@ module.exports.routes = {
 	'/gameinfo/world/blockslog': 'gameinfo.worldBlockslog',
 	'/gameinfo/world/moneylog': 'gameinfo.worldMoneylog',
 	'/gameinfo/world/statistics': 'gameinfo.worldStatisticsView',
-	'get /gameinfo/world/statistics/info': 'gameinfo.worldStatisticsGet',
+	'get /gameinfo/world/statistics/players': 'gameinfo.worldStatisticsPlayers',
+	'get /gameinfo/world/statistics/quests': 'gameinfo.worldStatisticsQuests',
 
 	// Контроллер сервисных функций.
 	'/500': 'dev.serverError',

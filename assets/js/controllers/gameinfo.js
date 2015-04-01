@@ -155,11 +155,9 @@ app.gameinfo = {
 	worldStatistics: function () {
 		$.ajax({
 			type: "GET",
-			url: '/gameinfo/world/statistics/info',
-			//data: $('form#gc-newban').serialize(),
+			url: '/gameinfo/world/statistics/players',
 			success: function (data) {
-				console.log(data);
-				$('.chart').highcharts('StockChart', {
+				$('#players-chart').highcharts('StockChart', {
 
 
 					rangeSelector: {
@@ -186,6 +184,62 @@ app.gameinfo = {
 					{
 						name: 'Players that played on server',
 						data: data.data.online,
+						tooltip: {
+							valueDecimals: 2
+						}
+					}]
+				});
+			},
+		});
+
+		$.ajax({
+			type: "GET",
+			url: '/gameinfo/world/statistics/quests',
+			success: function (data) {
+				$('#quests-chart').highcharts('StockChart', {
+
+
+					rangeSelector: {
+						selected: 1
+					},
+
+					title: {
+						text: 'Quests statistics'
+					},
+
+					series: [{
+						name: 'Total players',
+						data: data.data.players,
+						tooltip: {
+							valueDecimals: 2
+						}
+					},{
+						name: 'Players that passed quest #2',
+						data: data.data.quest2,
+						tooltip: {
+							valueDecimals: 2
+						}
+					},{
+						name: 'Players that passed quest #6',
+						data: data.data.quest6,
+						tooltip: {
+							valueDecimals: 2
+						}
+					},{
+						name: 'Players that passed quest #11',
+						data: data.data.quest11,
+						tooltip: {
+							valueDecimals: 2
+						}
+					},{
+						name: 'Players that passed quest #16',
+						data: data.data.quest16,
+						tooltip: {
+							valueDecimals: 2
+						}
+					},{
+						name: 'Players that passed quest #24',
+						data: data.data.quest24,
 						tooltip: {
 							valueDecimals: 2
 						}
