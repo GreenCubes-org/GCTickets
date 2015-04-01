@@ -1192,24 +1192,11 @@ module.exports = {
 										});
 									}
 								},
-								function getIdsPlayersThatEnteredServer(obj, callback) {
-									if (obj.players === 0) {
-										callback(null, obj);
-									} else {
-										gcmainconn.query('SELECT distinct `id` as `count` FROM `login_log` WHERE `login` IN (?)', [obj.playersLogins], function (err, result) {
-											if (err) return callback(err);
-
-											obj.players = result[0].count;
-
-											callback(null, obj);
-										});
-									}
-								},
 								function getQuest2PlayersPassed(obj, callback) {
 									if (obj.quest2 === 0) {
 										callback(null, obj);
 									} else {
-										gcmainconn.query('SELECT COUNT(*) as `count` FROM `quests_data` WHERE `data` LIKE \'%"quest_2":"1"%\' AND `user` IN (?)', [obj.playersIds], function (err, result) {
+										gcmainconn.query('SELECT COUNT(*) as `count` FROM `quests_data` WHERE (`data` LIKE \'%"quest_2":"1"%\' OR `data` LIKE \'%"quest_2":1%\') AND `user` IN (?)', [obj.playersIds], function (err, result) {
 											if (err) return callback(err);
 
 											obj.quest2 = result[0].count;
@@ -1222,7 +1209,7 @@ module.exports = {
 									if (obj.quest6 === 0) {
 										callback(null, obj);
 									} else {
-										gcmainconn.query('SELECT COUNT(*) as `count` FROM `quests_data` WHERE `data` LIKE \'%"quest_6":"1"%\' AND `user` IN (?)', [obj.playersIds], function (err, result) {
+										gcmainconn.query('SELECT COUNT(*) as `count` FROM `quests_data` WHERE (`data` LIKE \'%"quest_6":"1"%\' OR `data` LIKE \'%"quest_6":1%\') AND `user` IN (?)', [obj.playersIds], function (err, result) {
 											if (err) return callback(err);
 
 											obj.quest6 = result[0].count;
@@ -1235,7 +1222,7 @@ module.exports = {
 									if (obj.quest11 === 0) {
 										callback(null, obj);
 									} else {
-										gcmainconn.query('SELECT COUNT(*) as `count` FROM `quests_data` WHERE `data` LIKE \'%"quest_11":"1"%\' AND `user` IN (?)', [obj.playersIds], function (err, result) {
+										gcmainconn.query('SELECT COUNT(*) as `count` FROM `quests_data` WHERE (`data` LIKE \'%"quest_11":"1"%\' OR `data` LIKE \'%"quest_11":1%\') AND `user` IN (?)', [obj.playersIds], function (err, result) {
 											if (err) return callback(err);
 
 											obj.quest11 = result[0].count;
@@ -1248,7 +1235,7 @@ module.exports = {
 									if (obj.quest16 === 0) {
 										callback(null, obj);
 									} else {
-										gcmainconn.query('SELECT COUNT(*) as `count` FROM `quests_data` WHERE `data` LIKE \'%"quest_16":"1"%\' AND `user` IN (?)', [obj.playersIds], function (err, result) {
+										gcmainconn.query('SELECT COUNT(*) as `count` FROM `quests_data` WHERE (`data` LIKE \'%"quest_16":"1"%\' OR `data` LIKE \'%"quest_16":1%\') AND `user` IN (?)', [obj.playersIds], function (err, result) {
 											if (err) return callback(err);
 
 											obj.quest16 = result[0].count;
@@ -1261,7 +1248,7 @@ module.exports = {
 									if (obj.quest24 === 0) {
 										callback(null, obj);
 									} else {
-										gcmainconn.query('SELECT COUNT(*) as `count` FROM `quests_data` WHERE `data` LIKE \'%"quest_24":"1"%\' AND `user` IN (?)', [obj.playersIds], function (err, result) {
+										gcmainconn.query('SELECT COUNT(*) as `count` FROM `quests_data` WHERE (`data` LIKE \'%"quest_24":"1"%\' OR `data` LIKE \'%"quest_24":1%\') AND `user` IN (?)', [obj.playersIds], function (err, result) {
 											if (err) return callback(err);
 
 											obj.quest24 = result[0].count;
