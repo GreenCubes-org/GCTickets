@@ -85,6 +85,16 @@
 			<%- partial('../partials/footer') %>
 			</div>
 		<!-- SANIC HEGEHOG GOTTA GO FAST -->
+		<script>
+			(function () {
+				this.__ = new Polyglot({
+					phrases: <%- sails.frontTmpl %>,
+					locale: '<%= req.session.locale %>'
+				});
+			}.call(this));
+
+			moment.lang('<%= req.session.locale %>');
+		</script>
 		<script type="text/javascript" src="/js/app.js"></script>
 	</body>
 

@@ -19,7 +19,7 @@ app.admin = {
 						 $('#errmessage').html('<div class="ui divider"></div><div class="ui error message"><div class="header">' + data.err + '</div></div>');
 					} else {
 						 $('#gc-reportformdiv').addClass('error');
-						 $('#errmessage').html('<div class="ui divider"></div><div class="ui error message"><div class="header">Внезапная необычная ошибка. Пожалуйста, сообщите о ней разработчику.</div></div>');
+						 $('#errmessage').html('<div class="ui divider"></div><div class="ui error message"><div class="header">' + __.t('global.suddenerror') + '</div></div>');
 					}
 				},
 			});
@@ -45,7 +45,7 @@ app.admin = {
 						 $('#errmessage').html('<div class="ui divider"></div><div class="ui error message"><div class="header">' + data.err + '</div></div>');
 					} else {
 						 $('#gc-reportformdiv').addClass('error');
-						 $('#errmessage').html('<div class="ui divider"></div><div class="ui error message"><div class="header">Внезапная необычная ошибка. Пожалуйста, сообщите о ней разработчику.</div></div>');
+						 $('#errmessage').html('<div class="ui divider"></div><div class="ui error message"><div class="header">' + __.t('global.suddenerror') + '</div></div>');
 					}
 				},
 			});

@@ -1,0 +1,35 @@
+{
+	"global.suddenerror": "Unexpected error! Please report to developers",
+	"global.uploadingmore10mb": "You can't upload files larger than 10 MB!",
+	"global.spoiler": "Spoiler",
+	"global.code": "Code",
+	"global.createdfor": "Request for %{nickname}",
+	"global.loading": "Loading",
+
+	"all.notifs.tooltip": "You have %{num} notifications!",
+	"all.notifs.nonotifs": "No notifications",
+	"all.notifs.type.1": "<a href=\"/users/%{user}\">%{user}</a> answered in <a href=\"/id/%{tid}#comment%{cid}\">#%{tid}: &laquo;%{title}&raquo;</a>",
+	"all.notifs.type.2": "<a href=\"/users/%{user}\">%{user}</a> answered and changed status to <div class=\"ui small label %{changedToClass}\">%{changedToText}</div> в <a href=\"/id/%{tid}#comment%{cid}\">#%{tid}: &laquo;%{title}&raquo;</a>",
+	"all.notifs.type.3": "Your message in <a href=\"/id/%{tid}\">#%{tid}: &laquo;%{title}&raquo;</a> has been removed by administration",
+	"all.notifs.type.4": "You're mentioned by <a href=\"/users/%{user}\">%{user}</a> in discussion at <a href=\"/id/%{tid}#comment%{cid}\">#%{tid}: &laquo;%{title}&raquo;</a>",
+	"all.notifs.successflydeleted": "Notifications successfully removed",
+
+
+	"main.shorterror": "There is problem :( Try later",
+	"main.form.login": "Login",
+	"main.form.password": "Password",
+	"main.form.enter": "Enter",
+
+	"view.nocomments": "No comments",
+	"view.comment.changedstatusto": "Changed status to",
+	"view.comment.edit": "Edit",
+	"view.comment.restore": "Restore",
+	"view.comment.remove": "Remove",
+	"view.comment.finnalyremove": "Remove permanently",
+	"view.commentsremoved": "Comments removed: %{num}",
+	"view.shownonlyremoved": "Shown only removed",
+	"view.errorcaused": "An error has occurred!",
+	"view.pleasemessageaboutit": "Please notify the developer about it",
+	"view.okback": "Okay, back",
+	"view.clicktovanish": "Click on the message that it was gone"
+}

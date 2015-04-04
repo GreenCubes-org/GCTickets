@@ -9,14 +9,14 @@ app.create = {
 				buttons: 'bold,italic,underline,|,link,numlist,code,|,spoiler',
 				allButtons: {
 					spoiler: {
-						title: "Спойлер",
+						title: __.t('global.spoiler'),
 						buttonText: 'Spoiler',
 						transform: {
-							'<div class="ui basic accordion"><div class="title"><i class="dropdown icon"></i>Спойлер</div><div class="content">{SELTEXT}</div></div>':'[spoiler]{SELTEXT}[/spoiler]'
+							'<div class="ui basic accordion"><div class="title"><i class="dropdown icon"></i></div><div class="content">{SELTEXT}</div></div>':'[spoiler]{SELTEXT}[/spoiler]'
 						}
 					},
 					code: {
-						title: "Код",
+						title: __.t('global.code'),
 						buttonText: 'Code',
 						transform: {
 							'<pre><code>{SELTEXT}</code></pre>':'[code]{SELTEXT}[/code]'
@@ -31,14 +31,14 @@ app.create = {
 				buttons: 'bold,italic,underline,|,link,numlist,code,|,spoiler',
 				allButtons: {
 					spoiler: {
-						title: "Спойлер",
+						title: __.t('global.spoiler'),
 						buttonText: 'Spoiler',
 						transform: {
-							'<div class="ui basic accordion"><div class="title"><i class="dropdown icon"></i>Спойлер</div><div class="content">{SELTEXT}</div></div>':'[spoiler]{SELTEXT}[/spoiler]'
+							'<div class="ui basic accordion"><div class="title"><i class="dropdown icon"></i></div><div class="content">{SELTEXT}</div></div>':'[spoiler]{SELTEXT}[/spoiler]'
 						}
 					},
 					code: {
-						title: "Код",
+						title: __.t('global.code'),
 						buttonText: 'Code',
 						transform: {
 							'<pre><code>{SELTEXT}</code></pre>':'[code]{SELTEXT}[/code]'
@@ -90,8 +90,8 @@ app.create = {
 							.modal('show');
 					} else if (data.status === 413) {
 						$('#gc-reportformdiv').addClass('error');
-						$('#errmessage').html('<div class="ui divider"></div><div class="ui error message"><div class="header">Загрузка файлов больше 10 мегабайт запрещена</div></div>');
-						$('#modalerrormessage').html('Загрузка файлов больше 10 мегабайт запрещена');
+						$('#errmessage').html('<div class="ui divider"></div><div class="ui error message"><div class="header">' + __.t('global.uploadingmore10mb') + '</div></div>');
+						$('#modalerrormessage').html(__.t('global.uploadingmore10mb'));
 						$('#errormodal')
 							.modal('setting', {
 								transition: 'fade up',
@@ -100,8 +100,8 @@ app.create = {
 							.modal('show');
 					} else {
 						$('#gc-reportformdiv').addClass('error');
-						$('#errmessage').html('<div class="ui divider"></div><div class="ui error message"><div class="header">Внезапная необычная ошибка. Пожалуйста, сообщите о ней разработчику.</div></div>');
-						$('#modalerrormessage').html('Внезапная необычная ошибка. Пожалуйста, сообщите о ней разработчику.');
+						$('#errmessage').html('<div class="ui divider"></div><div class="ui error message"><div class="header">' + __.t('global.suddenerror') + '</div></div>');
+						$('#modalerrormessage').html(__.t('global.suddenerror'));
 						$('#errormodal')
 							.modal('setting', {
 								transition: 'fade up',
@@ -142,7 +142,7 @@ app.create = {
 
 		$('#createdfor').on('input', function() {
 			if ($(this).val()) {
-				$('#title').attr('placeholder', 'Заявка для ' + $(this).val());
+				$('#title').attr('placeholder', __.t('global.createdfor', {nickname: $(this).val()}));
 			} else {
 				$('#title').attr('placeholder', titleDefaultPlaceholder);
 			}

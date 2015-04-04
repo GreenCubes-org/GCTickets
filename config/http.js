@@ -45,6 +45,8 @@ module.exports.http = {
 
 						moment.lang(req.session.locale);
 
+						sails.frontTmpl = JSON.stringify(require('../config/locales/frontend/' + req.session.locale + '.json'));
+
 						user.save(function (err) {
 							if (err) return res.serverError(err);
 
@@ -54,6 +56,8 @@ module.exports.http = {
 						req.session.locale = user.locale;
 
 						moment.lang(req.session.locale);
+
+						sails.frontTmpl = JSON.stringify(require('../config/locales/frontend/' + req.session.locale + '.json'));
 
 						next();
 					}
@@ -68,6 +72,8 @@ module.exports.http = {
 				}
 
 				moment.lang(req.session.locale);
+
+				sails.frontTmpl = JSON.stringify(require('../config/locales/frontend/' + req.session.locale + '.json'));
 
 				next();
 			}

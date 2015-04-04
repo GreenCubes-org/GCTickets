@@ -29,17 +29,17 @@ app.main = {
 				  '<div class="ui form" style="display: inline-block !important">' +
 					'<div class="gc-loginfield field">' +
 					  '<div class="ui left labeled icon mini input">' +
-						'<input placeholder="Логин" type="text" name="username">' +
+						'<input placeholder="' + __.t('main.form.login') + '" type="text" name="username">' +
 						'<i class="user icon"></i>' +
 					  '</div>' +
 					'</div>' +
 					'<div class="gc-loginfield field">' +
 					  '<div class="ui left labeled icon mini input">' +
-						'<input placeholder="Пароль" type="password" name="password">' +
+						'<input placeholder="' + __.t('main.form.password') + '" type="password" name="password">' +
 						'<i class="lock icon"></i>' +
 					  '</div>' +
 					'</div>' +
-					'<button type="submit" class="ui blue submit mini button">Войти</button>' +
+					'<button type="submit" class="ui blue submit mini button">' + __.t("main.form.enter") + '</button>' +
 					'</div>' +
 				'</form>' +
 				'<div id="hd-loginerr"></div>' +
@@ -55,7 +55,7 @@ app.main = {
 			  });
 			},
 			error: function(err) {
-				$('#loginerr').html('<div class="ui error message"><div class="header">Проблемка. Попробуйте позже.</div></div>');
+				$('#loginerr').html('<div class="ui error message"><div class="header">' + __.t("main.shorterror") + '</div></div>');
 			  $('#hd-login')
 				.popup({
 				  on: 'click',
@@ -116,7 +116,7 @@ app.main = {
 					window.location = '/';
 				},
 				error: function (err) {
-					$('#loginerr').html('<div class="ui error message"><div class="header">Проблемка. Попробуйте позже.</div></div>');
+					$('#loginerr').html('<div class="ui error message"><div class="header">' + __.t('main.shorterror') + '</div></div>');
 				}
 			});
 			return false;

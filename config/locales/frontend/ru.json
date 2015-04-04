@@ -1,0 +1,35 @@
+{
+	"global.suddenerror": "Внезапная ошибка! Пожалуйста, сообщите о ней разработчику.",
+	"global.uploadingmore10mb": "'Загрузка файлов больше 10 мегабайт запрещена'",
+	"global.spoiler": "Спойлер",
+	"global.code": "Код",
+	"global.createdfor": "Заявка для %{nickname}",
+	"global.loading": "Загружается",
+
+	"all.notifs.tooltip": "У вас %{num} оповещений!",
+	"all.notifs.nonotifs": "Нет оповещений",
+	"all.notifs.type.1": "<a href=\"/users/%{user}\">%{user}</a> ответил(а) в <a href=\"/id/%{tid}#comment%{cid}\">#%{tid}: &laquo;%{title}&raquo;</a>",
+	"all.notifs.type.2": "<a href=\"/users/%{user}\">%{user}</a> ответил(а) и сменил(а) статус на <div class=\"ui small label %{changedToClass}\">%{changedToText}</div> в <a href=\"/id/%{tid}#comment%{cid}\">#%{tid}: &laquo;%{title}&raquo;</a>",
+	"all.notifs.type.3": "Ваше сообщение в <a href=\"/id/%{tid}\">#%{tid}: &laquo;%{title}&raquo;</a> было удалено администрацией",
+	"all.notifs.type.4": "Вас упомянул(а) <a href=\"/users/%{user}\">%{user}</a> в обсуждении к  <a href=\"/id/%{tid}#comment%{cid}\">#%{tid}: &laquo;%{title}&raquo;</a>",
+	"all.notifs.successflydeleted": "Оповещения успешно удалены",
+
+
+	"main.shorterror": "Проблемка. Попробуйте позже",
+	"main.form.login": "Логин",
+	"main.form.password": "Пароль",
+	"main.form.enter": "Войти",
+
+	"view.nocomments": "Нет комментариев",
+	"view.comment.changedstatusto": "Изменён статус на",
+	"view.comment.edit": "Редактировать",
+	"view.comment.restore": "Восстановить",
+	"view.comment.remove": "Удалить",
+	"view.comment.finnalyremove": "Удалить безвозвратно",
+	"view.commentsremoved": "Комментариев удалено: %{num}",
+	"view.shownonlyremoved": "Показаны только удалённые",
+	"view.errorcaused": "Произошла ошибка!",
+	"view.pleasemessageaboutit": "Пожалуйста, сообщите разработчику о ней",
+	"view.okback": "Ладно, вернёмся обратно",
+	"view.clicktovanish": "Кликните по сообщению чтобы оно пропало"
+}

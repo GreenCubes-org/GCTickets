@@ -13,7 +13,8 @@ module.exports = {
 			res.redirect(req.user.startPage);
 		} else {
 			res.view('home/preview', {
-				layout: false
+				layout: false,
+				require: require
 			});
 		}
 	},

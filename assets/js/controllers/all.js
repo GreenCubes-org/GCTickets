@@ -5,7 +5,7 @@ var getNotifs = function getNotifs(callback) {
 		data: {},
 		beforeSend: function () {
 			$('#gc-notifmodal #gc-notiftable').hide();
-			$('#gc-notifmodal .content').append('<div class="ui active inverted dimmer" style="position: relative !important;padding:5em 0em;" id="loadingmodal"><div class="ui text loader">Загружается</div></div>');
+			$('#gc-notifmodal .content').append('<div class="ui active inverted dimmer" style="position: relative !important;padding:5em 0em;" id="loadingmodal"><div class="ui text loader">' + __.t('global.loading') + '</div></div>');
 		},
 		success: function (data) {
 			var notifs = data || [];
@@ -18,7 +18,7 @@ var getNotifs = function getNotifs(callback) {
 var renderNotifs = function renderNotifs() {
 	getNotifs(function (notifs) {
 		$('#gc-notifnumber').html(notifs.length);
-		$('#gc-notifheaderbutton').prop('title', 'У вас ' + notifs.length + ' оповещений!');
+		$('#gc-notifheaderbutton').prop('title', __.t('all.notifs.tooltip', {num: notifs.length}));
 
 		$('#loadingmodal').remove();
 		$('#nonotifs').remove();
@@ -27,7 +27,7 @@ var renderNotifs = function renderNotifs() {
 			$('#gc-notifheaderbutton').addClass('newnotifs');
 		} else {
 			$('#gc-notifheaderbutton').removeClass('newnotifs');
-			return $('#gc-notifmodal .content').append('<div style="padding: 7em 0em;text-align: center;font-size:1.4em" id="nonotifs">Нет оповещений</div>');
+			return $('#gc-notifmodal .content').append('<div style="padding: 7em 0em;text-align: center;font-size:1.4em" id="nonotifs">' + __.t('all.notifs.nonotifs') + '</div>');
 		}
 
 		$('#gc-notifmodal .content').html('<table class="ui basic padded large table" id="gc-notiftable">' +
@@ -38,19 +38,39 @@ var renderNotifs = function renderNotifs() {
 
 			switch (el.type.id) {
 				case 1:
-					el.html = '<a href="/users/' + el.user + '">' + el.user + '</a> ответил(а) в <a href="/id/' + el.ticket.id + '#comment' + el.cid + '">#' + el.ticket.id + ': &laquo;' + el.ticket.title + '&raquo;</a>';
+					el.html = __.t('all.notifs.type.1', {
+						user: el.user,
+						tid: el.ticket.id,
+						cid: el.cid,
+						title: el.ticket.title
+					});
 					break;
 
 				case 2:
-					el.html = '<a href="/users/' + el.user + '">' + el.user + '</a> ответил(а) и сменил(а) статус на <div class="ui small label ' + el.changedTo.class + '">' + el.changedTo.text + '</div> в <a href="/id/' + el.ticket.id + '#comment' + el.cid + '">#' + el.ticket.id + ': &laquo;' + el.ticket.title + '&raquo;</a>';
+					el.html = __.t('all.notifs.type.2', {
+						user: el.user,
+						tid: el.ticket.id,
+						cid: el.cid,
+						title: el.ticket.title,
+						changedToClass: el.changedTo.class,
+						changedToText: el.changedTo.text
+					});
 					break;
 
 				case 3:
-					el.html = 'Ваше сообщение в <a href="/id/' + el.ticket.id + '">#' + el.ticket.id + ': &laquo;' + el.ticket.title + '&raquo;</a> было удалено администрацией';
+					el.html = __.t('all.notifs.type.3', {
+						tid: el.ticket.id,
+						title: el.ticket.title
+					});
 					break;
 
 				case 4:
-					el.html = 'Вас упомянул(а) <a href="/users/' + el.user + '">' + el.user + '</a> в обсуждении к  <a href="/id/' + el.ticket.id + '#comment' + el.cid + '">#' + el.ticket.id + ': &laquo;' + el.ticket.title + '&raquo;</a>'
+					el.html = __.t('all.notifs.type.4', {
+						user: el.user,
+						tid: el.ticket.id,
+						cid: el.cid,
+						title: el.ticket.title
+					});
 					break;
 
 				default:
@@ -93,10 +113,10 @@ $(document).ready(function () {
 					data: {},
 					beforeSend: function () {
 						$('#gc-notifmodal #gc-notiftable').hide();
-						$('#gc-notifmodal .content').append('<div class="ui active inverted dimmer" style="position: relative !important;padding:5em 0em;" id="loadingmodal"><div class="ui text loader">Загружается</div></div>');
+						$('#gc-notifmodal .content').append('<div class="ui active inverted dimmer" style="position: relative !important;padding:5em 0em;" id="loadingmodal"><div class="ui text loader">' + __.t('global.loading') + '</div></div>');
 					},
 					success: function (data) {
-						$('#gc-notifmodal .content').html('<div style="padding: 7em 0em;text-align: center;font-size:1.4em" id="nonotifs">Оповещения успешно удалены</div>');
+						$('#gc-notifmodal .content').html('<div style="padding: 7em 0em;text-align: center;font-size:1.4em" id="nonotifs">' + __.t('all.notifs.successflydeleted') + '</div>');
 
 						$('#gc-notifheaderbutton').removeClass('newnotifs');
 						$('#gc-notifnumber').html(0);

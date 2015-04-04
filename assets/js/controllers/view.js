@@ -5,7 +5,7 @@ var renderAllComments = function renderAllComments(ticketId) {
 		$('#commentssubheader').html('');
 
 		if (comments === null || comments.length === 0) {
-			$('#comments').html('<div style="padding: 5em 0em;text-align: center;font-size:1.4em">Нет комментариев</div>');
+			$('#comments').html('<div style="padding: 5em 0em;text-align: center;font-size:1.4em">' + __.t('view.nocomments') + '</div>');
 			$('#commentpost').fadeIn(500);
 			return;
 		}
@@ -22,8 +22,8 @@ var renderAllComments = function renderAllComments(ticketId) {
 			}
 
 			if (comment.canRemove || comment.canEdit) {
-				var edititem = (comment.canEdit) ? '<a id="commentedit" cid="' + comment.id + '" class="item">Редактировать</a>' : '';
-				var removeitem = (comment.canRemove) ? '<a id="commentremove" cid="' + comment.id + '" do="remove" class="item">Удалить</a>' : '';
+				var edititem = (comment.canEdit) ? '<a id="commentedit" cid="' + comment.id + '" class="item">' + __.t('view.comment.edit') + '</a>' : '';
+				var removeitem = (comment.canRemove) ? '<a id="commentremove" cid="' + comment.id + '" do="remove" class="item">' + __.t('view.comment.remove') + '</a>' : '';
 				var menu = '<div class="ui inline top right pointing dropdown" id="commentoptions">' +
 					'<i class="ellipsis horizontal icon"></i>' +
 					'<div class="menu">' +
@@ -37,7 +37,7 @@ var renderAllComments = function renderAllComments(ticketId) {
 
 			if (comment.changedTo) {
 				var changedTo = ((comment.message) ? '<div class="ui small divider"></div>' : '') +
-					'Изменён статус на <div class="ui small label ' + comment.changedTo.class + '">' + comment.changedTo.text + '</div>';
+					__.t('view.comment.changedstatusto') + '<div class="ui small label ' + comment.changedTo.class + '">' + comment.changedTo.text + '</div>';
 			} else {
 				var changedTo = '';
 			}
@@ -62,7 +62,7 @@ var renderAllComments = function renderAllComments(ticketId) {
 		});
 
 		if (removedCount !== 0) {
-			$('#commentssubheader').html('Комментариев удалено: ' + removedCount);
+			$('#commentssubheader').html(__.t("view.commentsremoved", {num: removedCount}));
 		} else {
 			$('#commentssubheader').html('');
 		}
@@ -73,7 +73,7 @@ var renderAllComments = function renderAllComments(ticketId) {
 		});
 
 		if (comments === null || comments.length === 0) {
-			$('#comments').html('<div style="padding: 5em 0em;text-align: center;">Нет комментариев</div>');
+			$('#comments').html('<div style="padding: 5em 0em;text-align: center;">' + __.t('view.nocomments') + '</div>');
 		}
 
 		$('.ui.accordion').accordion();
@@ -88,7 +88,7 @@ var renderRemovedComments = function renderRemovedComments(ticketId) {
 	getComments(ticketId, function (err, comments) {
 		$('#commentpost').hide();
 		$('#commentdivider').hide();
-		$('#commentssubheader').html('Показаны только удалённые');
+		$('#commentssubheader').html(__.t("view.shownonlyremoved"));
 		$('#comments').html('');
 
 		comments = comments.map(function (comment) {
@@ -98,8 +98,8 @@ var renderRemovedComments = function renderRemovedComments(ticketId) {
 				var menu = '<div class="ui inline top right pointing dropdown" id="commentoptions">' +
 					'<i class="ellipsis horizontal icon"></i>' +
 					'<div class="menu">' +
-					'<a id="commentremove" cid="' + comment.id + '" do="recover" class="item">Восстановить</a>' +
-					'<a id="commentremove" cid="' + comment.id + '" do="remove" class="item">Удалить безвозвратно</a>' +
+					'<a id="commentremove" cid="' + comment.id + '" do="recover" class="item">' + __.t('view.comment.restore') + '</a>' +
+					'<a id="commentremove" cid="' + comment.id + '" do="remove" class="item">' + __.t('view.comment.finnalyremove') + '</a>' +
 					'</div>' +
 					'</div>';
 			} else {
@@ -108,7 +108,7 @@ var renderRemovedComments = function renderRemovedComments(ticketId) {
 
 			if (comment.changedTo) {
 				var changedTo = ((comment.message) ? '<div class="ui small divider"></div>' : '') +
-					'Изменён статус на <div class="ui small label ' + comment.changedTo.class + '">' + comment.changedTo.text + '</div>';
+					__.t('view.comment.changedstatusto') + '<div class="ui small label ' + comment.changedTo.class + '">' + comment.changedTo.text + '</div>';
 			} else {
 				var changedTo = '';
 			}
@@ -138,7 +138,7 @@ var renderRemovedComments = function renderRemovedComments(ticketId) {
 		});
 
 		if (comments === null || comments.length === 0) {
-			$('#comments').html('<div style="padding: 5em 0em;text-align: center;">Нет комментариев</div>');
+			$('#comments').html('<div style="padding: 5em 0em;text-align: center;">' + __.t('view.nocomments') + '</div>');
 			return;
 		}
 
@@ -157,9 +157,11 @@ var getComments = function getComments(ticketId, callback) {
 		},
 		beforeSend: function () {
 			$('#commentpost').hide();
-			$('#comments').html('<div class="ui active inverted dimmer" style="position: relative !important;padding:5em 0em;"><div class="ui text loader">Загружается</div></div>');
+			$('#comments').html('<div class="ui active inverted dimmer" style="position: relative !important;padding:5em 0em;"><div class="ui text loader">' + __.t('global.loading') + '</div></div>');
 		},
 		success: function (data) {
+			moment.lang(__.locale());
+
 			var comments = data || [];
 
 			var parsedComments = comments.map(function (comment) {
@@ -222,11 +224,11 @@ app.view = {
 							complete: function (data) {
 								$('#removedimmer').remove();
 								if (data.responseJSON.status === 'err') {
-									$('body').fadeIn('slow').append('<div class="ui active segment dimmer" id="removedimmer"><div class="header">Произошла ошибка!</div><div class="content">Пожалуйста, сообщите разработчику о ней</div><div class="actions"><div class="ui fluid button">Ладно, вернёмся обратно</div></div></div>');
+									$('body').fadeIn('slow').append('<div class="ui active segment dimmer" id="removedimmer"><div class="header">' + __.t('view.errorcaused') + '</div><div class="content">' + __.t('view.pleasemessageaboutit') + '</div><div class="actions"><div class="ui fluid button">' + __.t('view.okback') + '</div></div></div>');
 								}
 
 								if (data.responseJSON.msg) {
-									$('body').fadeIn('slow').append('<div class="ui active segment dimmer" id="removedimmer"><div class="header">' + data.msg + '</div><div class="actions"><div class="ui fluid button">Ладно, вернёмся обратно</div></div></div>');
+									$('body').fadeIn('slow').append('<div class="ui active segment dimmer" id="removedimmer"><div class="header">' + data.msg + '</div><div class="actions"><div class="ui fluid button">' + __.t('view.okback') + '</div></div></div>');
 								}
 
 								if (data.responseJSON.status === 'OK') {
@@ -258,7 +260,7 @@ app.view = {
 							'<i class="icon circular inverted emphasized red exclamation"></i>' +
 							data.responseJSON.error +
 							'</h2>' +
-							'<small style="display:block;">Кликните по сообщению чтобы оно пропало</small>' +
+							'<small style="display:block;">' + __.t('view.clicktovanish') + '</small>' +
 							'</div>' +
 							'</div>' +
 							'</div>');
@@ -277,7 +279,7 @@ app.view = {
 							'<i class="icon circular inverted emphasized red exclamation"></i>' +
 							'Увы, но произошла ошибка!' +
 							'</h2>' +
-							'<small style="display:block;">Кликните по сообщению чтобы оно пропало</small>' +
+							'<small style="display:block;">' + __.t('view.clicktovanish') + '</small>' +
 							'</div>' +
 							'</div>' +
 							'</div>');
@@ -348,7 +350,7 @@ app.view = {
 									},
 									complete: function (data) {
 										if (data.statusCode === 400) {
-											alert('Произошла ошибка! Пожалуйста, сообщите разработчику о ней!');
+											alert(__.t('global.suddenerror'));
 										}
 
 										if (data.responseJSON.status === 'OK') {
@@ -390,7 +392,7 @@ app.view = {
 							complete: function (data) {
 								$('#removedimmer').remove();
 								if (data.statusCode === 400) {
-									$('#modalerrormessage').html('Неправильный запрос. Сообщите об этой ошибке разработчику.');
+									$('#modalerrormessage').html(__.t('global.suddenerror'));
 									$('#errormodal')
 										.modal('setting', {
 											allowMultiple: true,
@@ -468,14 +470,14 @@ app.view = {
 				buttons: 'bold,italic,underline,|,link,numlist,code,|,spoiler',
 				allButtons: {
 					spoiler: {
-						title: "Спойлер",
+						title: __.t('global.spoiler'),
 						buttonText: 'Spoiler',
 						transform: {
-							'<div class="ui basic accordion"><div class="title"><i class="dropdown icon"></i>Спойлер</div><div class="content">{SELTEXT}</div></div>':'[spoiler]{SELTEXT}[/spoiler]'
+							'<div class="ui basic accordion"><div class="title"><i class="dropdown icon"></i></div><div class="content">{SELTEXT}</div></div>':'[spoiler]{SELTEXT}[/spoiler]'
 						}
 					},
 					code: {
-						title: "Код",
+						title: __.t('global.code'),
 						buttonText: 'Code',
 						transform: {
 							'<pre><code>{SELTEXT}</code></pre>':'[code]{SELTEXT}[/code]'
@@ -492,14 +494,14 @@ app.view = {
 				buttons: 'bold,italic,underline,|,link,numlist,code,|,spoiler',
 				allButtons: {
 					spoiler: {
-						title: "Спойлер",
+						title: __.t('global.spoiler'),
 						buttonText: 'Spoiler',
 						transform: {
-							'<div class="ui basic accordion"><div class="title"><i class="dropdown icon"></i>Спойлер</div><div class="content">{SELTEXT}</div></div>':'[spoiler]{SELTEXT}[/spoiler]'
+							'<div class="ui basic accordion"><div class="title"><i class="dropdown icon"></i></div><div class="content">{SELTEXT}</div></div>':'[spoiler]{SELTEXT}[/spoiler]'
 						}
 					},
 					code: {
-						title: "Код",
+						title: __.t('global.code'),
 						buttonText: 'Code',
 						transform: {
 							'<pre><code>{SELTEXT}</code></pre>':'[code]{SELTEXT}[/code]'
@@ -548,8 +550,8 @@ app.view = {
 						window.location.hash = "errormessage";
 					} else if (data.status === 413) {
 						$('#gc-reportformdiv').addClass('error');
-						$('#errmessage').html('<div class="ui divider"></div><div class="ui error message" id="errormessage"><div class="header">Загрузка файлов больше 10 мегабайт запрещена</div></div>');
-						$('#modalerrormessage').html('Загрузка файлов больше 10 мегабайт запрещена');
+						$('#errmessage').html('<div class="ui divider"></div><div class="ui error message" id="errormessage"><div class="header">' + __.t('global.uploadingmore10mb') + '</div></div>');
+						$('#modalerrormessage').html(__.t('global.uploadingmore10mb'));
 						$('#errormodal')
 							.modal('setting', {
 								transition: 'fade up',
@@ -559,8 +561,8 @@ app.view = {
 						window.location.hash = "errormessage";
 					} else {
 						$('#gc-reportformdiv').addClass('error');
-						$('#errmessage').html('<div class="ui divider"></div><div class="ui error message" id="errormessage"><div class="header">Внезапная необычная ошибка. Пожалуйста, сообщите о ней разработчику.</div></div>');
-						$('#modalerrormessage').html('Внезапная необычная ошибка. Пожалуйста, сообщите о ней разработчику.');
+						$('#errmessage').html('<div class="ui divider"></div><div class="ui error message" id="errormessage"><div class="header">' + __.t('global.suddenerror') + '</div></div>');
+						$('#modalerrormessage').html(__.t('global.suddenerror'));
 						$('#errormodal')
 							.modal('setting', {
 								transition: 'fade up',
@@ -597,11 +599,11 @@ app.view = {
 							complete: function (data) {
 								$('#removedimmer').remove();
 								if (data.responseJSON.status === 'err') {
-									$('body').fadeIn('slow').append('<div class="ui active dimmer" id="removedimmer"><div class="header">Произошла ошибка!</div><div class="content">Пожалуйста, сообщите разработчику о ней</div><div class="actions"><div class="ui fluid button">Ладно, вернёмся обратно</div></div></div>');
+									$('body').fadeIn('slow').append('<div class="ui active dimmer" id="removedimmer"><div class="header">' + __.t('view.errorcaused') + '</div><div class="content">' + __.t('view.pleasemessageaboutit') + '</div><div class="actions"><div class="ui fluid button">' + __.t('view.okback') + '</div></div></div>');
 								}
 
 								if (data.responseJSON.msg) {
-									$('body').fadeIn('slow').append('<div class="ui active dimmer" id="removedimmer"><div class="header">' + data.msg + '</div><div class="actions"><div class="ui fluid button">Ладно, вернёмся обратно</div></div></div>');
+									$('body').fadeIn('slow').append('<div class="ui active dimmer" id="removedimmer"><div class="header">' + data.msg + '</div><div class="actions"><div class="ui fluid button">' + __.t('view.okback') + '</div></div></div>');
 								}
 
 								if (data.responseJSON.status === 'OK') {
@@ -637,7 +639,7 @@ app.view = {
 
 		$('#createdfor').on('input', function () {
 			if ($(this).val()) {
-				$('#title').attr('placeholder', 'Заявка для ' + $(this).val());
+				$('#title').attr('placeholder', __.t('global.createdfor', {nickname: $(this).val()}));
 			} else {
 				$('#title').attr('placeholder', titleDefaultPlaceholder);
 			}
