@@ -21,7 +21,7 @@
 	"main.form.enter": "Enter",
 
 	"view.nocomments": "No comments",
-	"view.comment.changedstatusto": "Changed status to",
+	"view.comment.changedstatusto": "Changed status to ",
 	"view.comment.edit": "Edit",
 	"view.comment.restore": "Restore",
 	"view.comment.remove": "Remove",

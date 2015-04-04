@@ -21,7 +21,7 @@
 	"main.form.enter": "Войти",
 
 	"view.nocomments": "Нет комментариев",
-	"view.comment.changedstatusto": "Изменён статус на",
+	"view.comment.changedstatusto": "Изменён статус на ",
 	"view.comment.edit": "Редактировать",
 	"view.comment.restore": "Восстановить",
 	"view.comment.remove": "Удалить",
