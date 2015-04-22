@@ -217,7 +217,7 @@ module.exports = {
 
 						if (!uid) {
 							callback({
-								msg: sails.__('controller.create.noplayer')
+								msg: sails.__('controller.create.reason.noplayer')
 							})
 						} else {
 							if (!obj.title) {
