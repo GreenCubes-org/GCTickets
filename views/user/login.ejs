@@ -8,7 +8,6 @@
 		<link rel="icon" type="image/png" href="//greencubes.org/favicon.png" />
 		<link rel="stylesheet" type="text/css" href="/css/libs.css" />
 		<link rel="stylesheet" type="text/css" href="/css/styles.css" />
-		<script type="text/javascript" src="/js/libs.js"></script>
 	</head>
 
 	<body class="login">
@@ -22,7 +21,7 @@
 					<br>
 					<span class="hidden-xs"><%- __('view.user.login.subtitle') %></span>
 				</h1>
-				<form id="loginform">
+				<form id="loginform" method="post">
 					<div class="ui form" style="display: inline-block !important">
 						<div class="field">
 							<div class="ui left labeled icon input">
@@ -51,6 +50,17 @@
 		</div>
 		<%- partial('../partials/footer') %>
 		<!-- SANIC HEGEHOG GOTTA GO FAST -->
+		<script type="text/javascript" src="/js/libs.js"></script>
+		<script>
+			(function () {
+				this.__ = new Polyglot({
+					phrases: <%- sails.frontTmpl %>,
+					locale: '<%= req.session.locale %>'
+				});
+			}.call(this));
+
+			moment.lang('<%= req.session.locale %>');
+		</script>
 		<script type="text/javascript" src="/js/app.js"></script>
 	</body>
 </html>
