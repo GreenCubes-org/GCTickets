@@ -250,5 +250,38 @@ module.exports = {
 
 			res.json(comment);
 		});
+	},
+
+	get: function (req, res) {
+		var commentId = parseInt(req.param('id'), 10);
+
+		async.waterfall([
+			function getCommentsField(callback) {
+				Comments.findOne(commentId).exec(function (err, result) {
+					if (err) return callback(err);
+
+					comment = result;
+
+					callback(null, comment);
+				});
+			},
+			function serializeCommentsField(comment, callback) {
+				gch.comment.serializeComments([comment], req.user.group, req.user.id, function (err, result) {
+					if (err) return callback(err);
+
+					comment = result;
+
+					callback(null, comment);
+				});
+			}
+		], function (err, comment) {
+			if (err) return res.serverError(err);
+
+			res.json(comment);
+		});
+	},
+
+	edit: function (req, res) {
+
 	}
 };

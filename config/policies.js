@@ -28,8 +28,9 @@ module.exports.policies = {
 	},
 
 	CommentsController: {
-		'*': ['authenticated', 'hidePrivateTickets'],
-		'listViewComments': 'hidePrivateTickets'
+		'*': 'hidePrivateTickets',
+		'get': 'hidePrivateTickets',
+		'edit': ['authenticated', 'hidePrivateTickets']
 	},
 
 	AdminController: {

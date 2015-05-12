@@ -16,22 +16,21 @@ module.exports = {
 			status: null,
 			owner: null,
 			additional: [],
-			comments: [],
 			attachments: [],
 			createdAt: null
 		};
-		
+
 		if (ticket.id === NaN) {
 			return res.badRequest("Wrong ID format");
 		}
-		
+
 		async.waterfall([
 			function getMainFields(callback) {
 				Tickets.findOne(ticket.id).exec(function (err, result) {
 					if (err) return callback(err);
-					
+
 					if (!result) return res.notFound();
-					
+
 					ticket.tid = result.tid;
 					ticket.title = result.title;
 					ticket.type = gch.getType(result.type);
@@ -40,7 +39,7 @@ module.exports = {
 					ticket.owner = result.owner;
 					ticket.attachments = result.attachments;
 					ticket.createdAt = gch.serializeTime(result.createdAt);
-					
+
 					callback(null, ticket);
 				});
 			},
@@ -49,12 +48,12 @@ module.exports = {
 					id: ticket.owner,
 					username: null
 				};
-				
+
 				gcdb.user.getByID(ticket.owner.id, function (err, login) {
 					if (err) return callback(err);
-					
+
 					ticket.owner.username = login;
-					
+
 					callback(null, ticket);
 				});
 			},
@@ -63,21 +62,21 @@ module.exports = {
 					case 1:
 						gch.bugreport.getAdditionalFields(ticket.tid, function (err, result) {
 							if (err) return callback(err);
-								
+
 							ticket.additional.description = result.description;
 							ticket.additional.product = result.product;
 
 							callback(null, ticket);
 						});
 						break;
-					
+
 					case 2:
 						gch.rempro.getAdditionalFields(ticket.tid, function (err, result) {
 							if (err) return callback(err);
-							
+
 							gch.rempro.serializeAdditionalFields(result, function (err, result) {
 								if (err) return callback(err);
-								
+
 								ticket.additional.createdFor = result.createdFor;
 								ticket.additional.reason = result.reason;
 								ticket.additional.regions = result.regions;
@@ -87,37 +86,37 @@ module.exports = {
 							});
 						});
 						break;
-					
+
 					case 3:
 						gch.ban.getAdditionalFields(ticket.tid, function (err, result) {
 							if (err) return callback(err);
-							
+
 							gch.ban.serializeAdditionalFields(result, function (err, result) {
 								if (err) return callback(err);
-								
+
 								ticket.additional.reason = result.reason;
 								ticket.additional.targetUser = result.targetUser;
-								
+
 								callback(null, ticket);
 							});
 						});
 						break;
-					
+
 					case 4:
 						gch.unban.getAdditionalFields(ticket.tid, function (err, result) {
 							if (err) return callback(err);
-							
+
 							gch.uban.serializeAdditionalFields(result, function (err, result) {
 								if (err) return callback(err);
-								
+
 								ticket.additional.reason = result.reason;
 								ticket.additional.targetUser = result.targetUser;
-								
+
 								callback(null, ticket);
 							});
 						});
 						break;
-					
+
 					default:
 						callback('Wrong ticket type');
 						break;
@@ -128,25 +127,25 @@ module.exports = {
 					tid: ticket.id
 				}).exec(function (err, result) {
 					if (err) return callback(err);
-					
+
 					ticket.comments = result;
-					
+
 					callback(null, ticket);
 				});
 			},
 			function serializeCommentsField(ticket, callback) {
 				gch.comment.serializeComments(ticket.comments, req.user.group, req.user.id, function (err, comments) {
 					if (err) return callback(err);
-					
+
 					ticket.comments = comments;
-					
+
 					callback(null, ticket);
 				});
 			},
 			function getAndSerializeAttachmentsField(ticket, callback) {
 				gcdb.appdb.query('SELECT * FROM `attachments` WHERE id IN (' + ticket.attachments.join(',') + ')', function (err, attachments) {
 					if (err) return callback(err);
-					
+
 					gch.attachement.serializeAttachments(attachments, function (err, attachments) {
 						if (err) return callback(err);
 
@@ -158,15 +157,15 @@ module.exports = {
 			}
 		], function (err, ticket) {
 			if (err) return res.serverError(err);
-			
+
 			sails.log.verbose('-> Tickets.get: ticket: \n', ticket);
-			
+
 			res.view('tickets/view/view_' + ticket.type.name, {
 				ticket: ticket
 			});
 		});
 	},
-	
+
 	getTest: function (req, res) {
 		res.view('tickets/view/view_bugreport', {
 			ticket: {
@@ -220,9 +219,9 @@ module.exports = {
 				]
 			}
 		});
-		
+
 	},
-	
+
 	/* GET /api/tickets */
 	list: function (req, res) {
 		// GET /tickets?cake=isalie&visibility=1&status=1,5,10&product=1&type=3
@@ -364,19 +363,19 @@ module.exports = {
 			}
 		});
 	},
-	
-	/* POST /api/tickets/:id */
+
+	/* POST /api/ticket */
 	create: function (req, res) {
-		
+
 	},
-	
-	/* PATCH /api/tickets/:id */
+
+	/* POST /api/tickets/:id */
 	edit: function (req, res) {
-		
+
 	},
-	
+
 	/* DELETE /api/tickets/:id */
 	delete: function (req, res) {
-		
+
 	}
 };

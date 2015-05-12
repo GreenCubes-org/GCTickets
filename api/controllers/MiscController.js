@@ -116,7 +116,7 @@ module.exports = {
 
 	apiRoot: function (req, res) {
 		var apiRootURL = "https://help.greencubes.org/api";
-		
+
 		res.json({
 			user_url: apiRootURL + "/users/{user}",
 			current_user_url: apiRootURL + "/user",

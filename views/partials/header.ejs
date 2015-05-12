@@ -19,8 +19,8 @@
 						<span class="header"><%= req.user.username %></span>
 						<i class="dropdown icon"></i>
 						<div class="menu">
-							<div class="item"><a href="/user"><i class="user icon"></i> Ваш профиль</a></div>
-							<div class="item"><a href="/settings"><i class="settings icon"></i> Настройки</a></div>
+							<a href="/user" class="item"><i class="user icon"></i> Ваш профиль</a>
+							<a href="/settings" class="item"><i class="settings icon"></i> Настройки</a>
 						</div>
 					</div>
 				</div>
@@ -38,14 +38,14 @@
 					<span class="header"><%= __('Меню') %></span>
 					<i class="dropdown icon"></i>
 					<div class="menu">
-						<div class="item"><a href="/tickets"><i class="tasks icon"></i> <%= __('Список тикетов') %></a></div>
-						<div class="item"><a href="/user"><i class="user icon"></i> <%= __('Ваш профиль') %></a></div>
+						<a href="/tickets" class="item"><i class="tasks icon"></i> <%= __('Список тикетов') %></a>
+						<a href="/user" class="item"><i class="user icon"></i> <%= __('Ваш профиль') %></a>
 						<% if (req.user && req.user.group >= ugroup.moderator) { %>
 						<div class="ui divider"></div>
 						<% if (req.user.group >= ugroup.staff) { %>
-						<div class="item"><a href="/admin"><i class="dashboard icon"></i> <%= __('Панель администратора') %></a></div>
+						<a href="/admin" class="item"><i class="dashboard icon"></i> <%= __('Панель администратора') %></a>
 						<% } %>
-						<div class="item"><a href="/gameinfo"><i class="terminal icon"></i> <%= __('Панель игровой информации') %></a></div>
+						<a href="/gameinfo" class="item"><i class="terminal icon"></i> <%= __('Панель игровой информации') %></a>
 						<% } %>
 					</div>
 				</div>

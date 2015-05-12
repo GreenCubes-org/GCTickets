@@ -8,12 +8,12 @@
 module.exports = {
 
 	main: function (req, res) {
-		res.view('gameinfo/dashboard');
+		res.view('ingameinfo/dashboard');
 	},
 
 	playerInfo: function (req, res) {
 		if (!req.param('nickname')) {
-			res.view('gameinfo/player/info', {
+			res.view('ingameinfo/player/info', {
 				pinfo: null
 			});
 			return;
@@ -25,12 +25,12 @@ module.exports = {
 			}
 
 			if (!pinfo) {
-				return res.view('gameinfo/player/info', {
+				return res.view('ingameinfo/player/info', {
 					pinfo: {nouser:true}
 				});
 			}
 
-			res.view('gameinfo/player/info', {
+			res.view('ingameinfo/player/info', {
 				pinfo: pinfo
 			});
 		});
@@ -38,7 +38,7 @@ module.exports = {
 
 	playerInventory: function (req, res) {
 		if (!req.param('nickname')) {
-			res.view('gameinfo/player/inventory', {
+			res.view('ingameinfo/player/inventory', {
 				inventory: null
 			});
 			return;
@@ -99,7 +99,7 @@ module.exports = {
 				return res.serverError(err);
 			}
 
-			res.view('gameinfo/player/inventory', {
+			res.view('ingameinfo/player/inventory', {
 				inventory: inventory
 			});
 		});
@@ -108,7 +108,7 @@ module.exports = {
 
 	playerLoginlog: function (req, res) {
 		if (!req.param('nickname') && !req.param('ip') && !req.param('hwid')) {
-			res.view('gameinfo/player/loginlog', {
+			res.view('ingameinfo/player/loginlog', {
 				log: null
 			});
 			return;
@@ -167,7 +167,7 @@ module.exports = {
 		], function (err, log, lastPage) {
 			if (err) return res.serverError(err);
 
-			res.view('gameinfo/player/loginlog', {
+			res.view('ingameinfo/player/loginlog', {
 				log: log,
 				lastPage: lastPage,
 				currentPage: page
@@ -182,7 +182,7 @@ module.exports = {
 	*/
 	playerChestslog: function (req, res) {
 		if (!req.param('nickname')) {
-			res.view('gameinfo/player/chestslog', {
+			res.view('ingameinfo/player/chestslog', {
 				log: null
 			});
 			return;
@@ -197,7 +197,7 @@ module.exports = {
 
 
 		if (time && firsttime && isNaN(firsttime) || secondtime && isNaN(secondtime) || firsttime > secondtime) {
-			res.view('gameinfo/player/chatlog', {
+			res.view('ingameinfo/player/chatlog', {
 				logs: {code: 'wrongtime'}
 			});
 			return;
@@ -246,7 +246,7 @@ module.exports = {
 		], function (err, log, lastPage) {
 			if (err) return res.serverError(err);
 
-			res.view('gameinfo/player/chestslog', {
+			res.view('ingameinfo/player/chestslog', {
 				log: log,
 				lastPage: lastPage,
 				currentPage: page
@@ -263,35 +263,35 @@ module.exports = {
 			nickname = (req.param('nickname')) ? req.param('nickname').replace(/[^a-zA-Z0-9_-]/g, '') : null;
 
 		if (!nickname && !req.param('channelid')) {
-			res.view('gameinfo/player/chatlog', {
+			res.view('ingameinfo/player/chatlog', {
 				log: null
 			});
 			return;
 		}
 
 		if (req.user.group === ugroup.mod && nickname && staffs.indexOf(nickname.toLowerCase()) !== -1) {
-			res.view('gameinfo/player/chatlog', {
+			res.view('ingameinfo/player/chatlog', {
 				log: {code: 'staffblock'}
 			});
 			return;
 		}
 
 		if (firsttime && isNaN(firsttime) || secondtime && isNaN(secondtime) || firsttime > secondtime) {
-			res.view('gameinfo/player/chatlog', {
+			res.view('ingameinfo/player/chatlog', {
 				log: {code: 'wrongtime'}
 			});
 			return;
 		}
 
 		if ((secondtime - firsttime) > 1209600) {
-			res.view('gameinfo/player/chatlog', {
+			res.view('ingameinfo/player/chatlog', {
 				log: {code: 'bigtime'}
 			});
 			return;
 		}
 
 		if (req.param('channelid') && isNaN(req.param('channelid'))) {
-			res.view('gameinfo/player/chatlog', {
+			res.view('ingameinfo/player/chatlog', {
 				log: {code: 'wrongchannelid'}
 			});
 			return;
@@ -388,7 +388,7 @@ module.exports = {
 		], function (err, log, lastPage) {
 			if (err) return res.serverError(err);
 
-			res.view('gameinfo/player/chatlog', {
+			res.view('ingameinfo/player/chatlog', {
 				log: log,
 				lastPage: lastPage,
 				currentPage: page
@@ -398,14 +398,14 @@ module.exports = {
 
 	playerCommandslog: function (req, res) {
 		if (!req.param('nickname')) {
-			res.view('gameinfo/player/commandslog', {
+			res.view('ingameinfo/player/commandslog', {
 				log: null
 			});
 			return;
 		}
 
 		if (req.user.group === ugroup.mod && staffs.indexOf(req.param('nickname').toLowerCase()) !== -1) {
-			res.view('gameinfo/player/commandslog', {
+			res.view('ingameinfo/player/commandslog', {
 				log: {code: 'staffblock'}
 			});
 			return;
@@ -418,14 +418,14 @@ module.exports = {
 			userId;
 
 		if (firsttime && isNaN(firsttime) || secondtime && isNaN(secondtime) || firsttime > secondtime) {
-			res.view('gameinfo/player/commandslog', {
+			res.view('ingameinfo/player/commandslog', {
 				log: {code: 'wrongtime'}
 			});
 			return;
 		}
 
 		if ((secondtime - firsttime) > 1209600) {
-			res.view('gameinfo/player/commandslog', {
+			res.view('ingameinfo/player/commandslog', {
 				log: {code: 'bigtime'}
 			});
 			return;
@@ -483,7 +483,7 @@ module.exports = {
 		], function (err, log, lastPage) {
 			if (err) return res.serverError(err);
 
-			res.view('gameinfo/player/commandslog', {
+			res.view('ingameinfo/player/commandslog', {
 				log: log,
 				lastPage: lastPage,
 				currentPage: page
@@ -493,7 +493,7 @@ module.exports = {
 
 	worldRegioninfo: function (req, res) {
 		if (!req.param('regionname')) {
-			res.view('gameinfo/world/regioninfo', {
+			res.view('ingameinfo/world/regioninfo', {
 				rinfo: null
 			});
 			return;
@@ -604,7 +604,7 @@ module.exports = {
 			], function (err) {
 				if (err) callback(err);
 
-				res.view('gameinfo/world/regioninfo', {
+				res.view('ingameinfo/world/regioninfo', {
 					rinfo: rinfo
 				});
 			});
@@ -613,7 +613,7 @@ module.exports = {
 
 	worldChestlog: function (req, res) {
 		if (!req.param('xyz')) {
-			res.view('gameinfo/world/chestlog', {
+			res.view('ingameinfo/world/chestlog', {
 				log: null
 			});
 			return;
@@ -626,7 +626,7 @@ module.exports = {
 			queryTime;
 
 		if (time && firsttime && isNaN(firsttime) || secondtime && isNaN(secondtime) || firsttime > secondtime) {
-			res.view('gameinfo/player/chatlog', {
+			res.view('ingameinfo/player/chatlog', {
 				logs: {code: 'wrongtime'}
 			});
 			return;
@@ -643,7 +643,7 @@ module.exports = {
 			xyzSplited = req.param('xyz').split(' ');
 
 		if (!xyzMatch){
-			res.view('gameinfo/world/blockslog', {
+			res.view('ingameinfo/world/blockslog', {
 				log: {code: 'wrongxyz'}
 			});
 			return;
@@ -676,7 +676,7 @@ module.exports = {
 		], function (err, log, lastPage) {
 			if (err) return res.serverError(err);
 
-			res.view('gameinfo/world/chestlog', {
+			res.view('ingameinfo/world/chestlog', {
 				log: log,
 				lastPage: lastPage,
 				currentPage: page
@@ -686,14 +686,14 @@ module.exports = {
 
 	worldBlockslog: function (req, res) {
 		if (!req.param('xyz') && !req.param('firstxyz') && !req.param('secondxyz') && !req.param('firsttime') && !req.param('secondtime')) {
-			res.view('gameinfo/world/blockslog', {
+			res.view('ingameinfo/world/blockslog', {
 				log: null
 			});
 			return;
 		}
 
 		if (isNaN(req.param('block')) || [10, 8, 51, 63, 19].indexOf(parseInt(req.param('block'), 10)) === -1) {
-			res.view('gameinfo/world/blockslog', {
+			res.view('ingameinfo/world/blockslog', {
 				log: {code:'wrongblock'}
 			});
 			return;
@@ -711,7 +711,7 @@ module.exports = {
 						xyzSplited = req.param('xyz').split(' ');
 
 					if (!xyzMatch){
-						res.view('gameinfo/world/blockslog', {
+						res.view('ingameinfo/world/blockslog', {
 							log: {code: 'wrongxyz'}
 						});
 						return;
@@ -736,14 +736,14 @@ module.exports = {
 						secondtime = Date.parse(req.param('secondtime')) / 1000;
 
 					if (!firstxyzMatch || !secondxyzMatch) {
-						res.view('gameinfo/world/blockslog', {
+						res.view('ingameinfo/world/blockslog', {
 							logs: {code: 'wrongxyz'}
 						});
 						return;
 					}
 
 					if (firsttime && isNaN(firsttime) || secondtime && isNaN(secondtime)) {
-						res.view('gameinfo/world/blockslog', {
+						res.view('ingameinfo/world/blockslog', {
 							logs: {code: 'wrongtime'}
 						});
 						return;
@@ -758,7 +758,7 @@ module.exports = {
 						callback(null, result);
 					});
 				} else {
-					res.view('gameinfo/world/blockslog', {
+					res.view('ingameinfo/world/blockslog', {
 						log: null
 					});
 				}
@@ -788,7 +788,7 @@ module.exports = {
 		], function (err, log, lastPage) {
 			if (err) return res.serverError(err);
 
-			res.view('gameinfo/world/blockslog', {
+			res.view('ingameinfo/world/blockslog', {
 				log: log,
 				lastPage: lastPage,
 				currentPage: page
@@ -798,14 +798,14 @@ module.exports = {
 
 	worldMoneylog: function (req, res) {
 		if (!req.param('sender')) {
-			res.view('gameinfo/world/moneylog', {
+			res.view('ingameinfo/world/moneylog', {
 				log: null
 			});
 			return;
 		}
 
 		if (req.user.group === ugroup.mod && staffs.indexOf(req.param('sender').toLowerCase()) !== -1) {
-			res.view('gameinfo/world/moneylog', {
+			res.view('ingameinfo/world/moneylog', {
 				log: {code: 'staffblock'}
 			});
 			return;
@@ -851,7 +851,7 @@ module.exports = {
 					sender = parseInt(sender.split(':')[1], 10);
 
 					if (isNaN(sender)) {
-						res.view('gameinfo/player/moneylog', {
+						res.view('ingameinfo/player/moneylog', {
 							log: {code: 'wrongorg'}
 						});
 					} else {
@@ -961,11 +961,371 @@ module.exports = {
 				return res.serverError(err);
 			}
 
-			res.view('gameinfo/world/moneylog', {
+			res.view('ingameinfo/world/moneylog', {
 				log: log,
 				lastPage: lastPage,
 				currentPage: page
 			});
+		});
+	},
+
+	worldStatisticsView: function (req, res) {
+		res.view('ingameinfo/world/statistics');
+	},
+
+	worldStatisticsPlayers: function (req, res) {
+		var obj = {
+				dates: [],
+				data: []
+			};
+
+		async.waterfall([
+			function getCachedData(callback) {
+				UserStatistics.find({
+					sort: 'date ASC'
+				}).exec(function (err, result) {
+					if (err) return res.serverError(err);
+
+					obj.data = result;
+
+					callback(null, obj);
+				});
+			},
+			function cacheNewData(obj, callback) {
+				var lastElement = obj.data[obj.data.length - 1],
+					lastCachedDate = (lastElement) ? moment(lastElement.date) : moment('2011-01-13');
+
+				if (!lastCachedDate.diff(moment().subtract(1, 'days'), 'days')) {
+					callback(null, obj);
+				} else {
+					var checkDate = lastCachedDate.add(1, 'days'),
+						toCache = [];
+
+					async.whilst(
+						function () { return checkDate.diff(moment(), 'days') < 0; },
+						function (callback) {
+							async.waterfall([
+								function getDaysRegistratedUsers(callback) {
+									gcdb.sitedb.query('SELECT `login` FROM `users` WHERE DATE(`reg_date`) = ?', [checkDate.format("YYYY-MM-DD")], function (err, result) {
+										if (err) return callback(err);
+
+										var regUsers = result.map(function (element) {
+											return element.login;
+										});
+
+										if (regUsers.length === 0) {
+											return callback(null, {
+												registratedUsers: [],
+												registrations: 0,
+												activations: 0,
+												online: 0,
+												date: checkDate.format("YYYY-MM-DD")
+											});
+										}
+
+										callback(null, {
+											registratedUsers: regUsers,
+											registrations: regUsers.length,
+											activations: null,
+											online: null,
+											date: checkDate.format("YYYY-MM-DD")
+										});
+									});
+								},
+								function getActivationsCount(obj, callback) {
+									if (obj.activations === 0) {
+										callback(null, obj);
+									} else {
+										gcdb.sitedb.query('SELECT COUNT(*) as `count` FROM `users` WHERE DATE(`reg_date`) = ? AND (`activation_code` = "" OR `activation_code` IS NULL)', [checkDate.format("YYYY-MM-DD")], function (err, result) {
+											if (err) return callback(err);
+
+											obj.activations = result[0].count;
+
+											callback(null, obj);
+										});
+									}
+								},
+								function getPlayersThatEnteredServer(obj, callback) {
+									if (obj.online === 0) {
+										callback(null, obj);
+									} else {
+										gcdb.mainsrvdb.query('SELECT COUNT(distinct login) as `count` FROM `login_log` WHERE `login` IN (?)', [obj.registratedUsers], function (err, result) {
+											if (err) return callback(err);
+
+											obj.online = result[0].count;
+
+											callback(null, obj);
+										});
+									}
+								}
+							], function (err, result) {
+								if (err) return callback(err);
+
+								if (lastCachedDate.diff(moment(), 'days')) {
+									delete result.registratedUsers;
+
+									toCache.push(result);
+									obj.data.push(result);
+								}
+
+								callback(null);
+							});
+
+							checkDate = lastCachedDate.add(1, 'days');
+						},
+						function (err) {
+							if (err) return callback(err);
+
+							UserStatistics.create(toCache, function (err, result) {
+								if (err) return callback(err);
+
+								callback(null, obj);
+							});
+						}
+					);
+				}
+			},
+			function serializeData(obj, callback) {
+				var registrations = [],
+					activations = [],
+					online = [];
+
+				async.each(obj.data, function (element, callback) {
+					registrations.push([moment(element.date).add(4, 'hours').unix() * 1000, element.registrations]);
+					activations.push([moment(element.date).add(4, 'hours').unix() * 1000, element.activations]);
+					online.push([moment(element.date).add(4, 'hours').unix() * 1000, element.online]);
+
+					callback(null);
+				}, function (err) {
+					if (err) return callback(err);
+
+					obj.data = {
+						registrations: registrations,
+						activations: activations,
+						online: online
+					};
+
+					callback(null, obj);
+				});
+			}
+		], function (err, obj) {
+			if (err) return res.serverError(err);
+
+			res.json(obj);
+		});
+	},
+
+	worldStatisticsQuests: function (req, res) {
+		// 2 6 11 16 24
+		var obj = {
+				dates: [],
+				data: []
+			};
+
+		async.waterfall([
+			function getCachedData(callback) {
+				QuestStatistics.find({
+					sort: 'date ASC'
+				}).exec(function (err, result) {
+					if (err) return res.serverError(err);
+
+					obj.data = result;
+
+					callback(null, obj);
+				});
+			},
+			function cacheNewData(obj, callback) {
+				var lastElement = obj.data[obj.data.length - 1],
+					lastCachedDate = (lastElement) ? moment(lastElement.date) : moment('2011-01-13');
+
+				if (!lastCachedDate.diff(moment().subtract(1, 'days'), 'days')) {
+					callback(null, obj);
+				} else {
+					var checkDate = lastCachedDate.add(1, 'days'),
+						toCache = [];
+
+					async.whilst(
+						function () { return checkDate.diff(moment(), 'days') < 0; },
+						function (callback) {
+							async.waterfall([
+								function getRegistratedUsers(callback) {
+									gcdb.sitedb.query('SELECT `login`, `game_id` as `id` FROM `users` WHERE DATE(`reg_date`) = ? AND (`activation_code` = "" OR `activation_code` IS NULL)', [checkDate.format("YYYY-MM-DD")], function (err, result) {
+										if (err) return callback(err);
+
+										var regUsersIds = result.map(function (element) {
+												return element.id;
+											}),
+											regUsersLogins = result.map(function (element) {
+												return element.login;
+											});
+
+										if (regUsersIds.length === 0) {
+											return callback(null, {
+												players: 0,
+												quest2: 0,
+												quest6: 0,
+												quest11: 0,
+												quest16: 0,
+												quest24: 0,
+												date: checkDate.format("YYYY-MM-DD")
+											});
+										}
+
+										callback(null, {
+											players: null,
+											playersIds: regUsersIds,
+											playersLogins: regUsersLogins,
+											quest2: null,
+											quest6: null,
+											quest11: null,
+											quest16: null,
+											quest24: null,
+											date: checkDate.format("YYYY-MM-DD")
+										});
+									});
+								},
+								function getCountPlayersThatEnteredServer(obj, callback) {
+									if (obj.players === 0) {
+										callback(null, obj);
+									} else {
+										gcdb.mainsrvdb.query('SELECT COUNT(distinct login) as `count` FROM `login_log` WHERE `login` IN (?)', [obj.playersLogins], function (err, result) {
+											if (err) return callback(err);
+
+											obj.players = result[0].count;
+
+											callback(null, obj);
+										});
+									}
+								},
+								function getQuest2PlayersPassed(obj, callback) {
+									if (obj.quest2 === 0) {
+										callback(null, obj);
+									} else {
+										gcdb.mainsrvdb.query('SELECT COUNT(*) as `count` FROM `quests_data` WHERE (`data` LIKE \'%"quest_2":"1"%\' OR `data` LIKE \'%"quest_2":1%\') AND `user` IN (?)', [obj.playersIds], function (err, result) {
+											if (err) return callback(err);
+
+											obj.quest2 = result[0].count;
+
+											callback(null, obj);
+										});
+									}
+								},
+								function getQuest6PlayersPassed(obj, callback) {
+									if (obj.quest6 === 0) {
+										callback(null, obj);
+									} else {
+										gcdb.mainsrvdb.query('SELECT COUNT(*) as `count` FROM `quests_data` WHERE (`data` LIKE \'%"quest_6":"1"%\' OR `data` LIKE \'%"quest_6":1%\') AND `user` IN (?)', [obj.playersIds], function (err, result) {
+											if (err) return callback(err);
+
+											obj.quest6 = result[0].count;
+
+											callback(null, obj);
+										});
+									}
+								},
+								function getQuest11PlayersPassed(obj, callback) {
+									if (obj.quest11 === 0) {
+										callback(null, obj);
+									} else {
+										gcdb.mainsrvdb.query('SELECT COUNT(*) as `count` FROM `quests_data` WHERE (`data` LIKE \'%"quest_11":"1"%\' OR `data` LIKE \'%"quest_11":1%\') AND `user` IN (?)', [obj.playersIds], function (err, result) {
+											if (err) return callback(err);
+
+											obj.quest11 = result[0].count;
+
+											callback(null, obj);
+										});
+									}
+								},
+								function getQuest16PlayersPassed(obj, callback) {
+									if (obj.quest16 === 0) {
+										callback(null, obj);
+									} else {
+										gcdb.mainsrvdb.query('SELECT COUNT(*) as `count` FROM `quests_data` WHERE (`data` LIKE \'%"quest_16":"1"%\' OR `data` LIKE \'%"quest_16":1%\') AND `user` IN (?)', [obj.playersIds], function (err, result) {
+											if (err) return callback(err);
+
+											obj.quest16 = result[0].count;
+
+											callback(null, obj);
+										});
+									}
+								},
+								function getQuest24PlayersPassed(obj, callback) {
+									if (obj.quest24 === 0) {
+										callback(null, obj);
+									} else {
+										gcdb.mainsrvdb.query('SELECT COUNT(*) as `count` FROM `quests_data` WHERE (`data` LIKE \'%"quest_24":"1"%\' OR `data` LIKE \'%"quest_24":1%\') AND `user` IN (?)', [obj.playersIds], function (err, result) {
+											if (err) return callback(err);
+
+											obj.quest24 = result[0].count;
+
+											callback(null, obj);
+										});
+									}
+								}
+							], function (err, result) {
+								if (err) return callback(err);
+
+								if (lastCachedDate.diff(moment(), 'days')) {
+									delete obj.playersIds;
+									delete obj.playersLogins;
+
+									toCache.push(result);
+									obj.data.push(result);
+								}
+
+								callback(null);
+							});
+
+							checkDate = lastCachedDate.add(1, 'days');
+						},
+						function (err) {
+							if (err) return callback(err);
+
+							QuestStatistics.create(toCache, function (err, result) {
+								if (err) return callback(err);
+
+								callback(null, obj);
+							});
+						}
+					);
+				}
+			},
+			function serializeData(obj, callback) {
+				var players = [],
+					quest2 = [],
+					quest6 = [],
+					quest11 = [],
+					quest16 = [],
+					quest24 = [];
+
+				async.each(obj.data, function (element, callback) {
+					players.push([moment(element.date).add(4, 'hours').unix() * 1000, element.players]);
+					quest2.push([moment(element.date).add(4, 'hours').unix() * 1000, element.quest2]);
+					quest6.push([moment(element.date).add(4, 'hours').unix() * 1000, element.quest6]);
+					quest11.push([moment(element.date).add(4, 'hours').unix() * 1000, element.quest11]);
+					quest16.push([moment(element.date).add(4, 'hours').unix() * 1000, element.quest16]);
+					quest24.push([moment(element.date).add(4, 'hours').unix() * 1000, element.quest24]);
+
+					callback(null);
+				}, function (err) {
+					if (err) return callback(err);
+
+					obj.data = {
+						players: players,
+						quest2: quest2,
+						quest6: quest6,
+						quest11: quest11,
+						quest16: quest16,
+						quest24: quest24,
+					};
+
+					callback(null, obj);
+				});
+			}
+		], function (err, obj) {
+			if (err) return res.serverError(err);
+
+			res.json(obj);
 		});
 	}
 
