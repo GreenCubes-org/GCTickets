@@ -50,15 +50,15 @@ module.exports.routes = {
 
 
 	/* Tickets stuff */
-	'/tickets': 'tickets.list',
 	'get /tickets/new': {
 		view: 'tickets/new'
 	},
 
-	'post /ticket': 'tickets.create',
-	'get /id/:tid': 'tickets.get',
-	'post /id/:tid': 'tickets.update',
-	'delete /id/:tid': 'tickets.delete',
+	'post /api/ticket': 'tickets.create',
+	'get /api/tickets': 'tickets.list',
+	'get /api/tickets/:tid': 'tickets.get',
+	'post /api/tickets/:tid': 'tickets.update',
+	'delete /api/tickets/:tid': 'tickets.delete',
 
 	'get /id/test': 'tickets.getTest',
 
@@ -67,18 +67,19 @@ module.exports.routes = {
 	'post /api/comment': 'comments.new',
 	'get /api/comments/:cid': 'comments.get',
 	'post /api/comments/:cid': 'comments.edit',
+	'delete /api/comments/:cid': 'comments.delete',
 
 
 	/* Questions stuff */
-	'/questions': 'questions.list',
 	'get /questions/new': {
 		view: 'questions/new'
 	},
 
-	'post /api/questions/new': 'questions.create',
-	'get /question/:name': 'questions.get',
-	'post /question/:name': 'questions.update',
-	'delete /question/:name': 'questions.delete',
+	'get /api/questions': 'questions.list',
+	'post /api/question': 'questions.create',
+	'get /api/questions/:qname': 'questions.get',
+	'post /api/questions/:qname': 'questions.update',
+	'delete /api/questions/:qname': 'questions.delete',
 
 
 	/* Admin-panel stuff */
@@ -110,6 +111,6 @@ module.exports.routes = {
 	'/gameinfo/world/moneylog': 'ingameinfo.worldMoneylog',
 	'/gameinfo/world/statistics': 'gameinfo.worldStatisticsView',
 	'get /gameinfo/world/statistics/players': 'gameinfo.worldStatisticsPlayers',
-	'get /gameinfo/world/statistics/quests': 'gameinfo.worldStatisticsQuests',
+	'get /gameinfo/world/statistics/quests': 'gameinfo.worldStatisticsQuests'
 
 };
