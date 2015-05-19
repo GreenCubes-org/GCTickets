@@ -157,7 +157,7 @@ module.exports = comment = {
 				}
 
 				// If status "Принят"
-				if (ticket.status === 11 && canModerate && [12,4].indexOf(changedTo) != -1) {
+				if (ticket.status === 11 && canModerate && [12, 4, 3].indexOf(changedTo) != -1) {
 					return cb(true);
 				}
 

@@ -9,7 +9,7 @@ var expressValidator = require('express-validator');
 
 var cfg = require('./local.js');
 
-appdbconn = mysql.createPool({
+var appdbconn = mysql.createPool({
 	host: cfg.appdb.host,
 	database: cfg.appdb.database,
 	user: cfg.appdb.user,
