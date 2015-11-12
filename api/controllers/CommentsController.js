@@ -6,6 +6,8 @@
  */
 
 module.exports = {
+
+	// POST /api/comment
 	new: function (req, res) {
 		if (!req.param('tid')) {
 			return callback({
@@ -163,7 +165,7 @@ module.exports = {
 					callback(null, newComment, ticket);
 				})
 			},
-			/*function sendNotifsAboutNewCommentInTicket(newComment, ticket, callback) {
+			function sendNotifsAboutNewCommentInTicket(newComment, ticket, callback) {
 				if (newComment.authorId !== ticket.author) {
 					if (newComment.changedTo) {
 						Notif.add(2, ticket.author, {
@@ -212,7 +214,7 @@ module.exports = {
 					gcdb.user.getByLogin(element, function (err, uid) {
 						if (err) return callback(err);
 
-						User.findOne({uid: uid}).exec(function (err, user) {
+						Users.findOne({uid: uid}).exec(function (err, user) {
 							if (err) return callback(err);
 
 							if (uid !== req.user.id && ((ticket.visiblity === 2 && user.ugroup >= ugroup.mod) || ticket.visiblity === 1)) {
@@ -235,7 +237,7 @@ module.exports = {
 
 					callback(null, newComment);
 				});
-			}*/
+			}
 		],
 		function (err, comment) {
 			if (err) {
@@ -252,6 +254,7 @@ module.exports = {
 		});
 	},
 
+	// GET /api/comments/:cid
 	get: function (req, res) {
 		var commentId = parseInt(req.param('id'), 10);
 
@@ -269,7 +272,7 @@ module.exports = {
 				gch.comment.serializeComments([comment], req.user.group, req.user.id, function (err, result) {
 					if (err) return callback(err);
 
-					comment = result;
+					comment = result[0];
 
 					callback(null, comment);
 				});
@@ -281,7 +284,188 @@ module.exports = {
 		});
 	},
 
+	// POST /api/comments/:cid
 	edit: function (req, res) {
+		if (!req.param('cid')) {
+			return res.badRequest();
+		}
 
+		if (!req.param('message') && req.param('message') !== '') {
+			return res.badRequest();
+		}
+
+		async.waterfall([
+			function getComment(callback) {
+				Comments.findOne({id: req.param('cid')})
+					.exec(function(err, comment) {
+						if (err) {
+							return res.serverError(err);
+						}
+
+						callback(null, comment);
+				});
+			},
+			function checkUGroup(comment, callback) {
+				if (comment.owner === req.user.id) {
+					callback(null, comment);
+				} else {
+					res.forbidden();
+				}
+			},
+			function getTicket(comment, callback) {
+				Tickets.findOne(comment.tid)
+					.exec(function(err, ticket) {
+						callback(err, comment, ticket);
+					});
+			},
+			function preCheck(comment, ticket, callback) {
+				if (req.user.group < ugroup.helper && [2,4,5,6,7,10,12].indexOf(ticket.status) !== -1) {
+					return callback({
+						show: true,
+						msg: sails.__('controller.comment.editComment.canteditinclosed')
+					});
+				}
+
+				callback(null, comment);
+			},
+			function editComment(comment, callback) {
+				comment.message = req.sanitize('message').entityEncode();
+
+				comment.save(function (err) {
+					if (err) return callback(err);
+
+					callback(null, comment);
+				});
+			},
+			// I'm updating ticket for updating updatedOn record.
+			function updateTicket(comment, callback) {
+				Tickets.findOne(comment.tid)
+					.exec(function (err, ticket) {
+						if (err) return callback(err);
+
+						ticket.save(function(err) {
+							if (err) return callback(err);
+
+							callback(null, comment);
+						});
+					});
+			}
+		], function (err) {
+			if (err) return res.serverError(err);
+
+			res.json({
+				status: 'OK'
+			});
+		});
+
+	},
+
+	// DELETE /api/comments/:cid
+	delete: function (req, res) {
+		if(!req.param('cid')) {
+			return res.badRequest();
+		}
+
+		async.waterfall([
+			function getComment(callback) {
+				Comments.findOne({id: req.param('cid')})
+					.exec(function(err, comment) {
+						if (err) {
+							res.serverError();
+							return callback(err);
+						}
+
+						callback(null, comment);
+				});
+			},
+			function getTicket(comment, callback) {
+				Tickets.findOne(comment.tid)
+					.exec(function(err, ticket) {
+						callback(err, comment, ticket);
+					});
+			},
+			function preCheck(comment, ticket, callback) {
+				if (req.user.group < ugroup.helper && [2,4,5,6,7,10,12].indexOf(ticket.status) !== -1) {
+					return callback({
+						show: true,
+						msg: sails.__('controller.comment.deleteComment.cantdeleteinclosed')
+					});
+				}
+
+				if (comment.changedTo && action === 'remove') {
+					return callback({
+						show: true,
+						msg: sails.__('controller.comment.deleteComment.cantremovecommentwithstatus')
+					});
+				}
+
+				callback(null, comment);
+			},
+			function checkUGroup(comment, callback) {
+				if (req.user.group >= ugroup.mod || comment.owner === req.user.id) {
+					callback(null, comment, 'pass');
+				} else {
+					callback(null, comment, req.user.canModerate);
+				}
+			},
+			function processRemoval(comment, callback) {
+				if (comment.status === 3) {
+					comment.destroy(function(err) {
+						if (err) return callback(err);
+
+						callback(null, comment);
+					});
+				} else {
+					comment.status = 3;
+
+					comment.save(function(err) {
+						if (err) return callback(err);
+
+						callback(null, comment);
+					});
+				}
+			},
+			// I'm updating ticket for updating updatedOn record.
+			function updateTicket(comment, callback) {
+				Ticket.findOne(comment.tid)
+					.exec(function (err, ticket) {
+						if (err) return callback(err);
+
+						ticket.save(function(err) {
+							if (err) return callback(err);
+
+							callback(null, comment);
+						});
+					});
+			},
+			function sendNotifs(comment, callback) {
+				if (comment.owner !== req.user.id && action === 'remove') {
+					Notif.add(3, comment.owner, {
+						ticket: comment.tid
+					}, function (err) {
+						if (err) return callback(err);
+
+						callback(null);
+					});
+
+				} else {
+					callback(null);
+				}
+			}
+		], function (err) {
+			if (err) {
+				if (err.show) {
+					return res.json({
+						msg: err.msg
+					});
+				}
+
+				return res.serverError(err);
+			}
+
+			res.json({
+				status: 'OK'
+			});
+		});
 	}
 };

@@ -13,18 +13,18 @@ module.exports = {
 			comments: [],
 			attachments: []
 		};
-		
+
 		if (obj.id === NaN) {
 			return cb("Wrong ID format");
 		}
-		
+
 		async.waterfall([
 			function getMainFields(callback) {
 				Tickets.findOne(obj.id).exec(function (err, result) {
 					if (err) return callback(err);
-					
+
 					if (!result) return res.notFound();
-					
+
 					obj.tid = result.tid;
 					obj.title = result.title;
 					obj.type = result.type;
@@ -33,16 +33,16 @@ module.exports = {
 					obj.owner = result.owner;
 					obj.attachments = result.attachments;
 					obj.createdAt = result.createdAt;
-					
+
 					callback(null, obj);
 				});
 			},
 			function getAndSerializeAdditionalField(obj, callback) {
 				gch.ticket.serializeAdditionalFields(obj, function (err, modifiedObj) {
 					if (err) return callback(err);
-					
+
 					obj = obj;
-					
+
 					callback(null, obj);
 				});
 			},
@@ -51,9 +51,9 @@ module.exports = {
 					tid: obj.id
 				}).exec(function (err, result) {
 					if (err) return callback(err);
-					
+
 					obj.comments = result;
-					
+
 					callback(null, obj);
 				});
 			},
@@ -61,16 +61,16 @@ module.exports = {
 				//gch.comment.serializeComments(obj.comments, 1, 1, function (err, comments) {
 				gch.comment.serializeComments(obj.comments, req.user.group, req.user.id, function (err, comments) {
 					if (err) return callback(err);
-					
+
 					obj.comments = comments;
-					
+
 					callback(null, obj);
 				});
 			},
 			function getAndSerializeAttachmentsField(obj, callback) {
 				gcdb.appdb.query('SELECT * FROM `attachments` WHERE id IN (' + obj.attachments.join(',') + ')', function (err, attachments) {
 					if (err) return callback(err);
-					
+
 					gch.attachement.serializeAttachments(attachments, function (err, attachments) {
 						if (err) return callback(err);
 
@@ -82,11 +82,11 @@ module.exports = {
 			}
 		], function (err, obj) {
 			if (err) return cb(err);
-			
+
 			cb(null, obj);
 		});
 	},
-	
+
 	getList: function getList(config, cb) {
 		var visibility = config.visibility,
 			status = config.status,
@@ -270,6 +270,8 @@ module.exports = {
 					});
 				},
 				function getAndSerializeAttachmentsField(ticket, callback) {
+          if (!ticket.attachments.length) return callback(null, ticket);
+          
 					gcdb.appdb.query('SELECT * FROM `attachments` WHERE id IN (' + ticket.attachments.join(',') + ')', function (err, attachments) {
 						if (err) return callback(err);
 

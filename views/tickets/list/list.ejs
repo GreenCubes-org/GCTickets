@@ -9,29 +9,29 @@
 		<div class="gc center" style="padding-top: 30px">
 			<div class="ui pagination menu">
 				<% if (currentPage != 1) { %>
-				<a class="item" href="/tickets/1">&laquo;</a>
+				<a class="item" href="/tickets?page=1">&laquo;</a>
 				<% } %>
 				<% if (currentPage > 1) { %>
-				<a class="active item" href="/tickets/<%= currentPage - 1 %>"><%= currentPage - 1 %></a>
+				<a class="active item" href="/tickets?page=<%= currentPage - 1 %>"><%= currentPage - 1 %></a>
 				<% } %>
-				<a class="item" href="/tickets/<%= currentPage %>"><%= currentPage %></a>
+				<a class="item" href="/tickets?page=<%= currentPage %>"><%= currentPage %></a>
 				<% if (currentPage <= lastPage && currentPage + 1 < lastPage) { %>
-				<a class="item" href="/tickets/<%= currentPage + 1 %>"><%= currentPage + 1 %></a>
+				<a class="item" href="/tickets?page=<%= currentPage + 1 %>"><%= currentPage + 1 %></a>
 				<% } %>
 				<% if (lastPage != currentPage) { %>
 				<a class="item">...</a>
 				<% } %>
 				<% if (lastPage - 1 != currentPage + 1 && lastPage != currentPage) { %>
-				<a class="active item" href="/tickets/<%= lastPage - 1 %>"><%= lastPage - 1 %></a>
+				<a class="active item" href="/tickets?page=<%= lastPage - 1 %>"><%= lastPage - 1 %></a>
 				<% } %>
 				<% if (lastPage != currentPage) { %>
-				<a class="item" href="/tickets/<%= lastPage %>"><%= lastPage %></a>
+				<a class="item" href="/tickets?page=<%= lastPage %>"><%= lastPage %></a>
 				<% } %>
 				<% if (lastPage + 1 < lastPage) { %>
-				<a class="item" href="/tickets/<%= lastPage + 1 %>"><%= lastPage + 1 %></a>
+				<a class="item" href="/tickets?page=<%= lastPage + 1 %>"><%= lastPage + 1 %></a>
 				<% } %>
 				<% if (lastPage != currentPage) { %>
-				<a class="item" href="/tickets/<%= lastPage %>">&raquo;</a>
+				<a class="item" href="/tickets?page=<%= lastPage %>">&raquo;</a>
 				<% } %>
 			</div>
 		</div>

@@ -9,17 +9,17 @@ var passport = require('passport'),
 	moment = require('moment');
 
 module.exports = {
-	
+
 	login: function (req, res) {
 		res.redirect(appConfig.oauth2.loginURL);
 	},
-	
+
 	logout: function (req, res) {
 		req.logout();
 		// TODO: Сделать flash-сообщение о том, что всё прошло успешно
 		res.redirect('/');
 	},
-	
+
 	callback: function (req, res) {
 		passport.authenticate('oauth2', function (err, user, info) {
 			if (!user) {
@@ -204,6 +204,7 @@ module.exports = {
 					});
 
 					callback(null);
+          return;
 				}
 
 				tickets = tickets.slice(skipRows, skipRows + 20);
@@ -213,17 +214,17 @@ module.exports = {
 				gch.ticket.serializeList(tickets, function (err, result) {
 					if (err) return callback(err);
 
-					res.view('users/profile', {
-						moment: moment,
-						tickets: result,
-						user: user,
-						statistics: statistics
-					});
+          res.view('users/profile', {
+            moment: moment,
+            tickets: result,
+            user: user,
+            statistics: statistics
+          });
 
 					callback(null);
 				});
 			}
-		], function (err) {
+		], function (err, tickets) {
 			if (err) {
 				if (err.msg) {
 					return res.json({
@@ -357,5 +358,5 @@ module.exports = {
 			});
 		});
 	}
-	
+
 };

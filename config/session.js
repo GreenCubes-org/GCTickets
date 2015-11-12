@@ -22,14 +22,17 @@ module.exports.session = {
 	secret: appConfig.sessionSecret || '7ab616693860ea5bc0d489c5999ac80b',
 
 	cookie: {
-		maxAge: sessionTTLInSeconds
+		maxAge: sessionTTLInSeconds,
+		path: '/',
+		domain: appConfig.appDomain
 	},
 
-	adapter: 'redis',
-	host: 'localhost',
-	port: 6379,
-	ttl: sessionTTLInSeconds,
-	db: 0,
-	prefix: 'sess:'
+	adapter: 'connect-mysql',
+	pool: true,
+	config: {
+		user: 'root',
+		password: '1234567890',
+		database: 'gcsession'
+	}
 
 };

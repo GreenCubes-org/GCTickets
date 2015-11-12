@@ -39,7 +39,8 @@ module.exports.policies = {
 
 	TicketsController: {
 		'*': ['hidePrivateTickets'],
-		'list': true
+		'list': true,
+    'getTest': 'authenticated'
 	},
 
 	NotifController: {

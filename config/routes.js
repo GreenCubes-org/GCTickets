@@ -25,15 +25,12 @@ module.exports.routes = {
 	/* Main page */
 	'/': 'misc.mainPage',
 
-	/* Misc stuff */
-	'/new': 'tickets.createPage',
-
 	/* User stuff */
 	'/login': 'users.login',
 	'/logout': 'users.logout',
 
-	'/users/:user': 'users.profile',
-	'/user': 'users.profile',
+	'get /users/:user': 'users.profile',
+	'get /user': 'users.profile',
 
 	'/oauth/callback': 'users.callback',
 
@@ -50,13 +47,9 @@ module.exports.routes = {
 
 
 	/* Tickets stuff */
-	'get /tickets/new': {
-		view: 'tickets/new'
-	},
-
 	'post /api/ticket': 'tickets.create',
-	'get /api/tickets': 'tickets.list',
-	'get /api/tickets/:tid': 'tickets.get',
+	'get /tickets': 'tickets.list',
+	'get /tickets/:tid': 'tickets.get',
 	'post /api/tickets/:tid': 'tickets.update',
 	'delete /api/tickets/:tid': 'tickets.delete',
 
@@ -71,10 +64,6 @@ module.exports.routes = {
 
 
 	/* Questions stuff */
-	'get /questions/new': {
-		view: 'questions/new'
-	},
-
 	'get /api/questions': 'questions.list',
 	'post /api/question': 'questions.create',
 	'get /api/questions/:qname': 'questions.get',
@@ -83,34 +72,10 @@ module.exports.routes = {
 
 
 	/* Admin-panel stuff */
-	'/admin': 'admin.main',
-	'/admin/users': 'dev.hideFeature',
+	'post /api/admin/users/role': 'admin.setRights',
+	'delete /api/admin/users/roles/:uid': 'admin.removeRights',
 
-	'/admin/users/roles': 'admin.usersRights',
-	'post /admin/users/roles/new': 'admin.setRights',
-	'/admin/users/roles/remove/:uid': 'admin.removeRights',
-
-	'/admin/users/bans': 'admin.usersBans',
-	'post /admin/users/bans/new': 'admin.setBan',
-	'/admin/users/bans/remove/:id': 'admin.removeBan',
-
-
-	/* In-game panel stuff */
-	'/gameinfo': 'ingameinfo.main',
-
-	'/gameinfo/player/info': 'ingameinfo.playerInfo',
-	'/gameinfo/player/loginlog': 'ingameinfo.playerLoginlog',
-	'/gameinfo/player/inventory': 'ingameinfo.playerInventory',
-	'/gameinfo/player/chestslog': 'ingameinfo.playerChestslog',
-	'/gameinfo/player/chatlog': 'ingameinfo.playerChatlog',
-	'/gameinfo/player/commandslog': 'ingameinfo.playerCommandslog',
-
-	'/gameinfo/world/regioninfo': 'ingameinfo.worldRegioninfo',
-	'/gameinfo/world/chestlog': 'ingameinfo.worldChestlog',
-	'/gameinfo/world/blockslog': 'ingameinfo.worldBlockslog',
-	'/gameinfo/world/moneylog': 'ingameinfo.worldMoneylog',
-	'/gameinfo/world/statistics': 'gameinfo.worldStatisticsView',
-	'get /gameinfo/world/statistics/players': 'gameinfo.worldStatisticsPlayers',
-	'get /gameinfo/world/statistics/quests': 'gameinfo.worldStatisticsQuests'
+	'post /api/admin/users/ban': 'admin.setBan',
+	'delete /api/admin/users/bans/:id': 'admin.removeBan'
 
 };

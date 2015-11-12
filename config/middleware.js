@@ -14,24 +14,21 @@ passport.serializeUser(function (user, done) {
 
 passport.deserializeUser(function (id, done) {
 	var user = {
-		id: id
+		id: null,
+		gameId: id,
+		username: null,
+		group: null,
+		canModerate: null,
+		prefix: null
 	};
 
 	async.waterfall([
-		function getUserCredentials(callback) {
-			gcdb.sitedb.query('SELECT login FROM users WHERE id = ?', [user.id], function (err, result) {
+		function getUserId(callback) {
+			gcdb.sitedb.query('SELECT id, login FROM users WHERE game_id = ?', [user.gameId], function (err, result) {
 				if (err) return callback(err);
 
+				user.id = result[0].id;
 				user.username = result[0].login;
-
-				callback(null, user);
-			});
-		},
-		function getGameId(user, callback) {
-			gcdb.user.getByLogin(user.username, 'maindb', function (err, result) {
-				if (err) return callback(err);
-
-				user.gameId = result;
 
 				callback(null, user);
 			});
@@ -96,7 +93,7 @@ module.exports = {
 			app.use(passport.session());
 
 			app.use(expressValidator());
-			
+
 			app.use(flash());
 		}
 	}

@@ -6,6 +6,7 @@
  */
 
 module.exports = {
+
 	/* GET /api/tickets/:id */
 	get: function (req, res) {
 		var ticket = {
@@ -143,6 +144,14 @@ module.exports = {
 				});
 			},
 			function getAndSerializeAttachmentsField(ticket, callback) {
+        if (!ticket.attachments.length) {
+          ticket.attachments = {
+            images: [],
+            logs: []
+          }
+          return callback(null, ticket);
+        }
+
 				gcdb.appdb.query('SELECT * FROM `attachments` WHERE id IN (' + ticket.attachments.join(',') + ')', function (err, attachments) {
 					if (err) return callback(err);
 
@@ -167,58 +176,59 @@ module.exports = {
 	},
 
 	getTest: function (req, res) {
+    console.log('123');
 		res.view('tickets/view/view_bugreport', {
-			ticket: {
-				id: 0,
-				title: 'Testificate',
-				owner: {
-					username: 'nzh'
-				},
-				createdAt: {
-					pretty: '2 минуты назад'
-				},
-				additional: {
-					product: {
-						name: 'Игровой сервер'
-					},
-					description: 'Длинное нудное описание'
-				},
-				status: {
-					name: 'new'
-				},
-				attachments: {
-					images: [
-						{
-							id: 1,
-							src: 'http://www.sunny-cat.ru/datas/users/1-daniel004.jpg',
-							description: 'Милый котёнок'
-						}
-					],
-					logs: [
-						{
-							id: 2,
-							data: 'long text',
-							description: 'Лог краша клиента'
-						}
-					]
-				},
-				comments: [
-					{
-						id: 1,
-						author: {
-							username: 'Rena4ka'
-						},
-						message: 'tset',
-						status: {
-							name: 'accepted',
-						},
-						createdAt: {
-							pretty: '2 минуты назад'
-						}
-					}
-				]
-			}
-		});
+      ticket: {
+  			id: 0,
+  			title: 'Testificate',
+  			owner: {
+  				username: 'Kernel'
+  			},
+  			createdAt: {
+  				pretty: '2 минуты назад'
+  			},
+  			additional: {
+  				product: {
+  					name: 'Игровой сервер'
+  				},
+  				description: 'Длинное нудное описание'
+  			},
+  			status: {
+  				name: 'new'
+  			},
+  			attachments: {
+  				images: [
+  					{
+  						id: 1,
+  						src: 'http://www.sunny-cat.ru/datas/users/1-daniel004.jpg',
+  						description: 'Милый котёнок'
+  					}
+  				],
+  				logs: [
+  					{
+  						id: 2,
+  						data: 'long text',
+  						description: 'Лог краша клиента'
+  					}
+  				]
+  			},
+  			comments: [
+  				{
+  					id: 1,
+  					author: {
+  						username: 'Rena4ka'
+  					},
+  					message: 'tset',
+  					status: {
+  						name: 'accepted',
+  					},
+  					createdAt: {
+  						pretty: '2 минуты назад'
+  					}
+  				}
+  			]
+  		}
+    });
 
 	},
 
@@ -256,7 +266,7 @@ module.exports = {
 				}
 			}) : null),
 			typeJoined = (type) ? type.join(',') : null,
-			currentPage = parseInt(req.param('param'), 10) || ((req.param('page')) ? parseInt(req.param('page'), 10) : 1),
+			currentPage = parseInt(req.param('page'), 10) || ((req.param('page')) ? parseInt(req.param('page'), 10) : 1),
 			user = {
 				current: {
 					id: (req.user) ? req.user.id : null,
@@ -366,7 +376,7 @@ module.exports = {
 
 	/* POST /api/ticket */
 	create: function (req, res) {
-
+    
 	},
 
 	/* POST /api/tickets/:id */

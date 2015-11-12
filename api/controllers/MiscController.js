@@ -8,6 +8,7 @@
 module.exports = {
 
 	mainPage: function (req, res) {
+		console.log(req.session);
 		var tickets = {
 			latestBugreports: [],
 			latestRempros: [],
@@ -105,7 +106,7 @@ module.exports = {
 
 			}*/
 		], function (err, tickets, questions) {
-			if (err) res.serverError(err);
+			if (err) return res.serverError(err);
 
 			res.view('main/mainpage', {
 				tickets: tickets,

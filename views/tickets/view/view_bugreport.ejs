@@ -1,7 +1,11 @@
 <div class="gc ticketview ui two column grid">
 	<div class="column" style="width: 70%">
 		<header class="gc page nomargin header">#<%= ticket.id %>: &laquo;<%= ticket.title %>&raquo;<a class="editbutton" href="#"><i class="pencil small icon"></i></a></header>
-		<header class="gc sub page nomargin inactive header"><a class="item" href="#" style="padding: 0"><i class="bug icon"></i></a>  <a class="item" href="#"><%= ticket.owner.username %></a>  <a class="item" href="#"><%= ticket.createdAt.pretty %></a><a class="item" href="#"><%= ticket.additional.product.name %></a>
+		<header class="gc sub page nomargin inactive header">
+      <a class="item" href="#" style="padding: 0"><i class="bug icon"></i></a>
+      <a class="item" href="/users/<%= ticket.owner.username %>"><%= ticket.owner.username %></a>
+      <a class="item" href="/tickets/<%= ticket.id %>"><%= ticket.createdAt.pretty %></a>
+      <a class="item" href="#"><%= ticket.additional.product.name %></a>
 		</header>
 	</div>
 	<div class="right floated column" style="width: 30%"><header class="gc status nomargin <%= ticket.status.name %> header"><%= __('Новый') %></header></div>
