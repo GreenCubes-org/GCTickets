@@ -55,11 +55,11 @@ passport.deserializeUser(function (id, done) {
 			});
 		}
 	],
-		function (err, user) {
-			if (err) return done(err);
+	function (err, user) {
+		if (err) return done(err);
 
-			done(null, user);
-		})
+		done(null, user);
+	});
 });
 
 module.exports = {
